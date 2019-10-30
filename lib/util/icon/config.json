@@ -1,0 +1,40 @@
+{
+  "name": "MyIcons",
+  "css_prefix_text": "",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "97cebbcc7e4a7b66640d78e50b16f940",
+      "css": "cross",
+      "code": 59504,
+      "src": "linearicons"
+    },
+    {
+      "uid": "0a974b066b80e4ced8e848f34ccdfb71",
+      "css": "chevron-up",
+      "code": 59507,
+      "src": "linearicons"
+    },
+    {
+      "uid": "abbf64910aaf217429058b66f19fc381",
+      "css": "chevron-down",
+      "code": 59508,
+      "src": "linearicons"
+    },
+    {
+      "uid": "22b319b290309744a15b5b9b907c1b29",
+      "css": "chevron-left",
+      "code": 59509,
+      "src": "linearicons"
+    },
+    {
+      "uid": "e887b98da2ce1b4aac881edf5e3201b1",
+      "css": "chevron-right",
+      "code": 59510,
+      "src": "linearicons"
+    }
+  ]
+}
