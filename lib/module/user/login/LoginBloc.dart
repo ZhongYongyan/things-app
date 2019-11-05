@@ -3,6 +3,7 @@ import 'package:app/store/Store.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
+import 'dart:async';
 
 class LoginBloc extends BlocBase with LoggingMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -18,9 +19,14 @@ class LoginBloc extends BlocBase with LoggingMixin {
 
   Animation<double> headerAnimation;
   AnimationController headerController;
+  Timer _timer;
 
   // 登录处理中
   bool loginProcessing = false;
+  bool phoneisEmpty = false;
+  bool codeisEmpty = false;
+  int countdownTime = 0;
+  bool countdownTimeShow = false;
 
   LoginBloc(
     BuildContext context,
@@ -77,7 +83,13 @@ class LoginBloc extends BlocBase with LoggingMixin {
     setModel(() {
       loginProcessing = true;
     });
-
+    if (phoneisEmpty || codeisEmpty) {
+      setModel(() {
+        loginProcessing = false;
+      });
+      return;
+    }
+    ;
     Dio dio = new Dio();
     dio.options.baseUrl = 'http://things.dev.jiaedian.net/api/2.1.0';
     dio.options.headers.addAll({
@@ -95,17 +107,50 @@ class LoginBloc extends BlocBase with LoggingMixin {
     log.info(response.data.toString());
 
     int code = response.data['Code'];
+
+    RegExp exp = RegExp(
+        r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
+    bool matched = exp.hasMatch(usernameController.text);
+    if (!matched) {
+      scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          backgroundColor: Color(0xFF0079FE),
+//          duration: Duration(
+//              milliseconds: 4
+//          ),
+          content: SizedBox(
+            width: double.infinity,
+            height: 40,
+            child: Center(
+              child: Text("手机号错误"),
+            ),
+          ),
+        ),
+      );
+      setModel(() {
+        loginProcessing = false;
+      });
+      return;
+    }
+
+    navigate.pushNamedAndRemoveUntil('/homeCon', (route) {
+      return route.settings.name == '/homeCon';
+    });
+
     if (code == 0) {
       //dispatch(AuthLoginAction(username: usernameController.text));
       //navigate(NavigateToAction.replace('/home'));
-      navigate.pushNamedAndRemoveUntil('/home', (route) {
-        return route.settings.name == '/home';
+      navigate.pushNamedAndRemoveUntil('/homeCon', (route) {
+        return route.settings.name == '/homeCon';
       });
     } else {
       String message = response.data['Message'];
       scaffoldKey.currentState.showSnackBar(
         SnackBar(
-          backgroundColor: Color(0xff46ceb7),
+//          duration: Duration(
+//              milliseconds: 4
+//          ),
+          backgroundColor: Color(0xFF0079FE),
           content: SizedBox(
             width: double.infinity,
             height: 40,
@@ -127,4 +172,52 @@ class LoginBloc extends BlocBase with LoggingMixin {
   }
 
   void forgetPasswordHandler() {}
+
+  void startCountdown() {
+    if (usernameController.text == "") {
+      setModel(() {
+        phoneisEmpty = true;
+      });
+      return;
+    }
+    if (countdownTimeShow) {
+      return;
+    }
+    RegExp exp = RegExp(
+        r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
+    bool matched = exp.hasMatch(usernameController.text);
+    if (!matched) {
+      scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          backgroundColor: Color(0xFF0079FE),
+//          duration: Duration(
+//              milliseconds: 4
+//          ),
+          content: SizedBox(
+            width: double.infinity,
+            height: 40,
+            child: Center(
+              child: Text("手机号错误"),
+            ),
+          ),
+        ),
+      );
+      return;
+    }
+    countdownTime = 60;
+    setModel(() {
+      countdownTimeShow = true;
+    });
+    final call = (timer) {
+      setModel(() {
+        if (countdownTime < 2) {
+          _timer.cancel();
+          countdownTimeShow = false;
+        } else {
+          countdownTime -= 1;
+        }
+      });
+    };
+    _timer = Timer.periodic(Duration(seconds: 1), call);
+  }
 }

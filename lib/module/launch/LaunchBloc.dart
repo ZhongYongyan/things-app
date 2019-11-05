@@ -8,15 +8,14 @@ class LaunchBloc extends BlocBase with LoggingMixin {
   bool get actionsVisible => !state.auth.isAuth;
 
   void startup() {
-    Future.delayed(Duration(seconds: 2), () {
-      if (!actionsVisible) {
-        navigate.pushReplacementNamed('/home');
-      }
+    Future.delayed(Duration(seconds: 5), () {
+      navigate.pushReplacementNamed('/guide');
     });
   }
 
   void loginHandler() {
-    navigate.pushNamed('/login');
+    log.info("wwww");
+    navigate.pushReplacementNamed('/guide');
   }
 
   void registerHandler() {

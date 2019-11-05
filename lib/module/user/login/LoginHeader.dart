@@ -48,7 +48,7 @@ class LoginHeader extends AnimatedWidget {
           child: Padding(
             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Text(
-              '账号密码登录',
+              '登录',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
