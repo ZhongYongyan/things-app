@@ -20,19 +20,26 @@ class LoginBloc extends BlocBase with LoggingMixin {
   Animation<double> headerAnimation;
   AnimationController headerController;
   Timer _timer;
-
+  int durationTime = 1500; //错误弹框时间
   // 登录处理中
   bool loginProcessing = false;
   bool phoneisEmpty = false;
   bool codeisEmpty = false;
   int countdownTime = 0;
   bool countdownTimeShow = false;
+  bool againLoginShow = false;
 
   LoginBloc(
     BuildContext context,
     Store<StoreState> store,
     TickerProvider tickerProvider,
   ) : super(context, store) {
+    if (!againLoginShow) {
+      setModel(() {
+        usernameController.text = "17628045052";
+      });
+    }
+    ;
     headerController = AnimationController(
       duration: Duration(milliseconds: 300),
       vsync: tickerProvider,
@@ -69,7 +76,6 @@ class LoginBloc extends BlocBase with LoggingMixin {
     passwordController.dispose();
 
     headerController.dispose();
-
     super.dispose();
   }
 
@@ -115,9 +121,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
       scaffoldKey.currentState.showSnackBar(
         SnackBar(
           backgroundColor: Color(0xFF0079FE),
-//          duration: Duration(
-//              milliseconds: 4
-//          ),
+          duration: Duration(milliseconds: durationTime),
           content: SizedBox(
             width: double.infinity,
             height: 40,
@@ -147,9 +151,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
       String message = response.data['Message'];
       scaffoldKey.currentState.showSnackBar(
         SnackBar(
-//          duration: Duration(
-//              milliseconds: 4
-//          ),
+          duration: Duration(milliseconds: durationTime),
           backgroundColor: Color(0xFF0079FE),
           content: SizedBox(
             width: double.infinity,
@@ -173,6 +175,15 @@ class LoginBloc extends BlocBase with LoggingMixin {
 
   void forgetPasswordHandler() {}
 
+  void againlog() {
+    setModel(() {
+      againLoginShow = true;
+      usernameController.text = "";
+      codeisEmpty = false;
+      countdownTimeShow = false;
+    });
+  }
+
   void startCountdown() {
     if (usernameController.text == "") {
       setModel(() {
@@ -190,9 +201,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
       scaffoldKey.currentState.showSnackBar(
         SnackBar(
           backgroundColor: Color(0xFF0079FE),
-//          duration: Duration(
-//              milliseconds: 4
-//          ),
+          duration: Duration(milliseconds: durationTime),
           content: SizedBox(
             width: double.infinity,
             height: 40,

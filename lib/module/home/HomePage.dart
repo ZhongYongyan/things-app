@@ -3,6 +3,7 @@ import 'package:app/packages.dart';
 import 'package:app/store/Store.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/src/store.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,7 +17,6 @@ class _State extends BlocState<HomePage, HomeBloc> {
   @override
   void initState() {
     super.initState();
-    _retrieveData();
   }
 
   @override
@@ -38,70 +38,384 @@ class _State extends BlocState<HomePage, HomeBloc> {
 //  }
   _pageBody() {
     //String str = "我是home我是home我是home我是home我是home我是home我是home我是home";
-    return ListView.separated(
-      itemCount: _words.length,
-      itemBuilder: (context, index) {
-        //如果到了表尾
-        if (_words[index] == loadingTag) {
-          //不足100条，继续获取数据
-          if (_words.length - 1 < 100) {
-            //获取数据
-            _retrieveData();
-            //加载时显示loading
-            return Container(
-              padding: const EdgeInsets.all(16.0),
-              alignment: Alignment.center,
-              child: SizedBox(
-                  width: 24.0,
-                  height: 24.0,
-                  child: CircularProgressIndicator(strokeWidth: 2.0)),
-            );
-          } else {
-            //已经加载了100条数据，不再获取数据。
-            return Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  "没有更多了",
-                  style: TextStyle(color: Colors.grey),
-                ));
-          }
-        }
-        //显示单词列表项
-        return ListTile(title: Text(_words[index]));
-      },
-      separatorBuilder: (context, index) => Divider(height: .0),
-    );
-  }
+    return Scaffold(
+      backgroundColor: Color(0xFFF8F8F8),
+      body: SafeArea(
+        // 显示进度条
+        child: ConstrainedBox(
+          constraints: BoxConstraints.expand(),
+          child: Stack(
+            alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
+            children: <Widget>[
+              Positioned(
+                left: 10.0,
+                top: 0,
+                right: 10.0,
+                bottom: 0,
+                child: Container(
+                  color: Color(0xFFF6F5F3),
+                ),
+//                Image.network(
+//                  'https://pic2.zhimg.com/v2-639b49f2f6578eabddc458b84eb3c6a1.jpg',
+//                  fit: BoxFit.fill,
+//                ),
+              ),
+              Positioned(
+                left: 10.0,
+                height: 323,
+                right: 10.0,
+                bottom: 0,
+                child: Container(
+                   child: Image(
+                     image: AssetImage(
+                         "assets/u549.png"),
+                   ),
+                ),
+//                Image.network(
+//                  'https://pic2.zhimg.com/v2-639b49f2f6578eabddc458b84eb3c6a1.jpg',
+//                  fit: BoxFit.fill,
+//                ),
+              ),
+              Positioned(
+                left: 0.0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: new StaggeredGridView.countBuilder(
+                    crossAxisCount: 4,
+                    itemCount: 18,
+                    itemBuilder: (BuildContext context, int index) =>
+                        new Container(
+                            child: new Container(
+                                child: index == 0
+                                    ?  Image(
+                                  image: AssetImage(
+                                      "assets/home_ban.png"),
+                                    fit: BoxFit.cover,
+                                )
+                                    : index == 1
+                                        ? Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 15, right: 15, top: 5),
+                                            //color: Color(0xFF3578F7),
+                                            child: Flex(
+                                              direction: Axis.horizontal,
+                                              children: <Widget>[
+                                                Flex(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  direction: Axis.vertical,
+                                                  children: <Widget>[
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            right: 5,
+                                                          ),
+                                                          child: Icon(
+                                                              Icons.person,
+                                                              color: Color(
+                                                                  0xFF333333)),
+                                                        ),
+                                                        Text("爷爷",
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: TextStyle(
+                                                              color: Color(
+                                                                  0xFF3578F7),
+                                                              fontSize: 16,
+                                                            )),
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 5),
+                                                          child: Icon(
+                                                              Icons
+                                                                  .keyboard_arrow_down,
+                                                              color: Color(
+                                                                  0xFF3578F7)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              top: 5),
+                                                    ),
+                                                    Text("点击右侧「添加设备」",
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                            color: Color(
+                                                                0xFF333333),
+                                                            fontSize: 14,
+                                                            height: 1.5)),
+                                                    Text("连接智能设备",
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                            color: Color(
+                                                                0xFF333333),
+                                                            fontSize: 14,
+                                                            height: 1.5)),
+                                                    Text("体验美好生活",
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                            color: Color(
+                                                                0xFF333333),
+                                                            fontSize: 14,
+                                                            height: 1.5)),
+                                                  ],
+                                                ),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Container(),
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets.only(
+                                                      top: 0),
+                                                  child: Flex(
+                                                    direction: Axis.vertical,
+                                                    children: <Widget>[
+                                                      GestureDetector(
+                                                        child: ClipOval(
+                                                            child: Container(
+                                                          width: 51,
+                                                          height: 51,
+                                                          color:
+                                                              Color(0xFF3578F7),
+                                                          child: Icon(
+                                                            Icons.add,
+                                                            color: Colors.white,
+                                                            size: 30,
+                                                          ),
+                                                        )),
+//
+                                                        onTap: () => bloc.to,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : Container(
+                                            margin: index.isEven
+                                                ? const EdgeInsets.only(
+                                                    left: 15)
+                                                : const EdgeInsets.only(
+                                                    right: 15),
+                                            child: DecoratedBox(
+                                                decoration: BoxDecoration(
+                                                  //color: Color(0xFF000000),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  border: Border.all(
+                                                      color: Color(0xFF3578F7)),
+                                                ),
+                                                child:Stack(
+                                                  alignment:Alignment.center , //指定未定位或部分定位widget的对齐方式
+                                                  children: <Widget>[
+                                                    Positioned(
+                                                      top: 0,
+                                                      right: 0,
+                                                      bottom: 0,
+                                                      left: 0,
+                                                      child: Padding(
+                                                        //左边添加8像素补白
+                                                        padding: const EdgeInsets.all(10.0),
+                                                        child:Flex(
+                                                          direction: Axis.horizontal,
+                                                          children: <Widget>[
+                                                            Expanded(
+                                                              child: Container(
+                                                                child: Flex(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  direction: Axis.vertical,
+                                                                  children: <Widget>[
+                                                                    Expanded(
+                                                                      flex: 1,
+                                                                      child: Container(
+                                                                        child:Text("设备名称",
+                                                                            maxLines: 1,
+                                                                            overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                            textAlign:
+                                                                            TextAlign.center,
+                                                                            style: TextStyle(
+                                                                              color: Color(
+                                                                                  0xFF3578F7),
+                                                                              fontSize: 16,
+                                                                            )),
+                                                                      ),
+                                                                    ),
+                                                                    Expanded(
+                                                                      flex: 1,
+                                                                      child: Container(
+                                                                        alignment: Alignment.bottomCenter,
+                                                                        child:Text("SL-A100",
+                                                                            maxLines: 1,
+                                                                            overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                            textAlign:
+                                                                            TextAlign.center,
+                                                                            style: TextStyle(
+                                                                              color: Color(
+                                                                                  0xFF9CC5FF),
+                                                                              fontSize: 12,
+                                                                            )),
+                                                                      ),
+                                                                    ),
+                                                                    Expanded(
+                                                                      flex: 1,
+                                                                      child: Container(
+                                                                        alignment: Alignment.bottomCenter,
+                                                                        child:Text("AI太空椅",
+                                                                            maxLines: 1,
+                                                                            overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                            textAlign:
+                                                                            TextAlign.center,
+                                                                            style: TextStyle(
+                                                                              color: Color(
+                                                                                  0xFF9CC5FF),
+                                                                              fontSize: 12,
+                                                                            )),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              child: Container(
+                                                                child: Flex(
+                                                                  direction:
+                                                                  Axis.vertical,
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .end,
+                                                                  children: <Widget>[
+                                                                    Image(
+                                                                      image: AssetImage(
+                                                                          "assets/yizi.png"),
+                                                                      width: 36.0,
+                                                                      height: 36.0,
+                                                                    ),
+                                                                    Expanded(
+                                                                      flex: 1,
+                                                                      child: Container(),
+                                                                    ),
 
-  void _retrieveData() {
-    Future.delayed(Duration(seconds: 2)).then((e) {
-      //List str = ["11111","11111","11111","11111","11111","11111","11111","11111","11111","11111","11111","11111","11111","11111","11111","11111","11111"];
-      _words.insertAll(
-          _words.length - 1,
-          //每次生成20个单词
-          [
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111",
-            "11111"
-          ].map((e) => e).toList());
-      setState(() {
-        //重新构建列表
-      });
-    });
+                                                                    Expanded(
+                                                                      child: Row(
+                                                                        mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .end,
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Container(
+                                                                            margin: const EdgeInsets
+                                                                                .only(
+                                                                              right:
+                                                                              5,
+                                                                            ),
+                                                                            child:
+                                                                            Image(
+                                                                              image: index.isEven
+                                                                                  ? AssetImage("assets/ok.png")
+                                                                                  : AssetImage("assets/on.png"),
+                                                                              width:
+                                                                              13.0,
+                                                                              height:
+                                                                              13.0,
+                                                                            ),
+                                                                          ),
+                                                                          Text("在线",
+                                                                              maxLines:
+                                                                              1,
+                                                                              overflow:
+                                                                              TextOverflow
+                                                                                  .ellipsis,
+                                                                              textAlign:
+                                                                              TextAlign
+                                                                                  .left,
+                                                                              style:
+                                                                              TextStyle(
+                                                                                color:
+                                                                                Color(0xFF3578F7),
+                                                                                fontSize:
+                                                                                12,
+                                                                              )),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    index == 2 ?  Positioned(
+                                                      top: 0,
+                                                      right: 0,
+                                                      bottom: 0,
+                                                      left: 0,
+                                                      child: Opacity(
+                                                        opacity: 0.7,
+                                                        child: ClipRRect( //剪裁为圆角矩形
+                                                          borderRadius: BorderRadius.circular(10.0),
+                                                          child: Container(
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ) : Container()
+                                                  ],
+                                                )),
+                                          ))),
+                    staggeredTileBuilder: (int index) => index == 0
+                        ? new StaggeredTile.count(4, 2.5)
+                        : index == 1
+                            ? new StaggeredTile.count(4, 1.1)
+                            : new StaggeredTile.count(2, 1),
+                    mainAxisSpacing: 15.0,
+                    crossAxisSpacing: 15.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

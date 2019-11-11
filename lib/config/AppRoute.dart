@@ -3,6 +3,7 @@ import 'package:app/module/user/login/LoginPage.dart';
 import 'package:app/module/homeCon/HomeConPage.dart';
 import 'package:app/module/home/HomePage.dart';
 import 'package:app/module/guide/GuidePage.dart';
+import 'package:app/module/informationDetails/InformationDetailsPage.dart';
 import 'package:app/packages.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,8 @@ Route appRoute(RouteSettings settings) {
       return _build(settings, HomePage(), TransactionType.fadeIn);
     case '/guide':
       return _build(settings, GuidePage(), TransactionType.fadeIn);
-
+    case '/informationDetailsPage':
+      return _build(settings, InformationDetailsPage(), TransactionType.fromRight);
     default:
       return _build(settings, LaunchPage(), TransactionType.fadeIn);
   }
