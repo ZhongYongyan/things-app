@@ -4,9 +4,6 @@ import 'package:redux/redux.dart';
 
 class HomeConBloc extends BlocBase with LoggingMixin {
   HomeConBloc(BuildContext context, Store store) : super(context, store);
-  bool show = false;
-  int currentIndex = 0;
-
   void startup() {
     log.info("11111");
   }

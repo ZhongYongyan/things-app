@@ -14,6 +14,8 @@ class HomeConPage extends StatefulWidget {
 }
 
 class _State extends BlocState<HomeConPage, HomeConBloc> {
+  bool show = false;
+  int currentIndex = 0;
   final List<Widget> _children = [
     HomePage(),
     InformationPage(),
@@ -85,14 +87,14 @@ class _State extends BlocState<HomeConPage, HomeConBloc> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         onTap: onTabTapped,
-        currentIndex: bloc.currentIndex,
+        currentIndex: currentIndex,
         items: _list,
         fixedColor: Color(0xFF3578F7),
         unselectedItemColor: Color(0xFFCCCCCC),
       ),
       //body: _children[_currentIndex],
       body: IndexedStack(
-        index: bloc.currentIndex,
+        index: currentIndex,
         children: _children,
       ),
     );
@@ -100,7 +102,7 @@ class _State extends BlocState<HomeConPage, HomeConBloc> {
 
   void onTabTapped(int index) {
     setState(() {
-      bloc.currentIndex = index;
+      currentIndex = index;
     });
   }
 }

@@ -114,7 +114,7 @@ abstract class BlocState<Page extends StatefulWidget, Bloc extends BlocBase>
   Widget build(BuildContext context) {
     return _BlocStateConnector(
       converter: (store) {
-        assert(_bloc == null);
+        //assert(_bloc == null);
         _bloc = createBloc(store);
         return _bloc;
       },
