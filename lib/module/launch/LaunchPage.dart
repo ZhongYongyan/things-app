@@ -49,6 +49,22 @@ class _State extends BlocState<LaunchPage, LaunchBloc> {
 //        ),
 //      ),
       Positioned(
+        bottom: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        child: Container(
+          alignment: Alignment.center,
+          child: Image(
+            image: AssetImage(
+                "assets/logo.png"),
+            fit: BoxFit.cover,
+            width: 224,
+            height: 224,
+          ),
+        ),
+      ),
+      Positioned(
         bottom: 100,
         left: 0,
         right: 0,

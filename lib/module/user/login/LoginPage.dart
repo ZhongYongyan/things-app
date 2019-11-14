@@ -57,13 +57,15 @@ class _State extends BlocState<LoginPage, LoginBloc>
                         children: <Widget>[
                           bloc.againLoginShow
                               ? Container(
+                            margin: const EdgeInsets.only(
+                                top: 34.0, bottom: 10),
                                   alignment: Alignment.center,
                                   child: Image(
                                     image: AssetImage(
-                                        "assets/screen_image_0.jpeg"),
+                                        "assets/u252.png"),
                                     fit: BoxFit.cover,
-                                    width: 300,
-                                    height: 300,
+                                    width: 270,
+                                    height: 239,
                                   ),
                                 )
                               : Container(

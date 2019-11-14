@@ -8,7 +8,7 @@ class AdminApis {
   static Future<Result<AccessToken>> postAccessToken(
       String username, String password) async {
     try {
-      Response response = await apiRequest.post("/access-token", data: {
+      Response response = await apiRequest.post("/login/app", data: {
         'phone': username,
         'password': password,
       });

@@ -390,7 +390,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                       bottom: 0,
                                                       left: 0,
                                                       child: Opacity(
-                                                        opacity: 0.7,
+                                                        opacity: 0,
                                                         child: ClipRRect( //剪裁为圆角矩形
                                                           borderRadius: BorderRadius.circular(10.0),
                                                           child: Container(
@@ -405,8 +405,8 @@ class _State extends BlocState<HomePage, HomeBloc> {
                     staggeredTileBuilder: (int index) => index == 0
                         ? new StaggeredTile.count(4, 2.5)
                         : index == 1
-                            ? new StaggeredTile.count(4, 1.1)
-                            : new StaggeredTile.count(2, 1),
+                            ? new StaggeredTile.count(4, 1.2)
+                            : new StaggeredTile.count(2, 1.1),
                     mainAxisSpacing: 15.0,
                     crossAxisSpacing: 15.0,
                   ),
