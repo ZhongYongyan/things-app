@@ -131,7 +131,7 @@ class _State extends BlocState<MyPage, MyBloc> {
                                                   height: 22.0,
                                                   child: Image(
                                                     image: AssetImage(
-                                                        "assets/screen_image_0.jpeg"),
+                                                        "assets/my_$index.png"),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),

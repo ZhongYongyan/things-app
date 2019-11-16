@@ -103,7 +103,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                     //如果到了表尾
                     if (bloc.words[index] == bloc.loading) {
                       //不足100条，继续获取数据
-                      if (bloc.words.length - 1 < 100) {
+                      if (bloc.words.length - 1 < 5) {
                         //获取数据
                         bloc.retrieveData();
                         //加载时显示loading
@@ -123,7 +123,8 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                             padding: EdgeInsets.all(16.0),
                             child: Text(
                               "没有更多了",
-                              style: TextStyle(color: Colors.grey),
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 14),
                             ));
                       }
                     }
@@ -147,11 +148,19 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                                     direction: Axis.horizontal,
                                     children: <Widget>[
                                       ClipOval(
-                                        child: Image.network(
-                                          'https://pic2.zhimg.com/v2-639b49f2f6578eabddc458b84eb3c6a1.jpg',
-                                          width: 42,
-                                          height: 42,
-                                          fit: BoxFit.cover,
+                                        child: Container(
+                                          color: Color(0xFFE4E4E4),
+                                          width: 42.0,
+                                          height: 42.0,
+                                          alignment: Alignment.center,
+                                          child:
+                                          Image(
+                                            image: AssetImage(
+                                                "assets/image_$index.png"),
+                                            fit: BoxFit.cover,
+                                            width: 20.0,
+                                            height: 20.0,
+                                          ),
                                         ),
                                       ),
                                       Expanded(
@@ -168,8 +177,10 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                                                 Expanded(
                                                   flex: 1,
                                                   child: Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
                                                     child: Text(
-                                                        "消息标题消息标题消息标题消息标题消息标题消息标题消息标题消息标题消息标题消息标题消息标题消息标题消息标题消息标题",
+                                                        "标题消息标题消息标题消息标题",
                                                         maxLines: 1,
                                                         overflow: TextOverflow
                                                             .ellipsis,
@@ -187,11 +198,13 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                                                 Expanded(
                                                   flex: 1,
                                                   child: Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
                                                     margin:
                                                         const EdgeInsets.only(
                                                             top: 4.0),
                                                     child: Text(
-                                                        "消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容",
+                                                        "内容消息内容消息内容消息内容",
                                                         maxLines: 1,
                                                         overflow: TextOverflow
                                                             .ellipsis,

@@ -85,7 +85,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                   margin: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: new StaggeredGridView.countBuilder(
                     crossAxisCount: 4,
-                    itemCount: 18,
+                    itemCount: 8,
                     itemBuilder: (BuildContext context, int index) =>
                         new Container(
                             child: new Container(
@@ -119,10 +119,13 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                   .only(
                                                             right: 5,
                                                           ),
-                                                          child: Icon(
-                                                              Icons.person,
-                                                              color: Color(
-                                                                  0xFF333333)),
+                                                          child: Image(
+                                                            image: AssetImage(
+                                                                "assets/home_y.png"),
+                                                            fit: BoxFit.cover,
+                                                            width: 30,
+                                                            height: 30,
+                                                          ),
                                                         ),
                                                         Text("爷爷",
                                                             maxLines: 1,
@@ -357,7 +360,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                               13.0,
                                                                             ),
                                                                           ),
-                                                                          Text("在线",
+                                                                          Text(index.isEven ? "在线" : '离线',
                                                                               maxLines:
                                                                               1,
                                                                               overflow:
@@ -368,8 +371,8 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                                   .left,
                                                                               style:
                                                                               TextStyle(
-                                                                                color:
-                                                                                Color(0xFF3578F7),
+                                                                                color:index.isEven ? Color(0xFF3578F7) :
+                                                                                Color(0xFFCDCDCD),
                                                                                 fontSize:
                                                                                 12,
                                                                               )),

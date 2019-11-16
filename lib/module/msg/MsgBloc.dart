@@ -34,7 +34,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
       words.insertAll(
           words.length - 1,
           //每次生成20个单词
-          ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11"]
+          ["1", "2", "3", "4", "5"]
               .map((e) => e)
               .toList());
       setModel(() {});
