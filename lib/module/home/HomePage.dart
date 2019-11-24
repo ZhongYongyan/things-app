@@ -66,10 +66,9 @@ class _State extends BlocState<HomePage, HomeBloc> {
                 right: 10.0,
                 bottom: 0,
                 child: Container(
-                   child: Image(
-                     image: AssetImage(
-                         "assets/u549.png"),
-                   ),
+                  child: Image(
+                    image: AssetImage("assets/u549.png"),
+                  ),
                 ),
 //                Image.network(
 //                  'https://pic2.zhimg.com/v2-639b49f2f6578eabddc458b84eb3c6a1.jpg',
@@ -90,11 +89,11 @@ class _State extends BlocState<HomePage, HomeBloc> {
                         new Container(
                             child: new Container(
                                 child: index == 0
-                                    ?  Image(
-                                  image: AssetImage(
-                                      "assets/home_ban.png"),
-                                    fit: BoxFit.cover,
-                                )
+                                    ? Image(
+                                        image:
+                                            AssetImage("assets/home_ban.png"),
+                                        fit: BoxFit.cover,
+                                      )
                                     : index == 1
                                         ? Container(
                                             margin: const EdgeInsets.only(
@@ -127,18 +126,23 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                             height: 30,
                                                           ),
                                                         ),
-                                                        Text("爷爷",
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF3578F7),
-                                                              fontSize: 16,
-                                                            )),
+                                                        GestureDetector(
+                                                          child: Text("爷爷",
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                color: Color(
+                                                                    0xFF3578F7),
+                                                                fontSize: 16,
+                                                              )),
+                                                          onTap: () =>
+                                                              bloc.to(), //点击
+                                                        ),
                                                         Container(
                                                           margin:
                                                               const EdgeInsets
@@ -239,8 +243,9 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                   border: Border.all(
                                                       color: Color(0xFF3578F7)),
                                                 ),
-                                                child:Stack(
-                                                  alignment:Alignment.center , //指定未定位或部分定位widget的对齐方式
+                                                child: Stack(
+                                                  alignment: Alignment.center,
+                                                  //指定未定位或部分定位widget的对齐方式
                                                   children: <Widget>[
                                                     Positioned(
                                                       top: 0,
@@ -249,65 +254,74 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                       left: 0,
                                                       child: Padding(
                                                         //左边添加8像素补白
-                                                        padding: const EdgeInsets.all(10.0),
-                                                        child:Flex(
-                                                          direction: Axis.horizontal,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(10.0),
+                                                        child: Flex(
+                                                          direction:
+                                                              Axis.horizontal,
                                                           children: <Widget>[
                                                             Expanded(
                                                               child: Container(
                                                                 child: Flex(
-                                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                                  direction: Axis.vertical,
-                                                                  children: <Widget>[
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  direction: Axis
+                                                                      .vertical,
+                                                                  children: <
+                                                                      Widget>[
                                                                     Expanded(
                                                                       flex: 1,
-                                                                      child: Container(
-                                                                        child:Text("设备名称",
-                                                                            maxLines: 1,
+                                                                      child:
+                                                                          Container(
+                                                                        child: Text(
+                                                                            "设备名称",
+                                                                            maxLines:
+                                                                                1,
                                                                             overflow:
-                                                                            TextOverflow
-                                                                                .ellipsis,
-                                                                            textAlign:
-                                                                            TextAlign.center,
+                                                                                TextOverflow.ellipsis,
+                                                                            textAlign: TextAlign.center,
                                                                             style: TextStyle(
-                                                                              color: Color(
-                                                                                  0xFF3578F7),
+                                                                              color: Color(0xFF3578F7),
                                                                               fontSize: 16,
                                                                             )),
                                                                       ),
                                                                     ),
                                                                     Expanded(
                                                                       flex: 1,
-                                                                      child: Container(
-                                                                        alignment: Alignment.bottomCenter,
-                                                                        child:Text("SL-A100",
-                                                                            maxLines: 1,
+                                                                      child:
+                                                                          Container(
+                                                                        alignment:
+                                                                            Alignment.bottomCenter,
+                                                                        child: Text(
+                                                                            "SL-A100",
+                                                                            maxLines:
+                                                                                1,
                                                                             overflow:
-                                                                            TextOverflow
-                                                                                .ellipsis,
-                                                                            textAlign:
-                                                                            TextAlign.center,
+                                                                                TextOverflow.ellipsis,
+                                                                            textAlign: TextAlign.center,
                                                                             style: TextStyle(
-                                                                              color: Color(
-                                                                                  0xFF9CC5FF),
+                                                                              color: Color(0xFF9CC5FF),
                                                                               fontSize: 12,
                                                                             )),
                                                                       ),
                                                                     ),
                                                                     Expanded(
                                                                       flex: 1,
-                                                                      child: Container(
-                                                                        alignment: Alignment.bottomCenter,
-                                                                        child:Text("AI太空椅",
-                                                                            maxLines: 1,
+                                                                      child:
+                                                                          Container(
+                                                                        alignment:
+                                                                            Alignment.bottomCenter,
+                                                                        child: Text(
+                                                                            "AI太空椅",
+                                                                            maxLines:
+                                                                                1,
                                                                             overflow:
-                                                                            TextOverflow
-                                                                                .ellipsis,
-                                                                            textAlign:
-                                                                            TextAlign.center,
+                                                                                TextOverflow.ellipsis,
+                                                                            textAlign: TextAlign.center,
                                                                             style: TextStyle(
-                                                                              color: Color(
-                                                                                  0xFF9CC5FF),
+                                                                              color: Color(0xFF9CC5FF),
                                                                               fontSize: 12,
                                                                             )),
                                                                       ),
@@ -319,62 +333,53 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                             Expanded(
                                                               child: Container(
                                                                 child: Flex(
-                                                                  direction:
-                                                                  Axis.vertical,
+                                                                  direction: Axis
+                                                                      .vertical,
                                                                   crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                                  children: <Widget>[
+                                                                      CrossAxisAlignment
+                                                                          .end,
+                                                                  children: <
+                                                                      Widget>[
                                                                     Image(
                                                                       image: AssetImage(
                                                                           "assets/yizi.png"),
-                                                                      width: 36.0,
-                                                                      height: 36.0,
+                                                                      width:
+                                                                          36.0,
+                                                                      height:
+                                                                          36.0,
                                                                     ),
                                                                     Expanded(
                                                                       flex: 1,
-                                                                      child: Container(),
+                                                                      child:
+                                                                          Container(),
                                                                     ),
-
                                                                     Expanded(
-                                                                      child: Row(
+                                                                      child:
+                                                                          Row(
                                                                         mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .end,
+                                                                            MainAxisAlignment.end,
                                                                         children: <
                                                                             Widget>[
                                                                           Container(
-                                                                            margin: const EdgeInsets
-                                                                                .only(
-                                                                              right:
-                                                                              5,
+                                                                            margin:
+                                                                                const EdgeInsets.only(
+                                                                              right: 5,
                                                                             ),
                                                                             child:
-                                                                            Image(
-                                                                              image: index.isEven
-                                                                                  ? AssetImage("assets/ok.png")
-                                                                                  : AssetImage("assets/on.png"),
-                                                                              width:
-                                                                              13.0,
-                                                                              height:
-                                                                              13.0,
+                                                                                Image(
+                                                                              image: index.isEven ? AssetImage("assets/ok.png") : AssetImage("assets/on.png"),
+                                                                              width: 13.0,
+                                                                              height: 13.0,
                                                                             ),
                                                                           ),
-                                                                          Text(index.isEven ? "在线" : '离线',
-                                                                              maxLines:
-                                                                              1,
-                                                                              overflow:
-                                                                              TextOverflow
-                                                                                  .ellipsis,
-                                                                              textAlign:
-                                                                              TextAlign
-                                                                                  .left,
-                                                                              style:
-                                                                              TextStyle(
-                                                                                color:index.isEven ? Color(0xFF3578F7) :
-                                                                                Color(0xFFCDCDCD),
-                                                                                fontSize:
-                                                                                12,
+                                                                          Text(
+                                                                              index.isEven ? "在线" : '离线',
+                                                                              maxLines: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              textAlign: TextAlign.left,
+                                                                              style: TextStyle(
+                                                                                color: index.isEven ? Color(0xFF3578F7) : Color(0xFFCDCDCD),
+                                                                                fontSize: 12,
                                                                               )),
                                                                         ],
                                                                       ),
@@ -387,28 +392,36 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                         ),
                                                       ),
                                                     ),
-                                                    index == 2 ?  Positioned(
-                                                      top: 0,
-                                                      right: 0,
-                                                      bottom: 0,
-                                                      left: 0,
-                                                      child: Opacity(
-                                                        opacity: 0,
-                                                        child: ClipRRect( //剪裁为圆角矩形
-                                                          borderRadius: BorderRadius.circular(10.0),
-                                                          child: Container(
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ) : Container()
+                                                    index == 2
+                                                        ? Positioned(
+                                                            top: 0,
+                                                            right: 0,
+                                                            bottom: 0,
+                                                            left: 0,
+                                                            child: Opacity(
+                                                              opacity: 0,
+                                                              child: ClipRRect(
+                                                                //剪裁为圆角矩形
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                                child:
+                                                                    Container(
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Container()
                                                   ],
                                                 )),
                                           ))),
                     staggeredTileBuilder: (int index) => index == 0
                         ? new StaggeredTile.count(4, 2.5)
                         : index == 1
-                            ? new StaggeredTile.count(4, 1.2)
+                            ? new StaggeredTile.count(4, 1.3)
                             : new StaggeredTile.count(2, 1.1),
                     mainAxisSpacing: 15.0,
                     crossAxisSpacing: 15.0,

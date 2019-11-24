@@ -12,6 +12,6 @@ class HomeBloc extends BlocBase with LoggingMixin {
   }
 
   void to() {
-    //navigate.pushReplacementNamed('/homeCon');
+    navigate.pushReplacementNamed('/user');
   }
 }

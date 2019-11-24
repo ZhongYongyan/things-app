@@ -1,4 +1,4 @@
-import 'package:app/module/informationDetails/InformationDetailsBloc.dart';
+import 'package:app/module/information/details/detailsBloc.dart';
 import 'package:app/packages.dart';
 import 'package:app/store/Store.dart';
 import 'package:flutter/material.dart';
