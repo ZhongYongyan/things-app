@@ -143,17 +143,22 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                           onTap: () =>
                                                               bloc.to(), //点击
                                                         ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 5),
-                                                          child: Icon(
-                                                              Icons
-                                                                  .keyboard_arrow_down,
-                                                              color: Color(
-                                                                  0xFF3578F7)),
+                                                        GestureDetector(
+                                                          child:Container(
+                                                            margin:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                left: 5),
+                                                            child: Icon(
+                                                                Icons
+                                                                    .keyboard_arrow_down,
+                                                                color: Color(
+                                                                    0xFF3578F7)),
+                                                          ),
+                                                          onTap: () =>
+                                                              bloc.to(), //点击
                                                         ),
+
                                                       ],
                                                     ),
                                                     Container(
