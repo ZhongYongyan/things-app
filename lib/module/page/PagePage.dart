@@ -1,4 +1,4 @@
-import 'package:app/module/homeCon/HomeConBloc.dart';
+import 'package:app/module/page/PageBloc.dart';
 import 'package:app/module/home/HomePage.dart';
 import 'package:app/module/information/InformationPage.dart';
 import 'package:app/module/msg/MsgPage.dart';
@@ -8,12 +8,12 @@ import 'package:app/store/Store.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/src/store.dart';
 
-class HomeConPage extends StatefulWidget {
+class PagePage extends StatefulWidget {
   @override
   _State createState() => _State();
 }
 
-class _State extends BlocState<HomeConPage, HomeConBloc> {
+class _State extends BlocState<PagePage, PageBloc> {
   bool show = false;
   int currentIndex = 0;
   final List<Widget> _children = [
@@ -58,8 +58,8 @@ class _State extends BlocState<HomeConPage, HomeConBloc> {
   ];
 
   @override
-  HomeConBloc createBloc(Store<StoreState> store) {
-    return HomeConBloc(context, store)..startup();
+  PageBloc createBloc(Store<StoreState> store) {
+    return PageBloc(context, store)..startup();
   }
 
   @override

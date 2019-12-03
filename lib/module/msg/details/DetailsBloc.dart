@@ -2,8 +2,8 @@ import 'package:app/packages.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 
-class InformationDetailsBloc extends BlocBase with LoggingMixin {
-  InformationDetailsBloc(BuildContext context, Store store)
+class MsgDetailsBloc extends BlocBase with LoggingMixin {
+  MsgDetailsBloc(BuildContext context, Store store)
       : super(context, store);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool show = false;

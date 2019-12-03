@@ -1,4 +1,4 @@
-import 'package:app/module/home/user/userBloc.dart';
+import 'package:app/module/home/user/UserBloc.dart';
 import 'package:app/packages.dart';
 import 'package:app/store/Store.dart';
 import 'package:flutter/material.dart';

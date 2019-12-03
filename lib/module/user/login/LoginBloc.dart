@@ -101,8 +101,8 @@ class LoginBloc extends BlocBase with LoggingMixin {
       return;
     }
     ;
-    navigate.pushNamedAndRemoveUntil('/homeCon', (route) {
-      return route.settings.name == '/homeCon';
+    navigate.pushNamedAndRemoveUntil('/page', (route) {
+      return route.settings.name == '/page';
     });
     setModel(() {
       loginProcessing = false;

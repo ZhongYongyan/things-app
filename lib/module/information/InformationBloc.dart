@@ -43,7 +43,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
 
   void click(int i) {
     log.info(i);
-    navigate.pushNamed('/informationDetailsPage');
+    navigate.pushNamed('/details');
   }
 
   void retrieveData() async {

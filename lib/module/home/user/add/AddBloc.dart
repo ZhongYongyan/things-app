@@ -2,8 +2,8 @@ import 'package:app/packages.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 
-class UserBloc extends BlocBase with LoggingMixin {
-  UserBloc(BuildContext context, Store store) : super(context, store);
+class AddBloc extends BlocBase with LoggingMixin {
+  AddBloc(BuildContext context, Store store) : super(context, store);
   String loading = "##loading##";
   static const loadingTag = "##loading##"; //表尾标记
   var words = <String>[loadingTag];
@@ -28,21 +28,15 @@ class UserBloc extends BlocBase with LoggingMixin {
     log.info(i);
     //navigate.pushReplacementNamed('/homeCon');
   }
-
-  void toAdd() {
-    navigate.pushNamed('/userAdd');
+  void back(){
+    navigate.pop();
   }
-
-  void toDatails() {
-    navigate.pushNamed('/userDatails');
-  }
-
   void retrieveData() {
     Future.delayed(Duration(seconds: 0)).then((e) {
       words.insertAll(
           words.length - 1,
           //每次生成20个单词
-          ["1", "2", "3"].map((e) => e).toList());
+          ["1", "2", "3", "4", "5", "6", "7"].map((e) => e).toList());
       setModel(() {});
 //      setState(() {
 //        //重新构建列表
