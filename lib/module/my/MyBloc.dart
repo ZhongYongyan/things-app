@@ -1,6 +1,7 @@
 import 'package:app/packages.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyBloc extends BlocBase with LoggingMixin {
   MyBloc(BuildContext context, Store store) : super(context, store);
@@ -13,7 +14,7 @@ class MyBloc extends BlocBase with LoggingMixin {
 
   void startup() {
     //retrieveData();
-    log.info("w222222222222222");
+    log.info("我的");
   }
 
   void to(String t) {
@@ -24,7 +25,34 @@ class MyBloc extends BlocBase with LoggingMixin {
     //navigate.pushReplacementNamed('/homeCon');
   }
 
-  void click(int i) {
+  void click(int i) async {
+    if(i == 1) {
+      const url ='https://www.jd.com';
+
+      if (await canLaunch(url)) {
+
+        await launch(url);
+
+      }else {
+
+        throw 'Could not launch $url';
+
+      }
+    }
+    if(i == 2) {
+      const url ='https://www.tmall.com';
+
+      if (await canLaunch(url)) {
+
+        await launch(url);
+
+      }else {
+
+        throw 'Could not launch $url';
+
+      }
+    }
+
     log.info(i);
     //navigate.pushReplacementNamed('/homeCon');
   }

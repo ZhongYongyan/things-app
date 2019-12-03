@@ -1,12 +1,14 @@
 import 'package:app/module/launch/LaunchPage.dart';
 import 'package:app/module/user/login/LoginPage.dart';
-import 'package:app/module/homeCon/HomeConPage.dart';
+import 'package:app/module/page/PagePage.dart';
 import 'package:app/module/home/HomePage.dart';
 import 'package:app/module/guide/GuidePage.dart';
-import 'package:app/module/home/user/userPage.dart';
-import 'package:app/module/home/user/add/addPage.dart';
-import 'package:app/module/home/user/details/datailsPage.dart';
-import 'package:app/module/information/details/detailsPage.dart';
+import 'package:app/module/home/user/UserPage.dart';
+import 'package:app/module/home/user/add/AddPage.dart';
+import 'package:app/module/home/user/main/MainPage.dart';
+import 'package:app/module/home/user/details/DatailsPage.dart';
+import 'package:app/module/information/details/DetailsPage.dart';
+import 'package:app/module/msg/details/DetailsPage.dart';
 import 'package:app/packages.dart';
 import 'package:flutter/material.dart';
 
@@ -18,20 +20,24 @@ Route appRoute(RouteSettings settings) {
 //      return _build(settings, RegisterPage(), TransactionType.fromRight);
     case '/launch':
       return _build(settings, LaunchPage(), TransactionType.fadeIn);
-    case '/homeCon':
-      return _build(settings, HomeConPage(), TransactionType.fadeIn);
+    case '/page':
+      return _build(settings, PagePage(), TransactionType.fadeIn);
     case '/home':
       return _build(settings, HomePage(), TransactionType.fadeIn);
     case '/guide':
       return _build(settings, GuidePage(), TransactionType.fadeIn);
-    case '/informationDetailsPage':
-      return _build(settings, InformationDetailsPage(), TransactionType.fromRight);
+    case '/details':
+      return _build(settings, DetailsPage(), TransactionType.fromRight);
     case '/user':
       return _build(settings, UserPage(), TransactionType.fromRight);
     case '/userAdd':
       return _build(settings, AddPage(), TransactionType.fromRight);
-    case '/userDatails':
-      return _build(settings, DatailsPage(), TransactionType.fromRight);
+    case '/userMainPage':
+      return _build(settings, MainPage(), TransactionType.fromRight);
+    case '/userDetails':
+      return _build(settings, UserDatailsPage(), TransactionType.fromRight);
+    case '/msgDetails':
+      return _build(settings, MsgDetailsPage(), TransactionType.fromRight);
     default:
       return _build(settings, LaunchPage(), TransactionType.fadeIn);
   }

@@ -2,12 +2,11 @@ import 'package:app/packages.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 
-class datailsBloc extends BlocBase with LoggingMixin {
-  datailsBloc(BuildContext context, Store store) : super(context, store);
+class DatailsBloc extends BlocBase with LoggingMixin {
+  DatailsBloc(BuildContext context, Store store) : super(context, store);
   String loading = "##loading##";
   static const loadingTag = "##loading##"; //表尾标记
   var words = <String>[loadingTag];
-  List textList = ["你好", "京东商城", "天猫商城", "版本更新", "语言选择", "官方声明", "APP使用说明"];
   var list = [
     "基本信息",
     "睡眠情况",
@@ -18,13 +17,15 @@ class datailsBloc extends BlocBase with LoggingMixin {
     "呼吸",
   ];
   bool show = false;
-  String text = "最新";
+  String text = "基本信息";
 
   void startup() {
     //retrieveData();
-    log.info("w222222222222222");
+    log.info("我是详情");
   }
-
+  void back(){
+    navigate.pop();
+  }
   void to(String t) {
     setModel(() {
       text = t;

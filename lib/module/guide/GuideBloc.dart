@@ -23,7 +23,7 @@ class GuideBloc extends BlocBase with LoggingMixin {
   }
 
   void click(int i) {
-    navigate.pushReplacementNamed('/homeCon');
+    navigate.pushReplacementNamed('/page');
   }
 
   void retrieveData() {
