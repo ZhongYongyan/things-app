@@ -8,7 +8,7 @@ class Result<T> {
   T data;
 
   bool get success {
-    return name == null || name.isEmpty;
+    return name == null || name.isEmpty || name == "0";
   }
 
   Result.fromJson(Map<String, dynamic> json, [ObjectDecodeHandler<T> handler]) {

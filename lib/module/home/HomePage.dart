@@ -144,11 +144,11 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                               bloc.to(), //点击
                                                         ),
                                                         GestureDetector(
-                                                          child:Container(
+                                                          child: Container(
                                                             margin:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                left: 5),
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 5),
                                                             child: Icon(
                                                                 Icons
                                                                     .keyboard_arrow_down,
@@ -158,7 +158,6 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                           onTap: () =>
                                                               bloc.to(), //点击
                                                         ),
-
                                                       ],
                                                     ),
                                                     Container(
@@ -211,21 +210,22 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                   child: Flex(
                                                     direction: Axis.vertical,
                                                     children: <Widget>[
-                                                      GestureDetector(
-                                                        child: ClipOval(
-                                                            child: Container(
-                                                          width: 51,
-                                                          height: 51,
-                                                          color:
-                                                              Color(0xFF3578F7),
-                                                          child: Icon(
-                                                            Icons.add,
-                                                            color: Colors.white,
-                                                            size: 30,
+                                                      ClipOval(
+                                                        child: GestureDetector(
+                                                          child: Container(
+                                                            width: 51,
+                                                            height: 51,
+                                                            color: Color(
+                                                                0xFF3578F7),
+                                                            child: Icon(
+                                                              Icons.add,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 30,
+                                                            ),
                                                           ),
-                                                        )),
-//
-                                                        onTap: () => bloc.to,
+                                                          onTap: () => bloc.add,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),

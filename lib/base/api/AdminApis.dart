@@ -8,10 +8,12 @@ class AdminApis {
   static Future<Result<AccessToken>> postAccessToken(
       String username, String password) async {
     try {
-      Response response = await apiRequest.post("/login/app", data: {
-        'phone': username,
-        'password': password,
+      FormData formData = new FormData.from({
+        "clientId":"",
+        "phone": username,
+        "password": password,
       });
+      Response response = await apiRequest.post("/auth/member/access-token", data: formData);
 
       Result<AccessToken> entity =
           Result.fromJson(response.data, (data) => AccessToken.fromJson(data));

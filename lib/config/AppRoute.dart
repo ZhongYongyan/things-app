@@ -7,6 +7,7 @@ import 'package:app/module/home/user/UserPage.dart';
 import 'package:app/module/home/user/add/AddPage.dart';
 import 'package:app/module/home/user/main/MainPage.dart';
 import 'package:app/module/home/user/details/DatailsPage.dart';
+import 'package:app/module/home/management/ManagementPage.dart';
 import 'package:app/module/information/details/DetailsPage.dart';
 import 'package:app/module/msg/details/DetailsPage.dart';
 import 'package:app/packages.dart';
@@ -38,6 +39,8 @@ Route appRoute(RouteSettings settings) {
       return _build(settings, UserDatailsPage(), TransactionType.fromRight);
     case '/msgDetails':
       return _build(settings, MsgDetailsPage(), TransactionType.fromRight);
+    case '/management':
+      return _build(settings, ManagementPage(), TransactionType.fromRight);
     default:
       return _build(settings, LaunchPage(), TransactionType.fadeIn);
   }

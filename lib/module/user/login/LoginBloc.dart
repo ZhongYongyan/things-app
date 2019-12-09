@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:app/base/entity/AccessToken.dart';
 import 'package:app/packages.dart';
 import 'package:app/store/Store.dart';
+import 'package:app/store/module/Auth.dart';
 import 'package:app/util/Result.dart';
 import 'package:dio/dio.dart';
 import 'package:app/base/api/AdminApis.dart';
@@ -94,20 +97,18 @@ class LoginBloc extends BlocBase with LoggingMixin {
     setModel(() {
       loginProcessing = true;
     });
-    if (phoneisEmpty || codeisEmpty) {
+//    if (phoneisEmpty || codeisEmpty) {
+//      setModel(() {
+//        loginProcessing = false;
+//      });
+//      return;
+//    };
+    if (phoneisEmpty) {
       setModel(() {
         loginProcessing = false;
       });
       return;
-    }
-    ;
-    navigate.pushNamedAndRemoveUntil('/page', (route) {
-      return route.settings.name == '/page';
-    });
-    setModel(() {
-      loginProcessing = false;
-    });
-    return;
+    };
     RegExp exp = RegExp(
         r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
     bool matched = exp.hasMatch(usernameController.text);
@@ -130,17 +131,18 @@ class LoginBloc extends BlocBase with LoggingMixin {
       });
       return;
     }
-
     Result<AccessToken> response = await AdminApis.postAccessToken(
         usernameController.text, passwordController.text);
-    log.info(response.data.toString());
+
     bool code = response.success;
+
     if (code) {
-      navigate.pushNamedAndRemoveUntil('/homeCon', (route) {
-        return route.settings.name == '/homeCon';
+      log.info(response.data.accessToken);
+      navigate.pushNamedAndRemoveUntil('/page', (route) {
+        return route.settings.name == '/page';
       });
     } else {
-      String message = response.name;
+      String message = response.message;
       scaffoldKey.currentState.showSnackBar(
         SnackBar(
           duration: Duration(milliseconds: durationTime),

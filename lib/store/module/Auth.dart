@@ -24,6 +24,7 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
 }
 
 class AuthActions with LoggingMixin {
+
   ActionHandler<StoreState> login(String accessToken) {
     return (state) {
       state.auth

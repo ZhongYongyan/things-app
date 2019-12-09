@@ -9,7 +9,11 @@ class LaunchBloc extends BlocBase with LoggingMixin {
 
   void startup() {
     Future.delayed(Duration(seconds: 2), () {
-      navigate.pushReplacementNamed('/guide');
+      if(!actionsVisible) {
+        navigate.pushReplacementNamed('/page');
+      }else{
+        navigate.pushReplacementNamed('/guide');
+      }
     });
   }
 
