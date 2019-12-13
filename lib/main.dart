@@ -10,6 +10,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   LoggingConfig.config();
   await StorageConfig.config();
 
