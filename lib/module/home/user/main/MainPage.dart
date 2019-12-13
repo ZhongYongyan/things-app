@@ -194,6 +194,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget>
     with SingleTickerProviderStateMixin {
+  BuildContext topContext = null;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TabController _tabController;
   int index = 0;
@@ -220,6 +221,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
 
   @override
   Widget build(BuildContext context) {
+    topContext = context;
+
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: Drawer(
@@ -306,6 +309,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                           print("确定");
                           //bloc.back();
                           Navigator.pop(context);
+                          //Navigator.of(topContext).pop();
                         },
                       ),
                     ],

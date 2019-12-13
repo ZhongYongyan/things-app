@@ -27,9 +27,8 @@ class AuthActions with LoggingMixin {
 
   ActionHandler<StoreState> login(String accessToken) {
     return (state) {
-      state.auth
-        ..accessToken = accessToken
-        ..saveSnapshot();
+      state.auth.accessToken = accessToken;
+      state.auth.saveSnapshot();
 
       return state;
     };

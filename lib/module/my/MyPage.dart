@@ -17,6 +17,7 @@ class _State extends BlocState<MyPage, MyBloc> {
 
   @override
   Widget createWidget(BuildContext context) {
+    bloc.h = MediaQuery.of(context).size.height;
     Widget body = _pageBody();
     return body;
   }
@@ -179,7 +180,30 @@ class _State extends BlocState<MyPage, MyBloc> {
                         color: Color(0xFFF3F3F3),
                       ),
                     ),
-                  ))
+                  )
+              ),
+              Positioned(
+                bottom: bloc.h < 812 ? 10 : 50 ,
+                left: 20,
+                right: 20,
+                child: ClipRRect(
+                  //剪裁为圆角矩形
+                  borderRadius: BorderRadius.circular(5.0),
+                  child: GestureDetector(
+                    child: Container(
+                      height: 46,
+                      alignment: Alignment.center,
+                      color: Color(0xFF0079FE),
+                      child: Text("退出登录",
+                          style: TextStyle(
+                            color: Color(0xFFFFFFFF),
+                            fontSize: 16,
+                          )),
+                    ),
+                    onTap: () => bloc.signout(),
+                  ),
+                ),
+              )
             ],
           ),
         ),

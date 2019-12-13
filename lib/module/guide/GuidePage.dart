@@ -36,14 +36,14 @@ class _State extends BlocState<GuidePage, GuideBloc> {
                     top: 0.0,
                     left: 0.0,
                     right: 0,
-                    height: bloc.w * 1.12,
+                    bottom: 0,
                     child: Image(
                       image: _screenImage(index),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
                   ),
                   Positioned(
-                    top: index == 3 ? bloc.w * 1.12 + 40 : bloc.w * 1.12 + 70,
+                    bottom: 125,
                     child: Text(bloc.textList[index],
                         style: TextStyle(
                           color: Color(0xFF666666),
@@ -53,11 +53,11 @@ class _State extends BlocState<GuidePage, GuideBloc> {
                   ),
                   index == 3
                       ? Positioned(
-                          top: bloc.w * 1.12 + 110,
+                    bottom:50,
                           //height: bloc.w * 1.12,
                           child: ClipRRect(
                             //剪裁为圆角矩形
-                            borderRadius: BorderRadius.circular(5.0),
+                            borderRadius: BorderRadius.circular(23.0),
                             child: GestureDetector(
                               child: Container(
                                 width: 182,
@@ -75,10 +75,8 @@ class _State extends BlocState<GuidePage, GuideBloc> {
                           ),
                         )
                       : Container(),
-                  Positioned(
-                      top: index == 3
-                          ? bloc.w * 1.12 + 180
-                          : bloc.w * 1.12 + 150,
+                  index != 3 ?  Positioned(
+                      bottom: 70,
                       child:
                           Flex(direction: Axis.horizontal, children: <Widget>[
                         Padding(
@@ -129,7 +127,7 @@ class _State extends BlocState<GuidePage, GuideBloc> {
                                 : Color(0xFF666666),
                           )),
                         ),
-                      ])),
+                      ])) : Container(),
                 ],
               ),
             );
@@ -142,6 +140,6 @@ class _State extends BlocState<GuidePage, GuideBloc> {
 
   ImageProvider _screenImage(index) {
     int i = index % 2;
-    return AssetImage('assets/background_$i.jpg');
+    return AssetImage('assets/bg_images.png');
   }
 }

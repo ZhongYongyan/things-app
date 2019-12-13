@@ -1,4 +1,5 @@
 import 'package:app/packages.dart';
+import 'package:app/store/module/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -11,12 +12,15 @@ class MyBloc extends BlocBase with LoggingMixin {
   List textList = ["你好", "京东商城", "天猫商城", "版本更新", "语言选择", "官方声明", "APP使用说明"];
   bool show = false;
   String text = "最新";
-
+  double h = 0;
   void startup() {
     //retrieveData();
     log.info("我的");
   }
-
+  void signout() {
+    dispatch( authActions.logout());
+    navigate.pushReplacementNamed('/login');
+  }
   void to(String t) {
     setModel(() {
       text = t;

@@ -30,7 +30,8 @@ class StoreConfig {
 
   static Store<StoreState> config() {
     if (_store == null) {
-      StoreState initState = StoreState()..recoverSnapshot();
+      StoreState initState = StoreState();
+      initState.recoverSnapshot();
 
       _store = new Store<StoreState>(combineReducers<StoreState>([_reducer]),
           initialState: initState,

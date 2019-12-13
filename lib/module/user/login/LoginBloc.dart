@@ -137,7 +137,9 @@ class LoginBloc extends BlocBase with LoggingMixin {
     bool code = response.success;
 
     if (code) {
-      log.info(response.data.accessToken);
+
+      dispatch( authActions.login(response.data.accessToken));
+
       navigate.pushNamedAndRemoveUntil('/page', (route) {
         return route.settings.name == '/page';
       });

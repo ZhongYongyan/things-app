@@ -61,8 +61,9 @@ class InformationBloc extends BlocBase with LoggingMixin {
           //每次生成20个单词
           lists.map((student) => student));
 
+      var newIndexPage = indexPage + 500;
       setModel(() {
-        indexPage = indexPage + 500;
+        indexPage = newIndexPage;
       });
     });
   }

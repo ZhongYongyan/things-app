@@ -40,7 +40,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
     //String str = "我是home我是home我是home我是home我是home我是home我是home我是home";
     return Scaffold(
       backgroundColor: Color(0xFFF8F8F8),
-      body: SafeArea(
+      body: Container(
         // 显示进度条
         child: ConstrainedBox(
           constraints: BoxConstraints.expand(),
@@ -81,8 +81,9 @@ class _State extends BlocState<HomePage, HomeBloc> {
                 right: 0,
                 bottom: 0,
                 child: Container(
-                  margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  margin: const EdgeInsets.only(left: 0.0, right: 0.0),
                   child: new StaggeredGridView.countBuilder(
+                    padding: const EdgeInsets.only(top: 0),
                     crossAxisCount: 4,
                     itemCount: 8,
                     itemBuilder: (BuildContext context, int index) =>
@@ -205,29 +206,25 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                   child: Container(),
                                                 ),
                                                 Container(
-                                                  margin: const EdgeInsets.only(
-                                                      top: 0),
-                                                  child: Flex(
-                                                    direction: Axis.vertical,
-                                                    children: <Widget>[
-                                                      ClipOval(
-                                                        child: GestureDetector(
-                                                          child: Container(
-                                                            width: 51,
-                                                            height: 51,
-                                                            color: Color(
-                                                                0xFF3578F7),
-                                                            child: Icon(
-                                                              Icons.add,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 30,
-                                                            ),
-                                                          ),
-                                                          onTap: () => bloc.add,
+                                                  width: 51,
+                                                  height: 51,
+//                                                  color: Color(
+//                                                      0xFF3578F7),
+                                                  child: GestureDetector(
+                                                    child: ClipOval(
+                                                      child: Container(
+                                                        width: 51,
+                                                        height: 51,
+                                                        color:
+                                                            Color(0xFF3578F7),
+                                                        child: Icon(
+                                                          Icons.add,
+                                                          color: Colors.white,
+                                                          size: 30,
                                                         ),
                                                       ),
-                                                    ],
+                                                    ),
+                                                    onTap: () => bloc.add(),
                                                   ),
                                                 ),
                                               ],
