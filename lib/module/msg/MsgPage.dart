@@ -101,9 +101,9 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                   itemCount: bloc.words.length,
                   itemBuilder: (context, index) {
                     //如果到了表尾
-                    if (bloc.words[index] == bloc.loading) {
+                    if (bloc.words[index].title == bloc.loading) {
                       //不足100条，继续获取数据
-                      if (bloc.words.length - 1 < 5) {
+                      if (bloc.indexshow) {
                         //获取数据
                         bloc.retrieveData();
                         //加载时显示loading
@@ -114,7 +114,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                               width: 24.0,
                               height: 24.0,
                               child:
-                                  CircularProgressIndicator(strokeWidth: 2.0)),
+                              CircularProgressIndicator(strokeWidth: 2.0)),
                         );
                       } else {
                         //已经加载了100条数据，不再获取数据。
@@ -123,8 +123,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                             padding: EdgeInsets.all(16.0),
                             child: Text(
                               "没有更多了",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 14),
+                              style: TextStyle(color: Colors.grey,fontSize:14),
                             ));
                       }
                     }
@@ -180,7 +179,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                                                     alignment:
                                                         Alignment.centerLeft,
                                                     child: Text(
-                                                        "标题消息标题消息标题消息标题",
+                                                        bloc.words[index].title,
                                                         maxLines: 1,
                                                         overflow: TextOverflow
                                                             .ellipsis,
@@ -204,7 +203,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                                                         const EdgeInsets.only(
                                                             top: 4.0),
                                                     child: Text(
-                                                        "内容消息内容消息内容消息内容",
+                                                        bloc.words[index].body,
                                                         maxLines: 1,
                                                         overflow: TextOverflow
                                                             .ellipsis,
@@ -234,7 +233,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                               ),
                             ]),
                       ),
-                      onTap: () => bloc.click(index), //点击
+                      onTap: () => bloc.onToDetails(index), //点击
                     );
                   },
                   separatorBuilder: (context, index) => Container(
