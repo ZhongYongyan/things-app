@@ -1,52 +1,56 @@
+import 'dart:convert';
+import 'package:app/base/api/AffiliateApis.dart';
+import 'package:app/base/api/InfoSortApis.dart';
+import 'package:app/base/api/MemberNewsApis.dart';
+import 'package:app/base/entity/Affiliate.dart';
 import 'package:app/packages.dart';
+import 'package:app/util/Page.dart';
+import 'package:app/util/Result.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
+import 'dart:async';
 
 class UserBloc extends BlocBase with LoggingMixin {
   UserBloc(BuildContext context, Store store) : super(context, store);
-  String loading = "##loading##";
-  static const loadingTag = "##loading##"; //表尾标记
-  var words = <String>[loadingTag];
-  List textList = ["你好", "京东商城", "天猫商城", "版本更新", "语言选择", "官方声明", "APP使用说明"];
-  bool show = false;
-  String text = "最新";
+  var loading = 'loadingTag';
+  static var loadingTag = Affiliate.fromJson({'nickname': 'loadingTag'});
+  var words = <Affiliate>[loadingTag];
+  var textList = [];
+  int sortId = 0;
+  var lists = [];
+  var indexPage = 1;
+  bool indexshow = true;
 
-  void startup() {
-    //retrieveData();
-    log.info("w222222222222222");
+  Future startup() async {
+
   }
-
-  void to(String t) {
-    setModel(() {
-      text = t;
-    });
-    log.info(text);
-    //navigate.pushReplacementNamed('/homeCon');
-  }
-
-  void click(int i) {
-    log.info(i);
-    //navigate.pushReplacementNamed('/homeCon');
-  }
-
-  void toAdd() {
+  void onToAdd() {
     navigate.pushNamed('/userAdd');
   }
-
-  void toDatails() {
-    navigate.pushNamed('/userMainPage');
+  void onToDetails() {
+    navigate.pushNamed('/userAdd');
+//    navigate.pushNamed('/msgDetails',arguments: {"model":words[i]});
   }
-
-  void retrieveData() {
-    Future.delayed(Duration(seconds: 0)).then((e) {
+  void retrieveData() async {
+    lists = [];
+    Result<Page> response = await AffiliateApis.getAffiliate(indexPage, 10, "ASC");
+    bool code = response.success;
+    //错误处理
+    lists = response.data.items;
+    Future.delayed(Duration(seconds:1)).then((e) {
       words.insertAll(
           words.length - 1,
-          //每次生成20个单词
-          ["1", "2", "3"].map((e) => e).toList());
-      setModel(() {});
-//      setState(() {
-//        //重新构建列表
-//      });
+          lists.map((student) => student));
+      if (lists.length < 10) {
+        setModel(() {
+          indexshow = false;
+        });
+      } else {
+        var newIndexPage = indexPage + 1;
+        setModel(() {
+          indexPage = newIndexPage;
+        });
+      }
     });
   }
 }

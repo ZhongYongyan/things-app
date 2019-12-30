@@ -43,7 +43,7 @@ class _State extends BlocState<UserPage, UserBloc> {
               ),
               //tooltip: 'Add Alarm',
               onPressed: () {
-                bloc.toAdd();
+                bloc.onToAdd();
               }),
           // 隐藏的菜单
         ],
@@ -59,9 +59,9 @@ class _State extends BlocState<UserPage, UserBloc> {
               itemCount: bloc.words.length,
               itemBuilder: (context, index) {
                 //如果到了表尾
-                if (bloc.words[index] == bloc.loading) {
+                if (bloc.words[index].nickname == bloc.loading) {
                   //不足100条，继续获取数据
-                  if (bloc.words.length - 1 < 3) {
+                  if (bloc.indexshow) {
                     //获取数据
                     bloc.retrieveData();
                     //加载时显示loading
@@ -71,15 +71,18 @@ class _State extends BlocState<UserPage, UserBloc> {
                       child: SizedBox(
                           width: 24.0,
                           height: 24.0,
-                          child: CircularProgressIndicator(strokeWidth: 2.0)),
+                          child:
+                          CircularProgressIndicator(strokeWidth: 2.0)),
                     );
                   } else {
                     //已经加载了100条数据，不再获取数据。
                     return Container(
-//                           alignment: Alignment.center,
-//                           padding: EdgeInsets.all(16.0),
-//                           child: Text("没有更多了", style: TextStyle(color: Colors.grey),)
-                        );
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          "没有更多了",
+                          style: TextStyle(color: Colors.grey,fontSize:14),
+                        ));
                   }
                 }
                 //显示单词列表项
@@ -132,7 +135,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                                 )),
                                           ),
                                           onTap: () =>
-                                              bloc.toDatails(), //点击//长按
+                                              bloc.onToAdd(), //点击//长按
                                         ),
                                       )
                                     ],
@@ -142,7 +145,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                     children: <Widget>[
                                       Container(
                                         width: 100,
-                                        child: Text("昵称：爷爷",
+                                        child: Text("昵称: " + bloc.words[index].nickname,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),
@@ -153,7 +156,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         margin: EdgeInsets.only(
                                           left: 80,
                                         ),
-                                        child: Text("性别：男",
+                                        child: Text("性别: " + bloc.words[index].sex,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),
@@ -174,7 +177,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                     children: <Widget>[
                                       Container(
                                         width: 100,
-                                        child: Text("身高：170CM",
+                                        child: Text("身高:" + bloc.words[index].height.toString(),
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),
@@ -185,7 +188,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         margin: EdgeInsets.only(
                                           left: 80,
                                         ),
-                                        child: Text("生日：1954-06-22",
+                                        child: Text("生日: " + bloc.words[index].birthday,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),
@@ -206,7 +209,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                     children: <Widget>[
                                       Container(
                                         width: 100,
-                                        child: Text("体重：60KG",
+                                        child: Text("体重: " + bloc.words[index].weight.toString(),
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),
@@ -225,7 +228,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                 ]),
                           ))),
 
-                  onTap: () => bloc.click(index), //点击
+                  onTap: () => bloc.onToDetails(), //点击
                 );
               },
               separatorBuilder: (context, index) => Container(
