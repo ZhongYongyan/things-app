@@ -6,14 +6,18 @@ class LaunchBloc extends BlocBase with LoggingMixin {
   LaunchBloc(BuildContext context, Store store) : super(context, store);
 
   bool get actionsVisible => !state.auth.isAuth;
-
+  bool get actionsfristLogin => state.auth.isFristShow;
   void startup() {
-    print(state.auth.accessToken);
     Future.delayed(Duration(seconds: 2), () {
       if(!actionsVisible) {
         navigate.pushReplacementNamed('/page');
       }else{
-        navigate.pushReplacementNamed('/guide');
+
+        if(actionsfristLogin) {
+          navigate.pushReplacementNamed('/login');
+        } else {
+          navigate.pushReplacementNamed('/guide');
+        }
       }
     });
   }

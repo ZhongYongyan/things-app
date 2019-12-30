@@ -7,11 +7,13 @@ AuthActions authActions = AuthActions();
 
 class AuthState extends Persistable with StorageMixin, LoggingMixin {
   String accessToken = "";
-
+  bool frist = false;
   bool get isAuth {
     return isNotEmpty(accessToken);
   }
-
+  bool get isFristShow {
+    return  frist;
+  }
   @override
   void recoverSnapshot() {
     accessToken = storage.getString('auth.accessToken');
@@ -20,6 +22,7 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
   @override
   void saveSnapshot() {
     storage.setString('auth.accessToken', accessToken);
+    storage.setBool('auth.frist', frist);
   }
 }
 
@@ -28,8 +31,8 @@ class AuthActions with LoggingMixin {
   ActionHandler<StoreState> login(String accessToken) {
     return (state) {
       state.auth.accessToken = accessToken;
+      state.auth.frist = true;
       state.auth.saveSnapshot();
-
       return state;
     };
   }

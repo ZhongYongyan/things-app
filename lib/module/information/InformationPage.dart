@@ -72,27 +72,19 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                             width: 88, //容器内补白
                             //color: Colors.black,
                             alignment: Alignment.center,
-                            child: Text(t,
+                            child: Text(t.name,
                                 style: TextStyle(
-                                  color: bloc.text == t
+                                  color: bloc.sortId == t.id
                                       ? Color(0xFF3578F7)
                                       : Color(0xFF666666),
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
                                 )),
                           ),
-                          onTap: () => bloc.to(t), //点击
+                          onTap: () => bloc.onToSelection(t.id), //点击
                         ),
                       )
                       .toList(),
-//                children: <Widget>[
-//                  Column(
-//                    //动态创建一个List<Widget>
-//
-//                  ),
-
-//
-//                ],
                 ),
               ),
               Positioned(
@@ -112,11 +104,11 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                   itemCount: bloc.words.length,
                   itemBuilder: (context, index) {
                     //如果到了表尾
-                    if (bloc.words[index]["name"] == bloc.loading) {
+                    if (bloc.words[index].title == bloc.loading) {
                       //不足100条，继续获取数据
                       if (bloc.indexshow) {
                         //获取数据
-                        bloc.retrieveData();
+                        bloc.retrieveData(bloc.sortId);
                         //加载时显示loading
                         return Container(
                           padding: const EdgeInsets.all(16.0),
@@ -168,7 +160,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                                           ),
                                           Expanded(
                                             flex: 1,
-                                            child: Text(bloc.words[index]["name"],
+                                            child: Text(bloc.words[index].title,
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.left,
@@ -189,7 +181,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                                       padding: const EdgeInsets.only(
                                           left: 20.0, right: 20, top: 13),
                                       child: Text(
-                                          bloc.words[index]["cate_sname"],
+                                      bloc.words[index].body,
                                           maxLines: 3,
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.left,
@@ -225,7 +217,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                                               child: Icon(Icons.timer,
                                                   color: Color(0xFF666666)),
                                             ),
-                                            Text(bloc.words[index]["cate_sname"],
+                                            Text(bloc.words[index].updated,
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.left,
@@ -265,7 +257,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                                 ],
                               ),
                             ),
-                            onTap: () => bloc.click(index), //点击
+                            onTap: () => bloc.onToDetails(index), //点击
                           );
                   },
                   separatorBuilder: (context, index) => Container(),

@@ -6,84 +6,8 @@ import 'package:redux/src/store.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
 import 'dart:convert';
-const String head = '''<!DOCTYPE html><html> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/2.1.2/weui.min.css"><link rel="stylesheet" href="https://at.alicdn.com/t/font_1538853_7adh1rzr8ao.css"> <head><title>Navigation Delegate Example</title></head> <body><div class="tit">
-  <div class="tit_l"></div><span>十人九湿！2招轻松排出体内湿气</span></div>
-  <div class="time">
-    <span style="margin-left: 0px;" class="iconfont icon-Group-"></span><span>2019-08-23 22:31</span><span class="iconfont icon-yonghu"></span><span>李小明</span><span class="iconfont icon-yanjing"></span><span>999</span>
-  </div>''';
-const String food = '''</body>
-<style>
-img{
-  width:250px;
-  height: 188px;
-  margin: 0 auto;
-  display: block;
-  padding: 0;
-}
-p{
-  font-size:12px;
-  line-height: 24px;
-  margin: 0;
-  padding: 0;
-  color: #666;
-  margin-top: 20px;
-}
-.text{
-  padding: 0 20px;
-  margin: 0;
-  margin-top: -10px;
-}
-.tit{
-  display: flex;
-  margin: 20px;
-  margin-bottom: 0;
-}
-.tit_l{
-  width: 5px;
-  height: 20px;
-  background-color: #0179FF;
-  margin-top: 2px;
-}
-.tit span{
-  font-weight: 700;
-  font-size: 16px;
-  color: #666;
-  margin-left: 10px;
-}
-.time{
-  font-size: 12px;
-  color: #999999;
-  text-align: left;
-  line-height: 24px;
-  margin: 20px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-}
-.iconfont {
-  font-size: 12px;
-  line-height: 24px;
-  margin-left: 5px;
-  margin-right: 2px;
-}
-</style>
-<script>
-  function callFlutter(text) {
-    Toast.postMessage("点击了页面主操作按钮" + text);
-  }
-  
-</script>
-</html>''';
-const String kNavigationExamplePage = head + '''
-    <img src="http://pic16.nipic.com/20110824/6954443_222914449000_2.jpg" alt="">
-    <div class="text">
-                <p>　　你有没有发现自己每天早上起床后总是昏昏沉沉，双腿像灌了铅一样。脸色晦暗发黄，还长痘长斑，黑眼圈跟熊猫似的。上班就会犯困，吃饭没有胃口，还经常失眠，睡觉出虚汗。最重要的是，开始有了消不下去的小肚腩和水肿腿。</p>
-                <p>　　如果你有以上多种症状，我想这肯定就是体内湿气太重的原因，花点时间看完这篇文章，或许会有一些启发。</p>
-                <p>　　什么是湿气呢?中医认为自然界中气候潮湿、食肉等是湿气的来源，湿邪过重则易伤阳气。在致病的风、寒、暑、湿、燥、火这“六淫邪气” 中，中医最怕湿邪。湿邪为病，多发生在夏秋之交，但四季均可发生。</p>
-                <p>　　继8月23日台风“天鸽”登陆广东珠海，8月27日台风“帕卡”登陆广东台山，“玛娃”这个熊孩子在原地打圈圈数次，蛇形前进后终于登陆广东珠三角。而一波未平，一波又起!台风“玛娃”刚走，又有热带低压在菲律宾以东的洋面上生成，预计会成为今年第17号台风!</p>
-                <p>　　它会不会再次登陆广东省，谁也说不准，不过你们可以先记住它的名字——古超。真心希望不要再下雨了，台风三连击带来的雨水有多猛，大家的体会都很深，毫不夸张，皮划艇都出动了!</p>
-                <p>　　接连大雨，地处湿气重的地区或者房间不通风透气，都极易加重人体内的湿气。在沿海地区，大部分人体内都有湿气。</p>
-              </div>
-''' + food;
+
+
 
 class DetailsPage extends StatefulWidget {
   @override
@@ -106,6 +30,10 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
 
   @override
   Widget createWidget(BuildContext context) {
+    var args = ModalRoute.of(context).settings.arguments as Map;
+    var model = args["model"];
+    bloc.infoModel =  model;
+    bloc.setUI();
     Widget body = _pageBody();
     return body;
   }
@@ -135,7 +63,7 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
               ///在WebView创建完成后调用，只会被调用一次
               _controller.complete(webViewController);
               final String contentBase64 = base64Encode(
-                  const Utf8Encoder().convert(kNavigationExamplePage));
+                  const Utf8Encoder().convert(bloc.html));
               _onExecJavascript('data:text/html;base64,$contentBase64');
             },
             javascriptChannels: <JavascriptChannel>[

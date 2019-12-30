@@ -1,70 +1,75 @@
+import 'dart:convert';
+import 'package:app/base/api/InfoSortApis.dart';
 import 'package:app/packages.dart';
-import 'package:app/store/Store.dart';
-import 'package:dio/dio.dart';
+import 'package:app/util/Page.dart';
+import 'package:app/util/Result.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'dart:async';
-import 'package:app/base/api/api.dart';
+import 'package:app/base/entity/Info.dart';
 
 class InformationBloc extends BlocBase with LoggingMixin {
   InformationBloc(BuildContext context, Store store) : super(context, store);
 
   var loading = 'loadingTag';
-  static const loadingTag = {'name': 'loadingTag'};
-  var words = <Map>[loadingTag];
-  var textList = [
-    "最新",
-    "健康饮食",
-    "运动减肥",
-    "最新1",
-    "健康饮食1",
-    "运动减肥1",
-    "最新2",
-    "健康饮食2",
-    "运动减肥2"
-  ];
-  bool show = false;
-  String text = "最新";
+  static var loadingTag = Info.fromJson({'title': 'loadingTag'});
+  var words = <Info>[loadingTag];
+  var textList = [];
+  int sortId = 0;
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
 
-  void startup() {}
-
-  void to(String t) {
-    const loadingTag = {'name': 'loadingTag'}; //表尾标记
+  Future startup() async {
+    getInfoSortData();
+  }
+  void getInfoSortData() async {
+    Result<Page> response = await InfoSortApis.getInfoSort(1, 10, "ASC");
+    bool code = response.success;
+    //错误处理
     setModel(() {
-      text = t;
-      words = <Map>[loadingTag];
+      textList =  response.data.items;
+      sortId = response.data.items.first.id;
+    });
+  }
+
+  void onToSelection(int id) {
+    var loadingTag = Info.fromJson({'title': 'loadingTag'});
+    setModel(() {
+      sortId = id;
+      words = <Info>[loadingTag];
       indexPage = 1;
       indexshow = true;
     });
   }
 
-  void click(int i) {
-    log.info(i);
-    navigate.pushNamed('/details');
+  void onToDetails(int i) {
+    navigate.pushNamed('/details',arguments: {"model":words[i]});
   }
 
-  void retrieveData() async {
-    var list = await Http().get(indexPage);
-    lists = list[0]['channellist'];
-    Future.delayed(Duration(seconds: lists.length == 0 ?  1 : 2)).then((e) {
-      if (lists.length == 0) {
+  void retrieveData(int sortId) async {
+    if  (sortId == 0) {
+      return;
+    }
+    lists = [];
+    Result<Page> response = await InfoSortApis.getInfo(indexPage, 10, "ASC",sortId);
+    bool code = response.success;
+    //错误处理
+    lists = response.data.items;
+    Future.delayed(Duration(seconds:1)).then((e) {
+      words.insertAll(
+          words.length - 1,
+          lists.map((student) => student));
+      if (lists.length < 10) {
         setModel(() {
           indexshow = false;
         });
-        return;
+      } else {
+        var newIndexPage = indexPage + 1;
+        setModel(() {
+          indexPage = newIndexPage;
+        });
       }
-      words.insertAll(
-          words.length - 1,
-          //每次生成20个单词
-          lists.map((student) => student));
-
-      var newIndexPage = indexPage + 500;
-      setModel(() {
-        indexPage = newIndexPage;
-      });
     });
   }
 }
