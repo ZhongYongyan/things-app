@@ -8,7 +8,6 @@ import 'dart:async';
 import 'dart:convert';
 
 
-
 class DetailsPage extends StatefulWidget {
   @override
   _State createState() => _State();
@@ -16,7 +15,7 @@ class DetailsPage extends StatefulWidget {
 
 class _State extends BlocState<DetailsPage, DetailsBloc> {
   final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  Completer<WebViewController>();
 
   @override
   void initState() {
@@ -25,14 +24,18 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
 
   @override
   DetailsBloc createBloc(Store<StoreState> store) {
-    return DetailsBloc(context, store)..startup();
+    return DetailsBloc(context, store)
+      ..startup();
   }
 
   @override
   Widget createWidget(BuildContext context) {
-    var args = ModalRoute.of(context).settings.arguments as Map;
+    var args = ModalRoute
+        .of(context)
+        .settings
+        .arguments as Map;
     var model = args["model"];
-    bloc.infoModel =  model;
+    bloc.infoModel = model;
     bloc.setUI();
     Widget body = _pageBody();
     return body;
@@ -47,49 +50,75 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
   _pageBody() {
     return Scaffold(
         key: bloc.scaffoldKey,
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('资讯详情'),
+          elevation: 0,
+          leading: new IconButton(
+            icon: Container(
+              margin: const EdgeInsets.only(
+                  top: 2.0),
+              child: Image(
+                image: AssetImage(
+                    "assets/back.png"),
+                fit: BoxFit.cover,
+                width: 22,
+                height: 22,
+              ),
+            ),
+            onPressed: () {
+              bloc.toBack();
+            },
+          ),
+          title: Text("资讯详情",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              )),
+          backgroundColor: Colors.white,
           // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
         ),
         // We're using a Builder here so we have a context that is below the Scaffold
         // to allow calling Scaffold.of(context) so we can show a snackbar.
         body: SafeArea(
-          child: WebView(
-            //initialUrl: 'https://www.baidu.com',///初始化url
-            javascriptMode: JavascriptMode.unrestricted,
+            child: WebView(
+              //initialUrl: 'https://www.baidu.com',///初始化url
+                javascriptMode: JavascriptMode.unrestricted,
 
-            ///JS执行模式
-            onWebViewCreated: (WebViewController webViewController) {
-              ///在WebView创建完成后调用，只会被调用一次
-              _controller.complete(webViewController);
-              final String contentBase64 = base64Encode(
-                  const Utf8Encoder().convert(bloc.html));
-              _onExecJavascript('data:text/html;base64,$contentBase64');
-            },
-            javascriptChannels: <JavascriptChannel>[
-              ///JS和Flutter通信的Channel；
-              _toasterJavascriptChannel(context),
-            ].toSet(),
-            navigationDelegate: (NavigationRequest request) {
-              //路由委托（可以通过在此处拦截url实现JS调用Flutter部分）；
-              ///通过拦截url来实现js与flutter交互
-              if (request.url.startsWith('https://www.baidu.com')) {
-                //Fluttertoast.showToast(msg:'JS调用了Flutter By navigationDelegate');
-                print('blocking navigation to $request}');
-                return NavigationDecision.prevent;
+                ///JS执行模式
+                onWebViewCreated: (WebViewController webViewController) {
+                  ///在WebView创建完成后调用，只会被调用一次
+                  _controller.complete(webViewController);
+                  final String contentBase64 = base64Encode(
+                      const Utf8Encoder().convert(bloc.html));
+                  _onExecJavascript('data:text/html;base64,$contentBase64');
+                },
+                javascriptChannels: <JavascriptChannel>[
 
-                ///阻止路由替换，不能跳转，因为这是js交互给我们发送的消息
-              }
-              return NavigationDecision.navigate;
+                  ///JS和Flutter通信的Channel；
+                  _toasterJavascriptChannel(context),
+                ].toSet(),
+                navigationDelegate: (NavigationRequest request) {
+                  //路由委托（可以通过在此处拦截url实现JS调用Flutter部分）；
+                  ///通过拦截url来实现js与flutter交互
+                  if (request.url.startsWith('https://www.baidu.com')) {
+                    //Fluttertoast.showToast(msg:'JS调用了Flutter By navigationDelegate');
+                    print('blocking navigation to $request}');
+                    return NavigationDecision.prevent;
 
-              ///允许路由替换
-            },
-            onPageFinished: (String url) {
-              ///页面加载完成回调
-              print('Page finished loading');
-            },
-          ),
-        ));
+                    ///阻止路由替换，不能跳转，因为这是js交互给我们发送的消息
+                  }
+                  return NavigationDecision.navigate;
+
+                  ///允许路由替换
+                },
+                onPageFinished: (String url) {
+                  ///页面加载完成回调
+                  print('Page finished loading');
+                }
+            )
+        )
+    );
   }
 
   ///js与flutter交互

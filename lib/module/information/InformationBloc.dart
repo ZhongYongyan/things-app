@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'dart:async';
 import 'package:app/base/entity/Info.dart';
+import 'package:html/parser.dart';
+
 
 class InformationBloc extends BlocBase with LoggingMixin {
   InformationBloc(BuildContext context, Store store) : super(context, store);
@@ -14,6 +16,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
   var loading = 'loadingTag';
   static var loadingTag = Info.fromJson({'title': 'loadingTag'});
   var words = <Info>[loadingTag];
+  RegExp reg = new RegExp(r"[\u4e00-\u9fa5]");
   var textList = [];
   int sortId = 0;
   var lists = [];
@@ -71,5 +74,14 @@ class InformationBloc extends BlocBase with LoggingMixin {
         });
       }
     });
+  }
+
+  String parseHtmlString(String htmlString) {
+
+    var document = parse(htmlString);
+
+    String parsedString = parse(document.body.text).documentElement.text;
+
+    return parsedString;
   }
 }

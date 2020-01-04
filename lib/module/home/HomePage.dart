@@ -175,7 +175,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                         style: TextStyle(
                                                             color: Color(
                                                                 0xFF333333),
-                                                            fontSize: 14,
+                                                            fontSize: 15,
                                                             height: 1.5)),
                                                     Text("连接智能设备",
                                                         maxLines: 1,
@@ -186,7 +186,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                         style: TextStyle(
                                                             color: Color(
                                                                 0xFF333333),
-                                                            fontSize: 14,
+                                                            fontSize: 15,
                                                             height: 1.5)),
                                                     Text("体验美好生活",
                                                         maxLines: 1,
@@ -197,7 +197,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                         style: TextStyle(
                                                             color: Color(
                                                                 0xFF333333),
-                                                            fontSize: 14,
+                                                            fontSize: 15,
                                                             height: 1.5)),
                                                   ],
                                                 ),

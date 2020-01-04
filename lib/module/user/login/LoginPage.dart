@@ -293,7 +293,7 @@ class _State extends BlocState<LoginPage, LoginBloc>
               ),
               Text(
                 '登录中',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(fontSize: 16.0, color: Colors.white),
               ),
             ],
           )

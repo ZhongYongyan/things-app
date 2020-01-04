@@ -1,15 +1,17 @@
 import 'package:app/base/entity/Info.dart';
 import 'package:app/packages.dart';
+import 'package:app/util/Utils.dart';
 import 'package:flutter/material.dart';
+import 'package:luhenchang_plugin/data/data_time.dart';
 import 'package:redux/redux.dart';
 
 class DetailsBloc extends BlocBase with LoggingMixin {
   DetailsBloc(BuildContext context, Store store) : super(context, store);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   static const String head =
-      '''<!DOCTYPE html><html> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/2.1.2/weui.min.css"><link rel="stylesheet" href="https://at.alicdn.com/t/font_1538853_7adh1rzr8ao.css"> <head><title>Navigation Delegate Example</title></head> <body><div class="tit">
+      '''<!DOCTYPE html><html> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/2.1.2/weui.min.css"><link rel="stylesheet" href="https://at.alicdn.com/t/font_1538853_7adh1rzr8ao.css"> <head><title>Navigation Delegate Example</title></head> <body><div class="con"><div class="tit">
   <div class="tit_l"></div><span>''';
-  static const String food = '''</div></body>
+  static const String food = '''</div></div><div class="topBoder"></div></body>
 <style>
 img{
   width:250px;
@@ -17,6 +19,7 @@ img{
   margin: 0 auto;
   display: block;
   padding: 0;
+  margin: 0 auto !important;
 }
 p{
   font-size:12px;
@@ -39,18 +42,18 @@ p{
 .tit_l{
   width: 5px;
   height: 20px;
-  background-color: #0179FF;
+  background-color: #0079FE;
   margin-top: 2px;
 }
 .tit span{
   font-weight: 700;
-  font-size: 16px;
-  color: #666;
+  font-size: 18px;
+  color: #000;
   margin-left: 10px;
 }
 .time{
   font-size: 12px;
-  color: #999999;
+  color: #A2A2A6;
   text-align: left;
   line-height: 24px;
   margin: 20px;
@@ -62,7 +65,26 @@ p{
   line-height: 24px;
   margin-left: 5px;
   margin-right: 2px;
+  color: #A2A2A6;
 }
+p{
+  font-size: 16px !important;
+  color: #000 !important;
+}
+
+body{
+  font-max-size: 18px !important;
+}
+
+.topBoder{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #f3f3f3;
+}
+
 </style>
 <script>
   function callFlutter(text) {
@@ -84,15 +106,20 @@ p{
           '''</span></div>
   <div class="time">
     <span style="margin-left: 0px;" class="iconfont icon-Group-"></span><span>''' +
-          infoModel.updated +
+          DateTime.parse(infoModel.updated).toString().substring(
+              0, DateTime.parse(infoModel.updated).toString().length - 5) +
           '''</span><span class="iconfont icon-yonghu"></span><span>李小明</span><span class="iconfont icon-yanjing"></span><span>''' +
           infoModel.hits.toString() +
           '''</span>
   </div>
     <div class="text">''' +
-          infoModel.body +
+          clearHtml(infoModel.body) +
           food;
     });
+  }
+
+  void toBack() {
+    navigate.pop();
   }
 
   void to(String text) {

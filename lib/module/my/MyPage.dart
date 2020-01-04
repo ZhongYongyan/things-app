@@ -24,46 +24,58 @@ class _State extends BlocState<MyPage, MyBloc> {
 
   _pageBody() {
     return Scaffold(
-      backgroundColor: Color(0xFFFFFFFF),
+//      appBar: AppBar(
+//        //导航栏
+//        elevation: 0,
+//        brightness: Brightness.light,
+//        title: Text("",
+//            style: TextStyle(
+//              color: Colors.white,
+//              fontSize: 14,
+//              fontWeight: FontWeight.w700,
+//            )),
+//        backgroundColor: Colors.white,
+//      ),
+      backgroundColor:Colors.white,
       body: SafeArea(
         child: ConstrainedBox(
           constraints: BoxConstraints.expand(),
           child: Stack(
             alignment: Alignment.topLeft, //指定未定位或部分定位widget的对齐方式
             children: <Widget>[
+//              Positioned(
+//                  top: 0,
+//                  height: 40,
+//                  left: 0,
+//                  right: 0,
+//                  child: Container(
+//                    color: Color(0xFFFFFFFF),
+//                    child: Padding(
+//                      //左边添加8像素补白
+//                      padding: const EdgeInsets.only(left: 15.0),
+//                      child: Flex(
+//                        direction: Axis.horizontal,
+//                        children: <Widget>[
+//                          Text("我的",
+//                              maxLines: 1,
+//                              overflow: TextOverflow.ellipsis,
+//                              textAlign: TextAlign.left,
+//                              style: TextStyle(
+//                                color: Color(0xFF333333),
+//                                fontSize: 18,
+//                                fontWeight: FontWeight.w700,
+//                              )),
+//                        ],
+//                      ),
+//                    ),
+//                  )),
               Positioned(
                   top: 0,
-                  height: 40,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    color: Color(0xFFFFFFFF),
-                    child: Padding(
-                      //左边添加8像素补白
-                      padding: const EdgeInsets.only(left: 15.0),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: <Widget>[
-                          Text("我的",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Color(0xFF333333),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              )),
-                        ],
-                      ),
-                    ),
-                  )),
-              Positioned(
-                  top: 40.0,
                   bottom: 0,
                   left: 0,
                   right: 0,
                   child: Container(
-                    color: Color(0xFFF9F9F9),
+                    color: Color(0xFFF8F8F8),
                     child: ListView.separated(
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: bloc.words.length,
@@ -96,7 +108,7 @@ class _State extends BlocState<MyPage, MyBloc> {
                         //显示单词列表项
                         return GestureDetector(
                           child: Container(
-                            height: index == 0 ? 129 : 51,
+                            height: index == 0 ? 112 : 51,
                             margin: index == 1 || index == 3 || index == 5
                                 ? const EdgeInsets.only(top: 15)
                                 : const EdgeInsets.only(top: 0),
@@ -112,7 +124,7 @@ class _State extends BlocState<MyPage, MyBloc> {
                                       //左边添加8像素补白
                                       padding: index == 0
                                           ? const EdgeInsets.only(
-                                              left: 15.0, right: 10, top: 28)
+                                              left: 15.0, right: 10, top: 20)
                                           : const EdgeInsets.only(
                                               left: 15.0, right: 10, top: 13.5),
                                       child: Flex(
@@ -140,7 +152,7 @@ class _State extends BlocState<MyPage, MyBloc> {
                                             flex: 1,
                                             child: Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 10.0),
+                                                  left: 15.0),
                                               child: Container(
                                                 child: Text(
                                                     bloc.textList[index],
@@ -149,10 +161,10 @@ class _State extends BlocState<MyPage, MyBloc> {
                                                         TextOverflow.ellipsis,
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
-                                                      color: Color(0xFF333333),
-                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                      fontSize: index != 0 ? 16 : 18,
                                                       //height: 1.6
-                                                      //fontWeight:FontWeight.w700,
+                                                      fontWeight: index != 0 ? FontWeight.normal  : FontWeight.w700,
                                                     )),
                                               ),
                                             ),

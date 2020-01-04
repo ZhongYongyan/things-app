@@ -25,11 +25,10 @@ class UserBloc extends BlocBase with LoggingMixin {
 
   }
   void onToAdd() {
-    navigate.pushNamed('/userAdd');
+    navigate.pushNamed('/userDetails',arguments: {"model": Affiliate.fromJson({})});
   }
-  void onToDetails() {
-    navigate.pushNamed('/userAdd');
-//    navigate.pushNamed('/msgDetails',arguments: {"model":words[i]});
+  void onToDetails(int i) {
+    navigate.pushNamed('/userDetails',arguments: {"model":words[i]});
   }
   void retrieveData() async {
     lists = [];

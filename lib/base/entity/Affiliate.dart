@@ -12,7 +12,7 @@ class Affiliate {
     birthday = json['birthday'] ?? "";
     created = json['created'] ?? "";
     height = json['height'] ?? 0;
-    id = json['id'] ?? 0;
+    id = json['id'] ?? -1;
     memberId = json['memberId'] ?? 0;
     nickname = json['nickname'] ?? "";
     phone = json['phone'] ?? "";
