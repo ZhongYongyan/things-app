@@ -22,11 +22,11 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   ];
   bool show = false;
   String title = "用户详情";
-  final TextEditingController usernameController =
+  TextEditingController usernameController =
   TextEditingController(text: '');
-  final TextEditingController heightController =
+  TextEditingController heightController =
   TextEditingController(text: '');
-  final TextEditingController weightController =
+  TextEditingController weightController =
   TextEditingController(text: '');
   String loading = "##loading##";
   static const loadingTag = "##loading##"; //表尾标记
@@ -94,15 +94,25 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     if (affiliateModel.id  == -1) {
         title = '添加用户';
     }
-     userList = ["修改头像", affiliateModel.nickname , "性别", "", "", "点击选择"];
+    usernameController = TextEditingController(text: affiliateModel.nickname);
+    heightController = TextEditingController(text: affiliateModel.height.toString());
+    weightController = TextEditingController(text: affiliateModel.weight.toString());
+     userList = ["修改头像", "" , affiliateModel.sex == "F" ? '男' : '女', "", "", DateTime.parse(affiliateModel.birthday).toString().substring(
+         0, DateTime.parse(affiliateModel.birthday).toString().length - 13)];
   }
   void back(){
     navigate.pop();
   }
    void add() async {
-//     affiliateModel.nickname = "111111";
-//     Result<Affiliate> response = await AffiliateApis.modifyAffiliate(affiliateModel);
-//     bool code = response.success;
+     affiliateModel.nickname = "111111";
+     affiliateModel.sex = "F";
+     affiliateModel.birthday = "2019-10-22";
+     affiliateModel.height = 100;
+     affiliateModel.phone = "17628045052";
+     affiliateModel.weight = 10;
+
+     Result<Affiliate> response = await AffiliateApis.modifyAffiliate(affiliateModel);
+     bool code = response.success;
 
   }
 }

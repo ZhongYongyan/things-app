@@ -72,10 +72,6 @@ p{
   color: #000 !important;
 }
 
-body{
-  font-max-size: 18px !important;
-}
-
 .topBoder{
   position: fixed;
   top: 0;

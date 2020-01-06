@@ -34,6 +34,9 @@ class UserBloc extends BlocBase with LoggingMixin {
     lists = [];
     Result<Page> response = await AffiliateApis.getAffiliate(indexPage, 10, "ASC");
     bool code = response.success;
+    log.info("w222222222222222");
+    log.info(code);
+    log.info("w222222222222222");
     //错误处理
     lists = response.data.items;
     Future.delayed(Duration(seconds:1)).then((e) {
@@ -51,5 +54,8 @@ class UserBloc extends BlocBase with LoggingMixin {
         });
       }
     });
+  }
+  void toBack() {
+    navigate.pop();
   }
 }

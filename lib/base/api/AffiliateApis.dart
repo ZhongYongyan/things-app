@@ -9,10 +9,11 @@ class AffiliateApis {
   static Future<Result<Page<Affiliate>>> getAffiliate(
       int pageIndex, int pageSize, String sortDirection) async {
     try {
-      Response response = await apiRequest.get("/member-news", queryParameters: {
+      Response response = await apiRequest.get("/affiliate", queryParameters: {
         'pageIndex': pageIndex,
         'pageSize': pageSize,
         'sortDirection': sortDirection,
+        'memberId':10,
       });
       Result<Page<Affiliate>> entity = Result.fromJson(
           response.data,
@@ -36,6 +37,25 @@ class AffiliateApis {
         'weight':affiliate.weight,
       });
       Response response = await apiRequest.put("/affiliate/$id", data: formData);
+      Result<Affiliate> entity =
+      Result.fromJson(response.data, (data) => Affiliate.fromJson(data));
+      return entity;
+    } on DioError catch (err) {
+      return Result(name: err.type.toString(), message: err.message);
+    }
+  }
+
+  static Future<Result<Affiliate>> addAffiliate(Affiliate affiliate) async {
+    try {
+      FormData formData = new FormData.from({
+        'birthday':affiliate.birthday,
+        'height':affiliate.height,
+        'nickname':affiliate.nickname,
+        'phone':affiliate.phone,
+        'sex':affiliate.sex,
+        'weight':affiliate.weight,
+      });
+      Response response = await apiRequest.post("/affiliate", data: formData);
       Result<Affiliate> entity =
       Result.fromJson(response.data, (data) => Affiliate.fromJson(data));
       return entity;

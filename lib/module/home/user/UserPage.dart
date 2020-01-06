@@ -23,14 +23,29 @@ class _State extends BlocState<UserPage, UserBloc> {
 
   _pageBody() {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        //导航栏
         elevation: 0,
-        brightness: Brightness.light,
+        leading: new IconButton(
+          icon: Container(
+            margin: const EdgeInsets.only(
+                top: 2.0),
+            child: Image(
+              image: AssetImage(
+                  "assets/back.png"),
+              fit: BoxFit.cover,
+              width: 22,
+              height: 22,
+            ),
+          ),
+          onPressed: () {
+            bloc.toBack();
+          },
+        ),
         title: Text("用户管理",
             style: TextStyle(
               color: Colors.black,
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: FontWeight.w700,
             )),
         backgroundColor: Colors.white,
@@ -39,7 +54,8 @@ class _State extends BlocState<UserPage, UserBloc> {
           new IconButton(
               icon: new Icon(
                 Icons.add,
-                color: Color(0xFF3578F7),
+                size: 30,
+                color: Colors.black,
               ),
               //tooltip: 'Add Alarm',
               onPressed: () {
@@ -47,13 +63,14 @@ class _State extends BlocState<UserPage, UserBloc> {
               }),
           // 隐藏的菜单
         ],
+        // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
       ),
-      backgroundColor: Color(0xFFF9F9F9),
       body: SafeArea(
+        bottom: false,
         child: ConstrainedBox(
           constraints: BoxConstraints.expand(),
           child: Container(
-//            color: Color(0xFFF9F9F9),
+            color: Color(0xFFf8f8f8),
             child: ListView.separated(
 //              physics: const NeverScrollableScrollPhysics(),
               itemCount: bloc.words.length,
@@ -80,7 +97,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(16.0),
                         child: Text(
-                          "没有更多了",
+                          "",
                           style: TextStyle(color: Colors.grey,fontSize:14),
                         ));
                   }
@@ -188,7 +205,8 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         margin: EdgeInsets.only(
                                           left: 80,
                                         ),
-                                        child: Text("生日: " + bloc.words[index].birthday,
+                                        child: Text("生日: " + DateTime.parse(bloc.words[index].birthday).toString().substring(
+                                            0, DateTime.parse(bloc.words[index].birthday).toString().length - 13),
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),

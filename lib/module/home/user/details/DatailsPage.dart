@@ -84,7 +84,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
           title: Text(bloc.title,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 14,
+                fontSize: 16,
                 fontWeight: FontWeight.w700,
               )),
           backgroundColor: Colors.white,
@@ -122,7 +122,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                   children: <Widget>[
                     Container(
                       //width: 200,
-                      height: 420,
+                      height: 450,
 //                  width: 375,
                       child: Container(
                         color: Color(0xFFF9F9F9),
@@ -180,10 +180,13 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                   left: 15.0,
                                                   right: 10,
                                                   top: 11)
-                                              : const EdgeInsets.only(
+                                              : index == 2 || index == 5 ? const EdgeInsets.only(
                                                   left: 15.0,
                                                   right: 10,
-                                                  top: 13.5),
+                                                  top: 13.5) : const EdgeInsets.only(
+                                              left: 15.0,
+                                              right: 10,
+                                              top: 0),
                                           child: Flex(
                                             direction: Axis.horizontal,
                                             children: <Widget>[
@@ -497,29 +500,26 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                     ),
 //
                     GestureDetector(
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 15, right: 15),
-                        height: 46,
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 15, right: 15),
+                          height: 46,
 //                    color: Color(0xFF000000))
-                        child: ClipRRect(
-                          //剪裁为圆角矩形
-                          borderRadius: BorderRadius.circular(5.0),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: Text(bloc.title == "用户详情" ? "保存" : "保存",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 16,
-                                )),
-                            color: Color(0xFF0079FE),
+                          child: ClipRRect(
+                            //剪裁为圆角矩形
+                            borderRadius: BorderRadius.circular(5.0),
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(bloc.title == "用户详情" ? "保存" : "保存",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFFFFFFFF),
+                                    fontSize: 16,
+                                  )),
+                              color: Color(0xFF0079FE),
+                            ),
                           ),
                         ),
-                      ),
-                        onTap: () => {
-                           bloc.add()
-                        }
-                    )
+                        onTap: () => {bloc.add()})
                   ],
                 ),
               ),
