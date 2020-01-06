@@ -37,6 +37,8 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
         appBar: AppBar(
           //导航栏
           elevation: 0,
+          brightness: Brightness.light,
+          centerTitle: true,
           leading: new IconButton(
             icon: new Container(
               padding: EdgeInsets.all(0.0),
@@ -79,8 +81,6 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                   });
             },
           ),
-
-          brightness: Brightness.light,
           title: Text(bloc.title,
               style: TextStyle(
                 color: Colors.black,

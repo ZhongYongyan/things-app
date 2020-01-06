@@ -53,6 +53,8 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
+          brightness: Brightness.light,
+          centerTitle: true,
           leading: new IconButton(
             icon: Container(
               margin: const EdgeInsets.only(
