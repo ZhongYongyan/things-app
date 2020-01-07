@@ -63,4 +63,16 @@ class AffiliateApis {
       return Result(name: err.type.toString(), message: err.message);
     }
   }
+
+  static Future<Result<Affiliate>> delAffiliate(Affiliate affiliate) async {
+    try {
+      var id = affiliate.id;
+      Response response = await apiRequest.delete("/affiliate/$id");
+      Result<Affiliate> entity =
+      Result.fromJson(response.data, (data) => Affiliate.fromJson(data));
+      return entity;
+    } on DioError catch (err) {
+      return Result(name: err.type.toString(), message: err.message);
+    }
+  }
 }

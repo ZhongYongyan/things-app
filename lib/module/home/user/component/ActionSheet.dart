@@ -61,7 +61,7 @@ class BottomActionSheet {
                                             ? Container()
                                             : Divider(
                                           height: 1,
-                                          color: Color(0xFFF3F3F3),
+                                          color: Color(0xFFA2A2A6),
                                         ),
                                       ],
                                     );

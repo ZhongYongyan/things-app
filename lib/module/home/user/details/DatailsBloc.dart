@@ -91,8 +91,9 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   }
 
   void setUI() {
-    if (affiliateModel.id  == -1) {
+    if (affiliateModel.id  == 0) {
         title = '添加用户';
+        return;
     }
     usernameController = TextEditingController(text: affiliateModel.nickname);
     heightController = TextEditingController(text: affiliateModel.height.toString());
@@ -104,15 +105,23 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     navigate.pop();
   }
    void add() async {
-     affiliateModel.nickname = "111111";
-     affiliateModel.sex = "F";
-     affiliateModel.birthday = "2019-10-22";
-     affiliateModel.height = 100;
-     affiliateModel.phone = "17628045052";
-     affiliateModel.weight = 10;
+//     affiliateModel.nickname = "111111";
+//     affiliateModel.sex = "F";
+//     affiliateModel.birthday = "2019-10-22";
+//     affiliateModel.height = 100;
+//     affiliateModel.phone = "17628045052";
+//     affiliateModel.weight = 10;
+//
+//     Result<Affiliate> response = await AffiliateApis.modifyAffiliate(affiliateModel);
+//     bool code = response.success;
 
-     Result<Affiliate> response = await AffiliateApis.modifyAffiliate(affiliateModel);
-     bool code = response.success;
+  }
 
+  void delAffiliate() async {
+    Result<Affiliate> response = await AffiliateApis.delAffiliate(affiliateModel);
+    bool code = response.success;
+    if(code) {
+      navigate.pop();
+    }
   }
 }

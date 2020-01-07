@@ -56,7 +56,7 @@ class _State extends BlocState<UserPage, UserBloc> {
           new IconButton(
               icon: new Icon(
                 Icons.add,
-                size: 30,
+                size: 26,
                 color: Colors.black,
               ),
               //tooltip: 'Add Alarm',

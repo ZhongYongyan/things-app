@@ -180,13 +180,15 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                   left: 15.0,
                                                   right: 10,
                                                   top: 11)
-                                              : index == 2 || index == 5 ? const EdgeInsets.only(
-                                                  left: 15.0,
-                                                  right: 10,
-                                                  top: 13.5) : const EdgeInsets.only(
-                                              left: 15.0,
-                                              right: 10,
-                                              top: 0),
+                                              : index == 2 || index == 5
+                                                  ? const EdgeInsets.only(
+                                                      left: 15.0,
+                                                      right: 10,
+                                                      top: 13.5)
+                                                  : const EdgeInsets.only(
+                                                      left: 15.0,
+                                                      right: 10,
+                                                      top: 0),
                                           child: Flex(
                                             direction: Axis.horizontal,
                                             children: <Widget>[
@@ -509,17 +511,55 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                             borderRadius: BorderRadius.circular(5.0),
                             child: Container(
                               alignment: Alignment.center,
-                              child: Text(bloc.title == "用户详情" ? "保存" : "保存",
+                              child: Text(bloc.title == "用户详情" ? "删除" : "保存",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Color(0xFFFFFFFF),
                                     fontSize: 16,
                                   )),
-                              color: Color(0xFF0079FE),
+                              color: bloc.title == "用户详情"
+                                  ? Color(0xFFFA5251)
+                                  : Color(0xFF0079FE),
                             ),
                           ),
                         ),
-                        onTap: () => {bloc.add()})
+                        onTap: () => {
+                              if (bloc.title == "用户详情")
+                                {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return CupertinoAlertDialog(
+                                          title: Text("确认退出",
+                                              style: TextStyle(fontSize: 16)),
+                                          content: Container(
+                                            margin:
+                                                const EdgeInsets.only(top: 5),
+                                            child: Text("确定要删除吗？"),
+                                          ),
+                                          actions: <Widget>[
+                                            CupertinoDialogAction(
+                                              child: Text("取消"),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                                print("取消");
+                                              },
+                                            ),
+                                            CupertinoDialogAction(
+                                              child: Text("确定"),
+                                              onPressed: () {
+                                                print("确定");
+                                                bloc.delAffiliate();
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      })
+                                }
+                              else
+                                {bloc.add()}
+                            })
                   ],
                 ),
               ),
