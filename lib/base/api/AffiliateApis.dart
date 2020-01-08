@@ -36,7 +36,15 @@ class AffiliateApis {
         'sex':affiliate.sex,
         'weight':affiliate.weight,
       });
-      Response response = await apiRequest.put("/affiliate/$id", data: formData);
+      var responseUrl;
+      if(id != 0) {
+        //修改
+        responseUrl = await apiRequest.put("/affiliate/$id", data: formData);
+      } else {
+        //添加
+        responseUrl = await apiRequest.post("/affiliate", data: formData);
+      }
+      Response response = responseUrl;
       Result<Affiliate> entity =
       Result.fromJson(response.data, (data) => Affiliate.fromJson(data));
       return entity;

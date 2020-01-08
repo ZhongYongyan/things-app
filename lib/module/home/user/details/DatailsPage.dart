@@ -62,17 +62,18 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                       ),
                       actions: <Widget>[
                         CupertinoDialogAction(
-                          child: Text("取消"),
+                          child: Text("返回"),
                           onPressed: () {
                             Navigator.pop(context);
+                            bloc.toBack();
                             print("取消");
                           },
                         ),
                         CupertinoDialogAction(
-                          child: Text("确定"),
+                          child: Text("保存"),
                           onPressed: () {
                             print("确定");
-                            bloc.back();
+                            bloc.addAffiliate();
                             Navigator.pop(context);
                           },
                         ),
@@ -487,7 +488,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                         showTitleActions: true,
                                         onChanged: (date) {},
                                         onConfirm: (date) {
-                                      bloc.click('$date');
+                                      bloc.dataClick('$date');
                                     }, currentTime: DateTime.now()),
                                   },
                               }, //点击
@@ -530,7 +531,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return CupertinoAlertDialog(
-                                          title: Text("确认退出",
+                                          title: Text("确认删除",
                                               style: TextStyle(fontSize: 16)),
                                           content: Container(
                                             margin:
@@ -557,8 +558,9 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                         );
                                       })
                                 }
-                              else
-                                {bloc.add()}
+                              else {
+                                bloc.addAffiliate()
+                              }
                             })
                   ],
                 ),

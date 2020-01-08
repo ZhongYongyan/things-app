@@ -175,7 +175,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         margin: EdgeInsets.only(
                                           left: 80,
                                         ),
-                                        child: Text("性别: " + bloc.words[index].sex,
+                                        child: Text("性别: " + (bloc.words[index].sex == "F" ? '男' : '女'),
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),
@@ -207,8 +207,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         margin: EdgeInsets.only(
                                           left: 80,
                                         ),
-                                        child: Text("生日: " + DateTime.parse(bloc.words[index].birthday).toString().substring(
-                                            0, DateTime.parse(bloc.words[index].birthday).toString().length - 13),
+                                        child: Text("生日: " + bloc.words[index].birthday.substring(0,10),
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),

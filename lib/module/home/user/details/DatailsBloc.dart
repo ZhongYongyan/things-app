@@ -4,6 +4,7 @@ import 'package:app/packages.dart';
 import 'package:app/util/Page.dart';
 import 'package:app/util/Result.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
@@ -22,20 +23,17 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   ];
   bool show = false;
   String title = "用户详情";
-  TextEditingController usernameController =
-  TextEditingController(text: '');
-  TextEditingController heightController =
-  TextEditingController(text: '');
-  TextEditingController weightController =
-  TextEditingController(text: '');
+  TextEditingController usernameController = TextEditingController(text: '');
+  TextEditingController heightController = TextEditingController(text: '');
+  TextEditingController weightController = TextEditingController(text: '');
   String loading = "##loading##";
   static const loadingTag = "##loading##"; //表尾标记
   var words = <String>[loadingTag];
   List textList = ["修改头像", "姓名或昵称", "性别", "身高(cm)", "体重(kg)", "出生日期"];
-  List userList = ["修改头像", "", "性别", "", "", "点击选择"];
+  List userList = ["修改头像", "", "点击选择", "", "", "点击选择"];
   String text = "最新";
   String imgPath = "";
-
+  bool editShow = false;
   void startup() {
     //retrieveData();
     log.info("w222222222222222");
@@ -48,15 +46,15 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     //navigate.pushReplacementNamed('/homeCon');
   }
 
-  void click(String i) {
+  void dataClick(String i) {
     setModel(() {
-      userList[5] = i.substring(0, 10);
+      affiliateModel.birthday = i.substring(0, 10);
     });
   }
 
   void userClick(String i) {
     setModel(() {
-      userList[2] = i;
+      affiliateModel.sex = i == '男' ? 'F' : 'M';
     });
   }
 
@@ -91,37 +89,91 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   }
 
   void setUI() {
-    if (affiliateModel.id  == 0) {
-        title = '添加用户';
-        return;
+
+    if (affiliateModel.id == 0) {
+      title = '添加用户';
     }
-    usernameController = TextEditingController(text: affiliateModel.nickname);
-    heightController = TextEditingController(text: affiliateModel.height.toString());
-    weightController = TextEditingController(text: affiliateModel.weight.toString());
-     userList = ["修改头像", "" , affiliateModel.sex == "F" ? '男' : '女', "", "", DateTime.parse(affiliateModel.birthday).toString().substring(
-         0, DateTime.parse(affiliateModel.birthday).toString().length - 13)];
+    if(!editShow) {
+      usernameController = TextEditingController(text: affiliateModel.nickname);
+      heightController = TextEditingController(
+          text: affiliateModel.height.toString() == '0'
+              ? ""
+              : affiliateModel.height.toString());
+      weightController = TextEditingController(
+          text: affiliateModel.weight.toString() == '0.0'
+              ? ""
+              : affiliateModel.weight.toString());
+      editShow = true;
+    }
+    userList = [
+      "修改头像",
+      "",
+      affiliateModel.sex == "" ? "点击选择" : affiliateModel.sex == "F" ? '男' : '女',
+      "",
+      "",
+      affiliateModel.birthday == "" ? "点击选择" : affiliateModel.birthday.substring(0, 10)
+    ];
   }
-  void back(){
+
+  void toBack() {
     navigate.pop();
   }
-   void add() async {
-//     affiliateModel.nickname = "111111";
-//     affiliateModel.sex = "F";
-//     affiliateModel.birthday = "2019-10-22";
-//     affiliateModel.height = 100;
-//     affiliateModel.phone = "17628045052";
-//     affiliateModel.weight = 10;
-//
-//     Result<Affiliate> response = await AffiliateApis.modifyAffiliate(affiliateModel);
-//     bool code = response.success;
 
+  void addAffiliate() async {
+    if (usernameController.text == "") {
+      toast('昵称为空');
+      return;
+    }
+    if (userList[2] == "点击选择") {
+      toast('性别为空');
+      return;
+    }
+    if (heightController.text == "") {
+      toast('身高为空');
+      return;
+    }
+    if (weightController.text == "") {
+      toast('体重为空');
+      return;
+    }
+    if (userList[5] == "点击选择") {
+      toast('生日为空');
+      return;
+    }
+    var data = affiliateModel.birthday.substring(0, 10);
+    affiliateModel.birthday = data.replaceAll('-', '/') + ' 23:23:23';
+    affiliateModel.nickname = usernameController.text;
+    affiliateModel.height = int.parse(heightController.text);
+    affiliateModel.weight = double.parse(weightController.text);
+    Result<Affiliate> response =
+        await AffiliateApis.modifyAffiliate(affiliateModel);
+    bool code = response.success;
+    if (code) {
+      toast('保存成功');
+      navigate.pop();
+    } else {
+      String message = response.message;
+      print(message);
+    }
   }
 
   void delAffiliate() async {
-    Result<Affiliate> response = await AffiliateApis.delAffiliate(affiliateModel);
+    Result<Affiliate> response =
+        await AffiliateApis.delAffiliate(affiliateModel);
     bool code = response.success;
-    if(code) {
+    if (code) {
+      toast('删除成功');
       navigate.pop();
     }
+  }
+
+  void toast(String name) {
+    Fluttertoast.showToast(
+        msg: name,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }
