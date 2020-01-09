@@ -205,7 +205,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                                                                 color: Color(
                                                                     0xFF000000),
                                                                 fontSize: 16,
-                                                                height: 1.6
+                                                                //height: 1.4
                                                                 //fontWeight:FontWeight.w700,
                                                                 )),
                                                       ),

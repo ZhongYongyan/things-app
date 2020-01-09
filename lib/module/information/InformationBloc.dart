@@ -22,7 +22,6 @@ class InformationBloc extends BlocBase with LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
-
   Future startup() async {
     getInfoSortData();
   }

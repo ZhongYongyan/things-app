@@ -35,13 +35,24 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
           child: Stack(
             alignment:Alignment.center , //指定未定位或部分定位widget的对齐方式
             children: <Widget>[
+
             Positioned(
-              left: 7.0,
+              left: 5.0,
               top: 0,
               height: 36,
               child: Container(
                 child:IconButton(
-                  icon: Icon(Icons.keyboard_arrow_left,color: Color(0xFF0179FF)),
+                  icon: Container(
+                    margin: const EdgeInsets.only(
+                        top: 2.0),
+                    child: Image(
+                      image: AssetImage(
+                          "assets/back.png"),
+                      fit: BoxFit.cover,
+                      width: 22,
+                      height: 22,
+                    ),
+                  ),
                   onPressed: () {
                     bloc.back();
                   },
@@ -74,7 +85,7 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                             Icons.search,
                             color: Color(0xFFcccccc),
                           ),
-                          contentPadding: EdgeInsets.all(8.0),
+                          contentPadding: EdgeInsets.all(3.0),
                           disabledBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,

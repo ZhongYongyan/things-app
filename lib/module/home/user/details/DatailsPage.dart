@@ -8,6 +8,7 @@ import 'package:app/packages.dart';
 import 'package:app/store/Store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/src/store.dart';
 
@@ -34,6 +35,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
 
   _pageBody() {
     return Scaffold(
+        key: bloc.scaffoldKey,
         appBar: AppBar(
           //导航栏
           elevation: 0,
@@ -62,7 +64,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                       ),
                       actions: <Widget>[
                         CupertinoDialogAction(
-                          child: Text("返回"),
+                          child: Text("取消"),
                           onPressed: () {
                             Navigator.pop(context);
                             bloc.toBack();
@@ -512,12 +514,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                             borderRadius: BorderRadius.circular(5.0),
                             child: Container(
                               alignment: Alignment.center,
-                              child: Text(bloc.title == "用户详情" ? "删除" : "保存",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFFFFFFFF),
-                                    fontSize: 16,
-                                  )),
+                              child: loginText(),
                               color: bloc.title == "用户详情"
                                   ? Color(0xFFFA5251)
                                   : Color(0xFF0079FE),
@@ -568,5 +565,34 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
             ),
           ),
         ));
+  }
+
+  Widget loginText() {
+    return bloc.loginProcessing
+        ? Wrap(
+      spacing: 8.0,
+      runSpacing: 4.0,
+      alignment: WrapAlignment.center,
+      children: <Widget>[
+        SizedBox(
+          width: 40,
+          child: Padding(
+            padding: EdgeInsets.only(top: 3),
+            child: SpinKitThreeBounce(
+              color: Colors.white,
+              size: 16,
+            ),
+          ),
+        ),
+        Text(
+          bloc.title == "用户详情" ? "删除中" : "保存中",
+          style: TextStyle(fontSize: 16.0, color: Colors.white),
+        ),
+      ],
+    )
+        : Text(
+      bloc.title == "用户详情" ? "删除" : "保存",
+      style: TextStyle(fontSize: 16.0, color: Colors.white),
+    );
   }
 }

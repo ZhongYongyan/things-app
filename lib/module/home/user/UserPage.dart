@@ -54,10 +54,16 @@ class _State extends BlocState<UserPage, UserBloc> {
         actions: <Widget>[
           // 非隐藏的菜单
           new IconButton(
-              icon: new Icon(
-                Icons.add,
-                size: 26,
-                color: Colors.black,
+              icon: Container(
+                margin: const EdgeInsets.only(
+                    top: 3.0,right: 10),
+                child: Image(
+                  image: AssetImage(
+                      "assets/add.png"),
+                  fit: BoxFit.cover,
+                  width: 22,
+                  height: 22,
+                ),
               ),
               //tooltip: 'Add Alarm',
               onPressed: () {

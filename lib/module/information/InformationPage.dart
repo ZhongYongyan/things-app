@@ -43,7 +43,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
             )),
         backgroundColor: Colors.white,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: bloc.textList.length == 0 ?  Color(0xFFf8f8f8) : Colors.white,
       body: SafeArea(
         child: ConstrainedBox(
           constraints: BoxConstraints.expand(),
@@ -115,7 +115,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                         //如果到了表尾
                         if (bloc.words[index].title == bloc.loading) {
                           //不足100条，继续获取数据
-                          if (bloc.indexshow) {
+                          if (bloc.indexshow && bloc.textList.length != 0) {
                             //获取数据
                             bloc.retrieveData(bloc.sortId);
                             //加载时显示loading
