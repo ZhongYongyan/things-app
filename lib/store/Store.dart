@@ -22,6 +22,16 @@ class StoreState extends Persistable {
   void saveSnapshot() {
     auth.saveSnapshot();
   }
+
+
+  @override
+  void recoverUser() {
+    auth.recoverUser();
+  }
+  @override
+  void saveUser() {
+    auth.saveUser();
+  }
 }
 
 class StoreConfig {
@@ -32,7 +42,7 @@ class StoreConfig {
     if (_store == null) {
       StoreState initState = StoreState();
       initState.recoverSnapshot();
-
+      initState.recoverUser();
       _store = new Store<StoreState>(combineReducers<StoreState>([_reducer]),
           initialState: initState,
           middleware: [

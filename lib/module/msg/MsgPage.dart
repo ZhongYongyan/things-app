@@ -133,13 +133,14 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                             );
                           } else {
                             //已经加载了100条数据，不再获取数据。
-//                        return Container(
-//                            alignment: Alignment.center,
-//                            padding: EdgeInsets.all(16.0),
-//                            child: Text(
-//                              "没有更多了",
-//                              style: TextStyle(color: Colors.grey,fontSize:14),
-//                            ));
+                            return Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.all(16.0),
+                                child: Text(
+                                  "",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 14),
+                                ));
                           }
                         }
                         //显示单词列表项
@@ -202,12 +203,12 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: TextStyle(
-                                                                color: Color(
-                                                                    0xFF000000),
-                                                                fontSize: 16,
-                                                                //height: 1.4
-                                                                //fontWeight:FontWeight.w700,
-                                                                )),
+                                                              color: Color(
+                                                                  0xFF000000),
+                                                              fontSize: 16,
+                                                              //height: 1.4
+                                                              //fontWeight:FontWeight.w700,
+                                                            )),
                                                       ),
                                                     ),
                                                     Expanded(

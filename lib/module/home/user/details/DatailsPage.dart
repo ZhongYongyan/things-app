@@ -515,7 +515,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                             child: Container(
                               alignment: Alignment.center,
                               child: loginText(),
-                              color: bloc.title == "用户详情"
+                              color: (bloc.title == "用户详情" && !bloc.addAffiliateShow)
                                   ? Color(0xFFFA5251)
                                   : Color(0xFF0079FE),
                             ),
@@ -585,13 +585,13 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
           ),
         ),
         Text(
-          bloc.title == "用户详情" ? "删除中" : "保存中",
+          (bloc.title == "用户详情" && !bloc.addAffiliateShow) ? "删除中" : "保存中",
           style: TextStyle(fontSize: 16.0, color: Colors.white),
         ),
       ],
     )
         : Text(
-      bloc.title == "用户详情" ? "删除" : "保存",
+      (bloc.title == "用户详情" && !bloc.addAffiliateShow) ? "删除" : "保存",
       style: TextStyle(fontSize: 16.0, color: Colors.white),
     );
   }

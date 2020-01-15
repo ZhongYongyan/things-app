@@ -36,6 +36,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   String imgPath = "";
   bool editShow = false;
   bool loginProcessing = false;
+  bool addAffiliateShow = false;
   void startup() {
     //retrieveData();
     log.info("w222222222222222");
@@ -123,6 +124,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   }
 
   void addAffiliate() async {
+    addAffiliateShow = true;
     if (usernameController.text == "") {
       toast('昵称为空');
       return;
@@ -180,6 +182,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   }
 
   void delAffiliate() async {
+    addAffiliateShow = false;
     setModel(() {
       loginProcessing = true;
     });

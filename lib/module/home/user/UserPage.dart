@@ -253,7 +253,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                 ]),
                           ))),
 
-                  onTap: () => bloc.onToDetails(index), //点击
+                  onTap: () => bloc.onGetname(index), //点击
                 );
               },
               separatorBuilder: (context, index) => Container(

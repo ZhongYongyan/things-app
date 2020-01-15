@@ -4,6 +4,7 @@ import 'package:app/base/api/InfoSortApis.dart';
 import 'package:app/base/api/MemberNewsApis.dart';
 import 'package:app/base/entity/Affiliate.dart';
 import 'package:app/packages.dart';
+import 'package:app/store/module/Auth.dart';
 import 'package:app/util/Page.dart';
 import 'package:app/util/Result.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,10 @@ class UserBloc extends BlocBase with LoggingMixin {
   }
   void onToDetails(int i) {
     navigate.pushNamed('/userDetails',arguments: {"model":words[i]});
+  }
+  void onGetname(int i) {
+    dispatch(authActions.user(words[i].nickname));
+    navigate.pop();
   }
   void retrieveData() async {
     lists = [];
