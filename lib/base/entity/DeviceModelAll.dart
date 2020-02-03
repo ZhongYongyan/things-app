@@ -1,21 +1,23 @@
-import 'package:app/util/Result.dart';
+import 'package:app/base/util/Result.dart';
 
 class DeviceModelAll {
-  DeviceModelAll(){}
+  DeviceModelAll() {}
   int id;
   String sortName;
   List<DeviceModel> model;
+
   DeviceModelAll.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? 0;
     sortName = json['sortName'] ?? "";
     List<dynamic> models = json['model'];
-    List<DeviceModel> data = models.map((item) => DeviceModel.fromJson(item)).toList() ?? [];
+    List<DeviceModel> data =
+        models.map((item) => DeviceModel.fromJson(item)).toList() ?? [];
     model = data;
   }
 }
 
 class DeviceModel {
-  DeviceModel(){}
+  DeviceModel() {}
 
   int id;
   String modelName;
@@ -28,6 +30,7 @@ class DeviceModel {
   int sort;
   String created;
   String updated;
+
   DeviceModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? 0;
     modelName = json['modelName'] ?? "";
@@ -43,7 +46,6 @@ class DeviceModel {
   }
 }
 
-
 class DataResult<T> {
   DataResult({this.name, this.message, this.data});
 
@@ -55,7 +57,8 @@ class DataResult<T> {
     return name == null || name.isEmpty || name == "0";
   }
 
-  DataResult.fromJson(Map<String, dynamic> json, [ObjectDecodeHandler<T> handler]) {
+  DataResult.fromJson(Map<String, dynamic> json,
+      [ObjectDecodeHandler<T> handler]) {
     name = json['name'];
     message = json['message'];
 

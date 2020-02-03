@@ -1,4 +1,6 @@
-import 'package:app/packages.dart';
+import 'package:app/base/util/LoggingUtils.dart';
+import 'package:app/base/util/Persistable.dart';
+import 'package:app/base/util/StorageUtils.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/store/module/User.dart';
 import 'package:quiver/strings.dart';
@@ -8,12 +10,15 @@ AuthActions authActions = AuthActions();
 class AuthState extends Persistable with StorageMixin, LoggingMixin {
   String accessToken = "";
   String userName = "--";
+
   bool get isAuth {
     return isNotEmpty(accessToken);
   }
+
   String get name {
-    return  userName;
+    return userName;
   }
+
   @override
   void recoverSnapshot() {
     accessToken = storage.getString('auth.accessToken');
@@ -36,7 +41,6 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
 }
 
 class AuthActions with LoggingMixin {
-
   ActionHandler<StoreState> login(String accessToken) {
     return (state) {
       state.auth.accessToken = accessToken;

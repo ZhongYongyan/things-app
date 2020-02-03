@@ -1,16 +1,16 @@
-import 'package:app/module/launch/LaunchPage.dart';
-import 'package:app/module/user/login/LoginPage.dart';
-import 'package:app/module/page/PagePage.dart';
-import 'package:app/module/home/HomePage.dart';
-import 'package:app/module/guide/GuidePage.dart';
-import 'package:app/module/home/user/UserPage.dart';
-import 'package:app/module/home/user/add/AddPage.dart';
-import 'package:app/module/home/user/main/MainPage.dart';
-import 'package:app/module/home/user/details/DatailsPage.dart';
-import 'package:app/module/home/management/ManagementPage.dart';
-import 'package:app/module/information/details/DetailsPage.dart';
-import 'package:app/module/msg/details/DetailsPage.dart';
-import 'package:app/packages.dart';
+import 'package:app/base/util/NavigateTransaction.dart';
+import 'package:app/view/guide/GuidePage.dart';
+import 'package:app/view/home/HomePage.dart';
+import 'package:app/view/home/management/ManagementPage.dart';
+import 'package:app/view/home/user/UserPage.dart';
+import 'package:app/view/home/user/add/AddPage.dart';
+import 'package:app/view/home/user/details/DatailsPage.dart';
+import 'package:app/view/home/user/main/MainPage.dart';
+import 'package:app/view/information/details/DetailsPage.dart';
+import 'package:app/view/launch/LaunchPage.dart';
+import 'package:app/view/msg/details/DetailsPage.dart';
+import 'package:app/view/page/PagePage.dart';
+import 'package:app/view/user/login/LoginPage.dart';
 import 'package:flutter/material.dart';
 
 Route appRoute(RouteSettings settings) {

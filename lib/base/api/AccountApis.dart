@@ -1,7 +1,7 @@
 import 'package:app/base/AdminRequest.dart';
 import 'package:app/base/entity/Account.dart';
 import 'package:app/base/entity/Identity.dart';
-import 'package:app/util/Result.dart';
+import 'package:app/base/util/Result.dart';
 import 'package:dio/dio.dart';
 
 class AccountApis {

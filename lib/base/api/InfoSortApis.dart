@@ -1,8 +1,8 @@
 import 'package:app/base/AdminRequest.dart';
 import 'package:app/base/entity/Info.dart';
 import 'package:app/base/entity/InfoSort.dart';
-import 'package:app/util/Page.dart';
-import 'package:app/util/Result.dart';
+import 'package:app/base/util/Page.dart';
+import 'package:app/base/util/Result.dart';
 import 'package:dio/dio.dart';
 
 class InfoSortApis {

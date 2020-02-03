@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:app/util/LoggingUtils.dart';
-import 'package:app/util/StorageUtils.dart';
+import 'package:app/base/util/LoggingUtils.dart';
+import 'package:app/base/util/StorageUtils.dart';
 
 enum AlertType { error, warning, success, info }
 

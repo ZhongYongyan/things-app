@@ -9,6 +9,7 @@ class Info {
   int sortId;
   String title;
   String updated;
+
   Info.fromJson(Map<String, dynamic> json) {
     body = json['body'] ?? "";
     companyId = json['companyId'] ?? 0;

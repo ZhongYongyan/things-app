@@ -1,16 +1,13 @@
 import 'package:app/base/AdminRequest.dart';
 import 'package:app/base/entity/DeviceModelAll.dart';
-import 'package:app/module/home/user/component/lib/src/i18n_model.dart';
-import 'package:app/util/Page.dart';
-import 'package:app/util/Result.dart';
 import 'package:dio/dio.dart';
 
 class DeviceModelAllApis {
-  static  Future<DataResult<DeviceModelAll>> getDeviceModelAll() async {
+  static Future<DataResult<DeviceModelAll>> getDeviceModelAll() async {
     try {
       Response response = await apiRequest.get("/device-model/all");
-      DataResult<DeviceModelAll> entity =
-      DataResult.fromJson(response.data, (data) => DeviceModelAll.fromJson(data));
+      DataResult<DeviceModelAll> entity = DataResult.fromJson(
+          response.data, (data) => DeviceModelAll.fromJson(data));
       return entity;
 
 //      DeviceSort deviceSort = new DeviceSort();

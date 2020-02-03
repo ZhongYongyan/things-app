@@ -1,7 +1,7 @@
 import 'package:app/base/AdminRequest.dart';
 import 'package:app/base/entity/AccessToken.dart';
 import 'package:app/base/entity/Identity.dart';
-import 'package:app/util/Result.dart';
+import 'package:app/base/util/Result.dart';
 import 'package:dio/dio.dart';
 
 class AdminApis {
@@ -9,11 +9,12 @@ class AdminApis {
       String username, String password) async {
     try {
       FormData formData = new FormData.from({
-        "clientId":"",
+        "clientId": "",
         "phone": username,
         "password": password,
       });
-      Response response = await apiRequest.post("/auth/member/access-token", data: formData);
+      Response response =
+          await apiRequest.post("/auth/member/access-token", data: formData);
 
       Result<AccessToken> entity =
           Result.fromJson(response.data, (data) => AccessToken.fromJson(data));

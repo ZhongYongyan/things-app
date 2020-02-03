@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:app/config/AppRoute.dart';
 import 'package:app/config/AppTheme.dart';
-import 'package:app/packages.dart';
 import 'package:app/store/Store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+
+import 'base/util/LoggingUtils.dart';
+import 'base/util/StorageUtils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

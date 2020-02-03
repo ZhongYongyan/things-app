@@ -9,6 +9,7 @@ class MemberNews {
   String targetType;
   String title;
   String updated;
+
   MemberNews.fromJson(Map<String, dynamic> json) {
     body = json['body'] ?? "";
     created = json['created'] ?? "";

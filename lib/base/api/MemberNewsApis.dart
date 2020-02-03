@@ -1,21 +1,22 @@
 import 'package:app/base/AdminRequest.dart';
 import 'package:app/base/entity/MemberNews.dart';
-import 'package:app/util/Page.dart';
-import 'package:app/util/Result.dart';
+import 'package:app/base/util/Page.dart';
+import 'package:app/base/util/Result.dart';
 import 'package:dio/dio.dart';
 
 class MemberNewsApis {
   static Future<Result<Page<MemberNews>>> getMemberNews(
       int pageIndex, int pageSize, String sortDirection) async {
     try {
-      Response response = await apiRequest.get("/member-news", queryParameters: {
+      Response response =
+          await apiRequest.get("/member-news", queryParameters: {
         'pageIndex': pageIndex,
         'pageSize': pageSize,
         'sortDirection': sortDirection,
       });
       Result<Page<MemberNews>> entity = Result.fromJson(
           response.data,
-              (data) =>
+          (data) =>
               Page.fromJson(data, (infoSort) => MemberNews.fromJson(infoSort)));
       return entity;
     } on DioError catch (err) {
