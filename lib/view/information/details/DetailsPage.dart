@@ -1,12 +1,12 @@
-import 'package:app/module/information/details/DetailsBloc.dart';
-import 'package:app/packages.dart';
-import 'package:app/store/Store.dart';
-import 'package:flutter/material.dart';
-import 'package:redux/src/store.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app/base/util/BlocUtils.dart';
+import 'package:app/store/Store.dart';
+import 'package:app/view/information/details/DetailsBloc.dart';
+import 'package:flutter/material.dart';
+import 'package:redux/src/store.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class DetailsPage extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class DetailsPage extends StatefulWidget {
 
 class _State extends BlocState<DetailsPage, DetailsBloc> {
   final Completer<WebViewController> _controller =
-  Completer<WebViewController>();
+      Completer<WebViewController>();
 
   @override
   void initState() {
@@ -24,16 +24,12 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
 
   @override
   DetailsBloc createBloc(Store<StoreState> store) {
-    return DetailsBloc(context, store)
-      ..startup();
+    return DetailsBloc(context, store)..startup();
   }
 
   @override
   Widget createWidget(BuildContext context) {
-    var args = ModalRoute
-        .of(context)
-        .settings
-        .arguments as Map;
+    var args = ModalRoute.of(context).settings.arguments as Map;
     var model = args["model"];
     bloc.infoModel = model;
     bloc.setUI();
@@ -57,11 +53,9 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
           centerTitle: true,
           leading: new IconButton(
             icon: Container(
-              margin: const EdgeInsets.only(
-                  top: 2.0),
+              margin: const EdgeInsets.only(top: 2.0),
               child: Image(
-                image: AssetImage(
-                    "assets/back.png"),
+                image: AssetImage("assets/back.png"),
                 fit: BoxFit.cover,
                 width: 22,
                 height: 22,
@@ -84,19 +78,18 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
         // to allow calling Scaffold.of(context) so we can show a snackbar.
         body: SafeArea(
             child: WebView(
-              //initialUrl: 'https://www.baidu.com',///初始化url
+                //initialUrl: 'https://www.baidu.com',///初始化url
                 javascriptMode: JavascriptMode.unrestricted,
 
                 ///JS执行模式
                 onWebViewCreated: (WebViewController webViewController) {
                   ///在WebView创建完成后调用，只会被调用一次
                   _controller.complete(webViewController);
-                  final String contentBase64 = base64Encode(
-                      const Utf8Encoder().convert(bloc.html));
+                  final String contentBase64 =
+                      base64Encode(const Utf8Encoder().convert(bloc.html));
                   _onExecJavascript('data:text/html;base64,$contentBase64');
                 },
                 javascriptChannels: <JavascriptChannel>[
-
                   ///JS和Flutter通信的Channel；
                   _toasterJavascriptChannel(context),
                 ].toSet(),
@@ -117,10 +110,7 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
                 onPageFinished: (String url) {
                   ///页面加载完成回调
                   print('Page finished loading');
-                }
-            )
-        )
-    );
+                })));
   }
 
   ///js与flutter交互

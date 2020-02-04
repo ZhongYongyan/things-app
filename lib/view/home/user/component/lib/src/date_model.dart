@@ -1,35 +1,48 @@
-
-import 'package:app/module/home/user/component/lib/src/date_format.dart';
-import 'package:app/module/home/user/component/lib/src/i18n_model.dart';
-import 'datetime_util.dart';
 import 'dart:math';
+
+import 'package:app/view/home/user/component/lib/src/date_format.dart';
+import 'package:app/view/home/user/component/lib/src/i18n_model.dart';
+
+import 'datetime_util.dart';
 
 //interface for picker data model
 abstract class BasePickerModel {
   //a getter method for left column data, return null to end list
   String leftStringAtIndex(int index);
+
   //a getter method for middle column data, return null to end list
   String middleStringAtIndex(int index);
+
   //a getter method for right column data, return null to end list
   String rightStringAtIndex(int index);
+
   //set selected left index
   void setLeftIndex(int index);
+
   //set selected middle index
   void setMiddleIndex(int index);
+
   //set selected right index
   void setRightIndex(int index);
+
   //return current left index
   int currentLeftIndex();
+
   //return current middle index
   int currentMiddleIndex();
+
   //return current right index
   int currentRightIndex();
+
   //return final time
   DateTime finalTime();
+
   //return left divider string
   String leftDivider();
+
   //return right divider string
   String rightDivider();
+
   //layout proportions for 3 columns
   List<int> layoutProportions();
 }
@@ -423,6 +436,7 @@ class TimePickerModel extends CommonPickerModel {
 class DateTimePickerModel extends CommonPickerModel {
   DateTime maxTime;
   DateTime minTime;
+
   DateTimePickerModel(
       {DateTime currentTime,
       DateTime maxTime,

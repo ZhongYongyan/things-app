@@ -1,9 +1,11 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class BottomActionSheet {
-  static show(BuildContext context, List<String> data, {String title: '标题', Function callBack(int)}) {
+  static show(BuildContext context, List<String> data,
+      {String title: '标题', Function callBack(int)}) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -16,14 +18,14 @@ class BottomActionSheet {
                   //为了防止控件溢出
                   Flexible(
                       child: Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        decoration: new BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: new BorderRadius.all(Radius.circular(14)),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: new BorderRadius.all(Radius.circular(14)),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
 //                            new Container(
 //                              height: 40,
 //                              alignment: Alignment.center,
@@ -36,41 +38,39 @@ class BottomActionSheet {
 //                              height: 1,
 //                              color: Color(0xFFF3F3F3),
 //                            ),
-                            Flexible(
-                                child: ListView.builder(
-                                  /**
+                        Flexible(
+                            child: ListView.builder(
+                          /**
                                       If you do not set the shrinkWrap property, your ListView will be as big as its parent.
                                       If you set it to true, the list will wrap its content and be as big as it children allows it to be. */
-                                  shrinkWrap: true,
-                                  itemCount: data.length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: <Widget>[
-                                        new ListTile(
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                            callBack(index);
-                                          },
-
-                                          title: new Text(
-                                            data[index],
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        index == data.length - 1
-                                            ? Container()
-                                            : Divider(
-                                          height: 1,
-                                          color: Color(0xFFA2A2A6),
-                                        ),
-                                      ],
-                                    );
+                          shrinkWrap: true,
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: <Widget>[
+                                new ListTile(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    callBack(index);
                                   },
-                                )),
-
-                          ],
-                        ),
-                      )),
+                                  title: new Text(
+                                    data[index],
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                index == data.length - 1
+                                    ? Container()
+                                    : Divider(
+                                        height: 1,
+                                        color: Color(0xFFA2A2A6),
+                                      ),
+                              ],
+                            );
+                          },
+                        )),
+                      ],
+                    ),
+                  )),
                   SizedBox(
                     height: 9,
                   ),
@@ -88,7 +88,7 @@ class BottomActionSheet {
                         color: Colors.white,
                         borderRadius: new BorderRadius.all(Radius.circular(14)),
                       ),
-                      child:Text('取消',
+                      child: Text('取消',
                           textAlign: TextAlign.center,
                           style: new TextStyle(
                             color: Color(0xFF007AFF),
@@ -96,7 +96,6 @@ class BottomActionSheet {
                           )),
                     ),
                   ),
-
                 ],
               ),
             ),

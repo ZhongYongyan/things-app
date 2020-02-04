@@ -1,8 +1,8 @@
 import 'package:app/base/api/AffiliateApis.dart';
 import 'package:app/base/entity/Affiliate.dart';
-import 'package:app/packages.dart';
-import 'package:app/util/Page.dart';
-import 'package:app/util/Result.dart';
+import 'package:app/base/util/BlocUtils.dart';
+import 'package:app/base/util/LoggingUtils.dart';
+import 'package:app/base/util/Result.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -37,6 +37,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   bool editShow = false;
   bool loginProcessing = false;
   bool addAffiliateShow = false;
+
   void startup() {
     //retrieveData();
     log.info("w222222222222222");

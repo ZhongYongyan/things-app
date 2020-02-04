@@ -1,4 +1,5 @@
-import 'package:app/packages.dart';
+import 'package:app/base/util/BlocUtils.dart';
+import 'package:app/base/util/LoggingUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 
@@ -24,9 +25,11 @@ class RateBloc extends BlocBase with LoggingMixin {
     //retrieveData();
     log.info("我是详情");
   }
-  void back(){
+
+  void back() {
     navigate.pop();
   }
+
   void to(String t) {
     setModel(() {
       text = t;

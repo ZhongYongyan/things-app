@@ -1,7 +1,8 @@
-import 'package:app/packages.dart';
+import 'package:app/base/util/BlocUtils.dart';
+import 'package:app/base/util/LoggingUtils.dart';
 import 'package:flutter/material.dart';
-import 'package:redux/redux.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:redux/redux.dart';
 
 class UsercomBloc extends BlocBase with LoggingMixin {
   UsercomBloc(BuildContext context, Store store) : super(context, store);

@@ -1,7 +1,7 @@
-import 'package:app/module/home/user/add/AddBloc.dart';
-import 'package:app/module/home/user/component/UsercomPage.dart';
-import 'package:app/packages.dart';
+import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
+import 'package:app/view/home/user/add/AddBloc.dart';
+import 'package:app/view/home/user/component/UsercomPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -96,8 +96,7 @@ class _State extends BlocState<AddPage, AddBloc> {
                       gravity: ToastGravity.CENTER,
                       timeInSecForIos: 1,
                       textColor: Colors.white,
-                      fontSize: 16.0
-                  );
+                      fontSize: 16.0);
                   bloc.back();
                 })
           ],
@@ -143,8 +142,6 @@ class _State extends BlocState<AddPage, AddBloc> {
               ),
             ),
           ),
-        )
-
-    );
+        ));
   }
 }

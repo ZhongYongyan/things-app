@@ -1,8 +1,8 @@
 import 'package:app/base/entity/Info.dart';
-import 'package:app/packages.dart';
-import 'package:app/util/Utils.dart';
+import 'package:app/base/util/BlocUtils.dart';
+import 'package:app/base/util/LoggingUtils.dart';
+import 'package:app/base/util/Utils.dart';
 import 'package:flutter/material.dart';
-import 'package:luhenchang_plugin/data/data_time.dart';
 import 'package:redux/redux.dart';
 
 class DetailsBloc extends BlocBase with LoggingMixin {

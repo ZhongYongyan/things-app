@@ -1,11 +1,10 @@
 library flutter_datetime_picker;
 
+import 'package:app/view/home/user/component/lib/src/date_model.dart';
+import 'package:app/view/home/user/component/lib/src/datetime_picker_theme.dart';
+import 'package:app/view/home/user/component/lib/src/i18n_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:app/module/home/user/component/lib/src/datetime_picker_theme.dart';
-import 'package:app/module/home/user/component/lib/src/date_model.dart';
-import 'package:app/module/home/user/component/lib/src/i18n_model.dart';
-
 
 typedef DateChangedCallback(DateTime time);
 typedef String StringAtIndexCallBack(int index);

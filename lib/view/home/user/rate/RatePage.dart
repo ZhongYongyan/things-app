@@ -1,11 +1,9 @@
-import 'package:app/module/home/user/rate/RateBloc.dart';
-import 'package:app/module/home/user/component/UsercomPage.dart';
-import 'package:app/packages.dart';
+import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
+import 'package:app/view/home/user/rate/RateBloc.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/src/store.dart';
 
 class RatePage extends StatefulWidget {
@@ -28,15 +26,12 @@ class _State extends BlocState<RatePage, RateBloc> {
 
   _pageBody() {
     return Scaffold(
-
       backgroundColor: Color(0xFFFFFFFF),
-      body:Container(
+      body: Container(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20.0),
-          child:Column(
-            children: <Widget>[
-              LineChartSample3()
-            ],
+          child: Column(
+            children: <Widget>[LineChartSample3()],
           ),
         ),
       ),
@@ -44,7 +39,6 @@ class _State extends BlocState<RatePage, RateBloc> {
     );
   }
 }
-
 
 class LineChartSample3 extends StatelessWidget {
   final weekDays = [
@@ -67,7 +61,6 @@ class LineChartSample3 extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-
         Row(
           mainAxisSize: MainAxisSize.min,
           children: const <Widget>[],
@@ -111,7 +104,7 @@ class LineChartSample3 extends StatelessWidget {
                         }).toList();
                       })),
               extraLinesData:
-              ExtraLinesData(showVerticalLines: true, verticalLines: [
+                  ExtraLinesData(showVerticalLines: true, verticalLines: [
 //                VerticalLine(
 //                  y: 1.8,
 //                  color: Colors.green.withOpacity(0.7),
@@ -201,7 +194,7 @@ class LineChartSample3 extends StatelessWidget {
                       return '';
                     },
                     textStyle:
-                    const TextStyle(color: Colors.black, fontSize: 12),
+                        const TextStyle(color: Colors.black, fontSize: 12),
                   ),
                   bottomTitles: SideTitles(
                     showTitles: true,
@@ -211,7 +204,7 @@ class LineChartSample3 extends StatelessWidget {
                     textStyle: const TextStyle(color: Colors.black, fontSize: 12
 
 //                      fontWeight: FontWeight.bold,
-                    ),
+                        ),
                   )),
             ),
           ),

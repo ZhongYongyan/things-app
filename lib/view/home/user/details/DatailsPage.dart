@@ -1,15 +1,13 @@
 import 'dart:io';
 
-import 'package:app/module/home/user/component/ActionSheet.dart';
-import 'package:app/module/home/user/component/lib/flutter_datetime_picker.dart';
-import 'package:app/module/home/user/details/DatailsBloc.dart';
-import 'package:app/module/home/user/component/UsercomPage.dart';
-import 'package:app/packages.dart';
+import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
+import 'package:app/view/home/user/component/ActionSheet.dart';
+import 'package:app/view/home/user/component/lib/flutter_datetime_picker.dart';
+import 'package:app/view/home/user/details/DatailsBloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/src/store.dart';
 
 class UserDatailsPage extends StatefulWidget {
@@ -515,7 +513,8 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                             child: Container(
                               alignment: Alignment.center,
                               child: loginText(),
-                              color: (bloc.title == "用户详情" && !bloc.addAffiliateShow)
+                              color: (bloc.title == "用户详情" &&
+                                      !bloc.addAffiliateShow)
                                   ? Color(0xFFFA5251)
                                   : Color(0xFF0079FE),
                             ),
@@ -555,9 +554,8 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                         );
                                       })
                                 }
-                              else {
-                                bloc.addAffiliate()
-                              }
+                              else
+                                {bloc.addAffiliate()}
                             })
                   ],
                 ),
@@ -570,29 +568,31 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
   Widget loginText() {
     return bloc.loginProcessing
         ? Wrap(
-      spacing: 8.0,
-      runSpacing: 4.0,
-      alignment: WrapAlignment.center,
-      children: <Widget>[
-        SizedBox(
-          width: 40,
-          child: Padding(
-            padding: EdgeInsets.only(top: 3),
-            child: SpinKitThreeBounce(
-              color: Colors.white,
-              size: 16,
-            ),
-          ),
-        ),
-        Text(
-          (bloc.title == "用户详情" && !bloc.addAffiliateShow) ? "删除中" : "保存中",
-          style: TextStyle(fontSize: 16.0, color: Colors.white),
-        ),
-      ],
-    )
+            spacing: 8.0,
+            runSpacing: 4.0,
+            alignment: WrapAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                width: 40,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 3),
+                  child: SpinKitThreeBounce(
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                ),
+              ),
+              Text(
+                (bloc.title == "用户详情" && !bloc.addAffiliateShow)
+                    ? "删除中"
+                    : "保存中",
+                style: TextStyle(fontSize: 16.0, color: Colors.white),
+              ),
+            ],
+          )
         : Text(
-      (bloc.title == "用户详情" && !bloc.addAffiliateShow) ? "删除" : "保存",
-      style: TextStyle(fontSize: 16.0, color: Colors.white),
-    );
+            (bloc.title == "用户详情" && !bloc.addAffiliateShow) ? "删除" : "保存",
+            style: TextStyle(fontSize: 16.0, color: Colors.white),
+          );
   }
 }

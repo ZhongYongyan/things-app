@@ -1,4 +1,5 @@
-import 'package:app/packages.dart';
+import 'package:app/base/util/BlocUtils.dart';
+import 'package:app/base/util/LoggingUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 
@@ -28,9 +29,11 @@ class AddBloc extends BlocBase with LoggingMixin {
     log.info(i);
     //navigate.pushReplacementNamed('/homeCon');
   }
-  void back(){
+
+  void back() {
     navigate.pop();
   }
+
   void retrieveData() {
     Future.delayed(Duration(seconds: 0)).then((e) {
       words.insertAll(

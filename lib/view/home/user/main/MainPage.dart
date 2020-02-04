@@ -1,12 +1,8 @@
-import 'package:app/module/home/user/main/MianBloc.dart';
-import 'package:app/module/home/user/details/DatailsPage.dart';
-import 'package:app/module/home/user/rate/RatePage.dart';
-import 'package:app/packages.dart';
-import 'package:app/store/Store.dart';
+import 'package:app/view/home/user/details/DatailsPage.dart';
+import 'package:app/view/home/user/rate/RatePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:redux/src/store.dart';
 
 //class MainPage extends StatefulWidget {
 //  @override
@@ -251,13 +247,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
       ),
       appBar: AppBar(
         bottom: TabBar(
-          indicatorColor:Color(0xFF0079FE),
+          indicatorColor: Color(0xFF0079FE),
           labelColor: Color(0xFF333333),
           indicatorWeight: 4,
           isScrollable: true,
-          indicatorSize:TabBarIndicatorSize.tab,
-          indicatorPadding: EdgeInsets.only(left: 5,right: 5),
-          labelPadding: EdgeInsets.only(left: 8,right: 8),
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicatorPadding: EdgeInsets.only(left: 5, right: 5),
+          labelPadding: EdgeInsets.only(left: 8, right: 8),
           unselectedLabelStyle: TextStyle(
             fontSize: 14.0,
           ),
@@ -327,35 +323,38 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
             )),
         backgroundColor: Colors.white,
         actions: <Widget>[
-          index == 0 ?
-          new IconButton(
-              icon: Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(right: 0),
-                child: new Text("保存",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Color(0xFF0079FE), fontSize: 14)),
-              ),
-              onPressed: () {
-                Fluttertoast.showToast(
-                    msg: "保存成功",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIos: 1,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
-                //bloc.back();
-              }) :  new IconButton(
-              icon: Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(right: 0),
-                child: new Text("筛选",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Color(0xFF0079FE), fontSize: 14)),
-              ),
-              onPressed: () {
-                _scaffoldKey.currentState.openEndDrawer();
-              })
+          index == 0
+              ? new IconButton(
+                  icon: Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(right: 0),
+                    child: new Text("保存",
+                        textAlign: TextAlign.center,
+                        style:
+                            TextStyle(color: Color(0xFF0079FE), fontSize: 14)),
+                  ),
+                  onPressed: () {
+                    Fluttertoast.showToast(
+                        msg: "保存成功",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIos: 1,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                    //bloc.back();
+                  })
+              : new IconButton(
+                  icon: Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(right: 0),
+                    child: new Text("筛选",
+                        textAlign: TextAlign.center,
+                        style:
+                            TextStyle(color: Color(0xFF0079FE), fontSize: 14)),
+                  ),
+                  onPressed: () {
+                    _scaffoldKey.currentState.openEndDrawer();
+                  })
         ],
       ),
       body: TabBarView(

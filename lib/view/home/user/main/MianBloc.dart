@@ -1,12 +1,13 @@
-import 'package:app/packages.dart';
+import 'package:app/base/util/BlocUtils.dart';
+import 'package:app/base/util/LoggingUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 
 class MainBloc extends BlocBase with LoggingMixin {
   MainBloc(BuildContext context, Store store) : super(context, store);
-    final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   TabController tabController;
-    int index = 0;
+  int index = 0;
   List item = [
     "基本信息",
     "睡眠情况",
@@ -19,7 +20,6 @@ class MainBloc extends BlocBase with LoggingMixin {
   bool show = false;
 
   void startup() {
-
     tabController.addListener(() {
       setModel(() {
         index = tabController.index;
