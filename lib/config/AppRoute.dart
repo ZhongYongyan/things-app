@@ -10,6 +10,7 @@ import 'package:app/view/information/details/DetailsPage.dart';
 import 'package:app/view/launch/LaunchPage.dart';
 import 'package:app/view/msg/details/DetailsPage.dart';
 import 'package:app/view/page/PagePage.dart';
+import 'package:app/view/plugin/PluginPage.dart';
 import 'package:app/view/user/login/LoginPage.dart';
 import 'package:flutter/material.dart';
 
@@ -41,6 +42,8 @@ Route appRoute(RouteSettings settings) {
       return _build(settings, MsgDetailsPage(), TransactionType.fromRight);
     case '/management':
       return _build(settings, ManagementPage(), TransactionType.fromRight);
+    case '/plugin':
+      return _build(settings, PluginPage(), TransactionType.fromRight);
     default:
       return _build(settings, LaunchPage(), TransactionType.fadeIn);
   }

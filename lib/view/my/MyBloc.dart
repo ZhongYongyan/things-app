@@ -10,7 +10,16 @@ class MyBloc extends BlocBase with LoggingMixin {
   String loading = "##loading##";
   static const loadingTag = "##loading##"; //表尾标记
   var words = <String>[loadingTag];
-  List textList = ["你好", "京东商城", "天猫商城", "版本更新", "语言选择", "官方声明", "APP使用说明"];
+  List textList = [
+    "你好",
+    "京东商城",
+    "天猫商城",
+    "版本更新",
+    "语言选择",
+    "官方声明",
+    "APP使用说明",
+    "插件"
+  ];
   bool show = false;
   String text = "最新";
   double h = 0;
@@ -51,6 +60,10 @@ class MyBloc extends BlocBase with LoggingMixin {
       } else {
         throw 'Could not launch $url';
       }
+    }
+
+    if (i == 6) {
+      navigate.pushNamed('/plugin');
     }
 
     log.info(i);
