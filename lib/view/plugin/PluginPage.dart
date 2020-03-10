@@ -32,6 +32,7 @@ class _State extends BlocState<PluginPage, PluginBloc> {
           constraints: BoxConstraints.expand(),
           child: WebView(
             initialUrl: 'https://things.sf.npu.fun/plugin/a800/index.html#/',
+//            initialUrl: 'https://www.baidu.com/',
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (WebViewController webViewController) {
               bloc.webViewController.complete(webViewController);
