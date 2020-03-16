@@ -45,29 +45,4 @@ class _State extends BlocState<PluginPage, PluginBloc> {
       ),
     );
   }
-
-//  _pageBody() {
-//    return Scaffold(
-//      backgroundColor: Colors.white,
-//      body: SafeArea(
-//        child: ConstrainedBox(
-//          constraints: BoxConstraints.expand(),
-//          child: WebView(
-//            initialUrl: 'https://things.sf.npu.fun/plugin/a800/index.html#/',
-////            initialUrl: 'https://www.baidu.com/',
-//            javascriptMode: JavascriptMode.unrestricted,
-//            onWebViewCreated: (WebViewController webViewController) {
-//              bloc.webViewController.complete(webViewController);
-//            },
-//            javascriptChannels: <JavascriptChannel>[
-//              bloc.toasterJavascriptChannel(context),
-//            ].toSet(),
-//            onPageFinished: (String url) {
-//              print('Page finished loading');
-//            },
-//          ),
-//        ),
-//      ),
-//    );
-//  }
 }
