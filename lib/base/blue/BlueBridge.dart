@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:app/base/util/Utils.dart';
-import 'package:app/view/home/user/component/lib/src/i18n_model.dart';
-import 'package:app/view/plugin/PluginBloc.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:logging/logging.dart';
@@ -12,16 +10,11 @@ import 'Message.dart';
 class BlueBridge {
   BlueBridge(FlutterWebviewPlugin flutterWebviewPlugin) {
     _flutterWebviewPlugin = flutterWebviewPlugin;
-    FlutterBlue.instance.isScanning.listen((isScanning) {
-      this.isScanning = isScanning;
-    });
   }
 
   FlutterWebviewPlugin _flutterWebviewPlugin;
   Logger _log = Logger('BlueBridge');
   FlutterBlue _flutterBlue = FlutterBlue.instance;
-  String scanResultsLast = '';
-  bool isScanning = false;
 
   void handleMessage(String message) {
     _log.info('message: $message');
@@ -45,6 +38,10 @@ class BlueBridge {
 
       case 'stopScan':
         _stopScan(msg);
+        break;
+
+      case 'getDeviceState':
+        _getDeviceState(msg);
         break;
     }
   }
@@ -81,31 +78,42 @@ class BlueBridge {
       var isOn = values[1];
 
       if (isAvailable && isOn) {
-        if (isScanning) {
-          _postMessage(msg.failure('turn_on_bluetooth', '扫描中...'));
-        } else {
-          _flutterBlue.startScan(timeout: Duration(seconds: 60));
-          _flutterBlue.scanResults.listen((scanResults) {
-            List<String> names = scanResults.map((x) {
-              return x.device.name;
-            }).where((name) {
-              return name != null && name != '';
-            }).toList();
+        var isScanningListen;
+        isScanningListen = FlutterBlue.instance.isScanning.listen((isScanning) {
+          isScanningListen.cancel();
 
-            String scanResultsString = names.join(',');
-            if (scanResultsString != scanResultsLast) {
-              scanResultsLast = scanResultsString;
-              Message message = Message('onScanResult', random());
-              message.data = scanResultsString;
-              _postMessage(message);
-            }
-          }, onDone: () {
-            _log.info('startScan done');
-          }, onError: (error) {
-            _log.info('startScan error: $error');
-          }, cancelOnError: true);
-          _postMessage(msg.success(true));
-        }
+          if (isScanning) {
+            _postMessage(msg.failure('turn_on_bluetooth', '扫描中...'));
+          } else {
+            List<ScanResult> scanResultsLast = [];
+            _flutterBlue.startScan(timeout: Duration(seconds: 60));
+            _flutterBlue.scanResults.listen((scanResults) {
+              scanResults = scanResults.where((x) {
+                return x.device.name != null && x.device.name != '';
+              }).toList();
+
+              String scanResultsString = scanResults.map((x) {
+                return x.device.name;
+              }).join(',');
+
+              String last = scanResultsLast.map((x) {
+                return x.device.name;
+              }).join(',');
+
+              if (scanResultsString != last) {
+                scanResultsLast = scanResults;
+                Message message = Message('onScanResult', random());
+                message.data = scanResultsString;
+                _postMessage(message);
+              }
+            }, onDone: () {
+              _log.info('startScan done');
+            }, onError: (error) {
+              _log.info('startScan error: $error');
+            }, cancelOnError: true);
+            _postMessage(msg.success(true));
+          }
+        });
       } else {
         _postMessage(msg.failure('turn_on_bluetooth', '需要开启蓝牙'));
       }
@@ -113,12 +121,41 @@ class BlueBridge {
   }
 
   _stopScan(Message msg) {
-    if (isScanning) {
-      scanResultsLast = '';
-      _flutterBlue.stopScan();
-      _postMessage(msg.success(true));
-    } else {
-      _postMessage(msg.failure('no_scan', '未启动扫描'));
-    }
+    var isScanningListen;
+    isScanningListen = FlutterBlue.instance.isScanning.listen((isScanning) {
+      isScanningListen.cancel();
+      if (isScanning) {
+        _flutterBlue.stopScan();
+        _postMessage(msg.success(true));
+      } else {
+        _postMessage(msg.failure('no_scan', '未启动扫描'));
+      }
+    });
+  }
+
+  _getDeviceState(Message msg) {
+    String name = msg.data;
+    var listenHandler;
+    listenHandler = _flutterBlue.scanResults.listen((scanResults) {
+      listenHandler.cancel();
+
+      var list = scanResults.where((ele) {
+        return ele.device.name == name;
+      }).toList();
+
+      if (list.length > 0) {
+        var scanResult = list[0];
+        var stateListen;
+
+        stateListen = scanResult.device.state.listen((value) {
+          stateListen.cancel();
+          _postMessage(msg.success(value.toString().split('.').last));
+        }, onError: (error) {
+          _postMessage(msg.failure('error', '查询状态不成功'));
+        });
+      } else {
+        _postMessage(msg.failure('not_exists', '指定的名称不存在'));
+      }
+    });
   }
 }
