@@ -1,4 +1,6 @@
 PODS:
+  - auto_orientation (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_blue (0.0.1):
     - Flutter
@@ -29,6 +31,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - auto_orientation (from `.symlinks/plugins/auto_orientation/ios`)
   - Flutter (from `Flutter`)
   - flutter_blue (from `.symlinks/plugins/flutter_blue/ios`)
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
@@ -47,6 +50,8 @@ SPEC REPOS:
     - Protobuf
 
 EXTERNAL SOURCES:
+  auto_orientation:
+    :path: ".symlinks/plugins/auto_orientation/ios"
   Flutter:
     :path: Flutter
   flutter_blue:
@@ -73,6 +78,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  auto_orientation: 2941c44ebe5c3d41016001597ab03e81a92a26ce
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_blue: c5c8de9ca963849ee2ca13d3ec65afaff4948bd6
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694

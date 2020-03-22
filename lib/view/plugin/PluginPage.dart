@@ -5,9 +5,9 @@ import 'package:app/store/Store.dart';
 import 'package:app/view/plugin/PluginBloc.dart';
 import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:redux/src/store.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class PluginPage extends StatefulWidget {
   @override
@@ -16,9 +16,14 @@ class PluginPage extends StatefulWidget {
 
 class _State extends BlocState<PluginPage, PluginBloc> {
   @override
+  void initState() {
+    // AutoOrientation.landscapeAutoMode();
+  }
+
+  @override
   PluginBloc createBloc(Store<StoreState> store) {
-    AutoOrientation.landscapeAutoMode();
-    return PluginBloc(context, store)..startup();
+    log.info('createBloc');
+    return PluginBloc(context, store)..init();
   }
 
   @override
@@ -31,11 +36,20 @@ class _State extends BlocState<PluginPage, PluginBloc> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: new WebviewScaffold(
-        url: "https://things.sf.npu.fun/plugin/a800/index.html#/",
+        javascriptChannels: [
+          JavascriptChannel(
+              name: 'BlueNative',
+              onMessageReceived: (JavascriptMessage message) {
+                bloc.blueBridge.handleMessage(message.message);
+              }),
+        ].toSet(),
+        url: 'http://192.168.0.233:8081/#/demo/testblue',
         withZoom: true,
         withLocalStorage: true,
         hidden: true,
         ignoreSSLErrors: true,
+        withJavascript: true,
+        allowFileURLs: true,
         initialChild: Container(
           color: Colors.white,
           child: const Center(

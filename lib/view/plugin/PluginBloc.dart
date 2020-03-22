@@ -1,31 +1,42 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:ffi';
 
+import 'package:app/base/blue/BlueBridge.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/store/module/Auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:redux/redux.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class PluginBloc extends BlocBase with LoggingMixin {
   PluginBloc(BuildContext context, Store store) : super(context, store);
 
-  final Completer<WebViewController> webViewController =
-      Completer<WebViewController>();
+  static final flutterWebviewPlugin = new FlutterWebviewPlugin();
+  final blueBridge = new BlueBridge(flutterWebviewPlugin);
 
-  void startup() {}
+  void init() {
+    flutterWebviewPlugin.close();
 
-  JavascriptChannel toasterJavascriptChannel(BuildContext context) {
-    return JavascriptChannel(
-        name: 'Toast',
-        onMessageReceived: (JavascriptMessage message) {
-          String text = message.message;
-        });
-  }
+    var loadLocalFile = false;
+    flutterWebviewPlugin.onStateChanged.listen((viewState) async {
+      if (viewState.type == WebViewState.finishLoad) {
+        log.info('WebViewState.finishLoad');
 
-  void onExecJavascript(String url) async {
-    webViewController.future.then((controller) {
-      controller.loadUrl(url);
+//        if (!loadLocalFile) {
+//          loadLocalFile = true;
+//          String fileHtmlContents =
+//              await rootBundle.loadString('assets/test.html');
+//          flutterWebviewPlugin.launch(Uri.dataFromString(fileHtmlContents,
+//                  mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
+//              .toString());
+//        }
+
+//        flutterWebviewPlugin.resize(
+//            Rect.fromLTWH(0.0, 0.0, MediaQuery.of(context).size.width, 300.0));
+      }
     });
   }
 }
