@@ -56,7 +56,7 @@ class BlueService {
     }
   }
 
-  void write(List<int> value) {
+  void writeData(List<int> value) {
     print('write: ${value}');
     try {
       _writeCharacteristic.write(value, withoutResponse: true);
