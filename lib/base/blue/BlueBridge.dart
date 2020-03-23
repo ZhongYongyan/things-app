@@ -61,8 +61,8 @@ class BlueBridge {
         _listenDevice(msg);
         break;
 
-      case 'writeDevice':
-        _writeDevice(msg);
+      case 'writeData':
+        _writeData(msg);
         break;
     }
   }
@@ -274,7 +274,7 @@ class BlueBridge {
     });
   }
 
-  _writeDevice(Message msg) {
+  _writeData(Message msg) {
     if (_blueService == null) {
       _postMessage(msg.failure('not_connect', '设备未监听'));
     } else {
@@ -283,7 +283,8 @@ class BlueBridge {
         return int.parse(value);
       }).toList();
 
-      _blueService.write(value);
+      _blueService.writeData(value);
+      _postMessage(msg.success(true));
     }
   }
 }
