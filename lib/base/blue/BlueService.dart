@@ -15,33 +15,40 @@ class BlueService {
 
   Future<void> startListen(void onData(List<int> event)) {
     Completer<void> completer = new Completer<void>();
-    _device.discoverServices().then((services) {
-      services.forEach((service) {
-        print('service.uuid:${service.uuid}');
-        if (service.uuid.toString() == '0000fff0-0000-1000-8000-00805f9b34fb') {
-          var characteristics = service.characteristics;
-          for (BluetoothCharacteristic characteristic in characteristics) {
-            if (_writeCharacteristic == null)
-              _checkWriteCharacteristic(characteristic);
+    if (_writeCharacteristic == null && _notifyCharacteristic == null) {
+      _device.discoverServices().then((services) {
+        services.forEach((service) {
+          print('service.uuid:${service.uuid}');
+          if (service.uuid.toString() ==
+              '0000fff0-0000-1000-8000-00805f9b34fb') {
+            var characteristics = service.characteristics;
+            for (BluetoothCharacteristic characteristic in characteristics) {
+              if (_writeCharacteristic == null)
+                _checkWriteCharacteristic(characteristic);
 
-            if (_notifyCharacteristic == null)
-              _checkNotifyCharacteristic(characteristic);
+              if (_notifyCharacteristic == null)
+                _checkNotifyCharacteristic(characteristic);
+            }
           }
-        }
-      });
-
-      if (_writeCharacteristic != null && _notifyCharacteristic != null) {
-        _notifyCharacteristic.setNotifyValue(true);
-        notifyListen = _notifyCharacteristic.value.listen((value) {
-          onData(value);
         });
-        completer.complete();
-      } else {
-        completer.completeError(Failure('service_invalid', '读写服务没有找到'));
-      }
-    }).catchError((error) {
-      completer.completeError(Failure('service_invalid', '读写服务不可用'));
-    });
+
+        if (_writeCharacteristic != null && _notifyCharacteristic != null) {
+          _notifyCharacteristic.setNotifyValue(true);
+          notifyListen = _notifyCharacteristic.value.listen((value) {
+            if (value != null && value.length > 0) {
+              onData(value);
+            }
+          });
+          completer.complete();
+        } else {
+          completer.completeError(Failure('service_invalid', '读写服务没有找到'));
+        }
+      }).catchError((error) {
+        completer.completeError(Failure('service_invalid', '读写服务不可用'));
+      });
+    } else {
+      completer.completeError(Failure('already_listened', '已开启监听数据'));
+    }
     return completer.future;
   }
 
@@ -54,6 +61,10 @@ class BlueService {
       _writeCharacteristic = null;
       _notifyCharacteristic = null;
     }
+  }
+
+  get listening {
+    return _writeCharacteristic != null && _notifyCharacteristic != null;
   }
 
   void writeData(List<int> value) {

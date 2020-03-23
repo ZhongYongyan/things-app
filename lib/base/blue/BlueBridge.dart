@@ -57,8 +57,12 @@ class BlueBridge {
         _disconnectDevice(msg);
         break;
 
-      case 'listenDevice':
-        _listenDevice(msg);
+      case 'startListen':
+        _startListen(msg);
+        break;
+
+      case 'stopListen':
+        _stopListen(msg);
         break;
 
       case 'writeData':
@@ -159,8 +163,8 @@ class BlueBridge {
     });
   }
 
-  Future<ScanResult> _getDevice(Message msg) {
-    Completer<ScanResult> completer = new Completer<ScanResult>();
+  Future<BluetoothDevice> _getDevice(Message msg) {
+    Completer<BluetoothDevice> completer = new Completer<BluetoothDevice>();
     String name = msg.data;
     var scanResultsHandler;
     scanResultsHandler = _flutterBlue.scanResults.listen((scanResults) {
@@ -172,18 +176,30 @@ class BlueBridge {
 
       if (list.length > 0) {
         var scanResult = list[0];
-        completer.complete(scanResult);
+        completer.complete(scanResult.device);
       } else {
-        completer.completeError(Failure('not_exists', '指定的名称不存在'));
+        _flutterBlue.connectedDevices.then((devices) {
+          var deviceList = devices.where((device) {
+            return device.name == name;
+          }).toList();
+
+          if (deviceList.length > 0) {
+            completer.complete(deviceList[0]);
+          } else {
+            completer.completeError(Failure('not_exists', '指定的名称不存在'));
+          }
+        }).catchError((error) {
+          _postMessage(msg.failure('error', 'connectedDevices 失败'));
+        });
       }
     });
     return completer.future;
   }
 
   _getDeviceState(Message msg) {
-    _getDevice(msg).then((scanResult) {
+    _getDevice(msg).then((device) {
       var stateListen;
-      stateListen = scanResult.device.state.listen((value) {
+      stateListen = device.state.listen((value) {
         stateListen.cancel();
         _postMessage(msg.success(value.toString().split('.').last));
       }, onError: (error) {
@@ -195,15 +211,16 @@ class BlueBridge {
   }
 
   _connectDevice(Message msg) {
-    _getDevice(msg).then((scanResult) {
+    _getDevice(msg).then((device) {
       var stateListen;
-      stateListen = scanResult.device.state.listen((value) {
+      stateListen = device.state.listen((value) {
         stateListen.cancel();
 
         if (value == BluetoothDeviceState.disconnected) {
-          scanResult.device
+          device
               .connect(autoConnect: true, timeout: Duration(seconds: 30))
               .then((value) {
+            _blueService = BlueService(device);
             _postMessage(msg.success(true));
           }).catchError((error) {
             _postMessage(msg.failure('error', '连接不成功'));
@@ -223,13 +240,13 @@ class BlueBridge {
       _blueService = null;
     }
 
-    _getDevice(msg).then((scanResult) {
+    _getDevice(msg).then((device) {
       var stateListen;
-      stateListen = scanResult.device.state.listen((value) {
+      stateListen = device.state.listen((value) {
         stateListen.cancel();
 
         if (value == BluetoothDeviceState.connected) {
-          scanResult.device.disconnect().then((value) {
+          device.disconnect().then((value) {
             _postMessage(msg.success(true));
           }).catchError((error) {
             _postMessage(msg.failure('error', '断开连接不成功'));
@@ -243,39 +260,40 @@ class BlueBridge {
     });
   }
 
-  _listenDevice(Message msg) {
-    _getDevice(msg).then((scanResult) {
-      var stateListen;
-      stateListen = scanResult.device.state.listen((value) {
-        stateListen.cancel();
-
-        if (value == BluetoothDeviceState.connected) {
-          _blueService = BlueService(scanResult.device);
-          _blueService.startListen((data) {
-            Message message = Message('onNotify', random());
-            message.data = data.join(',');
-            _postMessage(message);
-          }).then((value) {
-            _postMessage(msg.success(true));
-          }).catchError((error) {
-            Failure e = error as Failure;
-            if (e != null) {
-              _postMessage(msg.failure(e.name, e.message));
-            } else {
-              _postMessage(msg.failure('error', '蓝牙不能识别'));
-            }
-          });
+  _startListen(Message msg) {
+    if (_blueService == null) {
+      _postMessage(msg.failure('not_connect', '设备未连接'));
+    } else {
+      _blueService.startListen((data) {
+        Message message = Message('onNotify', random());
+        message.data = data.join(',');
+        _postMessage(message);
+      }).then((value) {
+        _postMessage(msg.success(true));
+      }).catchError((error) {
+        Failure e = error as Failure;
+        if (e != null) {
+          _postMessage(msg.failure(e.name, e.message));
         } else {
-          _postMessage(msg.failure('not_connect', '设备未连接'));
+          _postMessage(msg.failure('error', '蓝牙不能识别'));
         }
-      }, onError: (error) {
-        _postMessage(msg.failure('error', '查询状态不成功'));
       });
-    });
+    }
+  }
+
+  _stopListen(Message msg) {
+    if (_blueService == null) {
+      _postMessage(msg.failure('not_connect', '设备未连接'));
+    } else {
+      _blueService.stopListen();
+      _postMessage(msg.success(true));
+    }
   }
 
   _writeData(Message msg) {
     if (_blueService == null) {
+      _postMessage(msg.failure('not_connect', '设备未连接'));
+    } else if (!_blueService.listening) {
       _postMessage(msg.failure('not_connect', '设备未监听'));
     } else {
       String data = msg.data;
