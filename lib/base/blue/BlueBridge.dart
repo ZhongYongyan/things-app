@@ -9,6 +9,7 @@ import 'package:logging/logging.dart';
 import 'BlueService.dart';
 import 'Failure.dart';
 import 'Message.dart';
+import 'Utils.dart';
 
 class BlueBridge {
   BlueBridge(FlutterWebviewPlugin flutterWebviewPlugin) {
@@ -20,6 +21,7 @@ class BlueBridge {
   FlutterBlue _flutterBlue = FlutterBlue.instance;
   var _scanResultsHandler;
   BlueService _blueService;
+  Message _getWiFiStatusMsg;
 
   void handleMessage(String message) {
     _log.info('message: $message');
@@ -67,6 +69,14 @@ class BlueBridge {
 
       case 'writeData':
         _writeData(msg);
+        break;
+
+      case 'setupWiFi':
+        _setupWiFi(msg);
+        break;
+
+      case 'getWiFiStatus':
+        _getWiFiStatus(msg);
         break;
     }
   }
@@ -265,9 +275,21 @@ class BlueBridge {
       _postMessage(msg.failure('not_connect', '设备未连接'));
     } else {
       _blueService.startListen((data) {
-        Message message = Message('onNotify', random());
-        message.data = data.join(',');
-        _postMessage(message);
+        if (data[0] == 0xAA && data[1] == 0xFF) {
+          _log.info('私有蓝牙协议响应: $data');
+
+          if (data[2] == 0x06 && _getWiFiStatusMsg != null) {
+            Map<String, dynamic> result = Map();
+            result['status'] = data[3];
+            result['ip'] = '${data[4]}.${data[5]}.${data[6]}.${data[7]}';
+            _postMessage(_getWiFiStatusMsg.success(json.encode(result)));
+            _getWiFiStatusMsg = null;
+          }
+        } else {
+          Message message = Message('onNotify', random());
+          message.data = data.join(',');
+          _postMessage(message);
+        }
       }).then((value) {
         _postMessage(msg.success(true));
       }).catchError((error) {
@@ -303,6 +325,39 @@ class BlueBridge {
 
       _blueService.writeData(value);
       _postMessage(msg.success(true));
+    }
+  }
+
+  _setupWiFi(msg) {
+    if (_blueService == null) {
+      _postMessage(msg.failure('not_connect', '设备未连接'));
+    } else if (!_blueService.listening) {
+      _postMessage(msg.failure('not_connect', '设备未监听'));
+    } else {
+      Map<String, dynamic> data = json.decode(msg.data);
+      String name = data['name'];
+      String password = data['password'];
+      String type = data['password'];
+
+      List<List<int>> commands = List<List<int>>();
+      commands.addAll(createCommand(name, 1, 30));
+      commands.addAll(createCommand(password, 3, 30));
+      commands.addAll(createCommand(type, 5, 15));
+      commands.forEach((command) {
+        _blueService.writeData(command);
+      });
+      _postMessage(msg.success(true));
+    }
+  }
+
+  _getWiFiStatus(msg) {
+    if (_blueService == null) {
+      _postMessage(msg.failure('not_connect', '设备未连接'));
+    } else if (!_blueService.listening) {
+      _postMessage(msg.failure('not_connect', '设备未监听'));
+    } else {
+      _blueService.writeData([0xAA, 0xFF, 0x06, 0x0D, 0x0A]);
+      _getWiFiStatusMsg = msg;
     }
   }
 }
