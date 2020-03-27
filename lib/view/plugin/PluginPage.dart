@@ -42,6 +42,11 @@ class _State extends BlocState<PluginPage, PluginBloc> {
               onMessageReceived: (JavascriptMessage message) {
                 bloc.blueBridge.handleMessage(message.message);
               }),
+          JavascriptChannel(
+              name: 'PluginNative',
+              onMessageReceived: (JavascriptMessage message) {
+                bloc.handleNavigate(message.message);
+              }),
         ].toSet(),
         url: 'http://192.168.0.233:8081/#/demo/testblue',
         withZoom: true,
@@ -50,6 +55,27 @@ class _State extends BlocState<PluginPage, PluginBloc> {
         ignoreSSLErrors: true,
         withJavascript: true,
         allowFileURLs: true,
+        appBar: bloc.loading
+            ? AppBar(
+                elevation: 0,
+                brightness: Brightness.light,
+                centerTitle: true,
+                leading: new IconButton(
+                  icon: Container(
+                    margin: const EdgeInsets.only(top: 2.0),
+                    child: Image(
+                      image: AssetImage("assets/back.png"),
+                      fit: BoxFit.cover,
+                      width: 22,
+                      height: 22,
+                    ),
+                  ),
+                  onPressed: () {
+                    bloc.toBack();
+                  },
+                ),
+              )
+            : null,
         initialChild: Container(
           color: Colors.white,
           child: const Center(

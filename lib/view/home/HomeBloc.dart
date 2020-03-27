@@ -26,7 +26,9 @@ class HomeBloc extends BlocBase with LoggingMixin {
   void add() {
     navigate.pushNamed('/management');
   }
-
+  void toPlugin() {
+    navigate.pushNamed('/plugin');
+  }
   void getUser() async {
     Result<Page> response = await AffiliateApis.getAffiliate(1, 10, "ASC");
     bool code = response.success;
