@@ -337,7 +337,7 @@ class BlueBridge {
       Map<String, dynamic> data = json.decode(msg.data);
       String name = data['name'];
       String password = data['password'];
-      String type = data['password'];
+      String type = data['type'];
 
       List<List<int>> commands = List<List<int>>();
       commands.addAll(createCommand(name, 1, 30));

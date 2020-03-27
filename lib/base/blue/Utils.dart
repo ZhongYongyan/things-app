@@ -5,7 +5,7 @@ List<List<int>> createCommand(String value, int command, int length) {
     writeData[i] = 0;
   }
 
-  for (int i = 0; i < bytes.length && i <= 30; i++) {
+  for (int i = 0; i < bytes.length && i <= length; i++) {
     writeData[i] = bytes[i];
   }
 
