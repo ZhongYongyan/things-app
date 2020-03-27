@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:app/base/blue/BlueBridge.dart';
+import 'package:app/base/blue/Message.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/store/module/Auth.dart';
@@ -16,6 +17,7 @@ class PluginBloc extends BlocBase with LoggingMixin {
 
   static final flutterWebviewPlugin = new FlutterWebviewPlugin();
   final blueBridge = new BlueBridge(flutterWebviewPlugin);
+  var loading = true;
 
   void init() {
     flutterWebviewPlugin.close();
@@ -24,6 +26,10 @@ class PluginBloc extends BlocBase with LoggingMixin {
     flutterWebviewPlugin.onStateChanged.listen((viewState) async {
       if (viewState.type == WebViewState.finishLoad) {
         log.info('WebViewState.finishLoad');
+
+        this.setModel(() {
+          loading = false;
+        });
 
 //        if (!loadLocalFile) {
 //          loadLocalFile = true;
@@ -38,5 +44,26 @@ class PluginBloc extends BlocBase with LoggingMixin {
 //            Rect.fromLTWH(0.0, 0.0, MediaQuery.of(context).size.width, 300.0));
       }
     });
+  }
+
+  void handleNavigate(String message) {
+    log.info('handleNavigate: $message');
+    Message msg = Message.fromJson(json.decode(message));
+    switch (msg.command) {
+      case 'exit':
+        navigate.pop();
+        msg.success(true);
+        break;
+    }
+  }
+
+  void _postMessage(Message message) {
+    log.info('_postMessage: ${message.toJsonString()}');
+    String script = "NativeBridge.handleMessage('${message.toJsonString()}');";
+    flutterWebviewPlugin.evalJavascript(script);
+  }
+
+  void toBack() {
+    navigate.pop();
   }
 }
