@@ -17,13 +17,18 @@ class PluginBloc extends BlocBase with LoggingMixin {
 
   static final flutterWebviewPlugin = new FlutterWebviewPlugin();
   final blueBridge = new BlueBridge(flutterWebviewPlugin);
-  var loading = true;
+  var loading = false;
 
   void init() {
     flutterWebviewPlugin.close();
 
     var loadLocalFile = false;
     flutterWebviewPlugin.onStateChanged.listen((viewState) async {
+      this.setModel(() {
+        loading = true;
+      });
+
+
       if (viewState.type == WebViewState.finishLoad) {
         log.info('WebViewState.finishLoad');
 
