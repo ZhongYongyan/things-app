@@ -9,6 +9,9 @@ class BlueService {
   BluetoothDevice _device;
   StreamSubscription<List<int>> notifyListen;
 
+  /// 发送命令队列
+  List<List<int>> _queue = List();
+
   BlueService(BluetoothDevice device) {
     _device = device;
   }
@@ -39,6 +42,7 @@ class BlueService {
               onData(value);
             }
           });
+          queueWrite();
           completer.complete();
         } else {
           completer.completeError(Failure('service_invalid', '读写服务没有找到'));
@@ -69,10 +73,23 @@ class BlueService {
 
   void writeData(List<int> value) {
     print('write: ${value}');
-    try {
-      _writeCharacteristic.write(value, withoutResponse: true);
-    } catch (e) {
-      print('write ex: ${e}');
+    _queue.add(value);
+  }
+
+  queueWrite() {
+    if (_queue.isNotEmpty) {
+      List<int> data = _queue[0];
+      _queue.removeAt(0);
+
+      if (_writeCharacteristic != null) {
+        _writeCharacteristic.write(data, withoutResponse: true);
+      }
+    }
+
+    if (_writeCharacteristic != null) {
+      Future.delayed(Duration(milliseconds: 10), () {
+        queueWrite();
+      });
     }
   }
 
