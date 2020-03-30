@@ -31,12 +31,69 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   static const loadingTag = "##loading##"; //表尾标记
   var words = <String>[loadingTag];
   List textList = ["修改头像", "姓名或昵称", "性别", "身高(cm)", "体重(kg)", "出生日期"];
-  List userList = ["修改头像", "", "点击选择", "", "", "点击选择"];
+  List userList = ["修改头像", "", "点击选择", "点击选择", "点击选择", "点击选择"];
   String text = "最新";
   String imgPath = "";
   bool editShow = false;
+  bool nameEmpty = false;
   bool loginProcessing = false;
   bool addAffiliateShow = false;
+  var heightPickerData = '''
+[
+    [
+        110,
+        120,
+        130,
+        140,
+        150,
+        160,
+        170,
+        180,
+        190,
+        200,
+        210,
+        220,
+        230,
+        240,
+        250
+    ]
+]
+    ''';
+  var weightPickerData = '''
+[
+    [
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        160,
+        170,
+        180,
+        190,
+        200,
+        210,
+        220,
+        230,
+        240,
+        250,
+        260,
+        270,
+        280,
+        290,
+        300
+    ]
+]
+    ''';
 
   void startup() {
     //retrieveData();
@@ -61,7 +118,16 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       affiliateModel.sex = i == '男' ? 'F' : 'M';
     });
   }
-
+  void userClickHeight(List i) {
+    setModel(() {
+      affiliateModel.height = int.parse(i[0]);
+    });
+  }
+  void weightClickHeight(List i) {
+    setModel(() {
+      affiliateModel.weight = double.parse(i[0]);
+    });
+  }
   /*拍照*/
   void takePhoto() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -98,22 +164,18 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     }
     if (!editShow) {
       usernameController = TextEditingController(text: affiliateModel.nickname);
-      heightController = TextEditingController(
-          text: affiliateModel.height.toString() == '0'
-              ? ""
-              : affiliateModel.height.toString());
-      weightController = TextEditingController(
-          text: affiliateModel.weight.toString() == '0.0'
-              ? ""
-              : affiliateModel.weight.toString());
       editShow = true;
     }
     userList = [
       "修改头像",
       "",
       affiliateModel.sex == "" ? "点击选择" : affiliateModel.sex == "F" ? '男' : '女',
-      "",
-      "",
+      affiliateModel.height.toString() == '0'
+          ? "点击选择"
+          : affiliateModel.height.toString(),
+      affiliateModel.weight.toString() == '0.0'
+          ? "点击选择"
+          : affiliateModel.weight.toString(),
       affiliateModel.birthday == ""
           ? "点击选择"
           : affiliateModel.birthday.substring(0, 10)
@@ -126,7 +188,11 @@ class DatailsBloc extends BlocBase with LoggingMixin {
 
   void addAffiliate() async {
     addAffiliateShow = true;
-    if (usernameController.text == "") {
+    if (usernameController.text == "" || nameEmpty) {
+      if(nameEmpty) {
+        toast('昵称限制8位');
+        return;
+      }
       toast('昵称为空');
       return;
     }
@@ -134,11 +200,11 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       toast('性别为空');
       return;
     }
-    if (heightController.text == "") {
+    if (userList[3] == "点击选择") {
       toast('身高为空');
       return;
     }
-    if (weightController.text == "") {
+    if (userList[4] == "点击选择") {
       toast('体重为空');
       return;
     }
@@ -151,9 +217,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     });
     var data = affiliateModel.birthday.substring(0, 10);
     affiliateModel.birthday = data.replaceAll('-', '/') + ' 23:23:23';
-    affiliateModel.nickname = usernameController.text;
-    affiliateModel.height = int.parse(heightController.text);
-    affiliateModel.weight = double.parse(weightController.text);
+    print(affiliateModel);
     Result<Affiliate> response =
         await AffiliateApis.modifyAffiliate(affiliateModel);
     bool code = response.success;

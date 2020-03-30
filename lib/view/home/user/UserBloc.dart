@@ -42,11 +42,14 @@ class UserBloc extends BlocBase with LoggingMixin {
     Result<Page> response =
         await AffiliateApis.getAffiliate(indexPage, 10, "ASC");
     bool code = response.success;
-    log.info("w222222222222222");
-    log.info(code);
-    log.info("w222222222222222");
+
+    var item  = Affiliate.fromJson({"id": 123456, "memberId": 10, "nickname": "访客", "phone":"" , "sex": "F", "height": 110, "weight": 60.0, "birthday": "2008-03-30T15:23:23.000+0000", "created": "", "companyId": 1324941137936416});
     //错误处理
     lists = response.data.items;
+    if(indexPage == 1) {
+      lists.add(item);
+    }
+    log.info(lists);
     Future.delayed(Duration(seconds: 1)).then((e) {
       words.insertAll(words.length - 1, lists.map((student) => student));
       if (lists.length < 10) {

@@ -141,7 +141,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         //剪裁为圆角矩形
                                         borderRadius:
                                             BorderRadius.circular(5.0),
-                                        child: GestureDetector(
+                                        child:bloc.words[index].id != 123456 ?  GestureDetector(
                                           child: Container(
                                             height: 31.0,
                                             width: 62.0,
@@ -156,7 +156,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                           ),
                                           onTap: () =>
                                               bloc.onToDetails(index), //点击//长按
-                                        ),
+                                        ): null,
                                       )
                                     ],
                                   ),
@@ -177,7 +177,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         margin: EdgeInsets.only(
                                           left: 80,
                                         ),
-                                        child: Text(
+                                        child:bloc.words[index].id != 123456 ? Text(
                                             "性别: " +
                                                 (bloc.words[index].sex == "F"
                                                     ? '男'
@@ -186,7 +186,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),
                                               fontSize: 12,
-                                            )),
+                                            )):null,
                                       ),
                                       Expanded(
                                         flex: 1,
@@ -202,7 +202,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                     children: <Widget>[
                                       Container(
                                         width: 100,
-                                        child: Text(
+                                        child: bloc.words[index].id != 123456 ? Text(
                                             "身高:" +
                                                 bloc.words[index].height
                                                     .toString(),
@@ -210,13 +210,13 @@ class _State extends BlocState<UserPage, UserBloc> {
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),
                                               fontSize: 12,
-                                            )),
+                                            )):null,
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(
                                           left: 80,
                                         ),
-                                        child: Text(
+                                        child: bloc.words[index].id != 123456 ? Text(
                                             "生日: " +
                                                 bloc.words[index].birthday
                                                     .substring(0, 10),
@@ -224,7 +224,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),
                                               fontSize: 12,
-                                            )),
+                                            )):null,
                                       ),
                                       Expanded(
                                         flex: 1,
@@ -240,7 +240,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                     children: <Widget>[
                                       Container(
                                         width: 100,
-                                        child: Text(
+                                        child: bloc.words[index].id != 123456 ? Text(
                                             "体重: " +
                                                 bloc.words[index].weight
                                                     .toString(),
@@ -248,7 +248,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                             style: TextStyle(
                                               color: Color(0xFF9A9A9A),
                                               fontSize: 12,
-                                            )),
+                                            )): null,
                                       ),
                                       Expanded(
                                         flex: 1,
