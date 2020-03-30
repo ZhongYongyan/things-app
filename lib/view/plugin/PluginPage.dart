@@ -48,7 +48,7 @@ class _State extends BlocState<PluginPage, PluginBloc> {
                 bloc.handleNavigate(message.message);
               }),
         ].toSet(),
-        url: 'http://192.168.0.233:8081/#/demo/testblue',
+        url: ' http://192.168.3.223:8081/#/connectBlue',
         withZoom: true,
         withLocalStorage: true,
         hidden: true,

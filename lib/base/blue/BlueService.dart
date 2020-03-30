@@ -72,7 +72,6 @@ class BlueService {
   }
 
   void writeData(List<int> value) {
-    print('write: ${value}');
     _queue.add(value);
   }
 
@@ -82,12 +81,13 @@ class BlueService {
       _queue.removeAt(0);
 
       if (_writeCharacteristic != null) {
+        print('write: ${data}');
         _writeCharacteristic.write(data, withoutResponse: true);
       }
     }
 
     if (_writeCharacteristic != null) {
-      Future.delayed(Duration(milliseconds: 10), () {
+      Future.delayed(Duration(milliseconds: 100), () {
         queueWrite();
       });
     }
