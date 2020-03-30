@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/base/util/BlocUtils.dart';
@@ -7,6 +8,7 @@ import 'package:app/view/home/user/component/lib/flutter_datetime_picker.dart';
 import 'package:app/view/home/user/details/DatailsBloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_picker/Picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:redux/src/store.dart';
 
@@ -181,7 +183,10 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                   left: 15.0,
                                                   right: 10,
                                                   top: 11)
-                                              : index == 2 || index == 5
+                                              : index == 2 ||
+                                                      index == 5 ||
+                                                      index == 3 ||
+                                                      index == 4
                                                   ? const EdgeInsets.only(
                                                       left: 15.0,
                                                       right: 10,
@@ -282,159 +287,31 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                                       0xFFcccccc)),
                                                         ),
                                                         validator: (value) {
-                                                          if (value.isEmpty) {
-                                                            //bloc.phoneisEmpty = true;
+                                                          if (value.length > 8) {
+                                                            bloc.nameEmpty = true;
                                                           } else {
-                                                            //bloc.phoneisEmpty = false;
+                                                            bloc.nameEmpty = false;
                                                           }
                                                         },
                                                       ),
                                                     )
-                                                  : index == 3
-                                                      ? Container(
-                                                          //height: 20,
-                                                          alignment: Alignment
-                                                              .centerRight,
-                                                          width: 80,
-                                                          child: TextFormField(
-                                                            textAlign:
-                                                                TextAlign.right,
-                                                            controller: bloc
-                                                                .heightController,
-//                                                focusNode: bloc.usernameFocus,
-                                                            style: TextStyle(
-                                                                fontSize: 14.0,
-                                                                color: Colors
-                                                                    .black),
-                                                            autocorrect: false,
-                                                            decoration:
-                                                                InputDecoration(
-                                                              hintText: '点击填写',
-                                                              border:
-                                                                  InputBorder
-                                                                      .none,
-                                                              disabledBorder:
-                                                                  InputBorder
-                                                                      .none,
-                                                              enabledBorder:
-                                                                  InputBorder
-                                                                      .none,
-                                                              focusedBorder:
-                                                                  InputBorder
-                                                                      .none,
-                                                              contentPadding:
-                                                                  EdgeInsets
-                                                                      .all(0.0),
-                                                              hintStyle: false
-                                                                  ? TextStyle(
-                                                                      fontSize:
-                                                                          14.0,
-                                                                      color: Color(
-                                                                          0xFFEC4D5C))
-                                                                  : TextStyle(
-                                                                      fontSize:
-                                                                          14.0,
-                                                                      color: Color(
-                                                                          0xFFcccccc)),
-                                                            ),
-                                                            validator: (value) {
-                                                              if (value
-                                                                  .isEmpty) {
-                                                                //bloc.phoneisEmpty = true;
-                                                              } else {
-                                                                //bloc.phoneisEmpty = false;
-                                                              }
-                                                            },
-                                                          ),
-                                                        )
-                                                      : index == 4
-                                                          ? Container(
-                                                              //height: 20,
-                                                              alignment: Alignment
-                                                                  .centerRight,
-                                                              width: 80,
-                                                              child:
-                                                                  TextFormField(
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .right,
-                                                                controller: bloc
-                                                                    .weightController,
-//                                                focusNode: bloc.usernameFocus,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        14.0,
-                                                                    color: Colors
-                                                                        .black),
-                                                                autocorrect:
-                                                                    false,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  hintText:
-                                                                      '点击填写',
-                                                                  border:
-                                                                      InputBorder
-                                                                          .none,
-//                                              prefixIcon: Icon(
-//                                                Icons.phone_iphone,
-//                                                color: Color(0xFFcccccc),
-//                                              ),
-                                                                  disabledBorder:
-                                                                      InputBorder
-                                                                          .none,
-                                                                  enabledBorder:
-                                                                      InputBorder
-                                                                          .none,
-                                                                  focusedBorder:
-                                                                      InputBorder
-                                                                          .none,
-                                                                  contentPadding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              0.0),
-                                                                  hintStyle: false
-                                                                      ? TextStyle(
-                                                                          fontSize:
-                                                                              14.0,
-                                                                          color: Color(
-                                                                              0xFFEC4D5C))
-                                                                      : TextStyle(
-                                                                          fontSize:
-                                                                              14.0,
-                                                                          color:
-                                                                              Color(0xFFcccccc)),
-                                                                ),
-                                                                validator:
-                                                                    (value) {
-                                                                  if (value
-                                                                      .isEmpty) {
-                                                                    //bloc.phoneisEmpty = true;
-                                                                  } else {
-                                                                    //bloc.phoneisEmpty = false;
-                                                                  }
-                                                                },
-                                                              ),
-                                                            )
-                                                          : Text(
-                                                              bloc.userList[
-                                                                  index],
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                color: Color(
-                                                                    0xFF333333),
-                                                                fontSize: 14,
-                                                                //height: 1.6
-                                                                //fontWeight:FontWeight.w700,
-                                                              )),
+                                                  : Text(bloc.userList[index],
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xFF333333),
+                                                        fontSize: 14,
+                                                        //height: 1.6
+                                                        //fontWeight:FontWeight.w700,
+                                                      )),
                                               index == 0 ||
                                                       index == 2 ||
-                                                      index == 5
+                                                      index == 5 ||
+                                                      index == 3 ||
+                                                      index == 4
                                                   ? Container(
                                                       margin:
                                                           const EdgeInsets.only(
@@ -481,6 +358,36 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                       }
                                       return;
                                     }),
+                                  },
+                                if (index == 3)
+                                  {
+                                    Picker(
+                                        adapter: PickerDataAdapter<String>(
+                                            pickerdata: new JsonDecoder()
+                                                .convert(bloc.heightPickerData),
+                                            isArray: true),
+                                        hideHeader: true,
+                                        confirmText: '确认',
+                                        cancelText: '取消',
+                                        title: new Text("身高(cm)"),
+                                        onConfirm: (Picker picker, List value) {
+                                          bloc.userClickHeight(picker.getSelectedValues());
+                                        }).showDialog(context)
+                                  },
+                                if (index == 4)
+                                  {
+                                    Picker(
+                                        adapter: PickerDataAdapter<String>(
+                                            pickerdata: new JsonDecoder()
+                                                .convert(bloc.weightPickerData),
+                                            isArray: true),
+                                        hideHeader: true,
+                                        confirmText: '确认',
+                                        cancelText: '取消',
+                                        title: new Text("体重(kg)"),
+                                        onConfirm: (Picker picker, List value) {
+                                          bloc.weightClickHeight(picker.getSelectedValues());
+                                        }).showDialog(context)
                                   },
                                 if (index == 5)
                                   {

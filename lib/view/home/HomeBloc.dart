@@ -11,10 +11,10 @@ class HomeBloc extends BlocBase with LoggingMixin {
   HomeBloc(BuildContext context, Store store) : super(context, store);
   bool show = false;
 
-  String get name => state.auth.name;
+  String get name => state.auth.name != null ? state.auth.name : '访客' ;
 
   void startup() {
-    if (name == "--") {
+    if (name == "访客") {
       getUser();
     }
   }

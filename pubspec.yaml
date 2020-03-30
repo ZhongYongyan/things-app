@@ -38,7 +38,8 @@ dependencies:
   flutter_blue: ^0.6.3+1
   flutter_webview_plugin: ^0.3.10+1
   auto_orientation: ^1.0.6
-
+  flutter_picker:
+    git: git://github.com/yangyxd/flutter_picker.git
 dev_dependencies:
   flutter_test:
     sdk: flutter
