@@ -188,8 +188,8 @@ class DatailsBloc extends BlocBase with LoggingMixin {
 
   void addAffiliate() async {
     addAffiliateShow = true;
-    if (usernameController.text == "" || nameEmpty) {
-      if(nameEmpty) {
+    if (usernameController.text == "" || usernameController.text.length > 8) {
+      if(usernameController.text.length > 8) {
         toast('昵称限制8位');
         return;
       }

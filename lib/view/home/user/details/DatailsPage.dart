@@ -248,7 +248,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                       //height: 20,
                                                       alignment:
                                                           Alignment.centerRight,
-                                                      width: 80,
+                                                      width: 140,
                                                       child: TextFormField(
                                                         textAlign:
                                                             TextAlign.right,
@@ -287,6 +287,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                                       0xFFcccccc)),
                                                         ),
                                                         validator: (value) {
+                                                          print(value.length);
                                                           if (value.length > 8) {
                                                             bloc.nameEmpty = true;
                                                           } else {
