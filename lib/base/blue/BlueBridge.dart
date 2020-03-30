@@ -275,6 +275,7 @@ class BlueBridge {
       _postMessage(msg.failure('not_connect', '设备未连接'));
     } else {
       _blueService.startListen((data) {
+        _log.info('receive: $data');
         if (data[0] == 0xAA && data[1] == 0xFF) {
           _log.info('私有蓝牙协议响应: $data');
 
