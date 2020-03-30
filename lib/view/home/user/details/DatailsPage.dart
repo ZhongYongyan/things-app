@@ -287,12 +287,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                                       0xFFcccccc)),
                                                         ),
                                                         validator: (value) {
-                                                          print(value.length);
-                                                          if (value.length > 8) {
-                                                            bloc.nameEmpty = true;
-                                                          } else {
-                                                            bloc.nameEmpty = false;
-                                                          }
+                                                          
                                                         },
                                                       ),
                                                     )
