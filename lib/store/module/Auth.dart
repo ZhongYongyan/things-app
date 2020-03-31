@@ -9,7 +9,7 @@ AuthActions authActions = AuthActions();
 
 class AuthState extends Persistable with StorageMixin, LoggingMixin {
   String accessToken = "";
-  String userName = "--";
+  String userName = "访客";
 
   bool get isAuth {
     return isNotEmpty(accessToken);

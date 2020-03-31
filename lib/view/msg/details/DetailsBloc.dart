@@ -9,7 +9,7 @@ class MsgDetailsBloc extends BlocBase with LoggingMixin {
   MsgDetailsBloc(BuildContext context, Store store) : super(context, store);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   static const String head =
-      '''<!DOCTYPE html><html> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/2.1.2/weui.min.css"><link rel="stylesheet" href="https://at.alicdn.com/t/font_1538853_7adh1rzr8ao.css"> <head><title>Navigation Delegate Example</title></head> <body><div class="con">''';
+      '''<!DOCTYPE html><html> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/2.1.2/weui.min.css"><link rel="stylesheet" href="https://at.alicdn.com/t/font_1538853_7adh1rzr8ao.css"> <head><title>Navigation Delegate Example</title></head> <body><div class="con">''';
   static const String food = '''<div class="topBoder"></div></div></body>
 <style>
 img{
