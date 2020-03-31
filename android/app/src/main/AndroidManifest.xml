@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shifen.things">
+    package="cn.shifen.things">
     <!-- 联网 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 使用存储卡 -->

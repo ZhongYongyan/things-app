@@ -1,4 +1,4 @@
-package com.shifen.things
+package cn.shifen.things
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

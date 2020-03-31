@@ -1,10 +1,12 @@
 import 'package:app/base/api/AffiliateApis.dart';
+import 'package:app/base/plugin/PluginManager.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Page.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/store/module/Auth.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 
 class HomeBloc extends BlocBase with LoggingMixin {
@@ -17,6 +19,11 @@ class HomeBloc extends BlocBase with LoggingMixin {
     if (name == "--") {
       getUser();
     }
+
+    PluginManager pluginManager = PluginManager();
+    pluginManager.download().then((value) {
+      log.info('download success');
+    });
   }
 
   void to() {
@@ -26,9 +33,11 @@ class HomeBloc extends BlocBase with LoggingMixin {
   void add() {
     navigate.pushNamed('/management');
   }
+
   void toPlugin() {
     navigate.pushNamed('/plugin');
   }
+
   void getUser() async {
     Result<Page> response = await AffiliateApis.getAffiliate(1, 10, "ASC");
     bool code = response.success;
