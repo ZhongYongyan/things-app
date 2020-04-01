@@ -4,6 +4,7 @@ import 'dart:ffi';
 
 import 'package:app/base/blue/BlueBridge.dart';
 import 'package:app/base/blue/Message.dart';
+import 'package:app/base/plugin/PluginManager.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/store/module/Auth.dart';
@@ -18,16 +19,26 @@ class PluginBloc extends BlocBase with LoggingMixin {
   static final flutterWebviewPlugin = new FlutterWebviewPlugin();
   final blueBridge = new BlueBridge(flutterWebviewPlugin);
   var loading = false;
+  String pluginUrl;
 
   void init() {
+    flutterWebviewPlugin.clearCache();
     flutterWebviewPlugin.close();
+
+    computedPluginUrl().then((url) {
+      log.info('pluginUrl: $url');
+      setModel(() {
+        pluginUrl = url;
+      });
+
+      //flutterWebviewPlugin.reloadUrl(url);
+    });
 
     var loadLocalFile = false;
     flutterWebviewPlugin.onStateChanged.listen((viewState) async {
       this.setModel(() {
         loading = true;
       });
-
 
       if (viewState.type == WebViewState.finishLoad) {
         log.info('WebViewState.finishLoad');
@@ -70,5 +81,13 @@ class PluginBloc extends BlocBase with LoggingMixin {
 
   void toBack() {
     navigate.pop();
+    flutterWebviewPlugin.clearCache();
+    flutterWebviewPlugin.close();
+  }
+
+  Future<String> computedPluginUrl() async {
+    PluginManager pluginManager = PluginManager();
+    // return pluginManager.download();
+    return 'https://www.baidu.com/';
   }
 }

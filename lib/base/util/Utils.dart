@@ -17,3 +17,11 @@ String random() {
   }
   return left;
 }
+
+bool isEmpty(String value) {
+  return value == null || value.isEmpty;
+}
+
+bool nonEmpty(String value) {
+  return !isEmpty(value);
+}

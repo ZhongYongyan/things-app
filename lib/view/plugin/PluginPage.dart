@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app/base/util/BlocUtils.dart';
+import 'package:app/base/util/Utils.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/plugin/PluginBloc.dart';
 import 'package:auto_orientation/auto_orientation.dart';
@@ -35,54 +36,62 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   _pageBody() {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: new WebviewScaffold(
-        javascriptChannels: [
-          JavascriptChannel(
-              name: 'BlueNative',
-              onMessageReceived: (JavascriptMessage message) {
-                bloc.blueBridge.handleMessage(message.message);
-              }),
-          JavascriptChannel(
-              name: 'PluginNative',
-              onMessageReceived: (JavascriptMessage message) {
-                bloc.handleNavigate(message.message);
-              }),
-        ].toSet(),
-        url: 'https://www.baidu.com/',
-        withZoom: true,
-        withLocalStorage: true,
-        hidden: true,
-        ignoreSSLErrors: true,
-        withJavascript: true,
-        allowFileURLs: true,
-        appBar: bloc.loading
-            ? AppBar(
-                elevation: 0,
-                brightness: Brightness.light,
-                centerTitle: true,
-                leading: new IconButton(
-                  icon: Container(
-                    margin: const EdgeInsets.only(top: 2.0),
-                    child: Image(
-                      image: AssetImage("assets/back.png"),
-                      fit: BoxFit.cover,
-                      width: 22,
-                      height: 22,
-                    ),
-                  ),
-                  onPressed: () {
-                    bloc.toBack();
-                  },
+      body: nonEmpty(bloc.pluginUrl)
+          ? new WebviewScaffold(
+              javascriptChannels: [
+                JavascriptChannel(
+                    name: 'BlueNative',
+                    onMessageReceived: (JavascriptMessage message) {
+                      bloc.blueBridge.handleMessage(message.message);
+                    }),
+                JavascriptChannel(
+                    name: 'PluginNative',
+                    onMessageReceived: (JavascriptMessage message) {
+                      bloc.handleNavigate(message.message);
+                    }),
+              ].toSet(),
+//        url: 'https://www.baidu.com/',
+              url: bloc.pluginUrl,
+              withZoom: true,
+              withLocalStorage: true,
+              hidden: true,
+              ignoreSSLErrors: true,
+              withJavascript: true,
+              allowFileURLs: true,
+              appBar: bloc.loading
+                  ? AppBar(
+                      elevation: 0,
+                      brightness: Brightness.light,
+                      centerTitle: true,
+                      leading: new IconButton(
+                        icon: Container(
+                          margin: const EdgeInsets.only(top: 2.0),
+                          child: Image(
+                            image: AssetImage("assets/back.png"),
+                            fit: BoxFit.cover,
+                            width: 22,
+                            height: 22,
+                          ),
+                        ),
+                        onPressed: () {
+                          bloc.toBack();
+                        },
+                      ),
+                    )
+                  : null,
+              initialChild: Container(
+                color: Colors.white,
+                child: const Center(
+                  child: Text('加载中...'),
                 ),
-              )
-            : null,
-        initialChild: Container(
-          color: Colors.white,
-          child: const Center(
-            child: Text('Waiting.....'),
-          ),
-        ),
-      ),
+              ),
+            )
+          : Container(
+              color: Colors.white,
+              child: const Center(
+                child: Text('加载中...'),
+              ),
+            ),
     );
   }
 }

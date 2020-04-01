@@ -19,11 +19,6 @@ class HomeBloc extends BlocBase with LoggingMixin {
     if (name == "访客") {
       getUser();
     }
-
-//    PluginManager pluginManager = PluginManager();
-//    pluginManager.download().then((value) {
-//      log.info('download success');
-//    });
   }
 
   void to() {
