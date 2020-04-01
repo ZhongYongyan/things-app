@@ -13,17 +13,17 @@ class HomeBloc extends BlocBase with LoggingMixin {
   HomeBloc(BuildContext context, Store store) : super(context, store);
   bool show = false;
 
-  String get name => state.auth.name != null ? state.auth.name : '访客' ;
+  String get name => state.auth.name != null ? state.auth.name : '访客';
 
   void startup() {
     if (name == "访客") {
       getUser();
     }
 
-    PluginManager pluginManager = PluginManager();
-    pluginManager.download().then((value) {
-      log.info('download success');
-    });
+//    PluginManager pluginManager = PluginManager();
+//    pluginManager.download().then((value) {
+//      log.info('download success');
+//    });
   }
 
   void to() {

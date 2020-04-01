@@ -8,6 +8,7 @@ class BlueService {
   BluetoothCharacteristic _notifyCharacteristic;
   BluetoothDevice _device;
   StreamSubscription<List<int>> notifyListen;
+  List<int> _received = List<int>();
 
   /// 发送命令队列
   List<List<int>> _queue = List();
@@ -39,7 +40,16 @@ class BlueService {
           _notifyCharacteristic.setNotifyValue(true);
           notifyListen = _notifyCharacteristic.value.listen((value) {
             if (value != null && value.length > 0) {
-              onData(value);
+              _received.addAll(value);
+
+              List<List<int>> commands = _handleReceived(
+                  _received.getRange(0, _received.length).toList());
+              commands.forEach((command) {
+                _received.removeRange(0, command.length);
+                Future.delayed(Duration(milliseconds: 10), () {
+                  onData(command);
+                });
+              });
             }
           });
           queueWrite();
@@ -107,5 +117,36 @@ class BlueService {
       print('${characteristic.uuid} characteristic:notify');
       _notifyCharacteristic = characteristic;
     }
+  }
+
+  List<List<int>> _handleReceived(List<int> received) {
+    List<List<int>> commands = new List<List<int>>();
+    List<int> data = List<int>();
+    bool start = false;
+    while (received.isNotEmpty) {
+      int byte = received.removeAt(0);
+      if (start) {
+        if (byte == 0x0D) {
+          if (received.isNotEmpty && received[0] == 0x0A) {
+            data.add(byte);
+            data.add(received.removeAt(0));
+
+            commands.add(data.getRange(0, data.length).toList());
+
+            start = false;
+            data.clear();
+          } else {
+            data.add(byte);
+          }
+        } else {
+          data.add(byte);
+        }
+      } else if (byte == 0xAA && received[0] == 0x55) {
+        start = true;
+        data.add(byte);
+      }
+    }
+
+    return commands;
   }
 }
