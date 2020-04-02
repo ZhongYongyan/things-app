@@ -217,7 +217,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     });
     var data = affiliateModel.birthday.substring(0, 10);
     affiliateModel.birthday = data.replaceAll('-', '/') + ' 23:23:23';
-    print(affiliateModel);
+    affiliateModel.nickname = usernameController.text;
     Result<Affiliate> response =
         await AffiliateApis.modifyAffiliate(affiliateModel);
     bool code = response.success;
