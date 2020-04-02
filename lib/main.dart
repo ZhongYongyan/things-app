@@ -28,47 +28,50 @@ void main() async {
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    Getuiflut.initGetuiSdk;
+  } else {
+    Getuiflut().startSdk(
+        appId: "itTyNzKYEQ71ojvDiBnNe9",
+        appKey: "MTSHNGakyO7wB9fKNGPlM4",
+        appSecret: "j0HkdyX31l9Xr8MJgqmWH9"
+    );
+    Getuiflut().addEventHandler(
+      onReceiveClientId: (String message) async {
+        print("flutter onReceiveClientId+++++++++++++++++++++++: $message"); // 注册收到 cid 的回调
+
+      },
+      onRegisterDeviceToken: (String message) async {
+        print("flutter onRegisterDeviceToken+++++++++++++++++++++++: $message"); // 注册收到 cid 的回调
+      },
+      onReceivePayload: (Map<String, dynamic> message) async {
+
+      },
+      onReceiveNotificationResponse: (Map<String, dynamic> message) async {
+
+      },
+      onAppLinkPayload: (String message) async {
+
+      },
+      onRegisterVoipToken: (String message) async {
+
+      },
+      onReceiveVoipPayLoad: (Map<String, dynamic> message) async {
+
+      },
+      onReceiveMessageData: (Map<String, dynamic> msg) async {
+        print("flutter onReceiveMessageData: $msg"); // 透传消息的内容都会走到这里
+
+      },
+      onNotificationMessageArrived: (Map<String, dynamic> msg) async {
+        print("flutter onNotificationMessageArrived"); // 消息到达的回调
+
+      },
+      onNotificationMessageClicked: (Map<String, dynamic> msg) async {
+        print("flutter onNotificationMessageClicked"); // 消息点击的回调
+      },
+    );
   }
-  Getuiflut().startSdk(
-      appId: "itTyNzKYEQ71ojvDiBnNe9",
-      appKey: "MTSHNGakyO7wB9fKNGPlM4",
-      appSecret: "j0HkdyX31l9Xr8MJgqmWH9"
-  );
-  Getuiflut().addEventHandler(
-    onReceiveClientId: (String message) async {
-      print("flutter onReceiveClientId+++++++++++++++++++++++: $message"); // 注册收到 cid 的回调
 
-    },
-    onRegisterDeviceToken: (String message) async {
-      print("flutter onRegisterDeviceToken+++++++++++++++++++++++: $message"); // 注册收到 cid 的回调
-    },
-    onReceivePayload: (Map<String, dynamic> message) async {
-
-    },
-    onReceiveNotificationResponse: (Map<String, dynamic> message) async {
-
-    },
-    onAppLinkPayload: (String message) async {
-
-    },
-    onRegisterVoipToken: (String message) async {
-
-    },
-    onReceiveVoipPayLoad: (Map<String, dynamic> message) async {
-
-    },
-    onReceiveMessageData: (Map<String, dynamic> msg) async {
-      print("flutter onReceiveMessageData: $msg"); // 透传消息的内容都会走到这里
-
-    },
-    onNotificationMessageArrived: (Map<String, dynamic> msg) async {
-      print("flutter onNotificationMessageArrived"); // 消息到达的回调
-
-    },
-    onNotificationMessageClicked: (Map<String, dynamic> msg) async {
-      print("flutter onNotificationMessageClicked"); // 消息点击的回调
-    },
-  );
 }
 
 class MyApp extends StatelessWidget {
