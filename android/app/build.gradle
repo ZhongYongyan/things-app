@@ -44,6 +44,22 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "itTyNzKYEQ71ojvDiBnNe9",
+                GETUI_APP_KEY   : "MTSHNGakyO7wB9fKNGPlM4",
+                GETUI_APP_SECRET: "j0HkdyX31l9Xr8MJgqmWH9",
+                // 下面是多厂商配置，如需要开通使用请联系技术支持
+                // 如果不需要使用，预留空字段即可
+                XIAOMI_APP_ID   : "",
+                XIAOMI_APP_KEY  : "",
+                MEIZU_APP_ID    : "",
+                MEIZU_APP_KEY   : "",
+                HUAWEI_APP_ID   : "",
+                OPPO_APP_KEY   : "",
+                OPPO_APP_SECRET  : "",
+                VIVO_APP_ID   : "",
+                VIVO_APP_KEY  : ""
+        ]
     }
 
     buildTypes {
