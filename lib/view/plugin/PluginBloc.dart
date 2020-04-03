@@ -87,7 +87,7 @@ class PluginBloc extends BlocBase with LoggingMixin {
 
   Future<String> computedPluginUrl() async {
     PluginManager pluginManager = PluginManager();
-    // return pluginManager.download();
-    return 'https://www.baidu.com/';
+    return pluginManager.download();
+//    return 'https://www.baidu.com/';
   }
 }

@@ -46,6 +46,6 @@ class PluginManager {
     _log.info('解压成功, destinationDir: $destinationDir');
 
     _log.info('download success, path: ${zipFile.path}');
-    return 'file://' + indexFile.path;
+    return 'file://' + indexFile.path + "#/connectBlue";
   }
 }
