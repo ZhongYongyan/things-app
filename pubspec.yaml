@@ -41,7 +41,7 @@ dependencies:
   flutter_archive: ^0.1.4
   flutter_picker:
     git: git://github.com/yangyxd/flutter_picker.git
-
+  getuiflut: ^0.1.8
 dev_dependencies:
   flutter_test:
     sdk: flutter

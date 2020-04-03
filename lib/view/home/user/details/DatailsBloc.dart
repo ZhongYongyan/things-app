@@ -217,7 +217,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     });
     var data = affiliateModel.birthday.substring(0, 10);
     affiliateModel.birthday = data.replaceAll('-', '/') + ' 23:23:23';
-    print(affiliateModel);
+    affiliateModel.nickname = usernameController.text;
     Result<Affiliate> response =
         await AffiliateApis.modifyAffiliate(affiliateModel);
     bool code = response.success;
@@ -243,6 +243,11 @@ class DatailsBloc extends BlocBase with LoggingMixin {
           textColor: Colors.white,
           fontSize: 16.0);
       print(message);
+      if(title == "用户详情") {
+        setModel(() {
+          addAffiliateShow = false;
+        });
+      }
     }
   }
 
