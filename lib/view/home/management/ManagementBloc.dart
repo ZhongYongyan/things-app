@@ -1,8 +1,12 @@
 import 'package:app/base/api/DeviceModelAllApis.dart';
+import 'package:app/base/api/SoftwareApis.dart';
 import 'package:app/base/entity/DeviceModelAll.dart';
+import 'package:app/base/entity/Software.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
+import 'package:app/base/util/Result.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
 
 class ManagementBloc extends BlocBase with LoggingMixin {
@@ -17,13 +21,36 @@ class ManagementBloc extends BlocBase with LoggingMixin {
   var index = 0;
   bool indexshow = true;
   var text = "按摩椅";
-
+  bool loadShow = false;
   void back() {
     navigate.pop();
   }
 
   void startup() {
     //retrieveData();
+  }
+  void onGetUrlDetails(DeviceModel item) async {
+    log.info(item.id);
+    setModel(() {
+      loadShow = true;
+    });
+    Result<Software> response = await SoftwareApis.getSoftware(item.id);
+    bool code = response.success;
+    setModel(() {
+      loadShow = false;
+    });
+    //错误处理
+    if(!code) {
+      Fluttertoast.showToast(
+          msg: "设备未配置",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    }
+    navigate.pushNamed('/plugin', arguments: {"url": response.data.url});
   }
 
   void onToDetails(int i) async {

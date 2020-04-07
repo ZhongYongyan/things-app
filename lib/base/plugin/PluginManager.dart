@@ -15,7 +15,7 @@ class PluginManager {
     return await pluginsDir.create(recursive: true);
   }
 
-  Future<String> download() async {
+  Future<String> download(String url) async {
     Directory directory = await pluginDirectory();
     File zipFile = File(directory.path + '/things-plugin-a800.zip');
     if (zipFile.existsSync()) {
@@ -38,7 +38,7 @@ class PluginManager {
     _log.info('destinationDir: $destinationDir');
 
     Response response = await _dio.download(
-        "http://dev.mp.hswl007.com/things-plugin-a800.zip", zipFile.path);
+        url, zipFile.path);
 
     await FlutterArchive.unzip(
         zipFile: zipFile, destinationDir: destinationDir);

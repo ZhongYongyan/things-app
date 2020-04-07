@@ -23,12 +23,14 @@ class _State extends BlocState<PluginPage, PluginBloc> {
 
   @override
   PluginBloc createBloc(Store<StoreState> store) {
-    log.info('createBloc');
     return PluginBloc(context, store)..init();
   }
 
   @override
   Widget createWidget(BuildContext context) {
+    var args = ModalRoute.of(context).settings.arguments as Map;
+    var url = args["url"];
+    bloc.getPluginUrl(url);
     Widget body = _pageBody();
     return body;
   }

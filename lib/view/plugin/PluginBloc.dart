@@ -20,17 +20,16 @@ class PluginBloc extends BlocBase with LoggingMixin {
   final blueBridge = new BlueBridge(flutterWebviewPlugin);
   var loading = false;
   String pluginUrl;
+  void init() {}
 
-  void init() {
+  void getPluginUrl(String pluginUrl) {
     flutterWebviewPlugin.clearCache();
     flutterWebviewPlugin.close();
-
-    computedPluginUrl().then((url) {
+    computedPluginUrl(pluginUrl).then((url) {
       log.info('pluginUrl: $url');
       setModel(() {
         pluginUrl = url;
       });
-
       //flutterWebviewPlugin.reloadUrl(url);
     });
 
@@ -85,9 +84,9 @@ class PluginBloc extends BlocBase with LoggingMixin {
     flutterWebviewPlugin.close();
   }
 
-  Future<String> computedPluginUrl() async {
+  Future<String> computedPluginUrl(String url) async {
     PluginManager pluginManager = PluginManager();
-    return pluginManager.download();
+    return pluginManager.download(url);
 //    return 'https://www.baidu.com/';
   }
 }
