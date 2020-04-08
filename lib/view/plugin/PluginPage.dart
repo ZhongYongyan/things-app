@@ -29,7 +29,7 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   @override
   Widget createWidget(BuildContext context) {
     var args = ModalRoute.of(context).settings.arguments as Map;
-    var url = args["url"];
+    var url = args["url"] ? args["url"] : 'http://dev.mp.hswl007.com/things-plugin-a800.zip';
     bloc.getPluginUrl(url);
     Widget body = _pageBody();
     return body;
