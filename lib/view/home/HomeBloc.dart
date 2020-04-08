@@ -30,7 +30,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
   }
 
   void toPlugin() {
-    navigate.pushNamed('/plugin');
+    navigate.pushNamed('/plugin', arguments: {"url": ""});
   }
 
   void getUser() async {
