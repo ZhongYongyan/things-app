@@ -31,6 +31,13 @@ class InformationBloc extends BlocBase with LoggingMixin {
     Result<Page> response = await InfoSortApis.getInfoSort(1, 10, "ASC");
     bool code = response.success;
     //错误处理
+    if(code) {
+      log.info("资讯请求出错",response.message);
+      setModel(() {
+        indexshow = false;
+      });
+      return;
+    }
     setModel(() {
       textList = response.data.items;
       sortId = response.data.items.first.id;
