@@ -31,7 +31,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
     Result<Page> response =
         await MemberNewsApis.getMemberNews(indexPage, 10, "ASC");
     bool code = response.success;
-    if(code) {
+    if(!code) {
       log.info("消息请求出错",response.message);
       setModel(() {
         indexshow = false;
