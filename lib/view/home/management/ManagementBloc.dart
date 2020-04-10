@@ -42,10 +42,10 @@ class ManagementBloc extends BlocBase with LoggingMixin {
     //错误处理
     if(!code) {
       Fluttertoast.showToast(
-          msg: "设备未配置",
+          msg: "没有找到插件，请与系统管理员联系",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
+          timeInSecForIos: 2,
           textColor: Colors.white,
           fontSize: 16.0);
       return;
