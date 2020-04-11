@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app/base/api/InfoSortApis.dart';
 import 'package:app/base/util/BlocUtils.dart';
+import 'package:app/base/util/Result.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/information/details/DetailsBloc.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,7 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
     var model = args["model"];
     bloc.infoModel = model;
     bloc.setUI();
+
     Widget body = _pageBody();
     return body;
   }
