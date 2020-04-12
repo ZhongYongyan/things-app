@@ -87,30 +87,30 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                       ),
                     )),
               ),
-              Positioned(
-                left: 0.0,
-                top: 40,
-                right: 0,
-                height: 31,
-                child: Opacity(
-                  opacity: 0.6,
-                  child: ClipRRect(
-                    //剪裁为圆角矩形
-                    borderRadius: BorderRadius.circular(0.0),
-                    child: Container(
-                      color: Colors.black,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "蓝牙未打开",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+//              Positioned(
+//                left: 0.0,
+//                top: 40,
+//                right: 0,
+//                height: 31,
+//                child: Opacity(
+//                  opacity: 0.6,
+//                  child: ClipRRect(
+//                    //剪裁为圆角矩形
+//                    borderRadius: BorderRadius.circular(0.0),
+//                    child: Container(
+//                      color: Colors.black,
+//                      alignment: Alignment.center,
+//                      child: Text(
+//                        "蓝牙未打开",
+//                        style: TextStyle(color: Colors.white, fontSize: 12),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//              ),
               Positioned(
                   left: 0.0,
-                  top: 71,
+                  top: 40,
                   bottom: 0,
                   width: 80,
                   child: Container(
@@ -286,6 +286,20 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
 //                  ),
 //                ),
                   ),
+
+                  bloc.loadShow ? Positioned(
+                  left: 0,
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(0),
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                        width: 24.0,
+                        height: 24.0,
+                        child: CircularProgressIndicator(strokeWidth: 2.0)),
+                  )) : Container()
             ],
           ),
         ),
@@ -299,18 +313,19 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
       alignment: Alignment.center,
       //指定未定位或部分定位widget的对齐方式
       children: <Widget>[
-        Flex(
-          direction: Axis.vertical,
-          children: <Widget>[
-            Container(
-              //color: Color(0xFFF8F8F8),
-              child: Image.network(
-                item.modelIcon,
-                width: 36,
-                height: 36,
-                fit: BoxFit.cover,
+        GestureDetector(
+          child: Flex(
+            direction: Axis.vertical,
+            children: <Widget>[
+              Container(
+                //color: Color(0xFFF8F8F8),
+                child: Image.network(
+                  item.modelIcon,
+                  width: 36,
+                  height: 36,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
 //            Container(
 //              margin: EdgeInsets.only(top: 5),
 //              child: Text("SL-A100",
@@ -322,22 +337,25 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
 //                    fontSize: 12,
 //                  )),
 //            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                margin: EdgeInsets.only(top: 5),
-                child: Text(item.modelName,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFFA2A2A6),
-                      fontSize: 12,
-                    )),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.only(top: 5),
+                  child: Text(item.modelName,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFFA2A2A6),
+                        fontSize: 12,
+                      )),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+          onTap: () => bloc.onGetUrlDetails(item),//点击
         ),
+
       ],
     );
   }

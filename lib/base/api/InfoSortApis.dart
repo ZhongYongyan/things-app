@@ -24,6 +24,17 @@ class InfoSortApis {
       return Result(name: err.type.toString(), message: err.message);
     }
   }
+  static Future<Result<Info>> getDelInfoSort(int id
+      ) async {
+    try {
+      Response response = await apiRequest.get('/info/$id');
+      Result<Info> entity =
+      Result.fromJson(response.data, (data) => Info.fromJson(data));
+      return entity;
+    } on DioError catch (err) {
+      return Result(name: err.type.toString(), message: err.message);
+    }
+  }
 
   static Future<Result<Page<Info>>> getInfo(
       int pageIndex, int pageSize, String sortDirection, int sortId) async {

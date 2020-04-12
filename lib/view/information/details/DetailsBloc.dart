@@ -1,6 +1,9 @@
+import 'package:app/base/api/InfoSortApis.dart';
 import 'package:app/base/entity/Info.dart';
+import 'package:app/base/entity/InfoSort.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
+import 'package:app/base/util/Result.dart';
 import 'package:app/base/util/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
@@ -117,7 +120,16 @@ p{
   void toBack() {
     navigate.pop();
   }
-
+  void getDelInfoSort(int id) async {
+//    Result<Info> response = await InfoSortApis.getDelInfoSort(id);
+//    bool code = response.success;
+//    if(code){
+//      infoModel = response.data;
+//      setUI();
+//    } else {
+//      print("失败了");
+//    }
+  }
   void to(String text) {
     scaffoldKey.currentState.showSnackBar(
       SnackBar(

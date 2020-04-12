@@ -13,6 +13,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
   @override
   void initState() {
     super.initState();
+
     //_retrieveData();
   }
 
