@@ -420,9 +420,9 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                   )),
                                             )))),
                     staggeredTileBuilder: (int index) => index == 0
-                        ? new StaggeredTile.count(4, 2.5)
+                        ? new StaggeredTile.fit(4)
                         : index == 1
-                            ? new StaggeredTile.count(4, 1.3)
+                            ? new StaggeredTile.fit(4)
                             : new StaggeredTile.count(2, 1.1),
                     mainAxisSpacing: 15.0,
                     crossAxisSpacing: 15.0,
