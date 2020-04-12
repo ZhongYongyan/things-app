@@ -85,7 +85,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                   child: new StaggeredGridView.countBuilder(
                     padding: const EdgeInsets.only(top: 0),
                     crossAxisCount: 4,
-                    itemCount: 8,
+                    itemCount: 2 + bloc.DeviceVoModel.devices.length,
                     itemBuilder: (BuildContext context, int index) =>
                         new Container(
                             child: new Container(
@@ -231,7 +231,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                             ),
                                           )
                                         : GestureDetector(
-                                            onTap: () => bloc.toPlugin(),
+                                            onTap: () => bloc.toPlugin(index),
                                             child: Container(
                                               margin: index.isEven
                                                   ? const EdgeInsets.only(
@@ -299,7 +299,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                           alignment:
                                                                               Alignment.bottomCenter,
                                                                           child: Text(
-                                                                              "SL-A100",
+                                                                              bloc.DeviceVoModel.deviceModels[index - 2].modelName,
                                                                               maxLines: 1,
                                                                               overflow: TextOverflow.ellipsis,
                                                                               textAlign: TextAlign.center,
@@ -316,7 +316,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                           alignment:
                                                                               Alignment.bottomCenter,
                                                                           child: Text(
-                                                                              "AI太空椅",
+                                                                              bloc.DeviceVoModel.deviceSorts[index - 2].sortName,
                                                                               maxLines: 1,
                                                                               overflow: TextOverflow.ellipsis,
                                                                               textAlign: TextAlign.center,
@@ -341,14 +341,16 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                             .end,
                                                                     children: <
                                                                         Widget>[
-                                                                      Image(
-                                                                        image: AssetImage(
-                                                                            "assets/yizi.png"),
-                                                                        width:
-                                                                            36.0,
-                                                                        height:
-                                                                            36.0,
+                                                                      Container(
+                                                                        //color: Color(0xFFF8F8F8),
+                                                                        child: Image.network(
+                                                                          bloc.DeviceVoModel.deviceModels[index - 2].modelIcon,
+                                                                          width: 36,
+                                                                          height: 36,
+                                                                          fit: BoxFit.cover,
+                                                                        ),
                                                                       ),
+
                                                                       Expanded(
                                                                         flex: 1,
                                                                         child:
@@ -366,17 +368,17 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                                 right: 5,
                                                                               ),
                                                                               child: Image(
-                                                                                image: index.isEven ? AssetImage("assets/ok.png") : AssetImage("assets/on.png"),
+                                                                                image: bloc.DeviceVoModel.devices[index - 2].statusCode == "ONLINE" ? AssetImage("assets/ok.png") : AssetImage("assets/on.png"),
                                                                                 width: 13.0,
                                                                                 height: 13.0,
                                                                               ),
                                                                             ),
-                                                                            Text(index.isEven ? "在线" : '离线',
+                                                                            Text(bloc.DeviceVoModel.devices[index - 2].statusCode == "ONLINE" ? "在线" : '离线',
                                                                                 maxLines: 1,
                                                                                 overflow: TextOverflow.ellipsis,
                                                                                 textAlign: TextAlign.left,
                                                                                 style: TextStyle(
-                                                                                  color: index.isEven ? Color(0xFF3578F7) : Color(0xFFCDCDCD),
+                                                                                  color: bloc.DeviceVoModel.devices[index - 2].statusCode == "ONLINE" ? Color(0xFF3578F7) : Color(0xFFCDCDCD),
                                                                                   fontSize: 12,
                                                                                 )),
                                                                           ],
@@ -427,6 +429,20 @@ class _State extends BlocState<HomePage, HomeBloc> {
                   ),
                 ),
               ),
+
+              bloc.loadShow ? Positioned(
+                  left: 0,
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(0),
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                        width: 24.0,
+                        height: 24.0,
+                        child: CircularProgressIndicator(strokeWidth: 2.0)),
+                  )) : Container()
             ],
           ),
         ),

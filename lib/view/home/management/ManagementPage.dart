@@ -87,30 +87,30 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                       ),
                     )),
               ),
-              Positioned(
-                left: 0.0,
-                top: 40,
-                right: 0,
-                height: 31,
-                child: Opacity(
-                  opacity: 0.6,
-                  child: ClipRRect(
-                    //剪裁为圆角矩形
-                    borderRadius: BorderRadius.circular(0.0),
-                    child: Container(
-                      color: Colors.black,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "蓝牙未打开",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+//              Positioned(
+//                left: 0.0,
+//                top: 40,
+//                right: 0,
+//                height: 31,
+//                child: Opacity(
+//                  opacity: 0.6,
+//                  child: ClipRRect(
+//                    //剪裁为圆角矩形
+//                    borderRadius: BorderRadius.circular(0.0),
+//                    child: Container(
+//                      color: Colors.black,
+//                      alignment: Alignment.center,
+//                      child: Text(
+//                        "蓝牙未打开",
+//                        style: TextStyle(color: Colors.white, fontSize: 12),
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//              ),
               Positioned(
                   left: 0.0,
-                  top: 71,
+                  top: 40,
                   bottom: 0,
                   width: 80,
                   child: Container(
