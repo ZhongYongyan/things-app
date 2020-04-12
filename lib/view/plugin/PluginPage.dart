@@ -19,6 +19,15 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   @override
   void initState() {
     // AutoOrientation.landscapeAutoMode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      log.info('addPostFrameCallback');
+      var args = ModalRoute.of(context).settings.arguments as Map;
+      var url = args["url"] != ""
+          ? args["url"]
+          : 'http://dev.mp.hswl007.com/things-plugin-a800.zip';
+      bloc.loadPlugin(url);
+    });
   }
 
   @override
@@ -28,9 +37,6 @@ class _State extends BlocState<PluginPage, PluginBloc> {
 
   @override
   Widget createWidget(BuildContext context) {
-    var args = ModalRoute.of(context).settings.arguments as Map;
-    var url = args["url"] != "" ? args["url"] : 'http://dev.mp.hswl007.com/things-plugin-a800.zip';
-    bloc.getPluginUrl(url);
     Widget body = _pageBody();
     return body;
   }
@@ -38,7 +44,7 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   _pageBody() {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: nonEmpty(bloc.pluginUrl)
+      body: nonEmpty(bloc.pluginPath)
           ? new WebviewScaffold(
               javascriptChannels: [
                 JavascriptChannel(
@@ -53,7 +59,7 @@ class _State extends BlocState<PluginPage, PluginBloc> {
                     }),
               ].toSet(),
 //        url: 'https://www.baidu.com/',
-              url: bloc.pluginUrl,
+              url: bloc.pluginPath,
               withZoom: true,
               withLocalStorage: true,
               hidden: true,

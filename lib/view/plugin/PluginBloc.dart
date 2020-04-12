@@ -19,21 +19,19 @@ class PluginBloc extends BlocBase with LoggingMixin {
   static final flutterWebviewPlugin = new FlutterWebviewPlugin();
   final blueBridge = new BlueBridge(flutterWebviewPlugin);
   var loading = false;
-  String pluginUrl;
+  String pluginPath;
   void init() {}
 
-  void getPluginUrl(String pluginUrl) {
+  void loadPlugin(String pluginUrl) {
     flutterWebviewPlugin.clearCache();
     flutterWebviewPlugin.close();
     computedPluginUrl(pluginUrl).then((url) {
       log.info('pluginUrl: $url');
       setModel(() {
-        pluginUrl = url;
+        this.pluginPath = url;
       });
-      //flutterWebviewPlugin.reloadUrl(url);
     });
 
-    var loadLocalFile = false;
     flutterWebviewPlugin.onStateChanged.listen((viewState) async {
       this.setModel(() {
         loading = true;
@@ -45,15 +43,6 @@ class PluginBloc extends BlocBase with LoggingMixin {
         this.setModel(() {
           loading = false;
         });
-
-//        if (!loadLocalFile) {
-//          loadLocalFile = true;
-//          String fileHtmlContents =
-//              await rootBundle.loadString('assets/test.html');
-//          flutterWebviewPlugin.launch(Uri.dataFromString(fileHtmlContents,
-//                  mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
-//              .toString());
-//        }
 
 //        flutterWebviewPlugin.resize(
 //            Rect.fromLTWH(0.0, 0.0, MediaQuery.of(context).size.width, 300.0));
