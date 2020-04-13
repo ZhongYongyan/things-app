@@ -141,7 +141,8 @@ class BlueService {
         } else {
           data.add(byte);
         }
-      } else if (byte == 0xAA && received[0] == 0x55) {
+      } else if ((byte == 0xAA && received[0] == 0x55) ||
+          (byte == 0xAA && received[0] == 0xFF)) {
         start = true;
         data.add(byte);
       }

@@ -343,14 +343,20 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                         Widget>[
                                                                       Container(
                                                                         //color: Color(0xFFF8F8F8),
-                                                                        child: Image.network(
-                                                                          bloc.DeviceVoModel.deviceModels[index - 2].modelIcon,
-                                                                          width: 36,
-                                                                          height: 36,
-                                                                          fit: BoxFit.cover,
+                                                                        child: Image
+                                                                            .network(
+                                                                          bloc
+                                                                              .DeviceVoModel
+                                                                              .deviceModels[index - 2]
+                                                                              .modelIcon,
+                                                                          width:
+                                                                              36,
+                                                                          height:
+                                                                              36,
+                                                                          fit: BoxFit
+                                                                              .cover,
                                                                         ),
                                                                       ),
-
                                                                       Expanded(
                                                                         flex: 1,
                                                                         child:
@@ -429,24 +435,27 @@ class _State extends BlocState<HomePage, HomeBloc> {
                   ),
                 ),
               ),
-
-              bloc.loadShow ? Positioned(
-                  left: 0,
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(0),
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                        width: 24.0,
-                        height: 24.0,
-                        child: CircularProgressIndicator(strokeWidth: 2.0)),
-                  )) : Container()
+              bloc.loadShow
+                  ? Positioned(
+                      left: 0,
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(0),
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                            width: 24.0,
+                            height: 24.0,
+                            child: CircularProgressIndicator(strokeWidth: 2.0)),
+                      ))
+                  : Container()
             ],
           ),
         ),
       ),
     );
   }
+
+  bool get wantKeepAlive => false;
 }
