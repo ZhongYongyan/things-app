@@ -191,7 +191,7 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
 //              ),
               Positioned(
                   left: 80.0,
-                  top: 71,
+                  top: 40,
                   right: 0,
                   bottom: 0,
                   child: Container(
