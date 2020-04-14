@@ -87,11 +87,11 @@ class HomeBloc extends BlocBase with LoggingMixin {
   }
 
   Future<void> toPlugin(int index) async {
-    var id = DeviceVoModel.deviceModels[index-2].id;
+    var modelId = DeviceVoModel.devices[index-2].modelId;
     setModel(() {
       loadShow = true;
     });
-    Result<Software> response = await SoftwareApis.getSoftware(id);
+    Result<Software> response = await SoftwareApis.getSoftware(modelId);
     bool code = response.success;
     setModel(() {
       loadShow = false;
