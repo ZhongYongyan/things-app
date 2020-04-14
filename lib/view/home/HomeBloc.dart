@@ -46,6 +46,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
       },
       onReceiveNotificationResponse: (Map<String, dynamic> message) async {
+        print("flutter 123456onReceiveNotificationResponse: $message");
         var id = message["aps"]["category"];
         _timer = new Timer(const Duration(milliseconds: 400), () {
           vm.getDelInfoSort(int.parse(id));
@@ -61,15 +62,14 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
       },
       onReceiveMessageData: (Map<String, dynamic> msg) async {
-        print("flutter onReceiveMessageData: $msg"); // 透传消息的内容都会走到这里
+
 
       },
       onNotificationMessageArrived: (Map<String, dynamic> msg) async {
-        print("flutter onNotificationMessageArrived"); // 消息到达的回调
 
       },
       onNotificationMessageClicked: (Map<String, dynamic> msg) async {
-        print("flutter onNotificationMessageClicked"); // 消息点击的回调
+
       },
     );
   }
@@ -144,5 +144,21 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
     }
   }
+
+  String findSortName(int sortId)   {
+      var item = this.DeviceVoModel.deviceSorts.firstWhere((item) => item.id == sortId);
+      return item.sortName;
+  }
+
+  String findModelName(int modelId)   {
+    var item = this.DeviceVoModel.deviceModels.firstWhere((item) => item.id == modelId);
+    return item.modelName;
+  }
+
+  String findModelIcon(int modelId)   {
+    var item = this.DeviceVoModel.deviceModels.firstWhere((item) => item.id == modelId);
+    return item.modelIcon;
+  }
+
 
 }

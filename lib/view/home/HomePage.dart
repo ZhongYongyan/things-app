@@ -299,7 +299,8 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                           alignment:
                                                                               Alignment.bottomCenter,
                                                                           child: Text(
-                                                                              bloc.DeviceVoModel.deviceModels[index - 2].modelName,
+                                                                             bloc.findModelName(bloc.DeviceVoModel.devices[index - 2].modelId)
+                                                                              ,
                                                                               maxLines: 1,
                                                                               overflow: TextOverflow.ellipsis,
                                                                               textAlign: TextAlign.center,
@@ -316,7 +317,8 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                           alignment:
                                                                               Alignment.bottomCenter,
                                                                           child: Text(
-                                                                              bloc.DeviceVoModel.deviceSorts[index - 2].sortName,
+                                                                              bloc.findSortName(bloc.DeviceVoModel.devices[index - 2].sortId)
+                                                                              ,
                                                                               maxLines: 1,
                                                                               overflow: TextOverflow.ellipsis,
                                                                               textAlign: TextAlign.center,
@@ -344,7 +346,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                       Container(
                                                                         //color: Color(0xFFF8F8F8),
                                                                         child: Image.network(
-                                                                          bloc.DeviceVoModel.deviceModels[index - 2].modelIcon,
+                                                                          bloc.findModelIcon(bloc.DeviceVoModel.devices[index - 2].modelId),
                                                                           width: 36,
                                                                           height: 36,
                                                                           fit: BoxFit.cover,
