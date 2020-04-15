@@ -283,7 +283,7 @@ class BlueBridge {
             Map<String, dynamic> result = Map();
             result['status'] = data[3];
             result['ip'] = '${data[4]}.${data[5]}.${data[6]}.${data[7]}';
-            _postMessage(_getWiFiStatusMsg.success(json.encode(result)));
+            _postMessage(_getWiFiStatusMsg.success(result));
             _getWiFiStatusMsg = null;
           }
         } else {

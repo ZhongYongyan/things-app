@@ -451,4 +451,6 @@ class _State extends BlocState<HomePage, HomeBloc> {
       ),
     );
   }
+
+  bool get wantKeepAlive => false;
 }

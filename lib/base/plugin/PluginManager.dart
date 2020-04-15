@@ -16,18 +16,21 @@ class PluginManager {
   }
 
   Future<String> download(String url) async {
+    String fileName = url.split('/').last;
+    String folderName = fileName.split('.').first;
+
     Directory directory = await pluginDirectory();
-    File zipFile = File(directory.path + '/things-plugin-a800.zip');
+    File zipFile = File(directory.path + '/' + fileName);
     if (zipFile.existsSync()) {
       zipFile.deleteSync();
     }
 
-    final destinationDir = Directory(directory.path + '/things-plugin-a800');
+    final destinationDir = Directory(directory.path + '/' + folderName);
 
     File indexFile = File(destinationDir.path + '/index.html');
-//    if (indexFile.existsSync()) {
-//      //return 'file://' + indexFile.path;
-//    }
+    if (indexFile.existsSync()) {
+      return 'file://' + indexFile.path + "#/connectBlue";
+    }
 
     if (destinationDir.existsSync()) {
       print("Deleting existing unzip directory: " + destinationDir.path);
@@ -37,8 +40,7 @@ class PluginManager {
     destinationDir.createSync();
     _log.info('destinationDir: $destinationDir');
 
-    Response response = await _dio.download(
-        url, zipFile.path);
+    Response response = await _dio.download(url, zipFile.path);
 
     await FlutterArchive.unzip(
         zipFile: zipFile, destinationDir: destinationDir);
@@ -46,6 +48,7 @@ class PluginManager {
     _log.info('解压成功, destinationDir: $destinationDir');
 
     _log.info('download success, path: ${zipFile.path}');
+    _log.info('${indexFile.path} ${indexFile.existsSync()}');
     return 'file://' + indexFile.path + "#/connectBlue";
   }
 }

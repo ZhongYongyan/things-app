@@ -62,10 +62,6 @@ class MyBloc extends BlocBase with LoggingMixin {
       }
     }
 
-    if (i == 6) {
-      navigate.pushNamed('/plugin', arguments: {"url": ""});
-    }
-
     log.info(i);
     //navigate.pushReplacementNamed('/homeCon');
   }
