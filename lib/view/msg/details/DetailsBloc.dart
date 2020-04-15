@@ -9,7 +9,8 @@ class MsgDetailsBloc extends BlocBase with LoggingMixin {
   MsgDetailsBloc(BuildContext context, Store store) : super(context, store);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   static const String head =
-      '''<!DOCTYPE html><html> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/2.1.2/weui.min.css"><link rel="stylesheet" href="https://at.alicdn.com/t/font_1538853_7adh1rzr8ao.css"> <head><title>Navigation Delegate Example</title></head> <body><div class="con">''';
+  '''<!DOCTYPE html><html> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/2.1.2/weui.min.css"><link rel="stylesheet" href="https://at.alicdn.com/t/font_1538853_7adh1rzr8ao.css"> <head><title>Navigation Delegate Example</title></head> <body><div class="con"><div class="tit">
+  <div class="tit_l"></div><span>''';
   static const String food = '''<div class="topBoder"></div></div></body>
 <style>
 img{
@@ -18,15 +19,59 @@ img{
   margin: 0 auto;
   display: block;
   padding: 0;
+  margin: 0 auto !important;
+}
+p{
+  font-size:12px;
+  line-height: 24px;
+  margin: 0;
+  padding: 0;
+  color: #666;
+  margin-top: 20px;
 }
 .text{
   padding: 0 20px;
   margin: 0;
-  margin-top: 10px;
-  font-size:16px !important;
-  line-height: 24px;
-  color: #000;
+  margin-top: -10px;
 }
+.tit{
+  display: flex;
+  margin: 20px;
+  margin-bottom: 0;
+}
+.tit_l{
+  width: 5px;
+  height: 20px;
+  background-color: #0079FE;
+  margin-top: 2px;
+}
+.tit span{
+  font-weight: 700;
+  font-size: 18px;
+  color: #000;
+  margin-left: 10px;
+}
+.time{
+  font-size: 12px;
+  color: #A2A2A6;
+  text-align: left;
+  line-height: 24px;
+  margin: 20px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+.iconfont {
+  font-size: 12px;
+  line-height: 24px;
+  margin-left: 5px;
+  margin-right: 2px;
+  color: #A2A2A6;
+}
+p{
+  font-size: 16px !important;
+  color: #000 !important;
+}
+
 .topBoder{
   position: fixed;
   top: 0;
@@ -34,18 +79,6 @@ img{
   right: 0;
   height: 1px;
   background-color: #f3f3f3;
-}
-.con {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  overflow: auto;
-}
-
-.con::-webkit-scrollbar {
-  display: none;
 }
 </style>
 <script>
@@ -60,16 +93,24 @@ img{
   String html;
 
   void startup() {}
-
   void setUI() {
     setModel(() {
       html = head +
-          '''<div class="text">''' +
+          MemberNewsModel.title +
+          '''</span></div>
+  <div class="time">
+    <span style="margin-left: 0px;" class="iconfont icon-Group-"></span><span>''' +
+          DateTime.parse(MemberNewsModel.updated).toString().substring(
+              0, DateTime.parse(MemberNewsModel.updated).toString().length - 5) +
+          '''</span>
+  </div>
+    <div class="text">''' +
           clearHtml(MemberNewsModel.body) +
-          '''</div>''' +
           food;
     });
   }
+
+
 
   void to(String text) {
     scaffoldKey.currentState.showSnackBar(

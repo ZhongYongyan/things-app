@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:app/base/api/AffiliateApis.dart';
 import 'package:app/base/api/DeviceVoApis.dart';
 import 'package:app/base/api/InfoSortApis.dart';
+import 'package:app/base/api/MemberNewsApis.dart';
 import 'package:app/base/api/SoftwareApis.dart';
 import 'package:app/base/entity/DeviceVo.dart';
 import 'package:app/base/entity/Info.dart';
 import 'package:app/base/entity/InfoSort.dart';
+import 'package:app/base/entity/MemberNews.dart';
 import 'package:app/base/entity/Software.dart';
 import 'package:app/base/plugin/PluginManager.dart';
 import 'package:app/base/util/BlocUtils.dart';
@@ -46,10 +48,10 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
       },
       onReceiveNotificationResponse: (Map<String, dynamic> message) async {
-        print("flutter 123456onReceiveNotificationResponse: $message");
-        var id = message["aps"]["category"];
+        //ios点击推送走了这儿
+        var id = message["id"];
         _timer = new Timer(const Duration(milliseconds: 400), () {
-          vm.getDelInfoSort(int.parse(id));
+          vm.getInfoMemberNews(id);
         });
       },
       onAppLinkPayload: (String message) async {
@@ -69,9 +71,14 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
       },
       onNotificationMessageClicked: (Map<String, dynamic> msg) async {
-
+        //安卓点击推送走了这儿
+        var  messageId = msg["messageId"];
+        _timer = new Timer(const Duration(milliseconds: 400), () {
+          vm.getInfoMemberNews(messageId);
+        });
       },
     );
+    getUserbindAlias();
   }
   @override
   void dispose() {
@@ -109,14 +116,28 @@ class HomeBloc extends BlocBase with LoggingMixin {
     }
     navigate.pushNamed('/plugin', arguments: {"url": response.data.url});
   }
-  //推送消息跳转详情
-  void getDelInfoSort(int id) async {
-    Result<Info> response = await InfoSortApis.getDelInfoSort(id);
+
+  //获取推送消息详情
+  void getInfoMemberNews(int newsId) async {
+    Result<MemberNews> response = await MemberNewsApis.getInfoMemberNews(newsId);
     bool code = response.success;
     if(code){
-      navigate.pushNamed('/details', arguments: {"model": response.data});
+      //这里是跳转消息详情
+      if(response.data.targetType == "TEXT") {
+        getDelInfoSort(response.data.id);
+      }
     } else {
-      print("详情请求失败了");
+      print("推送消息请求失败了");
+    }
+  }
+  //获取消息详情 跳转详情页
+  void getDelInfoSort(int id) async {
+    Result<MemberNews> response = await MemberNewsApis.getMsgNews(id);
+    bool code = response.success;
+    if(code){
+      navigate.pushNamed('/msgDetails', arguments: {"model": response.data});
+    } else {
+      print("消息详情请求失败了");
     }
   }
 
@@ -126,10 +147,24 @@ class HomeBloc extends BlocBase with LoggingMixin {
     var list = response.data.items;
     if (list.length > 0) {
       //创建别名 用于别名推送
-      Getuiflut().bindAlias(list[0].memberId, onReceiveClientId);
       dispatch(authActions.user(list[0].nickname));
     }
   }
+
+  void getUserbindAlias() async {
+    Result<Page> response = await AffiliateApis.getAffiliate(1, 10, "ASC");
+    bool code = response.success;
+    var list = response.data.items;
+    if (list.length > 0) {
+      print("创建别名 用于别名推送");
+      //创建别名 用于别名推送
+      Getuiflut().bindAlias(list[0].memberId.toString(), this.onReceiveClientId);
+    }
+  }
+
+
+
+
 
   void getDeviceVo() async {
     Result<DeviceVo> response = await DeviceVoApis.getDeviceVo();
