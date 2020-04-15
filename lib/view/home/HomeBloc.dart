@@ -50,7 +50,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
       onReceiveNotificationResponse: (Map<String, dynamic> message) async {
         //ios点击推送走了这儿
         var id = message["id"];
-        _timer = new Timer(const Duration(milliseconds: 1500), () {
+        _timer = new Timer(const Duration(milliseconds: 500), () {
           vm.getInfoMemberNews(id);
         });
       },
@@ -73,7 +73,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
       onNotificationMessageClicked: (Map<String, dynamic> msg) async {
         //安卓点击推送走了这儿
         var  messageId = msg["messageId"];
-        _timer = new Timer(const Duration(milliseconds: 1500), () {
+        _timer = new Timer(const Duration(milliseconds: 500), () {
           vm.getInfoMemberNews(messageId);
         });
       },
