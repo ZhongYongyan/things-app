@@ -299,7 +299,8 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                           alignment:
                                                                               Alignment.bottomCenter,
                                                                           child: Text(
-                                                                              bloc.DeviceVoModel.deviceModels[index - 2].modelName,
+                                                                             bloc.findModelName(bloc.DeviceVoModel.devices[index - 2].modelId)
+                                                                              ,
                                                                               maxLines: 1,
                                                                               overflow: TextOverflow.ellipsis,
                                                                               textAlign: TextAlign.center,
@@ -316,7 +317,8 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                           alignment:
                                                                               Alignment.bottomCenter,
                                                                           child: Text(
-                                                                              bloc.DeviceVoModel.deviceSorts[index - 2].sortName,
+                                                                              bloc.findSortName(bloc.DeviceVoModel.devices[index - 2].sortId)
+                                                                              ,
                                                                               maxLines: 1,
                                                                               overflow: TextOverflow.ellipsis,
                                                                               textAlign: TextAlign.center,
@@ -343,20 +345,14 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                                         Widget>[
                                                                       Container(
                                                                         //color: Color(0xFFF8F8F8),
-                                                                        child: Image
-                                                                            .network(
-                                                                          bloc
-                                                                              .DeviceVoModel
-                                                                              .deviceModels[index - 2]
-                                                                              .modelIcon,
-                                                                          width:
-                                                                              36,
-                                                                          height:
-                                                                              36,
-                                                                          fit: BoxFit
-                                                                              .cover,
+                                                                        child: Image.network(
+                                                                          bloc.findModelIcon(bloc.DeviceVoModel.devices[index - 2].modelId),
+                                                                          width: 36,
+                                                                          height: 36,
+                                                                          fit: BoxFit.cover,
                                                                         ),
                                                                       ),
+
                                                                       Expanded(
                                                                         flex: 1,
                                                                         child:
@@ -435,21 +431,20 @@ class _State extends BlocState<HomePage, HomeBloc> {
                   ),
                 ),
               ),
-              bloc.loadShow
-                  ? Positioned(
-                      left: 0,
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(0),
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                            width: 24.0,
-                            height: 24.0,
-                            child: CircularProgressIndicator(strokeWidth: 2.0)),
-                      ))
-                  : Container()
+
+              bloc.loadShow ? Positioned(
+                  left: 0,
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(0),
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                        width: 24.0,
+                        height: 24.0,
+                        child: CircularProgressIndicator(strokeWidth: 2.0)),
+                  )) : Container()
             ],
           ),
         ),
