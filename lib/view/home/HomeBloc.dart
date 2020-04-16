@@ -161,7 +161,10 @@ class HomeBloc extends BlocBase with LoggingMixin {
       var cid = this.onReceiveClientId;
       log.info("+++++++++++++++++++++++++++++++++++创建别名id=$id");
       log.info("+++++++++++++++++++++++++++++++++++创建别名cid=$cid");
-      Getuiflut().bindAlias(list[0].memberId.toString(), this.onReceiveClientId);
+      if(id != "" && cid != "") {
+        log.info("+++++++++++++++++++++++++++++++++++创建别名成功了");
+        Getuiflut().bindAlias(id, cid);
+      }
     }
   }
 
