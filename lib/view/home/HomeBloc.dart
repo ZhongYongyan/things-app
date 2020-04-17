@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:app/base/api/AffiliateApis.dart';
 import 'package:app/base/api/DeviceVoApis.dart';
 import 'package:app/base/api/InfoSortApis.dart';
@@ -21,13 +20,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getuiflut/getuiflut.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
-
+import 'dart:convert' as convert;
 class HomeBloc extends BlocBase with LoggingMixin {
   HomeBloc(BuildContext context, Store store) : super(context, store);
   bool show = false;
   var onReceiveClientId = "";
   Timer _timer;
   bool loadShow = false;
+  bool isAndroidNewShow = false;
   String get name => state.auth.name != null ? state.auth.name : '访客';
   var DeviceVoModel = DeviceVo.fromJson({});
   void startup() {
@@ -64,18 +64,18 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
       },
       onReceiveMessageData: (Map<String, dynamic> msg) async {
-
-
+         if(vm.isAndroidNewShow) {
+           vm.getPayload(msg);
+         }
       },
       onNotificationMessageArrived: (Map<String, dynamic> msg) async {
 
       },
       onNotificationMessageClicked: (Map<String, dynamic> msg) async {
         //安卓点击推送走了这儿
-        var  messageId = msg["messageId"];
-        _timer = new Timer(const Duration(milliseconds: 500), () {
-          vm.getInfoMemberNews(messageId);
-        });
+        log.info("+++++++++++++++++++++++++++++++++++msg111=$msg");
+        vm.isAndroidNewShow = true;
+
       },
     );
     getUserbindAlias();
@@ -117,8 +117,17 @@ class HomeBloc extends BlocBase with LoggingMixin {
     navigate.pushNamed('/plugin', arguments: {"url": response.data.url});
   }
 
+  void getPayload(Map<String, dynamic> payload) async {
+    print("推送消息请求2222来了111$payload}");
+    var payloads = payload["payload"];
+    Map<String, dynamic> item = convert.jsonDecode(payloads);
+    var id = item["id"];
+    getInfoMemberNews(id);
+  }
+
   //获取推送消息详情
   void getInfoMemberNews(int newsId) async {
+    print("推送消息请求来了111");
     Result<MemberNews> response = await MemberNewsApis.getInfoMemberNews(newsId);
     bool code = response.success;
     if(code){
@@ -161,7 +170,10 @@ class HomeBloc extends BlocBase with LoggingMixin {
       var cid = this.onReceiveClientId;
       log.info("+++++++++++++++++++++++++++++++++++创建别名id=$id");
       log.info("+++++++++++++++++++++++++++++++++++创建别名cid=$cid");
-      Getuiflut().bindAlias(list[0].memberId.toString(), this.onReceiveClientId);
+      if(id != "" && cid != "") {
+        log.info("+++++++++++++++++++++++++++++++++++创建别名成功了");
+        Getuiflut().bindAlias(id, cid);
+      }
     }
   }
 
