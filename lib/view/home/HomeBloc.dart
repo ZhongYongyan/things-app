@@ -39,7 +39,8 @@ class HomeBloc extends BlocBase with LoggingMixin {
     Getuiflut().addEventHandler(
       onReceiveClientId: (String message) async {
         print("flutter onReceiveClientId+++++++++++++++++++++++: $message"); // 注册收到 cid 的回调
-        vm.onReceiveClientId = message;
+        //vm.onReceiveClientId = message;
+        vm.getUserbindAlias(message);
       },
       onRegisterDeviceToken: (String message) async {
         print("flutter onRegisterDeviceToken+++++++++++++++++++++++: $message"); // 注册收到 cid 的回调
@@ -78,7 +79,6 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
       },
     );
-    getUserbindAlias();
   }
   @override
   void dispose() {
@@ -159,7 +159,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
     }
   }
 
-  void getUserbindAlias() async {
+  void getUserbindAlias(String cid) async {
     Result<Page> response = await AffiliateApis.getAffiliate(1, 10, "ASC");
     bool code = response.success;
     var list = response.data.items;
@@ -167,7 +167,6 @@ class HomeBloc extends BlocBase with LoggingMixin {
       print("创建别名 用于别名推送");
       //创建别名 用于别名推送
       var id = list[0].memberId.toString();
-      var cid = this.onReceiveClientId;
       log.info("+++++++++++++++++++++++++++++++++++创建别名id=$id");
       log.info("+++++++++++++++++++++++++++++++++++创建别名cid=$cid");
       if(id != "" && cid != "") {
