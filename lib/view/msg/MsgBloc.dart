@@ -20,7 +20,9 @@ class MsgBloc extends BlocBase with LoggingMixin {
   var indexPage = 1;
   bool indexshow = true;
 
-  Future startup() async {}
+  Future startup() async {
+
+  }
 
   void onToDetails(int i) {
     navigate.pushNamed('/msgDetails', arguments: {"model": words[i]});
@@ -32,7 +34,6 @@ class MsgBloc extends BlocBase with LoggingMixin {
         await MemberNewsApis.getMemberNews(indexPage, 10, "ASC");
     bool code = response.success;
     if(!code) {
-      log.info("消息请求出错",response.message);
       setModel(() {
         indexshow = false;
       });

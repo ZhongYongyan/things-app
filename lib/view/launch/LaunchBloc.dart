@@ -19,7 +19,6 @@ class LaunchBloc extends BlocBase with LoggingMixin {
   }
 
   void loginHandler() {
-    log.info("wwww");
     navigate.pushReplacementNamed('/guide');
   }
 

@@ -213,24 +213,6 @@ class _State extends BlocState<LoginPage, LoginBloc>
                                     },
                                   ),
                                 ),
-
-//                                Container(
-//                                  margin: const EdgeInsets.only(right: 10.0),
-//                                  width: 100,
-//                                  alignment: Alignment.centerRight,
-//                                  child: GestureDetector(
-//                                    child: Text(
-//                                      bloc.countdownTimeShow
-//                                          ? bloc.countdownTime.toString() +
-//                                              "S后重发"
-//                                          : "获取验证码",
-//                                      style: TextStyle(
-//                                          fontSize: 12.0,
-//                                          color: Color(0xFF0079FE)),
-//                                    ),
-//                                    onTap: () => bloc.startCountdown(), //点击
-//                                  ),
-//                                ),
                               ],
                             ),
                           ),

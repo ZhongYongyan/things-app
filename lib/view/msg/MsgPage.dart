@@ -43,60 +43,6 @@ class _State extends BlocState<MsgPage, MsgBloc> {
           child: Stack(
             alignment: Alignment.topLeft, //指定未定位或部分定位widget的对齐方式
             children: <Widget>[
-//              Positioned(
-//                top: 0,
-//                height: 40,
-//                left: 0,
-//                right: 0,
-//                child: Padding(
-//                  //左边添加8像素补白
-//                  padding: const EdgeInsets.only(left: 15.0),
-//                  child: Flex(
-//                    direction: Axis.horizontal,
-//                    children: <Widget>[
-//                      Text("消息",
-//                          maxLines: 1,
-//                          overflow: TextOverflow.ellipsis,
-//                          textAlign: TextAlign.left,
-//                          style: TextStyle(
-//                            color: Color(0xFF333333),
-//                            fontSize: 18,
-//                            fontWeight: FontWeight.w700,
-//                          )),
-//                      Container(
-//                          width: 220,
-//                          height: 31,
-//                          margin: const EdgeInsets.only(left: 30.0),
-//                          child: DecoratedBox(
-//                            decoration: BoxDecoration(
-//                              border: Border.all(
-//                                color: Color(0xFFF3F3F3),
-//                              ),
-//                              borderRadius: BorderRadius.circular(10.0), //3像素圆角
-//                            ),
-//                            child: TextField(
-//                              style: TextStyle(
-//                                  fontSize: 14.0, color: Colors.black),
-//                              decoration: InputDecoration(
-//                                hintText: "搜索消息",
-//                                hintStyle: TextStyle(
-//                                    fontSize: 14.0, color: Color(0xFFcccccc)),
-//                                border: InputBorder.none,
-//                                prefixIcon: Icon(
-//                                  Icons.search,
-//                                  color: Color(0xFFcccccc),
-//                                ),
-//                                contentPadding: EdgeInsets.all(4.0),
-//                                disabledBorder: InputBorder.none,
-//                                enabledBorder: InputBorder.none,
-//                                focusedBorder: InputBorder.none,
-//                              ),
-//                            ),
-//                          )),
-//                    ],
-//                  ),
-//                ),
-//              ),
               Positioned(
                   top: 0,
                   height: 1,

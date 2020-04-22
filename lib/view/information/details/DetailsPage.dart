@@ -39,13 +39,6 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
     Widget body = _pageBody();
     return body;
   }
-
-//  _pageHead({@required Widget body}) {
-//    return WillPopScope(
-//      onWillPop: () {},
-//      child: _pageBody()
-//    );
-//  }
   _pageBody() {
     return Scaffold(
         key: bloc.scaffoldKey,

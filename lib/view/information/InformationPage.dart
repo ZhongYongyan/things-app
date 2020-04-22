@@ -96,14 +96,6 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                       .toList(),
                 ),
               ),
-//              Positioned(
-//                  top: 41,
-//                  height: 1,
-//                  left: 0,
-//                  right: 0,
-//                  child: Container(
-//                    color: bloc.textList.length > 0 ? Color(0xFFF3F3F3) : Color(0xFFF8f8f8),
-//                  )),
               Positioned(
                   top: 41.0,
                   bottom: 0,

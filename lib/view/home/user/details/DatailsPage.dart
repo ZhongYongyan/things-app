@@ -91,27 +91,6 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                 fontWeight: FontWeight.w700,
               )),
           backgroundColor: Colors.white,
-//          actions: <Widget>[
-//            new IconButton(
-//                icon: Container(
-//                  alignment: Alignment.center,
-//                  margin: const EdgeInsets.only(right: 0),
-//                  child: new Text("保存",
-//                      textAlign: TextAlign.center,
-//                      style: TextStyle(color: Color(0xFF0079FE), fontSize: 14)),
-//                ),
-//                onPressed: () {
-//                  Fluttertoast.showToast(
-//                      msg: "保存成功",
-//                      toastLength: Toast.LENGTH_SHORT,
-//                      gravity: ToastGravity.CENTER,
-//                      timeInSecForIos: 1,
-//                      textColor: Colors.white,
-//                      fontSize: 16.0
-//                  );
-//                  bloc.back();
-//                })
-//          ],
         ),
         backgroundColor: Color(0xFFF9F9F9),
         body: Container(
