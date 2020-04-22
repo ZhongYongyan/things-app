@@ -83,140 +83,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                         fit: BoxFit.cover,
                                       )
                                     : index == 1
-                                        ? Container(
-                                            margin: const EdgeInsets.only(
-                                                left: 15, right: 15, top: 5),
-                                            //color: Color(0xFF3578F7),
-                                            child: Flex(
-                                              direction: Axis.horizontal,
-                                              children: <Widget>[
-                                                Flex(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  direction: Axis.vertical,
-                                                  children: <Widget>[
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                            right: 5,
-                                                          ),
-                                                          child: Image(
-                                                            image: AssetImage(
-                                                                "assets/home_y.png"),
-                                                            fit: BoxFit.cover,
-                                                            width: 30,
-                                                            height: 30,
-                                                          ),
-                                                        ),
-                                                        GestureDetector(
-                                                          child: Text(bloc.name,
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                color: Color(
-                                                                    0xFF3578F7),
-                                                                fontSize: 16,
-                                                              )),
-                                                          onTap: () =>
-                                                              bloc.to(), //点击
-                                                        ),
-                                                        GestureDetector(
-                                                          child: Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 5),
-                                                            child: Icon(
-                                                                Icons
-                                                                    .keyboard_arrow_down,
-                                                                color: Color(
-                                                                    0xFF3578F7)),
-                                                          ),
-                                                          onTap: () =>
-                                                              bloc.to(), //点击
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              top: 5),
-                                                    ),
-                                                    Text("点击右侧「添加设备」",
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: TextStyle(
-                                                            color: Color(
-                                                                0xFF333333),
-                                                            fontSize: 15,
-                                                            height: 1.5)),
-                                                    Text("连接智能设备",
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: TextStyle(
-                                                            color: Color(
-                                                                0xFF333333),
-                                                            fontSize: 15,
-                                                            height: 1.5)),
-                                                    Text("体验美好生活",
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: TextStyle(
-                                                            color: Color(
-                                                                0xFF333333),
-                                                            fontSize: 15,
-                                                            height: 1.5)),
-                                                  ],
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Container(),
-                                                ),
-                                                Container(
-                                                  width: 51,
-                                                  height: 51,
-//                                                  color: Color(
-//                                                      0xFF3578F7),
-                                                  child: GestureDetector(
-                                                    child: ClipOval(
-                                                      child: Container(
-                                                        width: 51,
-                                                        height: 51,
-                                                        color:
-                                                            Color(0xFF3578F7),
-                                                        child: Icon(
-                                                          Icons.add,
-                                                          color: Colors.white,
-                                                          size: 30,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    onTap: () => bloc.add(),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
+                                        ? getUserItem(index)
                                         : getCardItem(index))),
                     staggeredTileBuilder: (int index) => index == 0
                         ? new StaggeredTile.fit(4)
@@ -245,6 +112,144 @@ class _State extends BlocState<HomePage, HomeBloc> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+
+
+  //用户信息及设置
+  Widget getUserItem(int index) {
+    return Container(
+      margin: const EdgeInsets.only(
+          left: 15, right: 15, top: 5),
+      //color: Color(0xFF3578F7),
+      child: Flex(
+        direction: Axis.horizontal,
+        children: <Widget>[
+          Flex(
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+            direction: Axis.vertical,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment:
+                MainAxisAlignment
+                    .start,
+                children: <Widget>[
+                  Container(
+                    margin:
+                    const EdgeInsets
+                        .only(
+                      right: 5,
+                    ),
+                    child: Image(
+                      image: AssetImage(
+                          "assets/home_y.png"),
+                      fit: BoxFit.cover,
+                      width: 30,
+                      height: 30,
+                    ),
+                  ),
+                  GestureDetector(
+                    child: Text(bloc.name,
+                        maxLines: 1,
+                        overflow:
+                        TextOverflow
+                            .ellipsis,
+                        textAlign:
+                        TextAlign
+                            .left,
+                        style: TextStyle(
+                          color: Color(
+                              0xFF3578F7),
+                          fontSize: 16,
+                        )),
+                    onTap: () =>
+                        bloc.to(), //点击
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      margin:
+                      const EdgeInsets
+                          .only(
+                          left: 5),
+                      child: Icon(
+                          Icons
+                              .keyboard_arrow_down,
+                          color: Color(
+                              0xFF3578F7)),
+                    ),
+                    onTap: () =>
+                        bloc.to(), //点击
+                  ),
+                ],
+              ),
+              Container(
+                margin:
+                const EdgeInsets.only(
+                    top: 5),
+              ),
+              Text("点击右侧「添加设备」",
+                  maxLines: 1,
+                  overflow: TextOverflow
+                      .ellipsis,
+                  textAlign:
+                  TextAlign.left,
+                  style: TextStyle(
+                      color: Color(
+                          0xFF333333),
+                      fontSize: 15,
+                      height: 1.5)),
+              Text("连接智能设备",
+                  maxLines: 1,
+                  overflow: TextOverflow
+                      .ellipsis,
+                  textAlign:
+                  TextAlign.left,
+                  style: TextStyle(
+                      color: Color(
+                          0xFF333333),
+                      fontSize: 15,
+                      height: 1.5)),
+              Text("体验美好生活",
+                  maxLines: 1,
+                  overflow: TextOverflow
+                      .ellipsis,
+                  textAlign:
+                  TextAlign.left,
+                  style: TextStyle(
+                      color: Color(
+                          0xFF333333),
+                      fontSize: 15,
+                      height: 1.5)),
+            ],
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(),
+          ),
+          Container(
+            width: 51,
+            height: 51,
+            child: GestureDetector(
+              child: ClipOval(
+                child: Container(
+                  width: 51,
+                  height: 51,
+                  color:
+                  Color(0xFF3578F7),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+              ),
+              onTap: () => bloc.add(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -415,30 +420,6 @@ class _State extends BlocState<HomePage, HomeBloc> {
                       ),
                     ),
                   ),
-                  index == 2
-                      ? Positioned(
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    child: Opacity(
-                      opacity: 0,
-                      child:
-                      ClipRRect(
-                        //剪裁为圆角矩形
-                        borderRadius:
-                        BorderRadius
-                            .circular(
-                            10.0),
-                        child:
-                        Container(
-                          color: Colors
-                              .black,
-                        ),
-                      ),
-                    ),
-                  )
-                      : Container()
                 ],
               )),
         ));

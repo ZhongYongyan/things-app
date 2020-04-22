@@ -68,13 +68,6 @@ class _State extends BlocState<PagePage, PageBloc> {
     return body;
   }
 
-//  _pageHead({@required Widget body}) {
-//    return WillPopScope(
-//      onWillPop: () {},
-//      child: _pageBody()
-//    );
-//  }
-
   _pageBody() {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
