@@ -106,164 +106,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                   }
                 }
                 //显示单词列表项
-                return GestureDetector(
-                  child: Container(
-                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                      height: 146,
-                      child: ClipRRect(
-                          //剪裁为圆角矩形
-                          borderRadius: BorderRadius.circular(5.0),
-                          child: Container(
-                            color: Colors.white,
-                            padding:
-                                EdgeInsets.only(top: 10, left: 10, right: 10),
-                            child: Column(
-                                //测试Row对齐方式，排除Column默认居中对齐的干扰
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Flex(
-                                    direction: Axis.horizontal,
-                                    children: <Widget>[
-                                      Image(
-                                        image: AssetImage("assets/home_y.png"),
-                                        fit: BoxFit.cover,
-                                        width: 30,
-                                        height: 30,
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
-                                          height: 31.0,
-//                                          color: Colors.green,
-                                        ),
-                                      ),
-                                      ClipRRect(
-                                        //剪裁为圆角矩形
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                        child:bloc.words[index].id != 123456 ?  GestureDetector(
-                                          child: Container(
-                                            height: 31.0,
-                                            width: 62.0,
-                                            alignment: Alignment.center,
-                                            color: Color(0xFF3578F7),
-                                            child: Text("详情",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  color: Color(0xFFFFFFFF),
-                                                  fontSize: 12,
-                                                )),
-                                          ),
-                                          onTap: () =>
-                                              bloc.onToDetails(index), //点击//长按
-                                        ): null,
-                                      )
-                                    ],
-                                  ),
-                                  Flex(
-                                    direction: Axis.horizontal,
-                                    children: <Widget>[
-                                      Container(
-                                        width: 100,
-                                        child: Text(
-                                            "昵称: " + bloc.words[index].nickname,
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Color(0xFF9A9A9A),
-                                              fontSize: 12,
-                                            )),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          left: 80,
-                                        ),
-                                        child:bloc.words[index].id != 123456 ? Text(
-                                            "性别: " +
-                                                (bloc.words[index].sex == "F"
-                                                    ? '男'
-                                                    : '女'),
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Color(0xFF9A9A9A),
-                                              fontSize: 12,
-                                            )):null,
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
-                                          height: 26.0,
-//                                          color: Colors.green,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Flex(
-                                    direction: Axis.horizontal,
-                                    children: <Widget>[
-                                      Container(
-                                        width: 100,
-                                        child: bloc.words[index].id != 123456 ? Text(
-                                            "身高:" +
-                                                bloc.words[index].height
-                                                    .toString(),
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Color(0xFF9A9A9A),
-                                              fontSize: 12,
-                                            )):null,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                          left: 80,
-                                        ),
-                                        child: bloc.words[index].id != 123456 ? Text(
-                                            "生日: " +
-                                                bloc.words[index].birthday
-                                                    .substring(0, 10),
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Color(0xFF9A9A9A),
-                                              fontSize: 12,
-                                            )):null,
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
-                                          height: 26.0,
-//                                          color: Colors.green,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Flex(
-                                    direction: Axis.horizontal,
-                                    children: <Widget>[
-                                      Container(
-                                        width: 100,
-                                        child: bloc.words[index].id != 123456 ? Text(
-                                            "体重: " +
-                                                bloc.words[index].weight
-                                                    .toString(),
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Color(0xFF9A9A9A),
-                                              fontSize: 12,
-                                            )): null,
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
-                                          height: 26.0,
-//                                          color: Colors.green,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ]),
-                          ))),
-
-                  onTap: () => bloc.onGetname(index), //点击
-                );
+                return getItem(index);
               },
               separatorBuilder: (context, index) => Container(
                 height: 0,
@@ -273,6 +116,168 @@ class _State extends BlocState<UserPage, UserBloc> {
           ),
         ),
       ),
+    );
+  }
+
+  //单个用户信息
+  Widget getItem(int index) {
+    return GestureDetector(
+      child: Container(
+          margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+          height: 146,
+          child: ClipRRect(
+            //剪裁为圆角矩形
+              borderRadius: BorderRadius.circular(5.0),
+              child: Container(
+                color: Colors.white,
+                padding:
+                EdgeInsets.only(top: 10, left: 10, right: 10),
+                child: Column(
+                  //测试Row对齐方式，排除Column默认居中对齐的干扰
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Flex(
+                        direction: Axis.horizontal,
+                        children: <Widget>[
+                          Image(
+                            image: AssetImage("assets/home_y.png"),
+                            fit: BoxFit.cover,
+                            width: 30,
+                            height: 30,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 31.0,
+//                                          color: Colors.green,
+                            ),
+                          ),
+                          ClipRRect(
+                            //剪裁为圆角矩形
+                            borderRadius:
+                            BorderRadius.circular(5.0),
+                            child:bloc.words[index].id != 123456 ?  GestureDetector(
+                              child: Container(
+                                height: 31.0,
+                                width: 62.0,
+                                alignment: Alignment.center,
+                                color: Color(0xFF3578F7),
+                                child: Text("详情",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFFFFFFFF),
+                                      fontSize: 12,
+                                    )),
+                              ),
+                              onTap: () =>
+                                  bloc.onToDetails(index), //点击//长按
+                            ): null,
+                          )
+                        ],
+                      ),
+                      Flex(
+                        direction: Axis.horizontal,
+                        children: <Widget>[
+                          Container(
+                            width: 100,
+                            child: Text(
+                                "昵称: " + bloc.words[index].nickname,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Color(0xFF9A9A9A),
+                                  fontSize: 12,
+                                )),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: 80,
+                            ),
+                            child:bloc.words[index].id != 123456 ? Text(
+                                "性别: " +
+                                    (bloc.words[index].sex == "F"
+                                        ? '男'
+                                        : '女'),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Color(0xFF9A9A9A),
+                                  fontSize: 12,
+                                )):null,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 26.0,
+//                                          color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Flex(
+                        direction: Axis.horizontal,
+                        children: <Widget>[
+                          Container(
+                            width: 100,
+                            child: bloc.words[index].id != 123456 ? Text(
+                                "身高:" +
+                                    bloc.words[index].height
+                                        .toString(),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Color(0xFF9A9A9A),
+                                  fontSize: 12,
+                                )):null,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: 80,
+                            ),
+                            child: bloc.words[index].id != 123456 ? Text(
+                                "生日: " +
+                                    bloc.words[index].birthday
+                                        .substring(0, 10),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Color(0xFF9A9A9A),
+                                  fontSize: 12,
+                                )):null,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 26.0,
+//                                          color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Flex(
+                        direction: Axis.horizontal,
+                        children: <Widget>[
+                          Container(
+                            width: 100,
+                            child: bloc.words[index].id != 123456 ? Text(
+                                "体重: " +
+                                    bloc.words[index].weight
+                                        .toString(),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Color(0xFF9A9A9A),
+                                  fontSize: 12,
+                                )): null,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              height: 26.0,
+//                                          color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]),
+              ))),
+
+      onTap: () => bloc.onGetname(index), //点击
     );
   }
 }
