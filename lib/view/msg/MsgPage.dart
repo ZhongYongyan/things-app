@@ -2,6 +2,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/msg/MsgBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/src/store.dart';
 
 class MsgPage extends StatefulWidget {
@@ -20,7 +21,10 @@ class _State extends BlocState<MsgPage, MsgBloc> {
     Widget body = _pageBody();
     return body;
   }
+  void initState() {
+    super.initState();
 
+  }
   _pageBody() {
     return Scaffold(
       appBar: AppBar(
@@ -152,53 +156,10 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                             child: Flex(
                               direction: Axis.vertical,
                               children: <Widget>[
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    alignment: Alignment
-                                        .centerLeft,
-                                    child: Text(
-                                        bloc.words[index]
-                                            .title,
-                                        maxLines: 1,
-                                        overflow:
-                                        TextOverflow
-                                            .ellipsis,
-                                        textAlign:
-                                        TextAlign.left,
-                                        style: TextStyle(
-                                          color: Color(
-                                              0xFF000000),
-                                          fontSize: 16,
-                                          //height: 1.4
-                                          //fontWeight:FontWeight.w700,
-                                        )),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    alignment: Alignment
-                                        .centerLeft,
-                                    margin: const EdgeInsets
-                                        .only(top: 4.0),
-                                    child: Text(
-                                        bloc.words[index]
-                                            .body,
-                                        maxLines: 1,
-                                        overflow:
-                                        TextOverflow
-                                            .ellipsis,
-                                        textAlign:
-                                        TextAlign.left,
-                                        style: TextStyle(
-                                          color: Color(
-                                              0xFFA2A2A6),
-                                          fontSize: 12,
-                                          //fontWeight:FontWeight.w700,
-                                        )),
-                                  ),
-                                ),
+                                msgText(bloc.words[index]
+                                    .title,0),
+                                msgText(bloc.words[index]
+                                    .body,1)
                               ],
                             ),
                           ),
@@ -219,4 +180,33 @@ class _State extends BlocState<MsgPage, MsgBloc> {
       onTap: () => bloc.onToDetails(index), //点击
     );
   }
+
+  Widget msgText( String text, int start ) {
+    return Expanded(
+      flex: 1,
+      child: Container(
+        alignment: Alignment
+            .centerLeft,
+        margin:start == 0 ? const EdgeInsets
+            .only(top: 0.0) : const EdgeInsets
+            .only(top: 4.0),
+        child: Text(
+            text,
+            maxLines: 1,
+            overflow:
+            TextOverflow
+                .ellipsis,
+            textAlign:
+            TextAlign.left,
+            style: TextStyle(
+              color: start == 0 ?  Color(
+                  0xFF000000) : Color(
+                  0xFFA2A2A6),
+              fontSize: start == 0  ? 16 : 12,
+              //fontWeight:FontWeight.w700,
+            )),
+      ),
+    );
+  }
+
 }

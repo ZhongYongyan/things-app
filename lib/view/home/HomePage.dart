@@ -17,6 +17,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
   @override
   void initState() {
     super.initState();
+
   }
 
 
@@ -190,39 +191,9 @@ class _State extends BlocState<HomePage, HomeBloc> {
                 const EdgeInsets.only(
                     top: 5),
               ),
-              Text("点击右侧「添加设备」",
-                  maxLines: 1,
-                  overflow: TextOverflow
-                      .ellipsis,
-                  textAlign:
-                  TextAlign.left,
-                  style: TextStyle(
-                      color: Color(
-                          0xFF333333),
-                      fontSize: 15,
-                      height: 1.5)),
-              Text("连接智能设备",
-                  maxLines: 1,
-                  overflow: TextOverflow
-                      .ellipsis,
-                  textAlign:
-                  TextAlign.left,
-                  style: TextStyle(
-                      color: Color(
-                          0xFF333333),
-                      fontSize: 15,
-                      height: 1.5)),
-              Text("体验美好生活",
-                  maxLines: 1,
-                  overflow: TextOverflow
-                      .ellipsis,
-                  textAlign:
-                  TextAlign.left,
-                  style: TextStyle(
-                      color: Color(
-                          0xFF333333),
-                      fontSize: 15,
-                      height: 1.5)),
+              getText("点击右侧「添加设备"),
+              getText("连接智能设备"),
+              getText("体验美好生活")
             ],
           ),
           Expanded(
@@ -303,57 +274,9 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                     .vertical,
                                 children: <
                                     Widget>[
-                                  Expanded(
-                                    flex: 1,
-                                    child:
-                                    Container(
-                                      child: Text(
-                                          "设备名称",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Color(0xFF3578F7),
-                                            fontSize: 16,
-                                          )),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child:
-                                    Container(
-                                      alignment:
-                                      Alignment.bottomCenter,
-                                      child: Text(
-                                          bloc.findModelName(bloc.DeviceVoModel.devices[index - 2].modelId)
-                                          ,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Color(0xFF9CC5FF),
-                                            fontSize: 12,
-                                          )),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child:
-                                    Container(
-                                      alignment:
-                                      Alignment.bottomCenter,
-                                      child: Text(
-                                          bloc.findSortName(bloc.DeviceVoModel.devices[index - 2].sortId)
-                                          ,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Color(0xFF9CC5FF),
-                                            fontSize: 12,
-                                          )),
-                                    ),
-                                  ),
+                                  getExpanded("设备名称",0),
+                                  getExpanded(bloc.findModelName(bloc.DeviceVoModel.devices[index - 2].modelId),1),
+                                  getExpanded(bloc.findSortName(bloc.DeviceVoModel.devices[index - 2].sortId),1),
                                 ],
                               ),
                             ),
@@ -425,5 +348,38 @@ class _State extends BlocState<HomePage, HomeBloc> {
         ));
   }
 
+  Widget getText(String text) {
+      return Text(text,
+          maxLines: 1,
+          overflow: TextOverflow
+              .ellipsis,
+          textAlign:
+          TextAlign.left,
+          style: TextStyle(
+              color: Color(
+                  0xFF333333),
+              fontSize: 15,
+              height: 1.5));
+  }
+
+  Widget getExpanded(String text, int start) {
+    return Expanded(
+      flex: 1,
+      child:
+      Container(
+        alignment:
+        Alignment.bottomCenter,
+        child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: start == 0 ? Color(0xFF3578F7) :  Color(0xFF9CC5FF),
+              fontSize: start == 0 ? 16 : 12,
+            )),
+      ),
+    );
+  }
   bool get wantKeepAlive => false;
 }
