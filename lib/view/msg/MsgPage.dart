@@ -138,7 +138,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                           alignment: Alignment.center,
                           child: Image(
                             image: AssetImage(
-                                "assets/image_$index.png"),
+                                "assets/image_0.png"),
                             fit: BoxFit.cover,
                             width: 20.0,
                             height: 20.0,
