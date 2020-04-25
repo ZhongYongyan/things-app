@@ -96,14 +96,6 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                       .toList(),
                 ),
               ),
-//              Positioned(
-//                  top: 41,
-//                  height: 1,
-//                  left: 0,
-//                  right: 0,
-//                  child: Container(
-//                    color: bloc.textList.length > 0 ? Color(0xFFF3F3F3) : Color(0xFFF8f8f8),
-//                  )),
               Positioned(
                   top: 41.0,
                   bottom: 0,
@@ -143,144 +135,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                           }
                         }
                         //显示单词列表项
-                        return GestureDetector(
-                          child: Container(
-                            height: 173,
-                            margin: EdgeInsets.only(top: 10, left: 0, right: 0),
-                            alignment: Alignment.center,
-                            color: Colors.white,
-                            child: Column(
-                              //测试Row对齐方式，排除Column默认居中对齐的干扰
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  //height: 100,
-                                  child: Padding(
-                                    //左边添加8像素补白
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 20, top: 12),
-                                    child: Flex(
-                                      direction: Axis.horizontal,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 4.0,
-                                          height: 20,
-                                          margin:
-                                              const EdgeInsets.only(right: 5),
-                                          color: Color(0xFF0079FE),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(bloc.words[index].title,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                color: Color(0xFF000000),
-                                                fontSize: 16,
-//                                                  fontWeight: FontWeight.w700,
-                                              )),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 90,
-                                  child: Padding(
-                                    //左边添加8像素补白
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 20, top: 12),
-                                    child: Text(
-                                        bloc.parseHtmlString(
-                                            bloc.words[index].body),
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          color: Color(0xFFA2A2A6),
-                                          height: 1.6,
-                                          fontSize: 14,
-                                        )),
-                                  ),
-                                ),
-                                Padding(
-                                  //左边添加8像素补白
-                                  padding: const EdgeInsets.only(top: 12.0),
-                                  child: Container(
-                                    height: 1,
-                                    color: Color(0xFFF3F3F3),
-                                  ),
-                                ),
-                                Padding(
-                                  //左边添加8像素补白
-                                  padding: const EdgeInsets.only(
-                                      top: 9.0, left: 20, right: 20),
-                                  child: Flex(
-                                    direction: Axis.horizontal,
-                                    children: <Widget>[
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(right: 5),
-                                            child: Icon(Icons.timer,
-                                                color: Color(0xFFA2A2A6)),
-                                          ),
-                                          Text(
-                                              DateTime.parse(
-                                                      bloc.words[index].updated)
-                                                  .toString()
-                                                  .substring(
-                                                      0,
-                                                      DateTime.parse(bloc
-                                                                  .words[index]
-                                                                  .updated)
-                                                              .toString()
-                                                              .length -
-                                                          5),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                color: Color(0xFFA2A2A6),
-                                                fontSize: 12,
-                                              )),
-                                        ],
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            Text("阅读原文",
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                  color: Color(0xFFA2A2A6),
-                                                  fontSize: 12,
-                                                )),
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  left: 5),
-                                              child: Icon(Icons.navigate_next,
-                                                  color: Color(0xFFA2A2A6)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          onTap: () => bloc.onToDetails(index), //点击
-                        );
+                        return informationItem(index);
                       },
                       separatorBuilder: (context, index) => Container(),
                     ),
@@ -289,6 +144,148 @@ class _State extends BlocState<InformationPage, InformationBloc> {
           ),
         ),
       ),
+    );
+  }
+
+  //单个item
+  Widget informationItem(int index) {
+    return GestureDetector(
+      child: Container(
+        height: 173,
+        margin: EdgeInsets.only(top: 10, left: 0, right: 0),
+        alignment: Alignment.center,
+        color: Colors.white,
+        child: Column(
+          //测试Row对齐方式，排除Column默认居中对齐的干扰
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              //height: 100,
+              child: Padding(
+                //左边添加8像素补白
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 20, top: 12),
+                child: Flex(
+                  direction: Axis.horizontal,
+                  children: <Widget>[
+                    Container(
+                      width: 4.0,
+                      height: 20,
+                      margin:
+                      const EdgeInsets.only(right: 5),
+                      color: Color(0xFF0079FE),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Text(bloc.words[index].title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: Color(0xFF000000),
+                            fontSize: 16,
+//                                                  fontWeight: FontWeight.w700,
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              height: 90,
+              child: Padding(
+                //左边添加8像素补白
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 20, top: 12),
+                child: Text(
+                    bloc.parseHtmlString(
+                        bloc.words[index].body),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Color(0xFFA2A2A6),
+                      height: 1.6,
+                      fontSize: 14,
+                    )),
+              ),
+            ),
+            Padding(
+              //左边添加8像素补白
+              padding: const EdgeInsets.only(top: 12.0),
+              child: Container(
+                height: 1,
+                color: Color(0xFFF3F3F3),
+              ),
+            ),
+            Padding(
+              //左边添加8像素补白
+              padding: const EdgeInsets.only(
+                  top: 9.0, left: 20, right: 20),
+              child: Flex(
+                direction: Axis.horizontal,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin:
+                        const EdgeInsets.only(right: 5),
+                        child: Icon(Icons.timer,
+                            color: Color(0xFFA2A2A6)),
+                      ),
+                      Text(
+                          DateTime.parse(
+                              bloc.words[index].updated)
+                              .toString()
+                              .substring(
+                              0,
+                              DateTime.parse(bloc
+                                  .words[index]
+                                  .updated)
+                                  .toString()
+                                  .length -
+                                  5),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: Color(0xFFA2A2A6),
+                            fontSize: 12,
+                          )),
+                    ],
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text("阅读原文",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: Color(0xFFA2A2A6),
+                              fontSize: 12,
+                            )),
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 5),
+                          child: Icon(Icons.navigate_next,
+                              color: Color(0xFFA2A2A6)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      onTap: () => bloc.onToDetails(index), //点击
     );
   }
 }

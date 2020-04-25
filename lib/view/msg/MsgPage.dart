@@ -2,6 +2,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/msg/MsgBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/src/store.dart';
 
 class MsgPage extends StatefulWidget {
@@ -20,7 +21,10 @@ class _State extends BlocState<MsgPage, MsgBloc> {
     Widget body = _pageBody();
     return body;
   }
+  void initState() {
+    super.initState();
 
+  }
   _pageBody() {
     return Scaffold(
       appBar: AppBar(
@@ -43,60 +47,6 @@ class _State extends BlocState<MsgPage, MsgBloc> {
           child: Stack(
             alignment: Alignment.topLeft, //指定未定位或部分定位widget的对齐方式
             children: <Widget>[
-//              Positioned(
-//                top: 0,
-//                height: 40,
-//                left: 0,
-//                right: 0,
-//                child: Padding(
-//                  //左边添加8像素补白
-//                  padding: const EdgeInsets.only(left: 15.0),
-//                  child: Flex(
-//                    direction: Axis.horizontal,
-//                    children: <Widget>[
-//                      Text("消息",
-//                          maxLines: 1,
-//                          overflow: TextOverflow.ellipsis,
-//                          textAlign: TextAlign.left,
-//                          style: TextStyle(
-//                            color: Color(0xFF333333),
-//                            fontSize: 18,
-//                            fontWeight: FontWeight.w700,
-//                          )),
-//                      Container(
-//                          width: 220,
-//                          height: 31,
-//                          margin: const EdgeInsets.only(left: 30.0),
-//                          child: DecoratedBox(
-//                            decoration: BoxDecoration(
-//                              border: Border.all(
-//                                color: Color(0xFFF3F3F3),
-//                              ),
-//                              borderRadius: BorderRadius.circular(10.0), //3像素圆角
-//                            ),
-//                            child: TextField(
-//                              style: TextStyle(
-//                                  fontSize: 14.0, color: Colors.black),
-//                              decoration: InputDecoration(
-//                                hintText: "搜索消息",
-//                                hintStyle: TextStyle(
-//                                    fontSize: 14.0, color: Color(0xFFcccccc)),
-//                                border: InputBorder.none,
-//                                prefixIcon: Icon(
-//                                  Icons.search,
-//                                  color: Color(0xFFcccccc),
-//                                ),
-//                                contentPadding: EdgeInsets.all(4.0),
-//                                disabledBorder: InputBorder.none,
-//                                enabledBorder: InputBorder.none,
-//                                focusedBorder: InputBorder.none,
-//                              ),
-//                            ),
-//                          )),
-//                    ],
-//                  ),
-//                ),
-//              ),
               Positioned(
                   top: 0,
                   height: 1,
@@ -144,116 +94,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                           }
                         }
                         //显示单词列表项
-                        return GestureDetector(
-                          child: Container(
-                            height: 66,
-                            alignment: Alignment.centerLeft,
-                            color: Colors.white,
-                            child: Column(
-                                //测试Row对齐方式，排除Column默认居中对齐的干扰
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    //height: 100,
-                                    child: Padding(
-                                      //左边添加8像素补白
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0, right: 10, top: 12),
-                                      child: Flex(
-                                        direction: Axis.horizontal,
-                                        children: <Widget>[
-                                          ClipOval(
-                                            child: Container(
-                                              color: Color(0xFFE4E4E4),
-                                              width: 42.0,
-                                              height: 42.0,
-                                              alignment: Alignment.center,
-                                              child: Image(
-                                                image: AssetImage(
-                                                    "assets/image_$index.png"),
-                                                fit: BoxFit.cover,
-                                                width: 20.0,
-                                                height: 20.0,
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: SizedBox(
-                                                height: 42.0,
-                                                //Flex的三个子widget，在垂直方向按2：1：1来占用100像素的空间
-                                                child: Flex(
-                                                  direction: Axis.vertical,
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Container(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Text(
-                                                            bloc.words[index]
-                                                                .title,
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF000000),
-                                                              fontSize: 16,
-                                                              //height: 1.4
-                                                              //fontWeight:FontWeight.w700,
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Container(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        margin: const EdgeInsets
-                                                            .only(top: 4.0),
-                                                        child: Text(
-                                                            bloc.words[index]
-                                                                .body,
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFFA2A2A6),
-                                                              fontSize: 12,
-                                                              //fontWeight:FontWeight.w700,
-                                                            )),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 5),
-                                            child: Icon(Icons.navigate_next,
-                                                color: Color(0xFFA2A2A6)),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ]),
-                          ),
-                          onTap: () => bloc.onToDetails(index), //点击
-                        );
+                        return msgItem(index);
                       },
                       separatorBuilder: (context, index) => Container(
                         height: 1,
@@ -267,4 +108,105 @@ class _State extends BlocState<MsgPage, MsgBloc> {
       ),
     );
   }
+
+
+  //单个item
+  Widget msgItem(int index) {
+    return GestureDetector(
+      child: Container(
+        height: 66,
+        alignment: Alignment.centerLeft,
+        color: Colors.white,
+        child: Column(
+          //测试Row对齐方式，排除Column默认居中对齐的干扰
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                //height: 100,
+                child: Padding(
+                  //左边添加8像素补白
+                  padding: const EdgeInsets.only(
+                      left: 15.0, right: 10, top: 12),
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    children: <Widget>[
+                      ClipOval(
+                        child: Container(
+                          color: Color(0xFFE4E4E4),
+                          width: 42.0,
+                          height: 42.0,
+                          alignment: Alignment.center,
+                          child: Image(
+                            image: AssetImage(
+                                "assets/image_0.png"),
+                            fit: BoxFit.cover,
+                            width: 20.0,
+                            height: 20.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10.0),
+                          child: SizedBox(
+                            height: 42.0,
+                            //Flex的三个子widget，在垂直方向按2：1：1来占用100像素的空间
+                            child: Flex(
+                              direction: Axis.vertical,
+                              children: <Widget>[
+                                msgText(bloc.words[index]
+                                    .title,0),
+                                msgText(bloc.words[index]
+                                    .body,1)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin:
+                        const EdgeInsets.only(left: 5),
+                        child: Icon(Icons.navigate_next,
+                            color: Color(0xFFA2A2A6)),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ]),
+      ),
+      onTap: () => bloc.onToDetails(index), //点击
+    );
+  }
+
+  Widget msgText( String text, int start ) {
+    return Expanded(
+      flex: 1,
+      child: Container(
+        alignment: Alignment
+            .centerLeft,
+        margin:start == 0 ? const EdgeInsets
+            .only(top: 0.0) : const EdgeInsets
+            .only(top: 4.0),
+        child: Text(
+            text,
+            maxLines: 1,
+            overflow:
+            TextOverflow
+                .ellipsis,
+            textAlign:
+            TextAlign.left,
+            style: TextStyle(
+              color: start == 0 ?  Color(
+                  0xFF000000) : Color(
+                  0xFFA2A2A6),
+              fontSize: start == 0  ? 16 : 12,
+              //fontWeight:FontWeight.w700,
+            )),
+      ),
+    );
+  }
+
 }

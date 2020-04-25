@@ -68,22 +68,8 @@ class _State extends BlocState<PagePage, PageBloc> {
     return body;
   }
 
-//  _pageHead({@required Widget body}) {
-//    return WillPopScope(
-//      onWillPop: () {},
-//      child: _pageBody()
-//    );
-//  }
-
   _pageBody() {
     return Scaffold(
-//      appBar: AppBar( //导航栏
-//        title: Text(["首页","资讯","消息","我的"][bloc.currentIndex],style: TextStyle(
-//          color: Colors.white
-//        )
-//    ),
-//        backgroundColor:Colors.black,
-//      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         onTap: onTabTapped,

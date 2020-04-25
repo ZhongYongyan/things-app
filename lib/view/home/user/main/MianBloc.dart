@@ -26,7 +26,6 @@ class MainBloc extends BlocBase with LoggingMixin {
       });
       print(tabController.index);
     });
-    log.info("w222222222222222");
   }
 
   void to() {

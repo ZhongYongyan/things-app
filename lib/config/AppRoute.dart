@@ -3,7 +3,6 @@ import 'package:app/view/guide/GuidePage.dart';
 import 'package:app/view/home/HomePage.dart';
 import 'package:app/view/home/management/ManagementPage.dart';
 import 'package:app/view/home/user/UserPage.dart';
-import 'package:app/view/home/user/add/AddPage.dart';
 import 'package:app/view/home/user/details/DatailsPage.dart';
 import 'package:app/view/home/user/main/MainPage.dart';
 import 'package:app/view/information/details/DetailsPage.dart';
@@ -32,8 +31,6 @@ Route appRoute(RouteSettings settings) {
       return _build(settings, DetailsPage(), TransactionType.fromRight);
     case '/user':
       return _build(settings, UserPage(), TransactionType.fromRight);
-    case '/userAdd':
-      return _build(settings, AddPage(), TransactionType.fromRight);
     case '/userMainPage':
       return _build(settings, MainPage(), TransactionType.fromRight);
     case '/userDetails':

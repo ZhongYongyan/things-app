@@ -242,7 +242,6 @@ class DatailsBloc extends BlocBase with LoggingMixin {
           timeInSecForIos: 1,
           textColor: Colors.white,
           fontSize: 16.0);
-      print(message);
       if(title == "用户详情") {
         setModel(() {
           addAffiliateShow = false;

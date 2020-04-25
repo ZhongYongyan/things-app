@@ -7,6 +7,6 @@ class PageBloc extends BlocBase with LoggingMixin {
   PageBloc(BuildContext context, Store store) : super(context, store);
 
   void startup() {
-    log.info("11111");
+
   }
 }

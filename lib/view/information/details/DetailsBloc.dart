@@ -120,16 +120,6 @@ p{
   void toBack() {
     navigate.pop();
   }
-  void getDelInfoSort(int id) async {
-//    Result<Info> response = await InfoSortApis.getDelInfoSort(id);
-//    bool code = response.success;
-//    if(code){
-//      infoModel = response.data;
-//      setUI();
-//    } else {
-//      print("失败了");
-//    }
-  }
   void to(String text) {
     scaffoldKey.currentState.showSnackBar(
       SnackBar(
@@ -144,6 +134,5 @@ p{
         ),
       ),
     );
-    //navigate.pushReplacementNamed('/homeCon');
   }
 }

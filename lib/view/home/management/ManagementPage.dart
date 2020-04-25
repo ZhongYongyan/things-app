@@ -87,27 +87,6 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                       ),
                     )),
               ),
-//              Positioned(
-//                left: 0.0,
-//                top: 40,
-//                right: 0,
-//                height: 31,
-//                child: Opacity(
-//                  opacity: 0.6,
-//                  child: ClipRRect(
-//                    //剪裁为圆角矩形
-//                    borderRadius: BorderRadius.circular(0.0),
-//                    child: Container(
-//                      color: Colors.black,
-//                      alignment: Alignment.center,
-//                      child: Text(
-//                        "蓝牙未打开",
-//                        style: TextStyle(color: Colors.white, fontSize: 12),
-//                      ),
-//                    ),
-//                  ),
-//                ),
-//              ),
               Positioned(
                   left: 0.0,
                   top: 40,
@@ -180,15 +159,6 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                           color: Color(0xFFF3F3F3),
                         ),
                       ))),
-//              Positioned(
-//                left: 80.0,
-//                top: 71,
-//                bottom: 0,
-//                width: 1,
-//                child: Container(
-//                  color: Color(0xFFEBEBEB),
-//                ),
-//              ),
               Positioned(
                   left: 80.0,
                   top: 40,
@@ -218,73 +188,6 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                           .toList(),
                     ),
                   )
-//                Container(
-//                  color: Colors.white,
-//                  margin: const EdgeInsets.only(left: 0.0, right: 0.0),
-////                  padding: const EdgeInsets.only(top: 30.0),
-//                  child: new StaggeredGridView.countBuilder(
-//                    crossAxisCount: 4,
-//                    itemCount: 6,
-//                    itemBuilder: (BuildContext context, int index) =>
-//                        new Container(
-//                            child: new Container(
-//                                child: Container(
-//                      margin: index.isEven
-//                          ? const EdgeInsets.only(left: 15)
-//                          : const EdgeInsets.only(right: 15),
-//                      child: DecoratedBox(
-//                          decoration: BoxDecoration(
-//                            //color: Color(0xFF000000),
-//                            borderRadius: BorderRadius.circular(0.0),
-////                                    border: Border.all(
-////                                        color: Color(0xFF3578F7)),
-//                          ),
-//                          child: Stack(
-//                            alignment: Alignment.center,
-//                            //指定未定位或部分定位widget的对齐方式
-//                            children: <Widget>[
-//                              Flex(
-//                                direction: Axis.vertical,
-//                                children: <Widget>[
-//                                  Image(
-//                                    image: AssetImage("assets/yizi.png"),
-//                                    width: 36.0,
-//                                    height: 36.0,
-//                                  ),
-//                                  Container(
-//                                    child: Text("SL-A100",
-//                                        maxLines: 1,
-//                                        overflow: TextOverflow.ellipsis,
-//                                        textAlign: TextAlign.center,
-//                                        style: TextStyle(
-//                                          color: Color(0xFF999999),
-//                                          fontSize: 10,
-//                                        )),
-//                                  ),
-//                                  Expanded(
-//                                    flex: 1,
-//                                    child: Container(
-//                                      child: Text("AI太空椅",
-//                                          maxLines: 1,
-//                                          overflow: TextOverflow.ellipsis,
-//                                          textAlign: TextAlign.center,
-//                                          style: TextStyle(
-//                                            color: Color(0xFF666666),
-//                                            fontSize: 10,
-//                                          )),
-//                                    ),
-//                                  ),
-//                                ],
-//                              ),
-//                            ],
-//                          )),
-//                    ))),
-//                    staggeredTileBuilder: (int index) =>
-//                        new StaggeredTile.count(2, 1.2),
-//                    mainAxisSpacing: 15.0,
-//                    crossAxisSpacing: 15.0,
-//                  ),
-//                ),
                   ),
 
                   bloc.loadShow ? Positioned(
@@ -326,17 +229,6 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                   fit: BoxFit.cover,
                 ),
               ),
-//            Container(
-//              margin: EdgeInsets.only(top: 5),
-//              child: Text("SL-A100",
-//                  maxLines: 1,
-//                  overflow: TextOverflow.ellipsis,
-//                  textAlign: TextAlign.center,
-//                  style: TextStyle(
-//                    color: Color(0xFF999999),
-//                    fontSize: 12,
-//                  )),
-//            ),
               Expanded(
                 flex: 1,
                 child: Container(

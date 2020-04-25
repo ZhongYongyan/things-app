@@ -24,18 +24,6 @@ class _State extends BlocState<MyPage, MyBloc> {
 
   _pageBody() {
     return Scaffold(
-//      appBar: AppBar(
-//        //导航栏
-//        elevation: 0,
-//        brightness: Brightness.light,
-//        title: Text("",
-//            style: TextStyle(
-//              color: Colors.white,
-//              fontSize: 14,
-//              fontWeight: FontWeight.w700,
-//            )),
-//        backgroundColor: Colors.white,
-//      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: ConstrainedBox(
@@ -43,32 +31,6 @@ class _State extends BlocState<MyPage, MyBloc> {
           child: Stack(
             alignment: Alignment.topLeft, //指定未定位或部分定位widget的对齐方式
             children: <Widget>[
-//              Positioned(
-//                  top: 0,
-//                  height: 40,
-//                  left: 0,
-//                  right: 0,
-//                  child: Container(
-//                    color: Color(0xFFFFFFFF),
-//                    child: Padding(
-//                      //左边添加8像素补白
-//                      padding: const EdgeInsets.only(left: 15.0),
-//                      child: Flex(
-//                        direction: Axis.horizontal,
-//                        children: <Widget>[
-//                          Text("我的",
-//                              maxLines: 1,
-//                              overflow: TextOverflow.ellipsis,
-//                              textAlign: TextAlign.left,
-//                              style: TextStyle(
-//                                color: Color(0xFF333333),
-//                                fontSize: 18,
-//                                fontWeight: FontWeight.w700,
-//                              )),
-//                        ],
-//                      ),
-//                    ),
-//                  )),
               Positioned(
                   top: 0,
                   bottom: 0,
