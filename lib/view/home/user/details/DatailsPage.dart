@@ -53,35 +53,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
               ),
             ),
             onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return CupertinoAlertDialog(
-                      title: Text("确认退出", style: TextStyle(fontSize: 16)),
-                      content: Container(
-                        margin: const EdgeInsets.only(top: 5),
-                        child: Text("资料尚未保存，是否取消编辑？"),
-                      ),
-                      actions: <Widget>[
-                        CupertinoDialogAction(
-                          child: Text("取消"),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            bloc.toBack();
-                            print("取消");
-                          },
-                        ),
-                        CupertinoDialogAction(
-                          child: Text("保存"),
-                          onPressed: () {
-                            print("确定");
-                            bloc.addAffiliate();
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
-                    );
-                  });
+              bloc.toBack();
             },
           ),
           title: Text(bloc.title,
@@ -90,6 +62,25 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               )),
+          actions: <Widget>[
+            // 非隐藏的菜单
+            new IconButton(
+              icon: new Container(
+                padding: EdgeInsets.all(0.0),
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(right: 0),
+                  child: new Text("保存",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Color(0xFF0079FE), fontSize: 14)),
+                ),
+              ),
+              onPressed: () {
+                bloc.addAffiliate();
+              },
+            ),
+            // 隐藏的菜单
+          ],
           backgroundColor: Colors.white,
         ),
         backgroundColor: Color(0xFFF9F9F9),

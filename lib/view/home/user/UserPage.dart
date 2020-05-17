@@ -218,9 +218,9 @@ class _State extends BlocState<UserPage, UserBloc> {
                           Container(
                             width: 100,
                             child: bloc.words[index].id != 123456 ? Text(
-                                "身高:" +
+                                "身高: " +
                                     bloc.words[index].height
-                                        .toString(),
+                                        .toString() + "CM",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color(0xFF9A9A9A),
@@ -257,8 +257,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                             width: 100,
                             child: bloc.words[index].id != 123456 ? Text(
                                 "体重: " +
-                                    bloc.words[index].weight
-                                        .toString(),
+                                    bloc.words[index].weight.toStringAsFixed(0) + "KG",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color(0xFF9A9A9A),

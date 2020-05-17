@@ -173,9 +173,9 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       affiliateModel.height.toString() == '0'
           ? "点击选择"
           : affiliateModel.height.toString(),
-      affiliateModel.weight.toString() == '0.0'
+      affiliateModel.weight.toStringAsFixed(0) == '0'
           ? "点击选择"
-          : affiliateModel.weight.toString(),
+          : affiliateModel.weight.toStringAsFixed(0),
       affiliateModel.birthday == ""
           ? "点击选择"
           : affiliateModel.birthday.substring(0, 10)
