@@ -156,8 +156,24 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                             child: Flex(
                               direction: Axis.vertical,
                               children: <Widget>[
-                                msgText(bloc.words[index]
-                                    .title,0),
+                                Flex(
+                                  direction: Axis.horizontal,
+                                  children: <Widget>[
+                                    msgText(bloc.words[index]
+                                        .title,0),
+                                    msgText(DateTime.parse(
+                                        bloc.words[index].updated)
+                                        .toString()
+                                        .substring(
+                                        0,
+                                        DateTime.parse(bloc
+                                            .words[index]
+                                            .updated)
+                                            .toString()
+                                            .length -
+                                            5),2)
+                                  ],
+                                ),
                                 msgText(bloc.words[index]
                                     .body,1)
                               ],
@@ -185,7 +201,8 @@ class _State extends BlocState<MsgPage, MsgBloc> {
     return Expanded(
       flex: 1,
       child: Container(
-        alignment: Alignment
+        alignment: start == 2 ? Alignment
+            .centerRight : Alignment
             .centerLeft,
         margin:start == 0 ? const EdgeInsets
             .only(top: 0.0) : const EdgeInsets
