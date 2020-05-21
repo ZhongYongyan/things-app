@@ -177,12 +177,17 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                               width: 48,
                                                               height: 48,
                                                               fit: BoxFit.cover)
-                                                          : Image.network(
-                                                              'https://pic2.zhimg.com/v2-639b49f2f6578eabddc458b84eb3c6a1.jpg',
-                                                              width: 48,
-                                                              height: 48,
-                                                              //fit: BoxFit.cover,
-                                                            ),
+                                                          : bloc.userImgPath != "" ? Image.network(
+                                                        bloc.userImgPath,
+                                                        width: 48,
+                                                        height: 48,
+                                                        fit: BoxFit.cover,
+                                                      ) : Image(
+                                                        image: AssetImage("assets/home_y.png"),
+                                                        fit: BoxFit.cover,
+                                                        width: 48,
+                                                        height: 48,
+                                                      )
                                                     )
                                                   : Container(),
                                               Expanded(

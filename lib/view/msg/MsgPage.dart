@@ -10,7 +10,7 @@ class MsgPage extends StatefulWidget {
   _State createState() => _State();
 }
 
-class _State extends BlocState<MsgPage, MsgBloc> {
+class _State extends BlocState<MsgPage, MsgBloc>  {
   @override
   MsgBloc createBloc(Store<StoreState> store) {
     return MsgBloc(context, store)..startup();

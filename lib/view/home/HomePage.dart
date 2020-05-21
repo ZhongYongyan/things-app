@@ -144,12 +144,20 @@ class _State extends BlocState<HomePage, HomeBloc> {
                         .only(
                       right: 5,
                     ),
-                    child: Image(
-                      image: AssetImage(
-                          "assets/home_y.png"),
-                      fit: BoxFit.cover,
-                      width: 30,
-                      height: 30,
+                    child: ClipOval(
+                        child:bloc.url != ""
+                            ? Image.network(
+                          bloc.url,
+                          width: 30,
+                          height: 30,
+                          fit: BoxFit.cover,
+                        )
+                            : Image(
+                          image: AssetImage("assets/home_y.png"),
+                          fit: BoxFit.cover,
+                          width: 30,
+                          height: 30,
+                        )
                     ),
                   ),
                   GestureDetector(

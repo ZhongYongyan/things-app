@@ -35,6 +35,7 @@ class AffiliateApis {
         'phone': affiliate.phone,
         'sex': affiliate.sex,
         'weight': affiliate.weight,
+        "avatar":affiliate.avatar
       });
       var responseUrl;
       if (id != 0) {
@@ -62,6 +63,7 @@ class AffiliateApis {
         'phone': affiliate.phone,
         'sex': affiliate.sex,
         'weight': affiliate.weight,
+        "avatar":affiliate.avatar
       });
       Response response = await apiRequest.post("/affiliate", data: formData);
       Result<Affiliate> entity =

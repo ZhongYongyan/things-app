@@ -29,11 +29,12 @@ class HomeBloc extends BlocBase with LoggingMixin {
   bool loadShow = false;
   bool isAndroidNewShow = false;
   String get name => state.auth.name != null ? state.auth.name : '访客';
+  String get url => state.auth.url != null ? state.auth.url : '访客';
   var DeviceVoModel = DeviceVo.fromJson({});
   void startup() {
     var vm = this;
     if (name == "访客") {
-      getUser();
+      //getUser();
     }
     getDeviceVo();
     Getuiflut().addEventHandler(
@@ -156,6 +157,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
     var list = response.data.items;
     if (list.length > 0) {
       dispatch(authActions.user(list[0].nickname));
+      dispatch(authActions.url(list[0].avatar));
     }
   }
 

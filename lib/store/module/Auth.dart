@@ -10,13 +10,17 @@ AuthActions authActions = AuthActions();
 class AuthState extends Persistable with StorageMixin, LoggingMixin {
   String accessToken = "";
   String userName = "访客";
-
+  String userUrl = "";
   bool get isAuth {
     return isNotEmpty(accessToken);
   }
 
   String get name {
     return userName;
+  }
+
+  String get url {
+    return userUrl;
   }
 
   @override
@@ -38,6 +42,16 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
   void recoverUser() {
     userName = storage.getString('auth.userName');
   }
+
+  @override
+  void saveUrl() {
+    storage.setString('auth.userUrl', userUrl);
+  }
+
+  @override
+  void recoverUrl() {
+    userUrl = storage.getString('auth.userUrl');
+  }
 }
 
 class AuthActions with LoggingMixin {
@@ -56,11 +70,19 @@ class AuthActions with LoggingMixin {
       return state;
     };
   }
+  ActionHandler<StoreState> url(String url) {
+    return (state) {
+      state.auth.userUrl = url;
+      state.auth.saveUrl();
+      return state;
+    };
+  }
 
   ActionHandler<StoreState> logout() {
     return (state) {
       state.auth = AuthState()..saveSnapshot();
       state.auth = AuthState()..saveUser();
+      state.auth = AuthState()..saveUrl();
       state.user = UserState();
       return state;
     };
