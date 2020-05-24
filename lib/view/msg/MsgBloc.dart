@@ -6,6 +6,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Page.dart';
 import 'package:app/base/util/Result.dart';
+import 'package:app/store/module/Msg.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 
@@ -19,7 +20,6 @@ class MsgBloc extends BlocBase with LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
-
   Future startup() async {
 
   }
@@ -34,6 +34,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
         await MemberNewsApis.getMemberNews(indexPage, 10, "ASC");
     bool code = response.success;
     if(!code) {
+      //dispatch(msgActions.saveShow(false));
       setModel(() {
         indexshow = false;
       });
@@ -47,11 +48,14 @@ class MsgBloc extends BlocBase with LoggingMixin {
         setModel(() {
           indexshow = false;
         });
+        //dispatch(msgActions.saveShow(false));
       } else {
         var newIndexPage = indexPage + 1;
+       // dispatch(msgActions.saveIndex(newIndexPage));
         setModel(() {
           indexPage = newIndexPage;
         });
+        //dispatch(msgActions.saveUser(words));
       }
     });
   }

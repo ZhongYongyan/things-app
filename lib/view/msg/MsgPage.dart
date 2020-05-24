@@ -69,6 +69,7 @@ class _State extends BlocState<MsgPage, MsgBloc>  {
                         if (bloc.words[index].title == bloc.loading) {
                           //不足100条，继续获取数据
                           if (bloc.indexshow) {
+                            print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                             //获取数据
                             bloc.retrieveData();
                             //加载时显示loading

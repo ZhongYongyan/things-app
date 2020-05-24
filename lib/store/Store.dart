@@ -7,10 +7,13 @@ import 'package:app/store/module/User.dart';
 import 'package:logging/logging.dart';
 import 'package:redux/redux.dart';
 
+import 'module/Msg.dart';
+
 class StoreState extends Persistable {
   AppState app = AppState();
   AuthState auth = AuthState();
   UserState user = UserState();
+  MsgState msg = MsgState();
 
   @override
   void recoverSnapshot() {
