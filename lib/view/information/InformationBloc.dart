@@ -53,7 +53,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
       indexshow =  response.data.items.length == 0 ? false : true;
     });
     state.information.textList = response.data.items;
-    state.information.sortId = response.data.items.first.id;
+    state.information.sortId = response.data.items.length > 0 ? response.data.items.first.id : 0;
     state.information.indexshow = response.data.items.length == 0 ? false : true;
   }
 
