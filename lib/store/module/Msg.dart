@@ -15,6 +15,9 @@ class MsgState extends Persistable with StorageMixin, LoggingMixin {
   var indexPage = 1;
   bool indexshow = true;
 
+  bool get isIndexshow {
+    return indexshow;
+  }
   @override
   void recoverSnapshot() {
 

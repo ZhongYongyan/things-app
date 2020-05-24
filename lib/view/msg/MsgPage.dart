@@ -61,7 +61,7 @@ class _State extends BlocState<MsgPage, MsgBloc>  {
                   left: 0,
                   right: 0,
                   child: Container(
-                    color: Color(0xFFF8F8F8),
+                    color: Color(0xFFF8F8F8) ,
                     child: ListView.separated(
                       itemCount: bloc.words.length,
                       itemBuilder: (context, index) {
@@ -69,7 +69,6 @@ class _State extends BlocState<MsgPage, MsgBloc>  {
                         if (bloc.words[index].title == bloc.loading) {
                           //不足100条，继续获取数据
                           if (bloc.indexshow) {
-                            print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                             //获取数据
                             bloc.retrieveData();
                             //加载时显示loading
@@ -84,13 +83,15 @@ class _State extends BlocState<MsgPage, MsgBloc>  {
                             );
                           } else {
                             //已经加载了100条数据，不再获取数据。
-                            return Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.all(16.0),
-                                child: Text(
-                                  "",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 14),
+                            return  Text("",
+                                maxLines: 1,
+                                textAlign:
+                                TextAlign
+                                    .center,
+                                style: TextStyle(
+                                  color: Color(
+                                      0xFFA2A2A6),
+                                  fontSize: 14,
                                 ));
                           }
                         }
@@ -102,7 +103,43 @@ class _State extends BlocState<MsgPage, MsgBloc>  {
                         color: Color(0xFFF3F3F3),
                       ),
                     ),
-                  ))
+                  )),
+
+              bloc.words.length == 1 && !bloc.indexshow ? Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                      color: Color(0xFFFFFFFF),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              alignment: Alignment.center,
+                              margin:  const EdgeInsets.only(
+                                  top: 100,bottom: 10),
+                              child: Image(
+                                image: AssetImage(
+                                    "assets/msg_empty.jpeg"),
+                                fit: BoxFit.cover,
+                                width: 78,
+                                height: 64,
+                              ),
+                            ),
+                            Text("没有相关消息",
+                                maxLines: 1,
+                                textAlign:
+                                TextAlign
+                                    .center,
+                                style: TextStyle(
+                                  color: Color(
+                                      0xFFA2A2A6),
+                                  fontSize: 14,
+                                )),
+                          ])
+                  )
+              ) : Container()
             ],
           ),
         ),
