@@ -7,6 +7,7 @@ import 'package:app/store/module/User.dart';
 import 'package:logging/logging.dart';
 import 'package:redux/redux.dart';
 
+import 'module/ Information.dart';
 import 'module/Msg.dart';
 
 class StoreState extends Persistable {
@@ -14,6 +15,7 @@ class StoreState extends Persistable {
   AuthState auth = AuthState();
   UserState user = UserState();
   MsgState msg = MsgState();
+  InformationState information = InformationState();
 
   @override
   void recoverSnapshot() {
@@ -35,6 +37,8 @@ class StoreState extends Persistable {
     auth.saveUser();
   }
 }
+
+
 
 class StoreConfig {
   static Logger _log = Logger('store');

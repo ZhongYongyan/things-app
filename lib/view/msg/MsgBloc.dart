@@ -20,10 +20,12 @@ class MsgBloc extends BlocBase with LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
-
-  bool get getShow => state.msg.isIndexshow;
   Future startup() async {
-
+    setModel(() {
+      words = state.msg.words;
+      indexPage = state.msg.indexPage;
+      indexshow =  state.msg.indexshow;
+    });
   }
 
   void onToDetails(int i) {
@@ -33,13 +35,13 @@ class MsgBloc extends BlocBase with LoggingMixin {
   void retrieveData() async {
     lists = [];
     Result<Page> response =
-        await MemberNewsApis.getMemberNews(indexPage, 20, "ASC");
+        await MemberNewsApis.getMemberNews(indexPage, 10, "ASC");
     bool code = response.success;
     if(!code) {
-      //dispatch(msgActions.saveShow(false));
       setModel(() {
         indexshow = false;
       });
+      state.msg.indexshow = false;
       return;
     }
     //错误处理
@@ -50,12 +52,15 @@ class MsgBloc extends BlocBase with LoggingMixin {
         setModel(() {
           indexshow = false;
         });
+        state.msg.indexshow = false;
       } else {
         var newIndexPage = indexPage + 1;
         setModel(() {
-          indexPage = newIndexPage;
+          indexPage =  newIndexPage;
         });
+        state.msg.indexPage = newIndexPage;
       }
+      state.msg.words = words;
     });
   }
 }

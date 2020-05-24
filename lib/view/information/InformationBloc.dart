@@ -24,7 +24,16 @@ class InformationBloc extends BlocBase with LoggingMixin {
   bool indexshow = true;
 
   Future startup() async {
-    getInfoSortData();
+    setModel(() {
+      textList = state.information.textList;
+      sortId = state.information.sortId;
+      indexshow =  state.information.indexshow;
+      words = state.information.words;
+      indexPage = state.information.indexPage;
+    });
+    if(sortId == 0) {
+      getInfoSortData();
+    }
   }
 
   void getInfoSortData() async {
@@ -35,6 +44,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
       setModel(() {
         indexshow = false;
       });
+      state.information.indexshow = false;
       return;
     }
     setModel(() {
@@ -42,10 +52,17 @@ class InformationBloc extends BlocBase with LoggingMixin {
       sortId = response.data.items.first.id;
       indexshow =  response.data.items.length == 0 ? false : true;
     });
+    state.information.textList = response.data.items;
+    state.information.sortId = response.data.items.first.id;
+    state.information.indexshow = response.data.items.length == 0 ? false : true;
   }
 
   void onToSelection(int id) {
     var loadingTag = Info.fromJson({'title': 'loadingTag'});
+    state.information.sortId = id;
+    state.information.indexPage = 1;
+    state.information.words = <Info>[loadingTag];
+    state.information.indexshow = true;
     setModel(() {
       sortId = id;
       words = <Info>[loadingTag];
@@ -71,6 +88,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
       setModel(() {
         indexshow = false;
       });
+      state.information.indexshow = false;
       return;
     }
     //错误处理
@@ -81,12 +99,15 @@ class InformationBloc extends BlocBase with LoggingMixin {
         setModel(() {
           indexshow = false;
         });
+        state.information.indexshow = false;
       } else {
         var newIndexPage = indexPage + 1;
         setModel(() {
           indexPage = newIndexPage;
         });
+        state.information.indexPage = newIndexPage;
       }
+      state.information.words = words;
     });
   }
 
