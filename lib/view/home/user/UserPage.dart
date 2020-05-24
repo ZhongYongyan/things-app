@@ -4,6 +4,7 @@ import 'package:app/view/home/user/UserBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/src/store.dart';
 
+import 'dart:io';
 class UserPage extends StatefulWidget {
   @override
   _State createState() => _State();
@@ -139,12 +140,21 @@ class _State extends BlocState<UserPage, UserBloc> {
                       Flex(
                         direction: Axis.horizontal,
                         children: <Widget>[
-                          Image(
-                            image: AssetImage("assets/home_y.png"),
-                            fit: BoxFit.cover,
-                            width: 30,
-                            height: 30,
-                          ),
+                          ClipOval(
+                            child:bloc.words[index].avatar != ""
+                                ? Image.network(
+                              bloc.words[index].avatar,
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.cover,
+                                )
+                                : Image(
+                              image: AssetImage("assets/home_y.png"),
+                              fit: BoxFit.cover,
+                              width: 30,
+                              height: 30,
+                            )
+                            ),
                           Expanded(
                             flex: 1,
                             child: Container(
@@ -218,9 +228,9 @@ class _State extends BlocState<UserPage, UserBloc> {
                           Container(
                             width: 100,
                             child: bloc.words[index].id != 123456 ? Text(
-                                "身高:" +
+                                "身高: " +
                                     bloc.words[index].height
-                                        .toString(),
+                                        .toString() + "CM",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color(0xFF9A9A9A),
@@ -257,8 +267,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                             width: 100,
                             child: bloc.words[index].id != 123456 ? Text(
                                 "体重: " +
-                                    bloc.words[index].weight
-                                        .toString(),
+                                    bloc.words[index].weight.toStringAsFixed(0) + "KG",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color(0xFF9A9A9A),

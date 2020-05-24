@@ -6,6 +6,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Page.dart';
 import 'package:app/base/util/Result.dart';
+import 'package:app/store/module/Msg.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 
@@ -20,6 +21,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
   var indexPage = 1;
   bool indexshow = true;
 
+  bool get getShow => state.msg.isIndexshow;
   Future startup() async {
 
   }
@@ -31,9 +33,10 @@ class MsgBloc extends BlocBase with LoggingMixin {
   void retrieveData() async {
     lists = [];
     Result<Page> response =
-        await MemberNewsApis.getMemberNews(indexPage, 10, "ASC");
+        await MemberNewsApis.getMemberNews(indexPage, 20, "ASC");
     bool code = response.success;
     if(!code) {
+      //dispatch(msgActions.saveShow(false));
       setModel(() {
         indexshow = false;
       });

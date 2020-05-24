@@ -102,7 +102,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                   left: 0,
                   right: 0,
                   child: Container(
-                    color: Color(0xFFf8f8f8),
+                    color: Color(0xFFF8F8F8),
                     child: ListView.separated(
                       itemCount: bloc.words.length,
                       itemBuilder: (context, index) {
@@ -124,14 +124,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                             );
                           } else {
                             //已经加载了100条数据，不再获取数据。
-                            return Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.all(16.0),
-                                child: Text(
-                                  "",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 14),
-                                ));
+                            return Container();
                           }
                         }
                         //显示单词列表项
@@ -139,7 +132,42 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                       },
                       separatorBuilder: (context, index) => Container(),
                     ),
-                  ))
+                  )),
+              (bloc.words.length == 1 || bloc.textList.length == 0 ) && !bloc.indexshow ? Positioned(
+                  top: bloc.textList.length == 0 ? 1 : 41,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                      color: Color(0xFFFFFFFF),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              alignment: Alignment.center,
+                              margin:  const EdgeInsets.only(
+                                  top: 100,bottom: 10),
+                              child: Image(
+                                image: AssetImage(
+                                    "assets/information_empit.jpeg"),
+                                fit: BoxFit.cover,
+                                width: 96,
+                                height: 64,
+                              ),
+                            ),
+                            Text("没有相关资讯",
+                                maxLines: 1,
+                                textAlign:
+                                TextAlign
+                                    .center,
+                                style: TextStyle(
+                                  color: Color(
+                                      0xFFA2A2A6),
+                                  fontSize: 14,
+                                )),
+                          ])
+                  )
+              ) : Container()
             ],
           ),
         ),

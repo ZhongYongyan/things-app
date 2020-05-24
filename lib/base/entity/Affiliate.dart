@@ -8,7 +8,7 @@ class Affiliate {
   String phone;
   String sex;
   double weight;
-
+  String avatar;
   Affiliate.fromJson(Map<String, dynamic> json) {
     birthday = json['birthday'] ?? "";
     created = json['created'] ?? "";
@@ -19,5 +19,6 @@ class Affiliate {
     phone = json['phone'] ?? "";
     sex = json['sex'] ?? "";
     weight = json['weight'] ?? 0.0;
+    avatar = json['avatar'] ?? "";
   }
 }

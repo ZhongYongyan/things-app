@@ -1,4 +1,5 @@
 import 'package:app/base/api/AffiliateApis.dart';
+import 'package:app/base/api/AvatarApis.dart';
 import 'package:app/base/entity/Affiliate.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
-
+import 'dart:io';
 class DatailsBloc extends BlocBase with LoggingMixin {
   DatailsBloc(BuildContext context, Store store) : super(context, store);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -34,10 +35,12 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   List userList = ["修改头像", "", "点击选择", "点击选择", "点击选择", "点击选择"];
   String text = "最新";
   String imgPath = "";
+  String userImgPath = "";
   bool editShow = false;
   bool nameEmpty = false;
   bool loginProcessing = false;
   bool addAffiliateShow = false;
+  File images;
   var heightPickerData = '''
 [
     [
@@ -97,7 +100,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
 
   void startup() {
     //retrieveData();
-    log.info("w222222222222222");
+
   }
 
   void to(String t) {
@@ -134,6 +137,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
 
     setModel(() {
       imgPath = image.path;
+      images =  image;
     });
   }
 
@@ -142,8 +146,10 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setModel(() {
       imgPath = image.path;
+      images =  image;
     });
   }
+
 
   void retrieveData() {
     Future.delayed(Duration(seconds: 0)).then((e) {
@@ -173,13 +179,14 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       affiliateModel.height.toString() == '0'
           ? "点击选择"
           : affiliateModel.height.toString(),
-      affiliateModel.weight.toString() == '0.0'
+      affiliateModel.weight.toStringAsFixed(0) == '0'
           ? "点击选择"
-          : affiliateModel.weight.toString(),
+          : affiliateModel.weight.toStringAsFixed(0),
       affiliateModel.birthday == ""
           ? "点击选择"
           : affiliateModel.birthday.substring(0, 10)
     ];
+    userImgPath = affiliateModel.avatar;
   }
 
   void toBack() {
@@ -215,11 +222,38 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     setModel(() {
       loginProcessing = true;
     });
+
     var data = affiliateModel.birthday.substring(0, 10);
     affiliateModel.birthday = data.replaceAll('-', '/') + ' 23:23:23';
     affiliateModel.nickname = usernameController.text;
+
+    //未选择头像
+    if(imgPath == "") {
+      saveAffiliate();
+    } else {
+      //选择了头像
+      String response =
+      await AvatarApis.getUpload(images);
+      setModel(() {
+        affiliateModel.avatar = response;
+      });
+      if(response != "") {
+        saveAffiliate();
+      } else {
+        Fluttertoast.showToast(
+            msg: "保存失败",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+    }
+  }
+
+  void saveAffiliate() async {
     Result<Affiliate> response =
-        await AffiliateApis.modifyAffiliate(affiliateModel);
+    await AffiliateApis.modifyAffiliate(affiliateModel);
     bool code = response.success;
     setModel(() {
       loginProcessing = false;
