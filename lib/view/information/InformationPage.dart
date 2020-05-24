@@ -133,8 +133,8 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                       separatorBuilder: (context, index) => Container(),
                     ),
                   )),
-              bloc.words.length == 1 && !bloc.indexshow ? Positioned(
-                  top: 41,
+              (bloc.words.length == 1 || bloc.textList.length == 0 ) && !bloc.indexshow ? Positioned(
+                  top: bloc.textList.length == 0 ? 1 : 41,
                   left: 0,
                   right: 0,
                   bottom: 0,
