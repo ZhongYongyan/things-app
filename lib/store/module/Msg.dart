@@ -17,7 +17,9 @@ class MsgState extends Persistable with StorageMixin, LoggingMixin {
 
   @override
   void saveSnapshot() {
-
+    words =  <MemberNews>[loadingTag];
+    indexPage = 1;
+    indexshow = true;
   }
 
 }

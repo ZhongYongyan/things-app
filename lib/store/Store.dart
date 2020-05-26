@@ -9,6 +9,7 @@ import 'package:redux/redux.dart';
 
 import 'module/ Information.dart';
 import 'module/Msg.dart';
+import 'module/management.dart';
 
 class StoreState extends Persistable {
   AppState app = AppState();
@@ -16,7 +17,7 @@ class StoreState extends Persistable {
   UserState user = UserState();
   MsgState msg = MsgState();
   InformationState information = InformationState();
-
+  ManagementState  management = ManagementState();
   @override
   void recoverSnapshot() {
     auth.recoverSnapshot();

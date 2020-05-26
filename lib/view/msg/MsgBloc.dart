@@ -21,11 +21,13 @@ class MsgBloc extends BlocBase with LoggingMixin {
   var indexPage = 1;
   bool indexshow = true;
   Future startup() async {
-    setModel(() {
-      words = state.msg.words;
-      indexPage = state.msg.indexPage;
-      indexshow =  state.msg.indexshow;
-    });
+    if(state.msg.words.length  != 1 )  {
+      setModel(() {
+        words = state.msg.words;
+        indexPage = state.msg.indexPage;
+        indexshow =  state.msg.indexshow;
+      });
+    }
   }
 
   void onToDetails(int i) {

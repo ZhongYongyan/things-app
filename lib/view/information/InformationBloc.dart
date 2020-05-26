@@ -24,13 +24,15 @@ class InformationBloc extends BlocBase with LoggingMixin {
   bool indexshow = true;
 
   Future startup() async {
-    setModel(() {
-      textList = state.information.textList;
-      sortId = state.information.sortId;
-      indexshow =  state.information.indexshow;
-      words = state.information.words;
-      indexPage = state.information.indexPage;
-    });
+    if (state.information.textList.length > 0) {
+      setModel(() {
+        textList = state.information.textList;
+        sortId = state.information.sortId;
+        indexshow =  state.information.indexshow;
+        words = state.information.words;
+        indexPage = state.information.indexPage;
+      });
+    }
     if(sortId == 0) {
       getInfoSortData();
     }

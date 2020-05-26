@@ -22,9 +22,13 @@ class InformationState extends Persistable with StorageMixin, LoggingMixin {
 
   @override
   void saveSnapshot() {
-
+    words =  <Info>[loadingTag];
+    textList = [];
+    sortId = 0;
+    lists = [];
+    indexPage = 1;
+    indexshow = true;
   }
-
 }
 
 class InformationActions with LoggingMixin {

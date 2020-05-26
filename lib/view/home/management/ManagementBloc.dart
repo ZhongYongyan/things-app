@@ -27,6 +27,19 @@ class ManagementBloc extends BlocBase with LoggingMixin {
   }
 
   void startup() {
+    if(state.management.words.length > 1) {
+      setModel(() {
+        words = state.management.words;
+        id = state.management.id;
+        lists = state.management.lists;
+        indexPage = state.management.indexPage;
+        index = state.management.index;
+        indexshow = state.management.indexshow;
+        text = state.management.text;
+        loadShow = state.management.loadShow;
+      });
+      onToDetails(state.management.index);
+    }
     //retrieveData();
   }
   void onGetUrlDetails(DeviceModel item) async {
@@ -34,11 +47,13 @@ class ManagementBloc extends BlocBase with LoggingMixin {
     setModel(() {
       loadShow = true;
     });
+    state.management.loadShow = true;
     Result<Software> response = await SoftwareApis.getSoftware(item.id);
     bool code = response.success;
     setModel(() {
       loadShow = false;
     });
+    state.management.loadShow = false;
     //错误处理
     if(!code) {
       Fluttertoast.showToast(
@@ -54,12 +69,10 @@ class ManagementBloc extends BlocBase with LoggingMixin {
   }
 
   void onToDetails(int i) async {
-    var model = lists[i] as DeviceModelAll;
-    print(model.id);
-    print(model.model);
     setModel(() {
       index = i;
     });
+    state.management.index = i;
   }
 
   void retrieveData() async {
@@ -68,22 +81,21 @@ class ManagementBloc extends BlocBase with LoggingMixin {
     bool code = response.success;
     //错误处理
     lists = response.data;
-
     Future.delayed(Duration(seconds: 1)).then((e) {
       words.insertAll(words.length - 1, lists.map((student) => student));
       if (lists.length < 10) {
         setModel(() {
           indexshow = false;
         });
+        state.management.indexshow = false;
       } else {
         var newIndexPage = indexPage + 1;
         setModel(() {
           indexPage = newIndexPage;
         });
+        state.management.indexPage = newIndexPage;
       }
-//      if (lists.length > 1) {
-//        id = words[0].id;
-//      }
+      state.management.words = words;
     });
   }
 }
