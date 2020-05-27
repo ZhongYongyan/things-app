@@ -28,12 +28,12 @@ class InformationBloc extends BlocBase with LoggingMixin {
       setModel(() {
         textList = state.information.textList;
         sortId = state.information.sortId;
-        indexshow =  state.information.indexshow;
+        indexshow = state.information.indexshow;
         words = state.information.words;
         indexPage = state.information.indexPage;
       });
     }
-    if(sortId == 0) {
+    if (sortId == 0) {
       getInfoSortData();
     }
   }
@@ -42,7 +42,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
     Result<Page> response = await InfoSortApis.getInfoSort(1, 10, "ASC");
     bool code = response.success;
     //错误处理
-    if(!code) {
+    if (!code) {
       setModel(() {
         indexshow = false;
       });
@@ -51,12 +51,15 @@ class InformationBloc extends BlocBase with LoggingMixin {
     }
     setModel(() {
       textList = response.data.items;
-      sortId = response.data.items.length > 0 ? response.data.items.first.id : 0;
-      indexshow =  response.data.items.length == 0 ? false : true;
+      sortId =
+          response.data.items.length > 0 ? response.data.items.first.id : 0;
+      indexshow = response.data.items.length == 0 ? false : true;
     });
     state.information.textList = response.data.items;
-    state.information.sortId = response.data.items.length > 0 ? response.data.items.first.id : 0;
-    state.information.indexshow = response.data.items.length == 0 ? false : true;
+    state.information.sortId =
+        response.data.items.length > 0 ? response.data.items.first.id : 0;
+    state.information.indexshow =
+        response.data.items.length == 0 ? false : true;
   }
 
   void onToSelection(int id) {
@@ -85,8 +88,8 @@ class InformationBloc extends BlocBase with LoggingMixin {
     Result<Page> response =
         await InfoSortApis.getInfo(indexPage, 10, "ASC", sortId);
     bool code = response.success;
-    if(!code) {
-      log.info("资讯请求出错",response.message);
+    if (!code) {
+      log.info("资讯请求出错", response.message);
       setModel(() {
         indexshow = false;
       });

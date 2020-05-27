@@ -22,12 +22,13 @@ class ManagementBloc extends BlocBase with LoggingMixin {
   bool indexshow = true;
   var text = "按摩椅";
   bool loadShow = false;
+
   void back() {
     navigate.pop();
   }
 
   void startup() {
-    if(state.management.words.length > 1) {
+    if (state.management.words.length > 1) {
       setModel(() {
         words = state.management.words;
         id = state.management.id;
@@ -42,6 +43,7 @@ class ManagementBloc extends BlocBase with LoggingMixin {
     }
     //retrieveData();
   }
+
   void onGetUrlDetails(DeviceModel item) async {
     log.info(item.id);
     setModel(() {
@@ -55,7 +57,7 @@ class ManagementBloc extends BlocBase with LoggingMixin {
     });
     state.management.loadShow = false;
     //错误处理
-    if(!code) {
+    if (!code) {
       Fluttertoast.showToast(
           msg: "没有找到插件，请与系统管理员联系",
           toastLength: Toast.LENGTH_SHORT,

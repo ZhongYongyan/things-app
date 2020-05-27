@@ -120,6 +120,7 @@ p{
   void toBack() {
     navigate.pop();
   }
+
   void to(String text) {
     scaffoldKey.currentState.showSnackBar(
       SnackBar(

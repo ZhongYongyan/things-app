@@ -20,12 +20,13 @@ class MsgBloc extends BlocBase with LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
+
   Future startup() async {
-    if(state.msg.words.length  != 1 )  {
+    if (state.msg.words.length != 1) {
       setModel(() {
         words = state.msg.words;
         indexPage = state.msg.indexPage;
-        indexshow =  state.msg.indexshow;
+        indexshow = state.msg.indexshow;
       });
     }
   }
@@ -39,7 +40,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
     Result<Page> response =
         await MemberNewsApis.getMemberNews(indexPage, 10, "ASC");
     bool code = response.success;
-    if(!code) {
+    if (!code) {
       setModel(() {
         indexshow = false;
       });
@@ -58,7 +59,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
       } else {
         var newIndexPage = indexPage + 1;
         setModel(() {
-          indexPage =  newIndexPage;
+          indexPage = newIndexPage;
         });
         state.msg.indexPage = newIndexPage;
       }

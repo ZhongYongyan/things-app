@@ -17,10 +17,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
   @override
   void initState() {
     super.initState();
-
   }
-
-
 
   @override
   HomeBloc createBloc(Store<StoreState> store) {
@@ -96,20 +93,21 @@ class _State extends BlocState<HomePage, HomeBloc> {
                   ),
                 ),
               ),
-
-              bloc.loadShow ? Positioned(
-                  left: 0,
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(0),
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                        width: 24.0,
-                        height: 24.0,
-                        child: CircularProgressIndicator(strokeWidth: 2.0)),
-                  )) : Container()
+              bloc.loadShow
+                  ? Positioned(
+                      left: 0,
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(0),
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                            width: 24.0,
+                            height: 24.0,
+                            child: CircularProgressIndicator(strokeWidth: 2.0)),
+                      ))
+                  : Container()
             ],
           ),
         ),
@@ -117,87 +115,63 @@ class _State extends BlocState<HomePage, HomeBloc> {
     );
   }
 
-
-
   //用户信息及设置
   Widget getUserItem(int index) {
     return Container(
-      margin: const EdgeInsets.only(
-          left: 15, right: 15, top: 5),
+      margin: const EdgeInsets.only(left: 15, right: 15, top: 5),
       //color: Color(0xFF3578F7),
       child: Flex(
         direction: Axis.horizontal,
         children: <Widget>[
           Flex(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             direction: Axis.vertical,
             children: <Widget>[
               Row(
-                mainAxisAlignment:
-                MainAxisAlignment
-                    .start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    margin:
-                    const EdgeInsets
-                        .only(
+                    margin: const EdgeInsets.only(
                       right: 5,
                     ),
                     child: ClipOval(
-                        child:bloc.url != ""
+                        child: bloc.url != ""
                             ? Image.network(
-                          bloc.url,
-                          width: 30,
-                          height: 30,
-                          fit: BoxFit.cover,
-                        )
+                                bloc.url,
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.cover,
+                              )
                             : Image(
-                          image: AssetImage("assets/home_y.png"),
-                          fit: BoxFit.cover,
-                          width: 30,
-                          height: 30,
-                        )
-                    ),
+                                image: AssetImage("assets/home_y.png"),
+                                fit: BoxFit.cover,
+                                width: 30,
+                                height: 30,
+                              )),
                   ),
                   GestureDetector(
                     child: Text(bloc.name,
                         maxLines: 1,
-                        overflow:
-                        TextOverflow
-                            .ellipsis,
-                        textAlign:
-                        TextAlign
-                            .left,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: Color(
-                              0xFF3578F7),
+                          color: Color(0xFF3578F7),
                           fontSize: 16,
                         )),
-                    onTap: () =>
-                        bloc.to(), //点击
+                    onTap: () => bloc.to(), //点击
                   ),
                   GestureDetector(
                     child: Container(
-                      margin:
-                      const EdgeInsets
-                          .only(
-                          left: 5),
-                      child: Icon(
-                          Icons
-                              .keyboard_arrow_down,
-                          color: Color(
-                              0xFF3578F7)),
+                      margin: const EdgeInsets.only(left: 5),
+                      child: Icon(Icons.keyboard_arrow_down,
+                          color: Color(0xFF3578F7)),
                     ),
-                    onTap: () =>
-                        bloc.to(), //点击
+                    onTap: () => bloc.to(), //点击
                   ),
                 ],
               ),
               Container(
-                margin:
-                const EdgeInsets.only(
-                    top: 5),
+                margin: const EdgeInsets.only(top: 5),
               ),
               getText("点击右侧「添加设备"),
               getText("连接智能设备"),
@@ -216,8 +190,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                 child: Container(
                   width: 51,
                   height: 51,
-                  color:
-                  Color(0xFF3578F7),
+                  color: Color(0xFF3578F7),
                   child: Icon(
                     Icons.add,
                     color: Colors.white,
@@ -239,19 +212,13 @@ class _State extends BlocState<HomePage, HomeBloc> {
         onTap: () => bloc.toPlugin(index),
         child: Container(
           margin: index.isEven
-              ? const EdgeInsets.only(
-              left: 15)
-              : const EdgeInsets.only(
-              right: 15),
+              ? const EdgeInsets.only(left: 15)
+              : const EdgeInsets.only(right: 15),
           child: DecoratedBox(
               decoration: BoxDecoration(
                 //color: Color(0xFF000000),
-                borderRadius:
-                BorderRadius.circular(
-                    10.0),
-                border: Border.all(
-                    color:
-                    Color(0xFF3578F7)),
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(color: Color(0xFF3578F7)),
               ),
               child: Stack(
                 alignment: Alignment.center,
@@ -264,80 +231,88 @@ class _State extends BlocState<HomePage, HomeBloc> {
                     left: 0,
                     child: Padding(
                       //左边添加8像素补白
-                      padding:
-                      const EdgeInsets
-                          .all(10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Flex(
-                        direction:
-                        Axis.horizontal,
+                        direction: Axis.horizontal,
                         children: <Widget>[
                           Expanded(
-                            child:
-                            Container(
+                            child: Container(
                               child: Flex(
-                                crossAxisAlignment:
-                                CrossAxisAlignment
-                                    .center,
-                                direction: Axis
-                                    .vertical,
-                                children: <
-                                    Widget>[
-                                  getExpanded("设备名称",0),
-                                  getExpanded(bloc.findModelName(bloc.DeviceVoModel.devices[index - 2].modelId),1),
-                                  getExpanded(bloc.findSortName(bloc.DeviceVoModel.devices[index - 2].sortId),1),
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                direction: Axis.vertical,
+                                children: <Widget>[
+                                  getExpanded("设备名称", 0),
+                                  getExpanded(
+                                      bloc.findModelName(bloc.DeviceVoModel
+                                          .devices[index - 2].modelId),
+                                      1),
+                                  getExpanded(
+                                      bloc.findSortName(bloc.DeviceVoModel
+                                          .devices[index - 2].sortId),
+                                      1),
                                 ],
                               ),
                             ),
                           ),
                           Expanded(
-                            child:
-                            Container(
+                            child: Container(
                               child: Flex(
-                                direction: Axis
-                                    .vertical,
-                                crossAxisAlignment:
-                                CrossAxisAlignment
-                                    .end,
-                                children: <
-                                    Widget>[
+                                direction: Axis.vertical,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
                                   Container(
                                     //color: Color(0xFFF8F8F8),
                                     child: Image.network(
-                                      bloc.findModelIcon(bloc.DeviceVoModel.devices[index - 2].modelId),
+                                      bloc.findModelIcon(bloc.DeviceVoModel
+                                          .devices[index - 2].modelId),
                                       width: 36,
                                       height: 36,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-
                                   Expanded(
                                     flex: 1,
-                                    child:
-                                    Container(),
+                                    child: Container(),
                                   ),
                                   Expanded(
-                                    child:
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.end,
-                                      children: <
-                                          Widget>[
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
                                         Container(
                                           margin: const EdgeInsets.only(
                                             right: 5,
                                           ),
                                           child: Image(
-                                            image: bloc.DeviceVoModel.devices[index - 2].statusCode == "ONLINE" ? AssetImage("assets/ok.png") : AssetImage("assets/on.png"),
+                                            image: bloc
+                                                        .DeviceVoModel
+                                                        .devices[index - 2]
+                                                        .statusCode ==
+                                                    "ONLINE"
+                                                ? AssetImage("assets/ok.png")
+                                                : AssetImage("assets/on.png"),
                                             width: 13.0,
                                             height: 13.0,
                                           ),
                                         ),
-                                        Text(bloc.DeviceVoModel.devices[index - 2].statusCode == "ONLINE" ? "在线" : '离线',
+                                        Text(
+                                            bloc
+                                                        .DeviceVoModel
+                                                        .devices[index - 2]
+                                                        .statusCode ==
+                                                    "ONLINE"
+                                                ? "在线"
+                                                : '离线',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
-                                              color: bloc.DeviceVoModel.devices[index - 2].statusCode == "ONLINE" ? Color(0xFF3578F7) : Color(0xFFCDCDCD),
+                                              color: bloc
+                                                          .DeviceVoModel
+                                                          .devices[index - 2]
+                                                          .statusCode ==
+                                                      "ONLINE"
+                                                  ? Color(0xFF3578F7)
+                                                  : Color(0xFFCDCDCD),
                                               fontSize: 12,
                                             )),
                                       ],
@@ -357,37 +332,29 @@ class _State extends BlocState<HomePage, HomeBloc> {
   }
 
   Widget getText(String text) {
-      return Text(text,
-          maxLines: 1,
-          overflow: TextOverflow
-              .ellipsis,
-          textAlign:
-          TextAlign.left,
-          style: TextStyle(
-              color: Color(
-                  0xFF333333),
-              fontSize: 15,
-              height: 1.5));
+    return Text(text,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.left,
+        style: TextStyle(color: Color(0xFF333333), fontSize: 15, height: 1.5));
   }
 
   Widget getExpanded(String text, int start) {
     return Expanded(
       flex: 1,
-      child:
-      Container(
-        alignment:
-        Alignment.bottomCenter,
-        child: Text(
-            text,
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        child: Text(text,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: start == 0 ? Color(0xFF3578F7) :  Color(0xFF9CC5FF),
+              color: start == 0 ? Color(0xFF3578F7) : Color(0xFF9CC5FF),
               fontSize: start == 0 ? 16 : 12,
             )),
       ),
     );
   }
+
   bool get wantKeepAlive => false;
 }

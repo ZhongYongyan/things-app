@@ -39,6 +39,7 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
     Widget body = _pageBody();
     return body;
   }
+
   _pageBody() {
     return Scaffold(
         key: bloc.scaffoldKey,

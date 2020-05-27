@@ -21,6 +21,7 @@ import 'package:getuiflut/getuiflut.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'dart:convert' as convert;
+
 class HomeBloc extends BlocBase with LoggingMixin {
   HomeBloc(BuildContext context, Store store) : super(context, store);
   bool show = false;
@@ -28,9 +29,12 @@ class HomeBloc extends BlocBase with LoggingMixin {
   Timer _timer;
   bool loadShow = false;
   bool isAndroidNewShow = false;
+
   String get name => state.auth.name != null ? state.auth.name : '访客';
+
   String get url => state.auth.url != null ? state.auth.url : '访客';
   var DeviceVoModel = DeviceVo.fromJson({});
+
   void startup() {
     var vm = this;
     if (name == "访客") {
@@ -39,16 +43,16 @@ class HomeBloc extends BlocBase with LoggingMixin {
     getDeviceVo();
     Getuiflut().addEventHandler(
       onReceiveClientId: (String message) async {
-        print("flutter onReceiveClientId+++++++++++++++++++++++: $message"); // 注册收到 cid 的回调
+        print(
+            "flutter onReceiveClientId+++++++++++++++++++++++: $message"); // 注册收到 cid 的回调
         //vm.onReceiveClientId = message;
         vm.getUserbindAlias(message);
       },
       onRegisterDeviceToken: (String message) async {
-        print("flutter onRegisterDeviceToken+++++++++++++++++++++++: $message"); // 注册收到 cid 的回调
+        print(
+            "flutter onRegisterDeviceToken+++++++++++++++++++++++: $message"); // 注册收到 cid 的回调
       },
-      onReceivePayload: (Map<String, dynamic> message) async {
-
-      },
+      onReceivePayload: (Map<String, dynamic> message) async {},
       onReceiveNotificationResponse: (Map<String, dynamic> message) async {
         //ios点击推送走了这儿
         var id = message["id"];
@@ -56,36 +60,29 @@ class HomeBloc extends BlocBase with LoggingMixin {
           vm.getInfoMemberNews(id);
         });
       },
-      onAppLinkPayload: (String message) async {
-
-      },
-      onRegisterVoipToken: (String message) async {
-
-      },
-      onReceiveVoipPayLoad: (Map<String, dynamic> message) async {
-
-      },
+      onAppLinkPayload: (String message) async {},
+      onRegisterVoipToken: (String message) async {},
+      onReceiveVoipPayLoad: (Map<String, dynamic> message) async {},
       onReceiveMessageData: (Map<String, dynamic> msg) async {
-         if(vm.isAndroidNewShow) {
-           vm.getPayload(msg);
-         }
+        if (vm.isAndroidNewShow) {
+          vm.getPayload(msg);
+        }
       },
-      onNotificationMessageArrived: (Map<String, dynamic> msg) async {
-
-      },
+      onNotificationMessageArrived: (Map<String, dynamic> msg) async {},
       onNotificationMessageClicked: (Map<String, dynamic> msg) async {
         //安卓点击推送走了这儿
         log.info("+++++++++++++++++++++++++++++++++++msg111=$msg");
         vm.isAndroidNewShow = true;
-
       },
     );
   }
+
   @override
   void dispose() {
     super.dispose();
     _timer.cancel();
   }
+
   void to() {
     navigate.pushNamed('/user');
   }
@@ -95,7 +92,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
   }
 
   Future<void> toPlugin(int index) async {
-    var modelId = DeviceVoModel.devices[index-2].modelId;
+    var modelId = DeviceVoModel.devices[index - 2].modelId;
     setModel(() {
       loadShow = true;
     });
@@ -105,7 +102,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
       loadShow = false;
     });
     //错误处理
-    if(!code) {
+    if (!code) {
       Fluttertoast.showToast(
           msg: "没有找到插件，请与系统管理员联系",
           toastLength: Toast.LENGTH_SHORT,
@@ -129,22 +126,24 @@ class HomeBloc extends BlocBase with LoggingMixin {
   //获取推送消息详情
   void getInfoMemberNews(int newsId) async {
     print("推送消息请求来了111");
-    Result<MemberNews> response = await MemberNewsApis.getInfoMemberNews(newsId);
+    Result<MemberNews> response =
+        await MemberNewsApis.getInfoMemberNews(newsId);
     bool code = response.success;
-    if(code){
+    if (code) {
       //这里是跳转消息详情
-      if(response.data.targetType == "TEXT") {
+      if (response.data.targetType == "TEXT") {
         getDelInfoSort(response.data.id);
       }
     } else {
       print("推送消息请求失败了");
     }
   }
+
   //获取消息详情 跳转详情页
   void getDelInfoSort(int id) async {
     Result<MemberNews> response = await MemberNewsApis.getMsgNews(id);
     bool code = response.success;
-    if(code){
+    if (code) {
       navigate.pushNamed('/msgDetails', arguments: {"model": response.data});
     } else {
       print("消息详情请求失败了");
@@ -171,41 +170,43 @@ class HomeBloc extends BlocBase with LoggingMixin {
       var id = list[0].memberId.toString();
       log.info("+++++++++++++++++++++++++++++++++++创建别名id=$id");
       log.info("+++++++++++++++++++++++++++++++++++创建别名cid=$cid");
-      if(id != "" && cid != "") {
+      if (id != "" && cid != "") {
         log.info("+++++++++++++++++++++++++++++++++++创建别名成功了");
         Getuiflut().bindAlias(id, cid);
       }
     }
   }
 
-
   void getDeviceVo() async {
     Result<DeviceVo> response = await DeviceVoApis.getDeviceVo();
     bool code = response.success;
-    if(code){
+    if (code) {
       var data = response.data;
       setModel(() {
         DeviceVoModel = data;
       });
-    } else {
-
-    }
+    } else {}
   }
 
-  String findSortName(int sortId)   {
-      var item = this.DeviceVoModel.deviceSorts.firstWhere((item) => item.id == sortId);
-      return item.sortName;
+  String findSortName(int sortId) {
+    var item =
+        this.DeviceVoModel.deviceSorts.firstWhere((item) => item.id == sortId);
+    return item.sortName;
   }
 
-  String findModelName(int modelId)   {
-    var item = this.DeviceVoModel.deviceModels.firstWhere((item) => item.id == modelId);
+  String findModelName(int modelId) {
+    var item = this
+        .DeviceVoModel
+        .deviceModels
+        .firstWhere((item) => item.id == modelId);
     return item.modelName;
   }
 
-  String findModelIcon(int modelId)   {
-    var item = this.DeviceVoModel.deviceModels.firstWhere((item) => item.id == modelId);
+  String findModelIcon(int modelId) {
+    var item = this
+        .DeviceVoModel
+        .deviceModels
+        .firstWhere((item) => item.id == modelId);
     return item.modelIcon;
   }
-
-
 }

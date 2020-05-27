@@ -177,18 +177,23 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                               width: 48,
                                                               height: 48,
                                                               fit: BoxFit.cover)
-                                                          : bloc.userImgPath != "" ? Image.network(
-                                                        bloc.userImgPath,
-                                                        width: 48,
-                                                        height: 48,
-                                                        fit: BoxFit.cover,
-                                                      ) : Image(
-                                                        image: AssetImage("assets/home_y.png"),
-                                                        fit: BoxFit.cover,
-                                                        width: 48,
-                                                        height: 48,
-                                                      )
-                                                    )
+                                                          : bloc.userImgPath !=
+                                                                  ""
+                                                              ? Image.network(
+                                                                  bloc.userImgPath,
+                                                                  width: 48,
+                                                                  height: 48,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                )
+                                                              : Image(
+                                                                  image: AssetImage(
+                                                                      "assets/home_y.png"),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  width: 48,
+                                                                  height: 48,
+                                                                ))
                                                   : Container(),
                                               Expanded(
                                                 flex: 1,
@@ -261,9 +266,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                                   color: Color(
                                                                       0xFFcccccc)),
                                                         ),
-                                                        validator: (value) {
-                                                          
-                                                        },
+                                                        validator: (value) {},
                                                       ),
                                                     )
                                                   : Text(bloc.userList[index],
@@ -342,7 +345,8 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                         cancelText: '取消',
                                         title: new Text("身高(cm)"),
                                         onConfirm: (Picker picker, List value) {
-                                          bloc.userClickHeight(picker.getSelectedValues());
+                                          bloc.userClickHeight(
+                                              picker.getSelectedValues());
                                         }).showDialog(context)
                                   },
                                 if (index == 4)
@@ -357,7 +361,8 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                         cancelText: '取消',
                                         title: new Text("体重(kg)"),
                                         onConfirm: (Picker picker, List value) {
-                                          bloc.weightClickHeight(picker.getSelectedValues());
+                                          bloc.weightClickHeight(
+                                              picker.getSelectedValues());
                                         }).showDialog(context)
                                   },
                                 if (index == 5)

@@ -5,6 +5,7 @@ import 'package:app/view/my/MyBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/src/store.dart';
 import 'dart:io';
+
 class MyPage extends StatefulWidget {
   @override
   _State createState() => _State();
@@ -95,42 +96,45 @@ class _State extends BlocState<MyPage, MyBloc> {
                                         children: <Widget>[
                                           index == 0
                                               ? GestureDetector(
-                                            child:  ClipOval(
-                                                child: bloc.imgPath != ""
-                                                    ? new Image.file(
-                                                    File(
-                                                        bloc.imgPath),
-                                                    width: 72,
-                                                    height: 72,
-                                                    fit: BoxFit.cover)
-                                                    : bloc.path != "" ? Image.network(
-                                                  bloc.path,
-                                                  width: 72,
-                                                  height: 72,
-                                                  fit: BoxFit.cover,
-                                                ) : Image(
-                                                  image: AssetImage("assets/home_y.png"),
-                                                  fit: BoxFit.cover,
-                                                  width: 72,
-                                                  height: 72,
+                                                  child: ClipOval(
+                                                      child: bloc.imgPath != ""
+                                                          ? new Image.file(
+                                                              File(
+                                                                  bloc.imgPath),
+                                                              width: 72,
+                                                              height: 72,
+                                                              fit: BoxFit.cover)
+                                                          : bloc.path != ""
+                                                              ? Image.network(
+                                                                  bloc.path,
+                                                                  width: 72,
+                                                                  height: 72,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                )
+                                                              : Image(
+                                                                  image: AssetImage(
+                                                                      "assets/home_y.png"),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  width: 72,
+                                                                  height: 72,
+                                                                )),
+                                                  onTap: () => {
+                                                    BottomActionSheet.show(
+                                                        context, ['拍照', '相册'],
+                                                        title: '',
+                                                        callBack: (i) {
+                                                      if (i == 0) {
+                                                        bloc.takePhoto();
+                                                      }
+                                                      if (i == 1) {
+                                                        bloc.openGallery();
+                                                      }
+                                                      return;
+                                                    }),
+                                                  },
                                                 )
-                                            ),
-                                            onTap: () => {
-                                              BottomActionSheet.show(
-                                                  context, ['拍照', '相册'], title: '',
-                                                  callBack: (i) {
-                                                    if (i == 0) {
-                                                      bloc.takePhoto();
-                                                    }
-                                                    if (i == 1) {
-                                                      bloc.openGallery();
-                                                    }
-                                                    return;
-                                                  }),
-                                            },
-                                          )
-
-
                                               : Container(
                                                   width: 22.0,
                                                   height: 22.0,
@@ -145,37 +149,48 @@ class _State extends BlocState<MyPage, MyBloc> {
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 15.0),
-                                              child: index == 0 ? Container(
-                                                height: 72,
-                                                child: Flex(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  direction: Axis
-                                                      .vertical,
-                                                  children: <
-                                                      Widget>[
-                                                    getExpanded(bloc.textList[index],0),
-                                                    getExpanded("连接智能设备, 体验美好生活",1)
-                                                  ],
-                                                ),
-                        ) : Container(
-                                                child: Text(
-                                                    bloc.textList[index],
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize:
-                                                          index != 0 ? 16 : 18,
-                                                      //height: 1.6
-                                                      fontWeight: index != 0
-                                                          ? FontWeight.normal
-                                                          : FontWeight.w700,
-                                                    )),
-                                              ),
+                                              child: index == 0
+                                                  ? Container(
+                                                      height: 72,
+                                                      child: Flex(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        direction:
+                                                            Axis.vertical,
+                                                        children: <Widget>[
+                                                          getExpanded(
+                                                              bloc.textList[
+                                                                  index],
+                                                              0),
+                                                          getExpanded(
+                                                              "连接智能设备, 体验美好生活",
+                                                              1)
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Container(
+                                                      child: Text(
+                                                          bloc.textList[index],
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: index != 0
+                                                                ? 16
+                                                                : 18,
+                                                            //height: 1.6
+                                                            fontWeight:
+                                                                index != 0
+                                                                    ? FontWeight
+                                                                        .normal
+                                                                    : FontWeight
+                                                                        .w700,
+                                                          )),
+                                                    ),
                                             ),
                                           ),
                                           index != 0
@@ -221,17 +236,14 @@ class _State extends BlocState<MyPage, MyBloc> {
                           )),
                     ),
                     onTap: () => {
-                      BottomActionSheet.show(
-                          context, ['退出登录'], title: '确定要退出当前账号?',
-                          callBack: (i) {
-                            if (i == 0) {
-                              bloc.signout();
-                            }
-                            if (i == 1) {
-
-                            }
-                            return;
-                          }),
+                      BottomActionSheet.show(context, ['退出登录'],
+                          title: '确定要退出当前账号?', callBack: (i) {
+                        if (i == 0) {
+                          bloc.signout();
+                        }
+                        if (i == 1) {}
+                        return;
+                      }),
                     },
                   ),
                 ),
@@ -246,20 +258,17 @@ class _State extends BlocState<MyPage, MyBloc> {
   Widget getExpanded(String text, int start) {
     return Expanded(
       flex: 1,
-      child:
-      Container(
-        alignment: start == 0 ? Alignment.bottomLeft :
-        Alignment.topLeft,
-        margin: start == 0 ?  const EdgeInsets.only(
-        bottom: 2) : const EdgeInsets.only(
-            top: 6),
-        child: Text(
-            text,
+      child: Container(
+        alignment: start == 0 ? Alignment.bottomLeft : Alignment.topLeft,
+        margin: start == 0
+            ? const EdgeInsets.only(bottom: 2)
+            : const EdgeInsets.only(top: 6),
+        child: Text(text,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.left,
             style: TextStyle(
-              color: start == 0 ?  Colors.black :  Color(0xFFB6B8BF),
+              color: start == 0 ? Colors.black : Color(0xFFB6B8BF),
               fontSize: start == 0 ? 18 : 14,
             )),
       ),

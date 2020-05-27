@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
+
 class MyBloc extends BlocBase with LoggingMixin {
   MyBloc(BuildContext context, Store store) : super(context, store);
   String loading = "##loading##";
@@ -32,17 +33,18 @@ class MyBloc extends BlocBase with LoggingMixin {
   String text = "最新";
   double h = 0;
   String imgPath = "";
+
   void startup() {
     //retrieveData();
     log.info("我的");
     getUser();
   }
+
   void getUser() async {
-    Result<Member> response =
-    await MemberApis.getMember();
+    Result<Member> response = await MemberApis.getMember();
     bool code = response.success;
-    if(!code) {
-      log.info("个人信息请求出错",response.message);
+    if (!code) {
+      log.info("个人信息请求出错", response.message);
     }
     setModel(() {
       path = response.data.avatar;
@@ -65,7 +67,6 @@ class MyBloc extends BlocBase with LoggingMixin {
 
     setModel(() {
       imgPath = image.path;
-
     });
     edImages(image);
   }
@@ -80,9 +81,8 @@ class MyBloc extends BlocBase with LoggingMixin {
   }
 
   void edImages(File image) async {
-    String response =
-    await AvatarApis.getUpload(image);
-    if(response != "") {
+    String response = await AvatarApis.getUpload(image);
+    if (response != "") {
       saveImages(response);
     } else {
       Fluttertoast.showToast(
@@ -94,10 +94,10 @@ class MyBloc extends BlocBase with LoggingMixin {
           fontSize: 16.0);
     }
   }
+
   void saveImages(String path) async {
-    String response =
-    await MemberApis.setAvatar(path);
-    if(response == "err") {
+    String response = await MemberApis.setAvatar(path);
+    if (response == "err") {
       Fluttertoast.showToast(
           msg: "保存失败",
           toastLength: Toast.LENGTH_SHORT,

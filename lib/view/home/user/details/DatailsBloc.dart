@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'dart:io';
+
 class DatailsBloc extends BlocBase with LoggingMixin {
   DatailsBloc(BuildContext context, Store store) : super(context, store);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -100,7 +101,6 @@ class DatailsBloc extends BlocBase with LoggingMixin {
 
   void startup() {
     //retrieveData();
-
   }
 
   void to(String t) {
@@ -121,23 +121,26 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       affiliateModel.sex = i == '男' ? 'F' : 'M';
     });
   }
+
   void userClickHeight(List i) {
     setModel(() {
       affiliateModel.height = int.parse(i[0]);
     });
   }
+
   void weightClickHeight(List i) {
     setModel(() {
       affiliateModel.weight = double.parse(i[0]);
     });
   }
+
   /*拍照*/
   void takePhoto() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setModel(() {
       imgPath = image.path;
-      images =  image;
+      images = image;
     });
   }
 
@@ -146,10 +149,9 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setModel(() {
       imgPath = image.path;
-      images =  image;
+      images = image;
     });
   }
-
 
   void retrieveData() {
     Future.delayed(Duration(seconds: 0)).then((e) {
@@ -196,7 +198,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   void addAffiliate() async {
     addAffiliateShow = true;
     if (usernameController.text == "" || usernameController.text.length > 8) {
-      if(usernameController.text.length > 8) {
+      if (usernameController.text.length > 8) {
         toast('昵称限制8位');
         return;
       }
@@ -228,16 +230,15 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     affiliateModel.nickname = usernameController.text;
 
     //未选择头像
-    if(imgPath == "") {
+    if (imgPath == "") {
       saveAffiliate();
     } else {
       //选择了头像
-      String response =
-      await AvatarApis.getUpload(images);
+      String response = await AvatarApis.getUpload(images);
       setModel(() {
         affiliateModel.avatar = response;
       });
-      if(response != "") {
+      if (response != "") {
         saveAffiliate();
       } else {
         Fluttertoast.showToast(
@@ -253,7 +254,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
 
   void saveAffiliate() async {
     Result<Affiliate> response =
-    await AffiliateApis.modifyAffiliate(affiliateModel);
+        await AffiliateApis.modifyAffiliate(affiliateModel);
     bool code = response.success;
     setModel(() {
       loginProcessing = false;
@@ -276,7 +277,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
           timeInSecForIos: 1,
           textColor: Colors.white,
           fontSize: 16.0);
-      if(title == "用户详情") {
+      if (title == "用户详情") {
         setModel(() {
           addAffiliateShow = false;
         });
