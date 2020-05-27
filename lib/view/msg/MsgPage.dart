@@ -106,7 +106,7 @@ class _State extends BlocState<MsgPage, MsgBloc>  {
                   )),
 
               bloc.words.length == 1 && !bloc.indexshow ? Positioned(
-                  top: 0,
+                  top: 1,
                   left: 0,
                   right: 0,
                   bottom: 0,
