@@ -9,6 +9,8 @@ InformationActions msgActions = InformationActions();
 class InformationState extends Persistable with StorageMixin, LoggingMixin {
   var loading = 'loadingTag';
   static var loadingTag = Info.fromJson({'title': 'loadingTag'});
+  List allTitleWords = [];
+  var allWords = <Info>[loadingTag];
   var words = <Info>[loadingTag];
   var textList = [];
   int sortId = 0;

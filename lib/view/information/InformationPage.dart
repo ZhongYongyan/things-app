@@ -103,40 +103,43 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                   right: 0,
                   child: Container(
                     color: Color(0xFFF8F8F8),
-                    child: ListView.separated(
-                      itemCount: bloc.words.length,
-                      itemBuilder: (context, index) {
-                        //如果到了表尾
-                        if (bloc.words[index].title == bloc.loading) {
-                          //不足100条，继续获取数据
-                          if (bloc.indexshow && bloc.textList.length != 0) {
-                            //获取数据
-                            bloc.retrieveData(bloc.sortId);
-                            //加载时显示loading
-                            return Container(
-                              padding: const EdgeInsets.all(16.0),
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                  width: 24.0,
-                                  height: 24.0,
-                                  child: CircularProgressIndicator(
-                                      strokeWidth: 2.0)),
-                            );
-                          } else {
-                            //已经加载了100条数据，不再获取数据。
-                            return Container();
+                    child: new RefreshIndicator(
+                      onRefresh: bloc.onRefresh,
+                      child: ListView.separated(
+                        itemCount: bloc.words.length,
+                        itemBuilder: (context, index) {
+                          //如果到了表尾
+                          if (bloc.words[index].title == bloc.loading) {
+                            //不足100条，继续获取数据
+                            if (bloc.indexshow && bloc.textList.length != 0) {
+                              //获取数据
+                              bloc.retrieveData(bloc.sortId);
+                              //加载时显示loading
+                              return Container(
+                                padding: const EdgeInsets.all(16.0),
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                    width: 24.0,
+                                    height: 24.0,
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2.0)),
+                              );
+                            } else {
+                              //已经加载了100条数据，不再获取数据。
+                              return Container();
+                            }
                           }
-                        }
-                        //显示单词列表项
-                        return informationItem(index);
-                      },
-                      separatorBuilder: (context, index) => Container(),
+                          //显示单词列表项
+                          return informationItem(index);
+                        },
+                        separatorBuilder: (context, index) => Container(),
+                      ),
                     ),
                   )),
               (bloc.words.length == 1 || bloc.textList.length == 0) &&
                       !bloc.indexshow
                   ? Positioned(
-                      top: bloc.textList.length == 0 ? 1 : 41,
+                      top: bloc.textList.length == 0 ? 1 : 42,
                       left: 0,
                       right: 0,
                       bottom: 0,

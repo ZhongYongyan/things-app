@@ -39,7 +39,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
   }
 
   void getInfoSortData() async {
-    Result<Page> response = await InfoSortApis.getInfoSort(1, 10, "ASC");
+    Result<Page> response = await InfoSortApis.getInfoSort(1, 30, "ASC");
     bool code = response.success;
     //错误处理
     if (!code) {
@@ -64,15 +64,26 @@ class InformationBloc extends BlocBase with LoggingMixin {
 
   void onToSelection(int id) {
     var loadingTag = Info.fromJson({'title': 'loadingTag'});
+    var sortIdArr = state.information.allWords.where((student) => student.sortId == id || student.title == "loadingTag");
+    var  newIndexshow = state.information.indexshow;
+    var  newIndexPage = state.information.indexPage;
+    for (int i = 0; i < state.information.allTitleWords.length; i++)
+    {
+      if(state.information.allTitleWords[i]["sortId"] == id)
+      {
+        newIndexshow = state.information.allTitleWords[i]["indexshow"];
+        newIndexPage = state.information.allTitleWords[i]["indexPage"];
+      }
+    }
     state.information.sortId = id;
-    state.information.indexPage = 1;
-    state.information.words = <Info>[loadingTag];
-    state.information.indexshow = true;
+    state.information.indexPage = sortIdArr.toList().length>1 ? newIndexPage : 1;
+    state.information.words = sortIdArr.toList().length>1 ? sortIdArr.toList() :  <Info>[loadingTag];
+    state.information.indexshow = sortIdArr.toList().length>1 ? newIndexshow : true;
     setModel(() {
       sortId = id;
-      words = <Info>[loadingTag];
-      indexPage = 1;
-      indexshow = true;
+      words = sortIdArr.toList().length>1 ? sortIdArr.toList() :  <Info>[loadingTag];
+      indexPage = sortIdArr.toList().length>1 ? newIndexPage : 1;
+      indexshow = sortIdArr.toList().length>1 ? newIndexshow : true;
     });
   }
 
@@ -84,6 +95,27 @@ class InformationBloc extends BlocBase with LoggingMixin {
     if (sortId == 0) {
       return;
     }
+
+    //这里找到之前改sortId 请求状态
+    var ageOver = state.information.allTitleWords.where((student) => student["sortId"] == sortId);
+    if(ageOver.toList().length > 0 ) {
+      //请求过相同页
+      if(ageOver.toList()[0]["indexPage"] == indexPage) {
+        print("请求过相同页");
+        setModel(() {
+          indexshow = false;
+        });
+        return;
+      }
+    } else {
+      var item = {
+        "sortId":sortId,
+        "indexshow":true,
+        "indexPage":1,
+      };
+      state.information.allTitleWords.add(item);
+    }
+
     lists = [];
     Result<Page> response =
         await InfoSortApis.getInfo(indexPage, 10, "ASC", sortId);
@@ -98,15 +130,36 @@ class InformationBloc extends BlocBase with LoggingMixin {
     }
     //错误处理
     lists = response.data.items;
+
+
+    //
+    //这里页数相同不请求
     Future.delayed(Duration(seconds: 1)).then((e) {
       words.insertAll(words.length - 1, lists.map((student) => student));
+      state.information.allWords.insertAll(state.information.allWords.length - 1, lists.map((student) => student));
       if (lists.length < 10) {
+        //这里找到之前改sortId 请求状态
+        for (int i = 0; i < state.information.allTitleWords.length; i++)
+        {
+          if(state.information.allTitleWords[i]["sortId"] == sortId)
+            {
+              state.information.allTitleWords[i]["indexshow"] = false;
+            }
+        }
         setModel(() {
           indexshow = false;
         });
         state.information.indexshow = false;
       } else {
         var newIndexPage = indexPage + 1;
+        //这里找到之前改sortId 请求状态
+        for (int i = 0; i < state.information.allTitleWords.length; i++)
+        {
+          if(state.information.allTitleWords[i]["sortId"] == sortId)
+          {
+            state.information.allTitleWords[i]["indexPage"] = newIndexPage;
+          }
+        }
         setModel(() {
           indexPage = newIndexPage;
         });
@@ -122,5 +175,43 @@ class InformationBloc extends BlocBase with LoggingMixin {
     String parsedString = parse(document.body.text).documentElement.text;
 
     return parsedString;
+  }
+
+
+  Future<void> onRefresh() async {
+    print("开始刷新数据");
+    lists = [];
+    Result<Page> response =
+    await InfoSortApis.getInfo(1, 10, "ASC", sortId);
+    bool code = response.success;
+    //错误处理
+    if (!code) {
+      log.info("刷新数据出错", response.message);
+      setModel(() {
+        indexshow = false;
+      });
+      state.information.indexshow = false;
+      await Future.delayed(Duration(seconds: 1)).then((e){
+
+      });
+      return;
+    }
+    lists = response.data.items;
+    var num = 0;
+    await Future.delayed(Duration(seconds: 1)).then((e){
+      for (int i = 0; i < lists.length; i++)
+      {
+        var ageOver = words.where((student) => student.id == lists[i].id || student.title == "loadingTag");
+        if (ageOver.toList().length >= 1 ) {
+          print("重复数据");
+        } else {
+          num += 1;
+          print("更新了${num}条数据");
+          words.insertAll(words.length - 1, lists[i]);
+          state.information.allWords.insertAll(state.information.allWords.length - 1, lists[i]);
+        }
+      }
+
+    });
   }
 }
