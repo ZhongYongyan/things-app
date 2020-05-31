@@ -1,15 +1,18 @@
-import 'dart:async';
-import 'dart:ui';
+import 'dart:convert';
 
-import 'package:app/base/api/AdminApis.dart';
 import 'package:app/base/entity/AccessToken.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/store/Store.dart';
-import 'package:app/store/module/Auth.dart';
+import 'package:app/base/api/AdminApis.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
+import 'dart:async';
+import 'package:crypto/crypto.dart';
+
+
 
 class LoginBloc extends BlocBase with LoggingMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -19,9 +22,9 @@ class LoginBloc extends BlocBase with LoggingMixin {
   final FocusNode passwordFocus = FocusNode();
 
   final TextEditingController usernameController =
-      TextEditingController(text: '');
+  TextEditingController(text: '');
   final TextEditingController passwordController =
-      TextEditingController(text: '');
+  TextEditingController(text: '');
 
   Animation<double> headerAnimation;
   AnimationController headerController;
@@ -34,12 +37,12 @@ class LoginBloc extends BlocBase with LoggingMixin {
   int countdownTime = 0;
   bool countdownTimeShow = false;
   bool againLoginShow = true;
-
+  String validCode = "";
   LoginBloc(
-    BuildContext context,
-    Store<StoreState> store,
-    TickerProvider tickerProvider,
-  ) : super(context, store) {
+      BuildContext context,
+      Store<StoreState> store,
+      TickerProvider tickerProvider,
+      ) : super(context, store) {
     if (!againLoginShow) {
       setModel(() {
         usernameController.text = "17628045052";
@@ -75,6 +78,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
 
   FutureOr Function(Result<AccessToken> value) get onValue => null;
 
+
   @override
   void dispose() {
     usernameFocus.dispose();
@@ -97,19 +101,12 @@ class LoginBloc extends BlocBase with LoggingMixin {
     setModel(() {
       loginProcessing = true;
     });
-//    if (phoneisEmpty || codeisEmpty) {
-//      setModel(() {
-//        loginProcessing = false;
-//      });
-//      return;
-//    };
-    if (phoneisEmpty) {
+    if (phoneisEmpty || codeisEmpty) {
       setModel(() {
         loginProcessing = false;
       });
       return;
     }
-    ;
     RegExp exp = RegExp(
         r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
     bool matched = exp.hasMatch(usernameController.text);
@@ -132,16 +129,13 @@ class LoginBloc extends BlocBase with LoggingMixin {
       });
       return;
     }
+
     Result<AccessToken> response = await AdminApis.postAccessToken(
-        usernameController.text, passwordController.text);
-
+        usernameController.text, passwordController.text,validCode);
     bool code = response.success;
-
     if (code) {
-      dispatch(authActions.login(response.data.accessToken));
-
-      navigate.pushNamedAndRemoveUntil('/page', (route) {
-        return route.settings.name == '/page';
+      navigate.pushNamedAndRemoveUntil('/homeCon', (route) {
+        return route.settings.name == '/homeCon';
       });
     } else {
       String message = response.message;
@@ -180,7 +174,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
     });
   }
 
-  void startCountdown() {
+  Future<void> startCountdown() async {
     if (usernameController.text == "") {
       setModel(() {
         phoneisEmpty = true;
@@ -224,5 +218,33 @@ class LoginBloc extends BlocBase with LoggingMixin {
       });
     };
     _timer = Timer.periodic(Duration(seconds: 1), call);
+    var timestamp = new DateTime.now().millisecondsSinceEpoch;
+    var str = usernameController.text + timestamp.toString() + "eSloN66D8D2XSVQyruIhrJGU5ELfyEJU";
+    var encoding = md5.convert(utf8.encode(str)).toString();
+    print("1111111111111");
+    print(encoding);
+    print(timestamp);
+    print("2222222222222");
+
+    String response = await AdminApis.getCode(encoding, usernameController.text, timestamp);
+
+    if(response != "err") {
+      validCode = response;
+      Fluttertoast.showToast(
+          msg: "验证码发送成功",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "验证码发送失败",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 }
