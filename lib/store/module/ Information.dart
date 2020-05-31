@@ -30,6 +30,7 @@ class InformationState extends Persistable with StorageMixin, LoggingMixin {
     lists = [];
     indexPage = 1;
     indexshow = true;
+    allTitleWords = [];
   }
 }
 

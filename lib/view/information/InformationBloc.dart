@@ -135,8 +135,12 @@ class InformationBloc extends BlocBase with LoggingMixin {
     //
     //这里页数相同不请求
     Future.delayed(Duration(seconds: 1)).then((e) {
-      words.insertAll(words.length - 1, lists.map((student) => student));
       state.information.allWords.insertAll(state.information.allWords.length - 1, lists.map((student) => student));
+      if(lists.length > 0 && words.length > 1 && lists.first.sortId != words.first.sortId) {
+        print("快速切换bug");
+      } else {
+        words.insertAll(words.length - 1, lists.map((student) => student));
+      }
       if (lists.length < 10) {
         //这里找到之前改sortId 请求状态
         for (int i = 0; i < state.information.allTitleWords.length; i++)
@@ -165,7 +169,11 @@ class InformationBloc extends BlocBase with LoggingMixin {
         });
         state.information.indexPage = newIndexPage;
       }
-      state.information.words = words;
+      if(lists.length > 0 && words.length > 1 && lists.first.sortId != words.first.sortId) {
+        print("快速切换bug");
+      } else {
+        state.information.words = words;
+      }
     });
   }
 
