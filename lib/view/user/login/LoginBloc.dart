@@ -237,14 +237,6 @@ class LoginBloc extends BlocBase with LoggingMixin {
           timeInSecForIos: 1,
           textColor: Colors.white,
           fontSize: 16.0);
-    } else {
-      Fluttertoast.showToast(
-          msg: "验证码发送失败",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
-          textColor: Colors.white,
-          fontSize: 16.0);
     }
   }
 }
