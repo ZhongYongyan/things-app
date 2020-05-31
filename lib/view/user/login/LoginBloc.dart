@@ -129,7 +129,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
       });
       return;
     }
-
+    FocusScope.of(context).requestFocus(FocusNode());
     Result<AccessToken> response = await AdminApis.postAccessToken(
         usernameController.text, passwordController.text,validCode);
     bool code = response.success;
@@ -225,9 +225,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
     print(encoding);
     print(timestamp);
     print("2222222222222");
-
     String response = await AdminApis.getCode(encoding, usernameController.text, timestamp);
-
     if(response != "err") {
       validCode = response;
       Fluttertoast.showToast(

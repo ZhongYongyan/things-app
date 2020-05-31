@@ -184,7 +184,6 @@ class _State extends BlocState<LoginPage, LoginBloc>
                                       fontSize: 14.0,
                                       color: Colors.black,
                                     ),
-                                    obscureText: true,
                                     autocorrect: false,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
