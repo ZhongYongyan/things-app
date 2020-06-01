@@ -124,6 +124,7 @@ class _State extends BlocState<LoginPage, LoginBloc>
                               child: TextFormField(
                                 controller: bloc.usernameController,
                                 focusNode: bloc.usernameFocus,
+                                keyboardType: TextInputType.phone,
                                 style: TextStyle(
                                     fontSize: 14.0, color: Colors.black),
                                 autocorrect: false,
@@ -180,6 +181,7 @@ class _State extends BlocState<LoginPage, LoginBloc>
                                   child: TextFormField(
                                     controller: bloc.passwordController,
                                     focusNode: bloc.passwordFocus,
+                                    keyboardType: TextInputType.number,
                                     style: TextStyle(
                                       fontSize: 14.0,
                                       color: Colors.black,
@@ -225,7 +227,7 @@ class _State extends BlocState<LoginPage, LoginBloc>
                                           : "获取验证码",
                                       style: TextStyle(
                                           fontSize: 12.0,
-                                          color: Color(0xFF0079FE)),
+                                          color: bloc.countdownTimeShow ? Color(0xFFcccccc) :  Color(0xFF0079FE)),
                                     ),
                                     onTap: () => bloc.startCountdown(), //点击
                                   ),

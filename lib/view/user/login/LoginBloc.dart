@@ -6,6 +6,7 @@ import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/base/api/AdminApis.dart';
+import 'package:app/store/module/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
@@ -131,11 +132,12 @@ class LoginBloc extends BlocBase with LoggingMixin {
     }
     FocusScope.of(context).requestFocus(FocusNode());
     Result<AccessToken> response = await AdminApis.postAccessToken(
-        usernameController.text, passwordController.text,validCode);
+        usernameController.text, validCode,passwordController.text);
     bool code = response.success;
     if (code) {
-      navigate.pushNamedAndRemoveUntil('/homeCon', (route) {
-        return route.settings.name == '/homeCon';
+      dispatch(authActions.login(response.data.accessToken));
+      navigate.pushNamedAndRemoveUntil('/page', (route) {
+        return route.settings.name == '/page';
       });
     } else {
       String message = response.message;
@@ -203,6 +205,13 @@ class LoginBloc extends BlocBase with LoggingMixin {
       );
       return;
     }
+    Fluttertoast.showToast(
+        msg: "验证码发送成功",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        textColor: Colors.white,
+        fontSize: 16.0);
     countdownTime = 60;
     setModel(() {
       countdownTimeShow = true;
@@ -221,20 +230,9 @@ class LoginBloc extends BlocBase with LoggingMixin {
     var timestamp = new DateTime.now().millisecondsSinceEpoch;
     var str = usernameController.text + timestamp.toString() + "eSloN66D8D2XSVQyruIhrJGU5ELfyEJU";
     var encoding = md5.convert(utf8.encode(str)).toString();
-    print("1111111111111");
-    print(encoding);
-    print(timestamp);
-    print("2222222222222");
     String response = await AdminApis.getCode(encoding, usernameController.text, timestamp);
     if(response != "err") {
       validCode = response;
-      Fluttertoast.showToast(
-          msg: "验证码发送成功",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
-          textColor: Colors.white,
-          fontSize: 16.0);
     }
   }
 }
