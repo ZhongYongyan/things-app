@@ -9,6 +9,7 @@ import 'package:app/base/util/Result.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:redux/redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class InformationBloc extends BlocBase with LoggingMixin {
   InformationBloc(BuildContext context, Store store) : super(context, store);
@@ -39,7 +40,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
   }
 
   void getInfoSortData() async {
-    Result<Page> response = await InfoSortApis.getInfoSort(1, 30, "ASC");
+    Result<Page> response = await InfoSortApis.getInfoSort(1, 30, "DESC");
     bool code = response.success;
     //错误处理
     if (!code) {
@@ -118,7 +119,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
 
     lists = [];
     Result<Page> response =
-        await InfoSortApis.getInfo(indexPage, 10, "ASC", sortId);
+        await InfoSortApis.getInfo(indexPage, 10, "DESC", sortId);
     bool code = response.success;
     if (!code) {
       log.info("资讯请求出错", response.message);
@@ -190,7 +191,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
     print("开始刷新数据");
     lists = [];
     Result<Page> response =
-    await InfoSortApis.getInfo(1, 10, "ASC", sortId);
+    await InfoSortApis.getInfo(1, 20, "ASC", sortId);
     bool code = response.success;
     //错误处理
     if (!code) {
@@ -210,13 +211,25 @@ class InformationBloc extends BlocBase with LoggingMixin {
       for (int i = 0; i < lists.length; i++)
       {
         var ageOver = words.where((student) => student.id == lists[i].id || student.title == "loadingTag");
-        if (ageOver.toList().length >= 1 ) {
+        if (ageOver.toList().length > 1 ) {
           print("重复数据");
         } else {
           num += 1;
           print("更新了${num}条数据");
-          words.insertAll(words.length - 1, lists[i]);
-          state.information.allWords.insertAll(state.information.allWords.length - 1, lists[i]);
+          var listItem = [];
+          listItem.add(lists[i]);
+          words.insertAll(0, listItem.map((student) => student));
+          state.information.allWords.insertAll(0, listItem.map((student) => student));
+
+          for (int i = 0; i < state.information.allTitleWords.length; i++)
+          {
+            if(state.information.allTitleWords[i]["sortId"] == sortId)
+            {
+              setModel(() {
+                indexshow = state.information.allTitleWords[i]["indexshow"];
+              });
+            }
+          }
         }
       }
 

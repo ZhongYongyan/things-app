@@ -20,10 +20,12 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
   }
 
   String get name {
+    userName = storage.getString('auth.userName');
     return userName;
   }
 
   String get url {
+    userUrl = storage.getString('auth.userUrl');
     return userUrl;
   }
 

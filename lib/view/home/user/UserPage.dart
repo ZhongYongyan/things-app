@@ -125,6 +125,10 @@ class _State extends BlocState<UserPage, UserBloc> {
   Widget getItem(int index) {
     return GestureDetector(
       child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              border: Border.all(color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7) : Color(0xFFFFFFFF) ,width: 1)///边框颜色、宽
+          ),
           margin: EdgeInsets.only(top: 10, left: 10, right: 10),
           height: 146,
           child: ClipRRect(
@@ -148,12 +152,17 @@ class _State extends BlocState<UserPage, UserBloc> {
                                       height: 30,
                                       fit: BoxFit.cover,
                                     )
-                                  : Image(
-                                      image: AssetImage("assets/home_y.png"),
+                                  : bloc.words[index].nickname == "访客" ? Image(
+                                      image: AssetImage("assets/visitor.jpeg"),
                                       fit: BoxFit.cover,
                                       width: 30,
                                       height: 30,
-                                    )),
+                                    ) : Image(
+                                image: AssetImage("assets/home_y.png"),
+                                fit: BoxFit.cover,
+                                width: 30,
+                                height: 30,
+                              )),
                           Expanded(
                             flex: 1,
                             child: Container(
@@ -167,16 +176,16 @@ class _State extends BlocState<UserPage, UserBloc> {
                             child: bloc.words[index].id != 123456
                                 ? GestureDetector(
                                     child: Container(
-                                      height: 31.0,
-                                      width: 62.0,
+                                      height: 30.0,
+                                      width: 30.0,
                                       alignment: Alignment.center,
-                                      color: Color(0xFF3578F7),
-                                      child: Text("详情",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Color(0xFFFFFFFF),
-                                            fontSize: 12,
-                                          )),
+                                      //color: Color(0xFF3578F7),
+                                      child: Image(
+                                        image: AssetImage("assets/del.jpeg"),
+                                        fit: BoxFit.cover,
+                                        width: 30,
+                                        height: 30,
+                                      ),
                                     ),
                                     onTap: () =>
                                         bloc.onToDetails(index), //点击//长按
@@ -193,7 +202,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                             child: Text("昵称: " + bloc.words[index].nickname,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  color: Color(0xFF9A9A9A),
+                                  color:bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7) : Color(0xFF9A9A9A),
                                   fontSize: 12,
                                 )),
                           ),
@@ -209,7 +218,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                             : '女'),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color: Color(0xFF9A9A9A),
+                                      color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7): Color(0xFF9A9A9A),
                                       fontSize: 12,
                                     ))
                                 : null,
@@ -235,7 +244,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         "CM",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color: Color(0xFF9A9A9A),
+                                      color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7): Color(0xFF9A9A9A),
                                       fontSize: 12,
                                     ))
                                 : null,
@@ -251,7 +260,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                             .substring(0, 10),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color: Color(0xFF9A9A9A),
+                                      color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7): Color(0xFF9A9A9A),
                                       fontSize: 12,
                                     ))
                                 : null,
@@ -278,7 +287,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         "KG",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color: Color(0xFF9A9A9A),
+                                      color:bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7):  Color(0xFF9A9A9A),
                                       fontSize: 12,
                                     ))
                                 : null,

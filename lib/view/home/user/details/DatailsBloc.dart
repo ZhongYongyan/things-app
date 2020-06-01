@@ -318,18 +318,12 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   }
 
   void toast(String name) {
-    scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        backgroundColor: Color(0xFF0079FE),
-        duration: Duration(milliseconds: 1500),
-        content: SizedBox(
-          width: double.infinity,
-          height: 40,
-          child: Center(
-            child: Text(name),
-          ),
-        ),
-      ),
-    );
+    Fluttertoast.showToast(
+        msg: name,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

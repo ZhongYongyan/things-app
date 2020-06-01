@@ -38,7 +38,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
   void retrieveData() async {
     lists = [];
     Result<Page> response =
-        await MemberNewsApis.getMemberNews(indexPage, 10, "ASC");
+        await MemberNewsApis.getMemberNews(indexPage, 10, "DESC");
     bool code = response.success;
     if (!code) {
       setModel(() {

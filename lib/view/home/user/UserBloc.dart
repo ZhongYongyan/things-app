@@ -20,6 +20,7 @@ class UserBloc extends BlocBase with LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
+  String get name => state.auth.name != null ? state.auth.name : '访客';
 
   Future startup() async {}
 

@@ -32,7 +32,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
   String get name => state.auth.name != null ? state.auth.name : '访客';
 
-  String get url => state.auth.url != null ? state.auth.url : '访客';
+  String get url => state.auth.url != null ? state.auth.url : '';
   var DeviceVoModel = DeviceVo.fromJson({});
 
   void startup() {

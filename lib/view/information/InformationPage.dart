@@ -102,7 +102,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                   left: 0,
                   right: 0,
                   child: Container(
-                    color: Color(0xFFF8F8F8),
+                    color: bloc.words.length == 1 ? Color(0xFFFFFFFF) : Color(0xFFF8F8F8),
                     child: new RefreshIndicator(
                       onRefresh: bloc.onRefresh,
                       child: ListView.separated(
@@ -143,31 +143,44 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      child: Container(
-                          color: Color(0xFFFFFFFF),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.center,
-                                  margin: const EdgeInsets.only(
-                                      top: 100, bottom: 10),
-                                  child: Image(
-                                    image: AssetImage(
-                                        "assets/information_empit.jpeg"),
-                                    fit: BoxFit.cover,
-                                    width: 96,
-                                    height: 64,
-                                  ),
-                                ),
-                                Text("没有相关资讯",
-                                    maxLines: 1,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFFA2A2A6),
-                                      fontSize: 14,
-                                    )),
-                              ])))
+                      child: new RefreshIndicator(
+                          onRefresh: bloc.onRefresh,
+                          child: ListView.separated(
+                      itemCount: bloc.words.length,
+                        itemBuilder: (context, index) {
+                          //如果到了表尾
+                          if (bloc.words[index].title == bloc.loading) {
+                            return Container(
+                                color: Color(0xFFFFFFFF),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        alignment: Alignment.center,
+                                        margin: const EdgeInsets.only(
+                                            top: 100, bottom: 10),
+                                        child: Image(
+                                          image: AssetImage(
+                                              "assets/information_empit.jpeg"),
+                                          fit: BoxFit.cover,
+                                          width: 96,
+                                          height: 64,
+                                        ),
+                                      ),
+                                      Text("没有相关资讯",
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xFFA2A2A6),
+                                            fontSize: 14,
+                                          )),
+                                    ]));
+                          }
+                          //显示单词列表项
+                          return Container();
+                        },
+                        separatorBuilder: (context, index) => Container(),
+                      ),))
                   : Container()
             ],
           ),
