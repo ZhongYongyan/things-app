@@ -130,7 +130,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
       });
       return;
     }
-    FocusScope.of(context).requestFocus(FocusNode());
+    //FocusScope.of(context).requestFocus(FocusNode());
     Result<AccessToken> response = await AdminApis.postAccessToken(
         usernameController.text, validCode,passwordController.text);
     bool code = response.success;
