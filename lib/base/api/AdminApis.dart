@@ -6,15 +6,16 @@ import 'package:dio/dio.dart';
 
 class AdminApis {
   static Future<Result<AccessToken>> postAccessToken(
-      String username, String password) async {
+      String username, String smsToken, String validCode) async {
     try {
       FormData formData = new FormData.from({
         "clientId": "",
         "phone": username,
-        "password": password,
+        "smsToken": smsToken,
+        "validCode":validCode
       });
       Response response =
-          await apiRequest.post("/auth/member/access-token", data: formData);
+          await apiRequest.post("/auth/member/sms/access-token", data: formData);
 
       Result<AccessToken> entity =
           Result.fromJson(response.data, (data) => AccessToken.fromJson(data));
@@ -32,6 +33,21 @@ class AdminApis {
       return entity;
     } on DioError catch (err) {
       return Result(name: err.type.toString(), message: err.message);
+    }
+  }
+
+  static Future<String> getCode(String encoding, String phone, int timestamp) async {
+    try {
+      FormData formData = new FormData.from({
+        "encoding": encoding,
+        "phone": phone,
+        "timestamp": timestamp,
+      });
+      Response response =
+      await apiRequest.post("/sms", data: formData);
+      return response.data["data"].toString();
+    } on DioError catch (err) {
+      return "err";
     }
   }
 }

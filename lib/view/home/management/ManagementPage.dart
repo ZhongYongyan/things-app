@@ -187,22 +187,28 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                           .map((item) => getItemContainer(item))
                           .toList(),
                     ),
-                  )
-                  ),
-
-                  bloc.loadShow ? Positioned(
-                  left: 0,
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(0),
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                        width: 24.0,
-                        height: 24.0,
-                        child: CircularProgressIndicator(strokeWidth: 2.0)),
-                  )) : Container()
+                  )),
+              bloc.loadShow
+                  ? Positioned(
+                      left: 0,
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(0),
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                            width: 24.0,
+                            height: 24.0,
+                            child: CircularProgressIndicator(strokeWidth: 2.0)),
+                      ))
+                  : Container(),
+              bloc.words.length == 1 && !bloc.indexshow
+                  ? empty(true)
+                  : Container(),
+              bloc.words[bloc.index].model.length == 0 && bloc.words.length > 1
+                  ? empty(false)
+                  : Container()
             ],
           ),
         ),
@@ -245,10 +251,34 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
               ),
             ],
           ),
-          onTap: () => bloc.onGetUrlDetails(item),//点击
+          onTap: () => bloc.onGetUrlDetails(item), //点击
         ),
-
       ],
     );
+  }
+
+  Widget empty(bool start) {
+    return Positioned(
+        top: 40,
+        left: start ? 0 : 80,
+        right: 0,
+        bottom: 0,
+        child: Container(
+            color: Color(0xFFFFFFFF),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(top: 100, bottom: 10),
+                  ),
+                  Text("暂无设备",
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFFA2A2A6),
+                        fontSize: 14,
+                      )),
+                ])));
   }
 }

@@ -2,8 +2,12 @@ import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Persistable.dart';
 import 'package:app/base/util/StorageUtils.dart';
 import 'package:app/store/Store.dart';
+import 'package:app/store/module/%20Information.dart';
 import 'package:app/store/module/User.dart';
 import 'package:quiver/strings.dart';
+
+import 'Msg.dart';
+import 'management.dart';
 
 AuthActions authActions = AuthActions();
 
@@ -16,10 +20,12 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
   }
 
   String get name {
+    userName = storage.getString('auth.userName');
     return userName;
   }
 
   String get url {
+    userUrl = storage.getString('auth.userUrl');
     return userUrl;
   }
 
@@ -83,6 +89,9 @@ class AuthActions with LoggingMixin {
       state.auth = AuthState()..saveSnapshot();
       state.auth = AuthState()..saveUser();
       state.auth = AuthState()..saveUrl();
+      state.msg = MsgState()..saveSnapshot();
+      state.information = InformationState()..saveSnapshot();
+      state.management = ManagementState()..saveSnapshot();
       state.user = UserState();
       return state;
     };

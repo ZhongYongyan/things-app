@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:redux/src/store.dart';
 
 import 'dart:io';
+
 class UserPage extends StatefulWidget {
   @override
   _State createState() => _State();
@@ -124,37 +125,44 @@ class _State extends BlocState<UserPage, UserBloc> {
   Widget getItem(int index) {
     return GestureDetector(
       child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              border: Border.all(color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7) : Color(0xFFFFFFFF) ,width: 1)///边框颜色、宽
+          ),
           margin: EdgeInsets.only(top: 10, left: 10, right: 10),
           height: 146,
           child: ClipRRect(
-            //剪裁为圆角矩形
+              //剪裁为圆角矩形
               borderRadius: BorderRadius.circular(5.0),
               child: Container(
                 color: Colors.white,
-                padding:
-                EdgeInsets.only(top: 10, left: 10, right: 10),
+                padding: EdgeInsets.only(top: 10, left: 10, right: 10),
                 child: Column(
-                  //测试Row对齐方式，排除Column默认居中对齐的干扰
+                    //测试Row对齐方式，排除Column默认居中对齐的干扰
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Flex(
                         direction: Axis.horizontal,
                         children: <Widget>[
                           ClipOval(
-                            child:bloc.words[index].avatar != ""
-                                ? Image.network(
-                              bloc.words[index].avatar,
-                                  width: 30,
-                                  height: 30,
-                                  fit: BoxFit.cover,
-                                )
-                                : Image(
-                              image: AssetImage("assets/home_y.png"),
-                              fit: BoxFit.cover,
-                              width: 30,
-                              height: 30,
-                            )
-                            ),
+                              child: bloc.words[index].avatar != ""
+                                  ? Image.network(
+                                      bloc.words[index].avatar,
+                                      width: 30,
+                                      height: 30,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : bloc.words[index].nickname == "访客" ? Image(
+                                      image: AssetImage("assets/visitor.jpeg"),
+                                      fit: BoxFit.cover,
+                                      width: 30,
+                                      height: 30,
+                                    ) : Image(
+                                image: AssetImage("assets/home_y.png"),
+                                fit: BoxFit.cover,
+                                width: 30,
+                                height: 30,
+                              )),
                           Expanded(
                             flex: 1,
                             child: Container(
@@ -164,24 +172,25 @@ class _State extends BlocState<UserPage, UserBloc> {
                           ),
                           ClipRRect(
                             //剪裁为圆角矩形
-                            borderRadius:
-                            BorderRadius.circular(5.0),
-                            child:bloc.words[index].id != 123456 ?  GestureDetector(
-                              child: Container(
-                                height: 31.0,
-                                width: 62.0,
-                                alignment: Alignment.center,
-                                color: Color(0xFF3578F7),
-                                child: Text("详情",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFFFFFFFF),
-                                      fontSize: 12,
-                                    )),
-                              ),
-                              onTap: () =>
-                                  bloc.onToDetails(index), //点击//长按
-                            ): null,
+                            borderRadius: BorderRadius.circular(5.0),
+                            child: bloc.words[index].id != 123456
+                                ? GestureDetector(
+                                    child: Container(
+                                      height: 30.0,
+                                      width: 30.0,
+                                      alignment: Alignment.center,
+                                      //color: Color(0xFF3578F7),
+                                      child: Image(
+                                        image: AssetImage("assets/del.jpeg"),
+                                        fit: BoxFit.cover,
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                    ),
+                                    onTap: () =>
+                                        bloc.onToDetails(index), //点击//长按
+                                  )
+                                : null,
                           )
                         ],
                       ),
@@ -190,11 +199,10 @@ class _State extends BlocState<UserPage, UserBloc> {
                         children: <Widget>[
                           Container(
                             width: 100,
-                            child: Text(
-                                "昵称: " + bloc.words[index].nickname,
+                            child: Text("昵称: " + bloc.words[index].nickname,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  color: Color(0xFF9A9A9A),
+                                  color:bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7) : Color(0xFF9A9A9A),
                                   fontSize: 12,
                                 )),
                           ),
@@ -202,16 +210,18 @@ class _State extends BlocState<UserPage, UserBloc> {
                             margin: EdgeInsets.only(
                               left: 80,
                             ),
-                            child:bloc.words[index].id != 123456 ? Text(
-                                "性别: " +
-                                    (bloc.words[index].sex == "F"
-                                        ? '男'
-                                        : '女'),
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Color(0xFF9A9A9A),
-                                  fontSize: 12,
-                                )):null,
+                            child: bloc.words[index].id != 123456
+                                ? Text(
+                                    "性别: " +
+                                        (bloc.words[index].sex == "F"
+                                            ? '男'
+                                            : '女'),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7): Color(0xFF9A9A9A),
+                                      fontSize: 12,
+                                    ))
+                                : null,
                           ),
                           Expanded(
                             flex: 1,
@@ -227,29 +237,33 @@ class _State extends BlocState<UserPage, UserBloc> {
                         children: <Widget>[
                           Container(
                             width: 100,
-                            child: bloc.words[index].id != 123456 ? Text(
-                                "身高: " +
-                                    bloc.words[index].height
-                                        .toString() + "CM",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Color(0xFF9A9A9A),
-                                  fontSize: 12,
-                                )):null,
+                            child: bloc.words[index].id != 123456
+                                ? Text(
+                                    "身高: " +
+                                        bloc.words[index].height.toString() +
+                                        "CM",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7): Color(0xFF9A9A9A),
+                                      fontSize: 12,
+                                    ))
+                                : null,
                           ),
                           Container(
                             margin: EdgeInsets.only(
                               left: 80,
                             ),
-                            child: bloc.words[index].id != 123456 ? Text(
-                                "生日: " +
-                                    bloc.words[index].birthday
-                                        .substring(0, 10),
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Color(0xFF9A9A9A),
-                                  fontSize: 12,
-                                )):null,
+                            child: bloc.words[index].id != 123456
+                                ? Text(
+                                    "生日: " +
+                                        bloc.words[index].birthday
+                                            .substring(0, 10),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7): Color(0xFF9A9A9A),
+                                      fontSize: 12,
+                                    ))
+                                : null,
                           ),
                           Expanded(
                             flex: 1,
@@ -265,14 +279,18 @@ class _State extends BlocState<UserPage, UserBloc> {
                         children: <Widget>[
                           Container(
                             width: 100,
-                            child: bloc.words[index].id != 123456 ? Text(
-                                "体重: " +
-                                    bloc.words[index].weight.toStringAsFixed(0) + "KG",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Color(0xFF9A9A9A),
-                                  fontSize: 12,
-                                )): null,
+                            child: bloc.words[index].id != 123456
+                                ? Text(
+                                    "体重: " +
+                                        bloc.words[index].weight
+                                            .toStringAsFixed(0) +
+                                        "KG",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color:bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7):  Color(0xFF9A9A9A),
+                                      fontSize: 12,
+                                    ))
+                                : null,
                           ),
                           Expanded(
                             flex: 1,

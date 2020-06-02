@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 
 class BottomActionSheet {
   static show(BuildContext context, List<String> data,
-      {String title: '标题', Function callBack(int)}) {
+      {String title: '', Function callBack(int)}) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -26,18 +26,22 @@ class BottomActionSheet {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-//                            new Container(
-//                              height: 40,
-//                              alignment: Alignment.center,
-//                              child: new Text(
-//                                title,
-//                                textAlign: TextAlign.center,
-//                              ),
-//                            ),
-//                            Divider(
-//                              height: 1,
-//                              color: Color(0xFFF3F3F3),
-//                            ),
+                        title != "" ? new Container(
+                              height: 60,
+                              alignment: Alignment.center,
+                              child: new Text(
+                                title,
+                                style: TextStyle(
+                                  color:Color(0xFFB6B8BF),
+                                  fontSize: 12,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ):Container(),
+                        title != "" ? Divider(
+                              height: 1,
+                              color: Color(0xFFF3F3F3),
+                            ) : Container(),
                         Flexible(
                             child: ListView.builder(
                           /**
@@ -55,6 +59,9 @@ class BottomActionSheet {
                                   },
                                   title: new Text(
                                     data[index],
+                                    style: TextStyle(
+                                      color: title != "" ? Color(0xFFF97188) :  Colors.black,
+                                    ),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),

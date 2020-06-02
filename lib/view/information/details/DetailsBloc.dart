@@ -107,8 +107,6 @@ p{
     <span style="margin-left: 0px;" class="iconfont icon-Group-"></span><span>''' +
           DateTime.parse(infoModel.updated).toString().substring(
               0, DateTime.parse(infoModel.updated).toString().length - 5) +
-          '''</span><span class="iconfont icon-yonghu"></span><span>李小明</span><span class="iconfont icon-yanjing"></span><span>''' +
-          infoModel.hits.toString() +
           '''</span>
   </div>
     <div class="text">''' +
@@ -120,6 +118,7 @@ p{
   void toBack() {
     navigate.pop();
   }
+
   void to(String text) {
     scaffoldKey.currentState.showSnackBar(
       SnackBar(

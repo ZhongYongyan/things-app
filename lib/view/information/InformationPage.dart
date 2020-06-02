@@ -102,72 +102,86 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                   left: 0,
                   right: 0,
                   child: Container(
-                    color: Color(0xFFF8F8F8),
-                    child: ListView.separated(
-                      itemCount: bloc.words.length,
-                      itemBuilder: (context, index) {
-                        //如果到了表尾
-                        if (bloc.words[index].title == bloc.loading) {
-                          //不足100条，继续获取数据
-                          if (bloc.indexshow && bloc.textList.length != 0) {
-                            //获取数据
-                            bloc.retrieveData(bloc.sortId);
-                            //加载时显示loading
-                            return Container(
-                              padding: const EdgeInsets.all(16.0),
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                  width: 24.0,
-                                  height: 24.0,
-                                  child: CircularProgressIndicator(
-                                      strokeWidth: 2.0)),
-                            );
-                          } else {
-                            //已经加载了100条数据，不再获取数据。
-                            return Container();
+                    color: bloc.words.length == 1 ? Color(0xFFFFFFFF) : Color(0xFFF8F8F8),
+                    child: new RefreshIndicator(
+                      onRefresh: bloc.onRefresh,
+                      child: ListView.separated(
+                        itemCount: bloc.words.length,
+                        itemBuilder: (context, index) {
+                          //如果到了表尾
+                          if (bloc.words[index].title == bloc.loading) {
+                            //不足100条，继续获取数据
+                            if (bloc.indexshow && bloc.textList.length != 0) {
+                              //获取数据
+                              bloc.retrieveData(bloc.sortId);
+                              //加载时显示loading
+                              return Container(
+                                padding: const EdgeInsets.all(16.0),
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                    width: 24.0,
+                                    height: 24.0,
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2.0)),
+                              );
+                            } else {
+                              //已经加载了100条数据，不再获取数据。
+                              return Container();
+                            }
                           }
-                        }
-                        //显示单词列表项
-                        return informationItem(index);
-                      },
-                      separatorBuilder: (context, index) => Container(),
+                          //显示单词列表项
+                          return informationItem(index);
+                        },
+                        separatorBuilder: (context, index) => Container(),
+                      ),
                     ),
                   )),
-              (bloc.words.length == 1 || bloc.textList.length == 0 ) && !bloc.indexshow ? Positioned(
-                  top: bloc.textList.length == 0 ? 1 : 41,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                      color: Color(0xFFFFFFFF),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              alignment: Alignment.center,
-                              margin:  const EdgeInsets.only(
-                                  top: 100,bottom: 10),
-                              child: Image(
-                                image: AssetImage(
-                                    "assets/information_empit.jpeg"),
-                                fit: BoxFit.cover,
-                                width: 96,
-                                height: 64,
-                              ),
-                            ),
-                            Text("没有相关资讯",
-                                maxLines: 1,
-                                textAlign:
-                                TextAlign
-                                    .center,
-                                style: TextStyle(
-                                  color: Color(
-                                      0xFFA2A2A6),
-                                  fontSize: 14,
-                                )),
-                          ])
-                  )
-              ) : Container()
+              (bloc.words.length == 1 || bloc.textList.length == 0) &&
+                      !bloc.indexshow
+                  ? Positioned(
+                      top: bloc.textList.length == 0 ? 1 : 42,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: new RefreshIndicator(
+                          onRefresh: bloc.onRefresh,
+                          child: ListView.separated(
+                      itemCount: bloc.words.length,
+                        itemBuilder: (context, index) {
+                          //如果到了表尾
+                          if (bloc.words[index].title == bloc.loading) {
+                            return Container(
+                                color: Color(0xFFFFFFFF),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        alignment: Alignment.center,
+                                        margin: const EdgeInsets.only(
+                                            top: 100, bottom: 10),
+                                        child: Image(
+                                          image: AssetImage(
+                                              "assets/information_empit.jpeg"),
+                                          fit: BoxFit.cover,
+                                          width: 96,
+                                          height: 64,
+                                        ),
+                                      ),
+                                      Text("没有相关资讯",
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xFFA2A2A6),
+                                            fontSize: 14,
+                                          )),
+                                    ]));
+                          }
+                          //显示单词列表项
+                          return Container();
+                        },
+                        separatorBuilder: (context, index) => Container(),
+                      ),))
+                  : Container()
             ],
           ),
         ),
@@ -191,16 +205,14 @@ class _State extends BlocState<InformationPage, InformationBloc> {
               //height: 100,
               child: Padding(
                 //左边添加8像素补白
-                padding: const EdgeInsets.only(
-                    left: 20.0, right: 20, top: 12),
+                padding: const EdgeInsets.only(left: 20.0, right: 20, top: 12),
                 child: Flex(
                   direction: Axis.horizontal,
                   children: <Widget>[
                     Container(
                       width: 4.0,
                       height: 20,
-                      margin:
-                      const EdgeInsets.only(right: 5),
+                      margin: const EdgeInsets.only(right: 5),
                       color: Color(0xFF0079FE),
                     ),
                     Expanded(
@@ -223,11 +235,8 @@ class _State extends BlocState<InformationPage, InformationBloc> {
               height: 90,
               child: Padding(
                 //左边添加8像素补白
-                padding: const EdgeInsets.only(
-                    left: 20.0, right: 20, top: 12),
-                child: Text(
-                    bloc.parseHtmlString(
-                        bloc.words[index].body),
+                padding: const EdgeInsets.only(left: 20.0, right: 20, top: 12),
+                child: Text(bloc.parseHtmlString(bloc.words[index].body),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
@@ -248,33 +257,26 @@ class _State extends BlocState<InformationPage, InformationBloc> {
             ),
             Padding(
               //左边添加8像素补白
-              padding: const EdgeInsets.only(
-                  top: 9.0, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 9.0, left: 20, right: 20),
               child: Flex(
                 direction: Axis.horizontal,
                 children: <Widget>[
                   Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        margin:
-                        const EdgeInsets.only(right: 5),
-                        child: Icon(Icons.timer,
-                            color: Color(0xFFA2A2A6)),
+                        margin: const EdgeInsets.only(right: 5),
+                        child: Icon(Icons.timer, color: Color(0xFFA2A2A6)),
                       ),
                       Text(
-                          DateTime.parse(
-                              bloc.words[index].updated)
+                          DateTime.parse(bloc.words[index].updated)
                               .toString()
                               .substring(
-                              0,
-                              DateTime.parse(bloc
-                                  .words[index]
-                                  .updated)
-                                  .toString()
-                                  .length -
-                                  5),
+                                  0,
+                                  DateTime.parse(bloc.words[index].updated)
+                                          .toString()
+                                          .length -
+                                      5),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
@@ -287,8 +289,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                   Expanded(
                     flex: 1,
                     child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text("阅读原文",
                             maxLines: 1,
@@ -299,8 +300,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                               fontSize: 12,
                             )),
                         Container(
-                          margin: const EdgeInsets.only(
-                              left: 5),
+                          margin: const EdgeInsets.only(left: 5),
                           child: Icon(Icons.navigate_next,
                               color: Color(0xFFA2A2A6)),
                         ),
