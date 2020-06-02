@@ -6,6 +6,7 @@ import 'package:app/store/module/%20Information.dart';
 import 'package:app/store/module/User.dart';
 import 'package:quiver/strings.dart';
 
+import 'Member.dart';
 import 'Msg.dart';
 import 'management.dart';
 
@@ -92,6 +93,7 @@ class AuthActions with LoggingMixin {
       state.msg = MsgState()..saveSnapshot();
       state.information = InformationState()..saveSnapshot();
       state.management = ManagementState()..saveSnapshot();
+      state.member = MemberState()..saveSnapshot();
       state.user = UserState();
       return state;
     };

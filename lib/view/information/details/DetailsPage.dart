@@ -35,7 +35,6 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
     var model = args["model"];
     bloc.infoModel = model;
     bloc.setUI();
-
     Widget body = _pageBody();
     return body;
   }

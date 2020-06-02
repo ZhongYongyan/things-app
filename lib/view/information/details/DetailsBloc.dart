@@ -7,7 +7,7 @@ import 'package:app/base/util/Result.dart';
 import 'package:app/base/util/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
-
+import 'package:app/base/util/Utils.dart';
 class DetailsBloc extends BlocBase with LoggingMixin {
   DetailsBloc(BuildContext context, Store store) : super(context, store);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -105,8 +105,7 @@ p{
           '''</span></div>
   <div class="time">
     <span style="margin-left: 0px;" class="iconfont icon-Group-"></span><span>''' +
-          DateTime.parse(infoModel.updated).toString().substring(
-              0, DateTime.parse(infoModel.updated).toString().length - 5) +
+          beijingTime(infoModel.updated) +
           '''</span>
   </div>
     <div class="text">''' +

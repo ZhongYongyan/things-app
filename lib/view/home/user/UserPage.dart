@@ -77,7 +77,9 @@ class _State extends BlocState<UserPage, UserBloc> {
           constraints: BoxConstraints.expand(),
           child: Container(
             color: Color(0xFFf8f8f8),
-            child: ListView.separated(
+            child:new RefreshIndicator(
+    onRefresh: bloc.onRefresh,
+    child: ListView.separated(
 //              physics: const NeverScrollableScrollPhysics(),
               itemCount: bloc.words.length,
               itemBuilder: (context, index) {
@@ -118,7 +120,7 @@ class _State extends BlocState<UserPage, UserBloc> {
           ),
         ),
       ),
-    );
+    ));
   }
 
   //单个用户信息

@@ -305,6 +305,11 @@ class DatailsBloc extends BlocBase with LoggingMixin {
           timeInSecForIos: 1,
           textColor: Colors.white,
           fontSize: 16.0);
+      for (int i = 0; i < state.member.words.length; i++){
+        if(state.member.words[i].id == affiliateModel.id) {
+          state.member.words.removeAt(i);
+        }
+      }
       navigate.pop();
     } else {
       Fluttertoast.showToast(

@@ -25,3 +25,8 @@ bool isEmpty(String value) {
 bool nonEmpty(String value) {
   return !isEmpty(value);
 }
+
+String beijingTime(String text) {
+  DateTime beijingTime= DateTime.parse("${text.substring(0,19)}-0800");
+  return beijingTime.toString().substring(0,19);
+}

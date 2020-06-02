@@ -3,7 +3,7 @@ import 'package:app/store/Store.dart';
 import 'package:app/view/information/InformationBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/src/store.dart';
-
+import 'package:app/base/util/Utils.dart';
 class InformationPage extends StatefulWidget {
   @override
   _State createState() => _State();
@@ -268,15 +268,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                         margin: const EdgeInsets.only(right: 5),
                         child: Icon(Icons.timer, color: Color(0xFFA2A2A6)),
                       ),
-                      Text(
-                          DateTime.parse(bloc.words[index].updated)
-                              .toString()
-                              .substring(
-                                  0,
-                                  DateTime.parse(bloc.words[index].updated)
-                                          .toString()
-                                          .length -
-                                      5),
+                      Text(beijingTime(bloc.words[index].updated),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
