@@ -17,7 +17,8 @@ class StoreState extends Persistable {
   UserState user = UserState();
   MsgState msg = MsgState();
   InformationState information = InformationState();
-  ManagementState  management = ManagementState();
+  ManagementState management = ManagementState();
+
   @override
   void recoverSnapshot() {
     auth.recoverSnapshot();
@@ -38,8 +39,6 @@ class StoreState extends Persistable {
     auth.saveUser();
   }
 }
-
-
 
 class StoreConfig {
   static Logger _log = Logger('store');

@@ -14,7 +14,6 @@ class Member {
   String registerDate;
   String updated;
 
-
   Member.fromJson(Map<String, dynamic> json) {
     avatar = json['avatar'] ?? "";
     city = json['city'] ?? "";

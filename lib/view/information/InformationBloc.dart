@@ -65,26 +65,30 @@ class InformationBloc extends BlocBase with LoggingMixin {
 
   void onToSelection(int id) {
     var loadingTag = Info.fromJson({'title': 'loadingTag'});
-    var sortIdArr = state.information.allWords.where((student) => student.sortId == id || student.title == "loadingTag");
-    var  newIndexshow = state.information.indexshow;
-    var  newIndexPage = state.information.indexPage;
-    for (int i = 0; i < state.information.allTitleWords.length; i++)
-    {
-      if(state.information.allTitleWords[i]["sortId"] == id)
-      {
+    var sortIdArr = state.information.allWords.where(
+        (student) => student.sortId == id || student.title == "loadingTag");
+    var newIndexshow = state.information.indexshow;
+    var newIndexPage = state.information.indexPage;
+    for (int i = 0; i < state.information.allTitleWords.length; i++) {
+      if (state.information.allTitleWords[i]["sortId"] == id) {
         newIndexshow = state.information.allTitleWords[i]["indexshow"];
         newIndexPage = state.information.allTitleWords[i]["indexPage"];
       }
     }
     state.information.sortId = id;
-    state.information.indexPage = sortIdArr.toList().length>1 ? newIndexPage : 1;
-    state.information.words = sortIdArr.toList().length>1 ? sortIdArr.toList() :  <Info>[loadingTag];
-    state.information.indexshow = sortIdArr.toList().length>1 ? newIndexshow : true;
+    state.information.indexPage =
+        sortIdArr.toList().length > 1 ? newIndexPage : 1;
+    state.information.words =
+        sortIdArr.toList().length > 1 ? sortIdArr.toList() : <Info>[loadingTag];
+    state.information.indexshow =
+        sortIdArr.toList().length > 1 ? newIndexshow : true;
     setModel(() {
       sortId = id;
-      words = sortIdArr.toList().length>1 ? sortIdArr.toList() :  <Info>[loadingTag];
-      indexPage = sortIdArr.toList().length>1 ? newIndexPage : 1;
-      indexshow = sortIdArr.toList().length>1 ? newIndexshow : true;
+      words = sortIdArr.toList().length > 1
+          ? sortIdArr.toList()
+          : <Info>[loadingTag];
+      indexPage = sortIdArr.toList().length > 1 ? newIndexPage : 1;
+      indexshow = sortIdArr.toList().length > 1 ? newIndexshow : true;
     });
   }
 
@@ -98,10 +102,11 @@ class InformationBloc extends BlocBase with LoggingMixin {
     }
 
     //这里找到之前改sortId 请求状态
-    var ageOver = state.information.allTitleWords.where((student) => student["sortId"] == sortId);
-    if(ageOver.toList().length > 0 ) {
+    var ageOver = state.information.allTitleWords
+        .where((student) => student["sortId"] == sortId);
+    if (ageOver.toList().length > 0) {
       //请求过相同页
-      if(ageOver.toList()[0]["indexPage"] == indexPage) {
+      if (ageOver.toList()[0]["indexPage"] == indexPage) {
         print("请求过相同页");
         setModel(() {
           indexshow = false;
@@ -110,9 +115,9 @@ class InformationBloc extends BlocBase with LoggingMixin {
       }
     } else {
       var item = {
-        "sortId":sortId,
-        "indexshow":true,
-        "indexPage":1,
+        "sortId": sortId,
+        "indexshow": true,
+        "indexPage": 1,
       };
       state.information.allTitleWords.add(item);
     }
@@ -132,24 +137,25 @@ class InformationBloc extends BlocBase with LoggingMixin {
     //错误处理
     lists = response.data.items;
 
-
     //
     //这里页数相同不请求
     Future.delayed(Duration(seconds: 1)).then((e) {
-      state.information.allWords.insertAll(state.information.allWords.length - 1, lists.map((student) => student));
-      if(lists.length > 0 && words.length > 1 && lists.first.sortId != words.first.sortId) {
+      state.information.allWords.insertAll(
+          state.information.allWords.length - 1,
+          lists.map((student) => student));
+      if (lists.length > 0 &&
+          words.length > 1 &&
+          lists.first.sortId != words.first.sortId) {
         print("快速切换bug");
       } else {
         words.insertAll(words.length - 1, lists.map((student) => student));
       }
       if (lists.length < 10) {
         //这里找到之前改sortId 请求状态
-        for (int i = 0; i < state.information.allTitleWords.length; i++)
-        {
-          if(state.information.allTitleWords[i]["sortId"] == sortId)
-            {
-              state.information.allTitleWords[i]["indexshow"] = false;
-            }
+        for (int i = 0; i < state.information.allTitleWords.length; i++) {
+          if (state.information.allTitleWords[i]["sortId"] == sortId) {
+            state.information.allTitleWords[i]["indexshow"] = false;
+          }
         }
         setModel(() {
           indexshow = false;
@@ -158,10 +164,8 @@ class InformationBloc extends BlocBase with LoggingMixin {
       } else {
         var newIndexPage = indexPage + 1;
         //这里找到之前改sortId 请求状态
-        for (int i = 0; i < state.information.allTitleWords.length; i++)
-        {
-          if(state.information.allTitleWords[i]["sortId"] == sortId)
-          {
+        for (int i = 0; i < state.information.allTitleWords.length; i++) {
+          if (state.information.allTitleWords[i]["sortId"] == sortId) {
             state.information.allTitleWords[i]["indexPage"] = newIndexPage;
           }
         }
@@ -170,7 +174,9 @@ class InformationBloc extends BlocBase with LoggingMixin {
         });
         state.information.indexPage = newIndexPage;
       }
-      if(lists.length > 0 && words.length > 1 && lists.first.sortId != words.first.sortId) {
+      if (lists.length > 0 &&
+          words.length > 1 &&
+          lists.first.sortId != words.first.sortId) {
         print("快速切换bug");
       } else {
         state.information.words = words;
@@ -186,12 +192,10 @@ class InformationBloc extends BlocBase with LoggingMixin {
     return parsedString;
   }
 
-
   Future<void> onRefresh() async {
     print("开始刷新数据");
     lists = [];
-    Result<Page> response =
-    await InfoSortApis.getInfo(1, 20, "ASC", sortId);
+    Result<Page> response = await InfoSortApis.getInfo(1, 20, "ASC", sortId);
     bool code = response.success;
     //错误处理
     if (!code) {
@@ -200,18 +204,16 @@ class InformationBloc extends BlocBase with LoggingMixin {
         indexshow = false;
       });
       state.information.indexshow = false;
-      await Future.delayed(Duration(seconds: 1)).then((e){
-
-      });
+      await Future.delayed(Duration(seconds: 1)).then((e) {});
       return;
     }
     lists = response.data.items;
     var num = 0;
-    await Future.delayed(Duration(seconds: 1)).then((e){
-      for (int i = 0; i < lists.length; i++)
-      {
-        var ageOver = words.where((student) => student.id == lists[i].id || student.title == "loadingTag");
-        if (ageOver.toList().length > 1 ) {
+    await Future.delayed(Duration(seconds: 1)).then((e) {
+      for (int i = 0; i < lists.length; i++) {
+        var ageOver = words.where((student) =>
+            student.id == lists[i].id || student.title == "loadingTag");
+        if (ageOver.toList().length > 1) {
           print("重复数据");
         } else {
           num += 1;
@@ -219,12 +221,11 @@ class InformationBloc extends BlocBase with LoggingMixin {
           var listItem = [];
           listItem.add(lists[i]);
           words.insertAll(0, listItem.map((student) => student));
-          state.information.allWords.insertAll(0, listItem.map((student) => student));
+          state.information.allWords
+              .insertAll(0, listItem.map((student) => student));
 
-          for (int i = 0; i < state.information.allTitleWords.length; i++)
-          {
-            if(state.information.allTitleWords[i]["sortId"] == sortId)
-            {
+          for (int i = 0; i < state.information.allTitleWords.length; i++) {
+            if (state.information.allTitleWords[i]["sortId"] == sortId) {
               setModel(() {
                 indexshow = state.information.allTitleWords[i]["indexshow"];
               });
@@ -232,7 +233,6 @@ class InformationBloc extends BlocBase with LoggingMixin {
           }
         }
       }
-
     });
   }
 }

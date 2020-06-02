@@ -20,6 +20,7 @@ class PluginBloc extends BlocBase with LoggingMixin {
   final blueBridge = new BlueBridge(flutterWebviewPlugin);
   var loading = false;
   String pluginPath;
+
   void init() {}
 
   void loadPlugin(String pluginUrl) {

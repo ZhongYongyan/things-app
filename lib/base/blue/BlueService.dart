@@ -24,7 +24,9 @@ class BlueService {
         services.forEach((service) {
           print('service.uuid:${service.uuid}');
           if (service.uuid.toString() ==
-              '0000fff0-0000-1000-8000-00805f9b34fb' || service.uuid.toString() =='0000ffe0-0000-1000-8000-00805f9b34fb') {
+                  '0000fff0-0000-1000-8000-00805f9b34fb' ||
+              service.uuid.toString() ==
+                  '0000ffe0-0000-1000-8000-00805f9b34fb') {
             var characteristics = service.characteristics;
             for (BluetoothCharacteristic characteristic in characteristics) {
               if (_writeCharacteristic == null)
@@ -105,8 +107,9 @@ class BlueService {
 
   _checkWriteCharacteristic(BluetoothCharacteristic characteristic) {
     if (characteristic.uuid.toString() ==
-        '0000fff1-0000-1000-8000-00805f9b34fb' || characteristic.uuid.toString() ==
-        '0000ffe2-0000-1000-8000-00805f9b34fb') {
+            '0000fff1-0000-1000-8000-00805f9b34fb' ||
+        characteristic.uuid.toString() ==
+            '0000ffe2-0000-1000-8000-00805f9b34fb') {
       print('${characteristic.uuid} characteristic:write');
       _writeCharacteristic = characteristic;
     }
@@ -114,8 +117,9 @@ class BlueService {
 
   _checkNotifyCharacteristic(BluetoothCharacteristic characteristic) {
     if (characteristic.uuid.toString() ==
-        "0734594a-a8e7-4b1a-a6b1-cd5243059a57" || characteristic.uuid.toString() ==
-        '0000ffe2-0000-1000-8000-00805f9b34fb') {
+            "0734594a-a8e7-4b1a-a6b1-cd5243059a57" ||
+        characteristic.uuid.toString() ==
+            '0000ffe2-0000-1000-8000-00805f9b34fb') {
       print('${characteristic.uuid} characteristic:notify');
       _notifyCharacteristic = characteristic;
     }
