@@ -42,62 +42,55 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   bool loginProcessing = false;
   bool addAffiliateShow = false;
   File images;
-  var heightPickerData = '''
-[
-    [
-        110,
-        120,
-        130,
-        140,
-        150,
-        160,
-        170,
-        180,
-        190,
-        200,
-        210,
-        220,
-        230,
-        240,
-        250
-    ]
-]
-    ''';
-  var weightPickerData = '''
-[
-    [
-        20,
-        30,
-        40,
-        50,
-        60,
-        70,
-        80,
-        90,
-        100,
-        110,
-        120,
-        130,
-        140,
-        150,
-        160,
-        170,
-        180,
-        190,
-        200,
-        210,
-        220,
-        230,
-        240,
-        250,
-        260,
-        270,
-        280,
-        290,
-        300
-    ]
-]
-    ''';
+  var heightPickerData =  [
+    "110",
+    "120",
+    "130",
+    "140",
+    "150",
+    "160",
+    "170",
+    "180",
+    "190",
+    "200",
+    "210",
+    "220",
+    "230",
+    "240",
+    "250"
+  ];
+  var weightPickerData =  [
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "100",
+    "110",
+    "120",
+    "130",
+    "140",
+    "150",
+    "160",
+    "170",
+    "180",
+    "190",
+    "200",
+    "210",
+    "220",
+    "230",
+    "240",
+    "250",
+    "260",
+    "270",
+    "280",
+    "290",
+    "300"
+    ];
+
 
   void startup() {
     //retrieveData();
@@ -122,15 +115,15 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     });
   }
 
-  void userClickHeight(List i) {
+  void userClickHeight(String i) {
     setModel(() {
-      affiliateModel.height = int.parse(i[0]);
+      affiliateModel.height = int.parse(i);
     });
   }
 
-  void weightClickHeight(List i) {
+  void weightClickHeight(String i) {
     setModel(() {
-      affiliateModel.weight = double.parse(i[0]);
+      affiliateModel.weight = double.parse(i);
     });
   }
 
