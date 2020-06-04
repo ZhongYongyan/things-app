@@ -8,6 +8,7 @@ import 'package:logging/logging.dart';
 import 'package:redux/redux.dart';
 
 import 'module/ Information.dart';
+import 'module/Member.dart';
 import 'module/Msg.dart';
 import 'module/management.dart';
 
@@ -16,6 +17,7 @@ class StoreState extends Persistable {
   AuthState auth = AuthState();
   UserState user = UserState();
   MsgState msg = MsgState();
+  MemberState member = MemberState();
   InformationState information = InformationState();
   ManagementState management = ManagementState();
 

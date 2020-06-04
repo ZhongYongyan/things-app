@@ -4,7 +4,7 @@ import 'package:app/view/msg/MsgBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/src/store.dart';
-
+import 'package:app/base/util/Utils.dart';
 class MsgPage extends StatefulWidget {
   @override
   _State createState() => _State();
@@ -188,17 +188,8 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                                   direction: Axis.horizontal,
                                   children: <Widget>[
                                     msgText(bloc.words[index].title, 0),
-                                    msgText(
-                                        DateTime.parse(
-                                                bloc.words[index].updated)
-                                            .toString()
-                                            .substring(
-                                                0,
-                                                DateTime.parse(bloc.words[index]
-                                                            .updated)
-                                                        .toString()
-                                                        .length -
-                                                    5),
+                                    msgText(beijingTime(bloc.words[index].updated)
+                                       ,
                                         2)
                                   ],
                                 ),

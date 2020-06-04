@@ -101,8 +101,7 @@ p{
           '''</span></div>
   <div class="time">
     <span style="margin-left: 0px;" class="iconfont icon-Group-"></span><span>''' +
-          DateTime.parse(MemberNewsModel.updated).toString().substring(0,
-              DateTime.parse(MemberNewsModel.updated).toString().length - 5) +
+          beijingTime(MemberNewsModel.updated) +
           '''</span>
   </div>
     <div class="text">''' +

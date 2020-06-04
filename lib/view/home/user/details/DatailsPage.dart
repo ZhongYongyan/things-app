@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/base/util/BlocUtils.dart';
+import 'package:app/component/PickerPopup.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/home/user/component/ActionSheet.dart';
 import 'package:app/view/home/user/component/lib/flutter_datetime_picker.dart';
@@ -333,37 +334,26 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                       return;
                                     }),
                                   },
+
                                 if (index == 3)
                                   {
-                                    Picker(
-                                        adapter: PickerDataAdapter<String>(
-                                            pickerdata: new JsonDecoder()
-                                                .convert(bloc.heightPickerData),
-                                            isArray: true),
-                                        hideHeader: true,
-                                        confirmText: '确认',
-                                        cancelText: '取消',
-                                        title: new Text("身高(cm)"),
-                                        onConfirm: (Picker picker, List value) {
-                                          bloc.userClickHeight(
-                                              picker.getSelectedValues());
-                                        }).showDialog(context)
+
+                                JhPickerTool.showStringPicker(context,
+                                  data: bloc.heightPickerData,
+                                  clickCallBack: (int index,var str){
+                                    bloc.userClickHeight(str);
+                                  }),
                                   },
                                 if (index == 4)
                                   {
-                                    Picker(
-                                        adapter: PickerDataAdapter<String>(
-                                            pickerdata: new JsonDecoder()
-                                                .convert(bloc.weightPickerData),
-                                            isArray: true),
-                                        hideHeader: true,
-                                        confirmText: '确认',
-                                        cancelText: '取消',
-                                        title: new Text("体重(kg)"),
-                                        onConfirm: (Picker picker, List value) {
-                                          bloc.weightClickHeight(
-                                              picker.getSelectedValues());
-                                        }).showDialog(context)
+
+
+                                JhPickerTool.showStringPicker(context,
+                                      data: bloc.weightPickerData,
+                                      clickCallBack: (int index,var str){
+                                        bloc.weightClickHeight(str);
+                                      }
+                                  ),
                                   },
                                 if (index == 5)
                                   {
