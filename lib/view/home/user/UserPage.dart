@@ -129,8 +129,14 @@ class _State extends BlocState<UserPage, UserBloc> {
       child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.0),
-              border: Border.all(color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7) : Color(0xFFFFFFFF) ,width: 1)///边框颜色、宽
-          ),
+              border: Border.all(
+                  color: bloc.name == bloc.words[index].nickname
+                      ? Color(0xFF3578F7)
+                      : Color(0xFFFFFFFF),
+                  width: 1)
+
+              ///边框颜色、宽
+              ),
           margin: EdgeInsets.only(top: 10, left: 10, right: 10),
           height: 146,
           child: ClipRRect(
@@ -154,17 +160,21 @@ class _State extends BlocState<UserPage, UserBloc> {
                                       height: 30,
                                       fit: BoxFit.cover,
                                     )
-                                  : bloc.words[index].nickname == "访客" ? Image(
-                                      image: AssetImage("assets/visitor.jpeg"),
-                                      fit: BoxFit.cover,
-                                      width: 30,
-                                      height: 30,
-                                    ) : Image(
-                                image: AssetImage("assets/home_y.png"),
-                                fit: BoxFit.cover,
-                                width: 30,
-                                height: 30,
-                              )),
+                                  : bloc.words[index].nickname == "访客"
+                                      ? Image(
+                                          image:
+                                              AssetImage("assets/visitor.jpeg"),
+                                          fit: BoxFit.cover,
+                                          width: 30,
+                                          height: 30,
+                                        )
+                                      : Image(
+                                          image:
+                                              AssetImage("assets/home_y.png"),
+                                          fit: BoxFit.cover,
+                                          width: 30,
+                                          height: 30,
+                                        )),
                           Expanded(
                             flex: 1,
                             child: Container(
@@ -204,7 +214,9 @@ class _State extends BlocState<UserPage, UserBloc> {
                             child: Text("昵称: " + bloc.words[index].nickname,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  color:bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7) : Color(0xFF9A9A9A),
+                                  color: bloc.name == bloc.words[index].nickname
+                                      ? Color(0xFF3578F7)
+                                      : Color(0xFF9A9A9A),
                                   fontSize: 12,
                                 )),
                           ),
@@ -220,7 +232,10 @@ class _State extends BlocState<UserPage, UserBloc> {
                                             : '女'),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7): Color(0xFF9A9A9A),
+                                      color: bloc.name ==
+                                              bloc.words[index].nickname
+                                          ? Color(0xFF3578F7)
+                                          : Color(0xFF9A9A9A),
                                       fontSize: 12,
                                     ))
                                 : null,
@@ -246,7 +261,10 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         "CM",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7): Color(0xFF9A9A9A),
+                                      color: bloc.name ==
+                                              bloc.words[index].nickname
+                                          ? Color(0xFF3578F7)
+                                          : Color(0xFF9A9A9A),
                                       fontSize: 12,
                                     ))
                                 : null,
@@ -262,7 +280,10 @@ class _State extends BlocState<UserPage, UserBloc> {
                                             .substring(0, 10),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color: bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7): Color(0xFF9A9A9A),
+                                      color: bloc.name ==
+                                              bloc.words[index].nickname
+                                          ? Color(0xFF3578F7)
+                                          : Color(0xFF9A9A9A),
                                       fontSize: 12,
                                     ))
                                 : null,
@@ -289,7 +310,10 @@ class _State extends BlocState<UserPage, UserBloc> {
                                         "KG",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color:bloc.name == bloc.words[index].nickname ? Color(0xFF3578F7):  Color(0xFF9A9A9A),
+                                      color: bloc.name ==
+                                              bloc.words[index].nickname
+                                          ? Color(0xFF3578F7)
+                                          : Color(0xFF9A9A9A),
                                       fontSize: 12,
                                     ))
                                 : null,

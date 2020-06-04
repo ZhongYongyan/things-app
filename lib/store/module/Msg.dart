@@ -10,20 +10,16 @@ class MsgState extends Persistable with StorageMixin, LoggingMixin {
   var words = <MemberNews>[loadingTag];
   var indexPage = 1;
   bool indexshow = true;
-  @override
-  void recoverSnapshot() {
 
-  }
+  @override
+  void recoverSnapshot() {}
 
   @override
   void saveSnapshot() {
-    words =  <MemberNews>[loadingTag];
+    words = <MemberNews>[loadingTag];
     indexPage = 1;
     indexshow = true;
   }
-
 }
 
-class MsgActions with LoggingMixin {
-
-}
+class MsgActions with LoggingMixin {}

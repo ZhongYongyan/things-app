@@ -33,4 +33,3 @@ class Device {
     statusMupdatedeg = json['statusMupdatedeg'] ?? "";
   }
 }
-

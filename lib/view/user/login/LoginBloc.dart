@@ -13,8 +13,6 @@ import 'package:redux/redux.dart';
 import 'dart:async';
 import 'package:crypto/crypto.dart';
 
-
-
 class LoginBloc extends BlocBase with LoggingMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -23,9 +21,9 @@ class LoginBloc extends BlocBase with LoggingMixin {
   final FocusNode passwordFocus = FocusNode();
 
   final TextEditingController usernameController =
-  TextEditingController(text: '');
+      TextEditingController(text: '');
   final TextEditingController passwordController =
-  TextEditingController(text: '');
+      TextEditingController(text: '');
 
   Animation<double> headerAnimation;
   AnimationController headerController;
@@ -39,11 +37,12 @@ class LoginBloc extends BlocBase with LoggingMixin {
   bool countdownTimeShow = false;
   bool againLoginShow = true;
   String validCode = "";
+
   LoginBloc(
-      BuildContext context,
-      Store<StoreState> store,
-      TickerProvider tickerProvider,
-      ) : super(context, store) {
+    BuildContext context,
+    Store<StoreState> store,
+    TickerProvider tickerProvider,
+  ) : super(context, store) {
     if (!againLoginShow) {
       setModel(() {
         usernameController.text = "17628045052";
@@ -78,7 +77,6 @@ class LoginBloc extends BlocBase with LoggingMixin {
   }
 
   FutureOr Function(Result<AccessToken> value) get onValue => null;
-
 
   @override
   void dispose() {
@@ -132,7 +130,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
     }
     //FocusScope.of(context).requestFocus(FocusNode());
     Result<AccessToken> response = await AdminApis.postAccessToken(
-        usernameController.text, validCode,passwordController.text);
+        usernameController.text, validCode, passwordController.text);
     bool code = response.success;
     if (code) {
       dispatch(authActions.login(response.data.accessToken));
@@ -228,10 +226,13 @@ class LoginBloc extends BlocBase with LoggingMixin {
     };
     _timer = Timer.periodic(Duration(seconds: 1), call);
     var timestamp = new DateTime.now().millisecondsSinceEpoch;
-    var str = usernameController.text + timestamp.toString() + "eSloN66D8D2XSVQyruIhrJGU5ELfyEJU";
+    var str = usernameController.text +
+        timestamp.toString() +
+        "eSloN66D8D2XSVQyruIhrJGU5ELfyEJU";
     var encoding = md5.convert(utf8.encode(str)).toString();
-    String response = await AdminApis.getCode(encoding, usernameController.text, timestamp);
-    if(response != "err") {
+    String response =
+        await AdminApis.getCode(encoding, usernameController.text, timestamp);
+    if (response != "err") {
       validCode = response;
     }
   }

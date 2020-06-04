@@ -15,7 +15,8 @@ class AvatarApis {
         "file": new UploadFileInfo(new File(path), name,
             contentType: ContentType.parse("image/$suffix"))
       });
-      Response response = await apiRequest.post('/upload/avatar', data: formData);
+      Response response =
+          await apiRequest.post('/upload/avatar', data: formData);
       return response.data["data"].toString();
     } on DioError catch (err) {
       return "";

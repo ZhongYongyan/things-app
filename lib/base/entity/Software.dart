@@ -14,7 +14,6 @@ class Software {
   String url;
   String versions;
 
-
   Software.fromJson(Map<String, dynamic> json) {
     accountId = json['accountId'] ?? "";
     accountName = json['accountName'] ?? "";

@@ -17,14 +17,13 @@ class InformationState extends Persistable with StorageMixin, LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
-  @override
-  void recoverSnapshot() {
 
-  }
+  @override
+  void recoverSnapshot() {}
 
   @override
   void saveSnapshot() {
-    words =  <Info>[loadingTag];
+    words = <Info>[loadingTag];
     textList = [];
     sortId = 0;
     lists = [];
@@ -34,6 +33,4 @@ class InformationState extends Persistable with StorageMixin, LoggingMixin {
   }
 }
 
-class InformationActions with LoggingMixin {
-
-}
+class InformationActions with LoggingMixin {}

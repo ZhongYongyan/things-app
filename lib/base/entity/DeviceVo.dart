@@ -15,7 +15,8 @@ class DeviceVo {
 
     List<dynamic> deviceSortsModel = json['deviceSorts'] ?? [];
     List<DeviceSort> deviceSortsData =
-        deviceSortsModel.map((item) => DeviceSort.fromJson(item)).toList() ?? [];
+        deviceSortsModel.map((item) => DeviceSort.fromJson(item)).toList() ??
+            [];
     deviceSorts = deviceSortsData;
 
     List<dynamic> devicesModel = json['devices'] ?? [];

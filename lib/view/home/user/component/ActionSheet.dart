@@ -26,22 +26,26 @@ class BottomActionSheet {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        title != "" ? new Container(
-                              height: 60,
-                              alignment: Alignment.center,
-                              child: new Text(
-                                title,
-                                style: TextStyle(
-                                  color:Color(0xFFB6B8BF),
-                                  fontSize: 12,
+                        title != ""
+                            ? new Container(
+                                height: 60,
+                                alignment: Alignment.center,
+                                child: new Text(
+                                  title,
+                                  style: TextStyle(
+                                    color: Color(0xFFB6B8BF),
+                                    fontSize: 12,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ):Container(),
-                        title != "" ? Divider(
-                              height: 1,
-                              color: Color(0xFFF3F3F3),
-                            ) : Container(),
+                              )
+                            : Container(),
+                        title != ""
+                            ? Divider(
+                                height: 1,
+                                color: Color(0xFFF3F3F3),
+                              )
+                            : Container(),
                         Flexible(
                             child: ListView.builder(
                           /**
@@ -60,7 +64,9 @@ class BottomActionSheet {
                                   title: new Text(
                                     data[index],
                                     style: TextStyle(
-                                      color: title != "" ? Color(0xFFF97188) :  Colors.black,
+                                      color: title != ""
+                                          ? Color(0xFFF97188)
+                                          : Colors.black,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),

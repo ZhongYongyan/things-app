@@ -12,10 +12,10 @@ class AdminApis {
         "clientId": "",
         "phone": username,
         "smsToken": smsToken,
-        "validCode":validCode
+        "validCode": validCode
       });
-      Response response =
-          await apiRequest.post("/auth/member/sms/access-token", data: formData);
+      Response response = await apiRequest.post("/auth/member/sms/access-token",
+          data: formData);
 
       Result<AccessToken> entity =
           Result.fromJson(response.data, (data) => AccessToken.fromJson(data));
@@ -36,15 +36,15 @@ class AdminApis {
     }
   }
 
-  static Future<String> getCode(String encoding, String phone, int timestamp) async {
+  static Future<String> getCode(
+      String encoding, String phone, int timestamp) async {
     try {
       FormData formData = new FormData.from({
         "encoding": encoding,
         "phone": phone,
         "timestamp": timestamp,
       });
-      Response response =
-      await apiRequest.post("/sms", data: formData);
+      Response response = await apiRequest.post("/sms", data: formData);
       return response.data["data"].toString();
     } on DioError catch (err) {
       return "err";

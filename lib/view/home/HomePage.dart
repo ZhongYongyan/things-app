@@ -142,17 +142,19 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                 height: 30,
                                 fit: BoxFit.cover,
                               )
-                            : bloc.name == "访客" ? Image(
-                          image: AssetImage("assets/visitor.jpeg"),
-                          fit: BoxFit.cover,
-                          width: 30,
-                          height: 30,
-                        ) : Image(
-                          image: AssetImage("assets/home_y.png"),
-                          fit: BoxFit.cover,
-                          width: 30,
-                          height: 30,
-                        )),
+                            : bloc.name == "访客"
+                                ? Image(
+                                    image: AssetImage("assets/visitor.jpeg"),
+                                    fit: BoxFit.cover,
+                                    width: 30,
+                                    height: 30,
+                                  )
+                                : Image(
+                                    image: AssetImage("assets/home_y.png"),
+                                    fit: BoxFit.cover,
+                                    width: 30,
+                                    height: 30,
+                                  )),
                   ),
                   GestureDetector(
                     child: Text(bloc.name,

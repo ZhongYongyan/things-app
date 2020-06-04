@@ -16,7 +16,7 @@ import 'base/util/LoggingUtils.dart';
 import 'base/util/Result.dart';
 import 'base/util/StorageUtils.dart';
 
-void main() async  {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   LoggingConfig.config();
@@ -36,11 +36,8 @@ void main() async  {
     Getuiflut().startSdk(
         appId: "itTyNzKYEQ71ojvDiBnNe9",
         appKey: "MTSHNGakyO7wB9fKNGPlM4",
-        appSecret: "j0HkdyX31l9Xr8MJgqmWH9"
-    );
+        appSecret: "j0HkdyX31l9Xr8MJgqmWH9");
   }
-
-
 }
 
 class MyApp extends StatelessWidget {

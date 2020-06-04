@@ -83,7 +83,8 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
                   _controller.complete(webViewController);
                   final String contentBase64 =
                       base64Encode(const Utf8Encoder().convert(bloc.html));
-                  _onExecJavascript('data:text/html;base64,$contentBase64');
+                  _onExecJavascript(
+                      'data:text/html;charset=utf-8;base64,$contentBase64');
                 },
                 javascriptChannels: <JavascriptChannel>[
                   ///JS和Flutter通信的Channel；
