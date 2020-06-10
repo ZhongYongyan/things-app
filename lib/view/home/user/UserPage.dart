@@ -228,8 +228,8 @@ class _State extends BlocState<UserPage, UserBloc> {
                                 ? Text(
                                     "性别: " +
                                         (bloc.words[index].sex == "F"
-                                            ? '男'
-                                            : '女'),
+                                            ? '女'
+                                            : '男'),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       color: bloc.name ==

@@ -48,7 +48,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
               child: Container(
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(right: 0),
-                child: new Text("取消",
+                child: new Text("返回",
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Color(0xFF0079FE), fontSize: 14)),
               ),
@@ -307,6 +307,9 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                     ]),
                               ),
                               onTap: () => {
+                                if (index != 1) {
+                                  FocusScope.of(context).requestFocus(FocusNode())
+                                },
                                 if (index == 0)
                                   {
                                     BottomActionSheet.show(
