@@ -111,7 +111,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
 
   void userClick(String i) {
     setModel(() {
-      affiliateModel.sex = i == '男' ? 'F' : 'M';
+      affiliateModel.sex = i == '女' ? 'F' : 'M';
     });
   }
 
@@ -170,7 +170,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     userList = [
       "修改头像",
       "",
-      affiliateModel.sex == "" ? "点击选择" : affiliateModel.sex == "F" ? '男' : '女',
+      affiliateModel.sex == "" ? "点击选择" : affiliateModel.sex == "F" ? '女' : '男',
       affiliateModel.height.toString() == '0'
           ? "点击选择"
           : affiliateModel.height.toString(),

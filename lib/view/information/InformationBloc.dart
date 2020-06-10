@@ -40,7 +40,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
   }
 
   void getInfoSortData() async {
-    Result<Page> response = await InfoSortApis.getInfoSort(1, 30, "DESC");
+    Result<Page> response = await InfoSortApis.getInfoSort(1, 30, "ASC");
     bool code = response.success;
     //错误处理
     if (!code) {
@@ -192,7 +192,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
     print("开始刷新数据");
     lists = [];
     Result<Page> response =
-    await InfoSortApis.getInfo(1, 20, "DESC", sortId);
+    await InfoSortApis.getInfo(1, 10, "DESC", sortId);
     bool code = response.success;
     //错误处理
     if (!code) {
@@ -207,33 +207,28 @@ class InformationBloc extends BlocBase with LoggingMixin {
       return;
     }
     lists = response.data.items;
-    var num = 0;
-    var listItem = [];
     await Future.delayed(Duration(seconds: 1)).then((e){
-      for (int i = 0; i < lists.length; i++)
-      {
-        var ageOver = words.where((student) => student.id == lists[i].id || student.title == "loadingTag");
-        if (ageOver.toList().length > 1 ) {
-          print("重复数据");
-        } else {
-          num += 1;
-          listItem.add(lists[i]);
+      if(lists.length > 0) {
+        var loadingTag = Info.fromJson({'title': 'loadingTag'});
+        words = <Info>[loadingTag];
+        for (var i = 0; i < state.information.allWords.length; i++) {
+          if (state.information.allWords[i].sortId == sortId) {
+            state.information.allWords.remove(i);
+          }
         }
-        if(i == lists.length -1 ){
-          if(num > 0) {
-            print("更新了${listItem.length}----------------条数据");
-            words.insertAll(0, listItem.map((student) => student));
-            state.information.allWords.insertAll(0, listItem.map((student) => student));
-          }
-          for (int j = 0; j < state.information.allTitleWords.length; j++)
-          {
-            if(state.information.allTitleWords[j]["sortId"] == sortId)
-            {
-              setModel(() {
-                indexshow = state.information.allTitleWords[j]["indexshow"];
-              });
-            }
-          }
+        words.insertAll(0, lists.map((student) => student));
+        state.information.allWords.insertAll(0, lists.map((student) => student));
+      }
+      for (int j = 0; j < state.information.allTitleWords.length; j++)
+      {
+        if(state.information.allTitleWords[j]["sortId"] == sortId)
+        {
+          setModel(() {
+            indexshow = lists.length < 10 ? false : true;
+            indexPage = lists.length < 10 ? 1 : 2;
+          });
+          state.information.allTitleWords[j]["indexPage"] = lists.length < 10 ? 1 : 2;
+          state.information.allTitleWords[j]["indexshow"] = lists.length < 10 ? false : true;
         }
       }
 
