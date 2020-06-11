@@ -12,10 +12,11 @@ class Software {
   int sortId;
   String updated;
   String url;
-  String versions;
+  double versions;
+  double firmwareVersions;
 
   Software.fromJson(Map<String, dynamic> json) {
-    accountId = json['accountId'] ?? "";
+    accountId = json['accountId'] ?? 0;
     accountName = json['accountName'] ?? "";
     companyId = json['companyId'] ?? 0;
     created = json['created'] ?? "";
@@ -28,6 +29,7 @@ class Software {
     sortId = json['sortId'] ?? 0;
     updated = json['updated'] ?? "";
     url = json['url'] ?? "";
-    versions = json['versions'] ?? "";
+    versions = json['versions'] ?? 0.0;
+    firmwareVersions = json['firmwareVersions'] ?? 0.0;
   }
 }

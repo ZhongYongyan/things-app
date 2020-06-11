@@ -8,7 +8,7 @@ class SoftwareApis {
     try {
       Response response =
           await apiRequest.get('/software/model/$modelId', queryParameters: {
-        'modelId': modelId,
+        'modelId': modelId,'firmwareVersions':1.0,
       });
       Result<Software> entity =
           Result.fromJson(response.data, (data) => Software.fromJson(data));
