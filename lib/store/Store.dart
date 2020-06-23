@@ -1,17 +1,25 @@
-import 'dart:ui';
-
-import 'package:app/packages.dart';
+import 'package:app/base/util/LoggingUtils.dart';
+import 'package:app/base/util/Persistable.dart';
+import 'package:app/base/util/Result.dart';
 import 'package:app/store/module/App.dart';
 import 'package:app/store/module/Auth.dart';
 import 'package:app/store/module/User.dart';
-import 'package:app/util/Result.dart';
 import 'package:logging/logging.dart';
 import 'package:redux/redux.dart';
+
+import 'module/ Information.dart';
+import 'module/Member.dart';
+import 'module/Msg.dart';
+import 'module/management.dart';
 
 class StoreState extends Persistable {
   AppState app = AppState();
   AuthState auth = AuthState();
   UserState user = UserState();
+  MsgState msg = MsgState();
+  MemberState member = MemberState();
+  InformationState information = InformationState();
+  ManagementState management = ManagementState();
 
   @override
   void recoverSnapshot() {
@@ -22,6 +30,16 @@ class StoreState extends Persistable {
   void saveSnapshot() {
     auth.saveSnapshot();
   }
+
+  @override
+  void recoverUser() {
+    auth.recoverUser();
+  }
+
+  @override
+  void saveUser() {
+    auth.saveUser();
+  }
 }
 
 class StoreConfig {
@@ -30,8 +48,9 @@ class StoreConfig {
 
   static Store<StoreState> config() {
     if (_store == null) {
-      StoreState initState = StoreState()..recoverSnapshot();
-
+      StoreState initState = StoreState();
+      initState.recoverSnapshot();
+      initState.recoverUser();
       _store = new Store<StoreState>(combineReducers<StoreState>([_reducer]),
           initialState: initState,
           middleware: [

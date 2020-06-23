@@ -1,7 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/config/Settings.dart';
-import 'package:app/packages.dart';
 import 'package:app/store/Store.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -39,6 +40,14 @@ class ApiRequest with LoggingMixin {
     }, onResponse: (Response r) {
       log.info('response: ${r.data}');
     }));
+
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
 
     return dio;
   }
