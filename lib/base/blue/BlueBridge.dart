@@ -10,6 +10,7 @@ import 'BlueService.dart';
 import 'Failure.dart';
 import 'Message.dart';
 import 'Utils.dart';
+import 'BlueProtocol.dart';
 
 class BlueBridge {
   BlueBridge(FlutterWebviewPlugin flutterWebviewPlugin) {
@@ -21,7 +22,8 @@ class BlueBridge {
   FlutterBlue _flutterBlue = FlutterBlue.instance;
   var _scanResultsHandler;
   BlueService _blueService;
-  Message _getWiFiStatusMsg;
+  Message _getMsg;
+  BlueProtocol _blueProtocol = BlueProtocol();
 
   void handleMessage(String message) {
     _log.info('message: $message');
@@ -75,9 +77,10 @@ class BlueBridge {
         _setupWiFi(msg);
         break;
 
-      case 'getWiFiStatus':
-        _getWiFiStatus(msg);
+      default:
+        _getBlueProtocol(msg);
         break;
+
     }
   }
 
@@ -231,6 +234,8 @@ class BlueBridge {
               .connect(autoConnect: true, timeout: Duration(seconds: 30))
               .then((value) {
             _blueService = BlueService(device);
+//            Message message1 = new Message("getSequence", "654321");
+//            _blueProtocol.createProtocolCommand(message1);
             _postMessage(msg.success(true));
           }).catchError((error) {
             _postMessage(msg.failure('error', '连接不成功'));
@@ -278,14 +283,17 @@ class BlueBridge {
         _log.info('receive: $data');
         if (data[0] == 0xAA && data[1] == 0xFF) {
           _log.info('私有蓝牙协议响应: $data');
-
-          if (data[2] == 0x06 && _getWiFiStatusMsg != null) {
+          _getMsg = _blueProtocol.listen(data);
+          if (_getMsg != null) {
+            _postMessage(_getMsg);
+          }
+          /*if (data[2] == 0x06 && _getWiFiStatusMsg != null) {
             Map<String, dynamic> result = Map();
             result['status'] = data[3];
             result['ip'] = '${data[4]}.${data[5]}.${data[6]}.${data[7]}';
             _postMessage(_getWiFiStatusMsg.success(result));
             _getWiFiStatusMsg = null;
-          }
+          }*/
         } else {
           Message message = Message('onNotify', random());
           message.data = data.join(',');
@@ -341,9 +349,10 @@ class BlueBridge {
       String type = data['type'];
 
       List<List<int>> commands = List<List<int>>();
-      commands.addAll(createCommand(name, 1, 30));
-      commands.addAll(createCommand(password, 3, 30));
-      commands.addAll(createCommand(type, 5, 15));
+      commands.addAll(createCommand(name, 1));
+      commands.addAll(createCommand(password, 2));
+      commands.addAll(createCommand(type, 3));
+      _log.info('commands: $commands');
       commands.forEach((command) {
         _blueService.writeData(command);
       });
@@ -351,14 +360,18 @@ class BlueBridge {
     }
   }
 
-  _getWiFiStatus(msg) {
+  _getBlueProtocol(msg) {
     if (_blueService == null) {
       _postMessage(msg.failure('not_connect', '设备未连接'));
     } else if (!_blueService.listening) {
       _postMessage(msg.failure('not_connect', '设备未监听'));
     } else {
-      _blueService.writeData([0xAA, 0xFF, 0x06, 0x0D, 0x0A]);
-      _getWiFiStatusMsg = msg;
+      List<int> bytes = _blueProtocol.createProtocolCommand(msg);
+      if(bytes == null) {
+        _postMessage(msg.failure('not_command', '指令异常'));
+      }
+      _blueService.writeData(bytes);
+      _getMsg = msg;
     }
   }
 }
