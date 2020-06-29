@@ -286,7 +286,7 @@ class BlueBridge {
           _getMsg = _blueProtocol.listen(data);
           if (_getMsg != null) {
             _postMessage(_getMsg);
-          }
+          } 
           /*if (data[2] == 0x06 && _getWiFiStatusMsg != null) {
             Map<String, dynamic> result = Map();
             result['status'] = data[3];
