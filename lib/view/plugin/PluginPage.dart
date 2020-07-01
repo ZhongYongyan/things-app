@@ -18,8 +18,6 @@ class PluginPage extends StatefulWidget {
 class _State extends BlocState<PluginPage, PluginBloc> {
   @override
   void initState() {
-    // AutoOrientation.landscapeAutoMode();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       log.info('addPostFrameCallback');
       var args = ModalRoute.of(context).settings.arguments as Map;

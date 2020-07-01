@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:app/base/blue/BlueBridge.dart';
 import 'package:app/base/blue/Message.dart';
 import 'package:app/base/plugin/PluginManager.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
-import 'package:app/store/module/Auth.dart';
+import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
@@ -59,6 +58,22 @@ class PluginBloc extends BlocBase with LoggingMixin {
         navigate.pop();
         msg.success(true);
         break;
+
+      case 'setEnabledSystemUIOverlays':
+        if (msg.data == 0) {
+          // 隐藏顶部状态栏和底部操作栏
+          SystemChrome.setEnabledSystemUIOverlays([]);
+        } else {
+          // 显示顶部状态栏和底部操作栏
+          SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+        }
+
+      case 'setOrientation':
+        if (msg.data == 'portrait') {
+          AutoOrientation.portraitAutoMode();
+        } else {
+          AutoOrientation.landscapeAutoMode();
+        }
     }
   }
 
