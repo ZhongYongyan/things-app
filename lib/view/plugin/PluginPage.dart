@@ -37,12 +37,6 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   @override
   Widget createWidget(BuildContext context) {
     Widget body = _pageBody();
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    // 强制横屏
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight
-    ]);
     return body;
   }
 
@@ -59,6 +53,12 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   }
 
   _pageBody() {
+    // 强制横屏
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
+    SystemChrome.setEnabledSystemUIOverlays([]);
     return Scaffold(
       backgroundColor: Colors.white,
       body: nonEmpty(bloc.pluginPath)
