@@ -1,34 +1,38 @@
-List<List<int>> createCommand(String value, int command, int length) {
+List<List<int>> createCommand(String value, int command) {
+  int dateLen = 12;
   List<int> bytes = value.codeUnits;
-  List<int> writeData = List(length);
-  for (int i = 0; i < writeData.length; i++) {
-    writeData[i] = 0;
-  }
-
-  for (int i = 0; i < bytes.length && i <= length; i++) {
-    writeData[i] = bytes[i];
-  }
-
+  List<int> writeData = List();
   List<List<int>> result = List<List<int>>();
-
-  List<int> buffer = List();
-  buffer.add(0xAA);
-  buffer.add(0xFF);
-  buffer.add(command);
-  buffer.addAll(writeData.getRange(0, 15));
-  buffer.add(0x0D);
-  buffer.add(0x0A);
-  result.add(buffer);
-
-  if (length == 30) {
-    buffer = List();
-    buffer.add(0xAA);
-    buffer.add(0xFF);
-    buffer.add(command + 1);
-    buffer.addAll(writeData.getRange(15, 30));
-    buffer.add(0x0D);
-    buffer.add(0x0A);
-    result.add(buffer);
+  int nums = 1;
+  if(bytes.length > dateLen ) {
+    nums = bytes.length~/dateLen;
+    if (bytes.length%dateLen != 0) {
+      nums = nums + 1;
+    }
+  }
+  int num = 0x01;
+  for (int i = 0; i < bytes.length; i++) {
+    writeData.add(bytes[i]);
+    if(i != 0 && ((i+1) % dateLen == 0 || i == bytes.length - 1)) {
+      List<int> buffer = List();
+      buffer.add(0xAA);
+      buffer.add(0xFF);
+      buffer.add(command);
+      buffer.add(nums);
+      buffer.add(num);
+      buffer.add(writeData.length);
+      buffer.addAll(writeData.getRange(0, writeData.length));
+      int check_num = 0x00;
+      for(int j in buffer) {
+        check_num ^= j;
+      }
+      buffer.add(check_num);
+      buffer.add(0x0D);
+      buffer.add(0x0A);
+      result.add(buffer);
+      num += 1;
+      writeData = List();
+    }
   }
 
   return result;
