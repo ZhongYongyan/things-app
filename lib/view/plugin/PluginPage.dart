@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app/base/blue/Message.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/Utils.dart';
 import 'package:app/store/Store.dart';
@@ -36,7 +37,25 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   @override
   Widget createWidget(BuildContext context) {
     Widget body = _pageBody();
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    // 强制横屏
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
     return body;
+  }
+
+  @override
+  void dispose() {
+    // 显示顶部状态栏和底部操作栏
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    // 强制竖屏
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ]);
+    bloc.navigate.pop();
   }
 
   _pageBody() {
