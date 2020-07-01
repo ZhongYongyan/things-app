@@ -20,10 +20,8 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   @override
   void initState() {
     // 强制横屏
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight
-    ]);
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
     SystemChrome.setEnabledSystemUIOverlays([]);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       log.info('addPostFrameCallback');
@@ -48,14 +46,13 @@ class _State extends BlocState<PluginPage, PluginBloc> {
 
   @override
   void dispose() {
+    bloc.blueBridge.disconnect();
     // 显示顶部状态栏和底部操作栏
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     // 强制竖屏
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown
-    ]);
-    bloc.navigate.pop();
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+//    bloc.navigate.pop();
   }
 
   _pageBody() {
