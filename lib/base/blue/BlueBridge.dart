@@ -24,6 +24,7 @@ class BlueBridge {
   BlueService _blueService;
   Message _getMsg;
   BlueProtocol _blueProtocol = BlueProtocol();
+  String _deviceName;
 
   void handleMessage(String message) {
     _log.info('message: $message');
@@ -179,6 +180,7 @@ class BlueBridge {
   Future<BluetoothDevice> _getDevice(Message msg) {
     Completer<BluetoothDevice> completer = new Completer<BluetoothDevice>();
     String name = msg.data;
+    _deviceName = name;
     var scanResultsHandler;
     scanResultsHandler = _flutterBlue.scanResults.listen((scanResults) {
       scanResultsHandler.cancel();
@@ -272,6 +274,27 @@ class BlueBridge {
       }, onError: (error) {
         _postMessage(msg.failure('error', '查询状态不成功'));
       });
+    });
+  }
+
+  void disconnect() {
+    if (_blueService != null) {
+      _blueService.stopListen();
+      _blueService = null;
+    }
+    _flutterBlue.connectedDevices.then((devices) {
+      if (devices.length > 0) {
+        BluetoothDevice device = devices[0];
+        _log.info('*******************${device.name}');
+        var stateListen;
+        stateListen = device.state.listen((value) {
+          stateListen.cancel();
+          if (value == BluetoothDeviceState.connected) {
+            device.disconnect().then((value) {
+            });
+          }
+        });
+      }
     });
   }
 
