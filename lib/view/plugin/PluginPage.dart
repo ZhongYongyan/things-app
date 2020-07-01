@@ -19,6 +19,12 @@ class PluginPage extends StatefulWidget {
 class _State extends BlocState<PluginPage, PluginBloc> {
   @override
   void initState() {
+    // 强制横屏
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
+    SystemChrome.setEnabledSystemUIOverlays([]);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       log.info('addPostFrameCallback');
       var args = ModalRoute.of(context).settings.arguments as Map;
@@ -53,12 +59,6 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   }
 
   _pageBody() {
-    // 强制横屏
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight
-    ]);
-    SystemChrome.setEnabledSystemUIOverlays([]);
     return Scaffold(
       backgroundColor: Colors.white,
       body: nonEmpty(bloc.pluginPath)
