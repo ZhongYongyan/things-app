@@ -184,6 +184,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
       var data = response.data;
       setModel(() {
         DeviceVoModel = data;
+
       });
     } else {}
   }
