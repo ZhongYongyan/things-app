@@ -1,14 +1,14 @@
 class Device {
   int agentId;
   String city;
-  String cityId;
+  int cityId;
   int companyId;
   String created;
   String deviceSn;
   int id;
   int modelId;
   String province;
-  String provinceId;
+  int provinceId;
   int sortId;
   String statusCode;
   String statusMeg;

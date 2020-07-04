@@ -124,38 +124,37 @@ class BlueBridge {
           if (!isScanning) {
             _flutterBlue.startScan(timeout: Duration(seconds: 60));
           }
-            List<ScanResult> scanResultsLast = [];
+          List<ScanResult> scanResultsLast = [];
+          if (_scanResultsHandler != null) _scanResultsHandler.cancel();
+          _scanResultsHandler =
+              _flutterBlue.scanResults.listen((scanResults) {
+            scanResults = scanResults.where((x) {
+              return x.device.name != null && x.device.name != '';
+            }).toList();
 
+            String scanResultsString = scanResults.map((x) {
+              return x.device.name;
+            }).join(',');
 
-            if (_scanResultsHandler != null) _scanResultsHandler.cancel();
-            _scanResultsHandler =
-                _flutterBlue.scanResults.listen((scanResults) {
-              scanResults = scanResults.where((x) {
-                return x.device.name != null && x.device.name != '';
-              }).toList();
+            String last = scanResultsLast.map((x) {
+              return x.device.name;
+            }).join(',');
 
-              String scanResultsString = scanResults.map((x) {
-                return x.device.name;
-              }).join(',');
-
-              String last = scanResultsLast.map((x) {
-                return x.device.name;
-              }).join(',');
-
-              if (scanResultsString != last) {
-                scanResultsLast = scanResults;
-                Message message = Message('onScanResult', random());
-                message.data = scanResultsString;
-                _postMessage(message);
-              }
-            }, onDone: () {
-              _scanResultsHandler.cancel();
-              _log.info('startScan done');
-            }, onError: (error) {
-              _scanResultsHandler.cancel();
-              _log.info('startScan error: $error');
-            }, cancelOnError: true);
-            _postMessage(msg.success(true));
+            if (scanResultsString != last) {
+              scanResultsLast = scanResults;
+              Message message = Message('onScanResult', random());
+              message.data = scanResultsString;
+              _postMessage(message);
+            }
+          }, onDone: () {
+            _scanResultsHandler.cancel();
+            _log.info('startScan done');
+          }, onError: (error) {
+            _scanResultsHandler.cancel();
+            _log.info('startScan error: $error');
+          }, cancelOnError: true);
+          _postMessage(msg.success(true));
+//          }
         });
       } else {
         _postMessage(msg.failure('turn_on_bluetooth', '需要开启蓝牙'));
