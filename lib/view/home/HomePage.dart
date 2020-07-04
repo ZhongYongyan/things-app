@@ -2,6 +2,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/home/HomeBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:redux/src/store.dart';
 
@@ -134,31 +135,35 @@ class _State extends BlocState<HomePage, HomeBloc> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(
+                  GestureDetector(
+                      onTap: () => bloc.to(),
+                    child : Container(
+                      margin: const EdgeInsets.only(
                       right: 5,
                     ),
-                    child: ClipOval(
-                        child: bloc.url != ""
-                            ? Image.network(
-                                bloc.url,
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.cover,
-                              )
-                            : bloc.name == "访客"
-                                ? Image(
-                                    image: AssetImage("assets/visitor.jpeg"),
-                                    fit: BoxFit.cover,
-                                    width: 30,
-                                    height: 30,
-                                  )
-                                : Image(
-                                    image: AssetImage("assets/home_y.png"),
-                                    fit: BoxFit.cover,
-                                    width: 30,
-                                    height: 30,
-                                  )),
+                      child: ClipOval(
+                          child: bloc.url != ""
+                              ? Image.network(
+                            bloc.url,
+                            width: 30,
+                            height: 30,
+                            fit: BoxFit.cover,
+                          )
+                              : bloc.name == "访客"
+                              ? Image(
+                            image: AssetImage("assets/visitor.jpeg"),
+                            fit: BoxFit.cover,
+                            width: 30,
+                            height: 30,
+                          )
+                              : Image(
+                            image: AssetImage("assets/home_y.png"),
+                            fit: BoxFit.cover,
+                            width: 30,
+                            height: 30,
+                          )),
+                    )
+
                   ),
                   GestureDetector(
                     child: Text(bloc.name,
@@ -366,6 +371,83 @@ class _State extends BlocState<HomePage, HomeBloc> {
                     ),
                   ),
                 ),
+                bloc.DeviceVoModel.devices[index - 2].loadShow
+                    ? Container(
+                  width: 150,
+                  height: 88,
+                  color: Colors.white.withOpacity(0.84),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      //设置四周圆角 角度
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(6)),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
+                      children: <Widget>[
+                        Positioned(
+                          top: 17.5,
+                          child: Text(
+                            !bloc.findIsDownloading(bloc.DeviceVoModel.devices[index - 2].modelId) ?"下载新的插件" : "插件下载中",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF3D3D3D),
+                            ),
+                          ),
+                        ),
+                        !bloc.findIsDownloading(bloc.DeviceVoModel.devices[index - 2].modelId) ?
+                        Positioned(
+                            top: 50,
+                            child : GestureDetector(
+                                onTap: () => bloc.toDownload(index),
+                                child: Container(
+                                    padding: const EdgeInsets.all(0.0),
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        //设置四周圆角 角度
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                      ),
+                                      child: Container(
+                                          alignment: Alignment.center,
+                                          width: 68,
+                                          height: 27,
+                                          child: Text(
+                                            "更新",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white),
+                                          )
+                                      ),
+                                    )
+                                )
+                            )
+                        ) : Positioned (
+                          top: 50,
+                          child: Wrap(
+                            spacing: 8.0,
+                            runSpacing: 4.0,
+                            alignment: WrapAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 40,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 3),
+                                  child: SpinKitThreeBounce(
+                                    color: Colors.blue,
+                                    size: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                    : Container(),
               ],
             )),
       ),

@@ -33,6 +33,13 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
           child: Stack(
             alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
             children: <Widget>[
+              WillPopScope(
+                child: Container(
+                ),
+                onWillPop: () {
+                  bloc.back();
+                },
+              ),
               Positioned(
                 left: 5.0,
                 top: 0,
@@ -251,8 +258,28 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
               ),
             ],
           ),
-          onTap: () => bloc.onGetUrlDetails(item), //点击
+          onTap: () => item.loadShow ? bloc.toDownload(item) : bloc.onGetUrlDetails(item), //点击
         ),
+        item.isDownloading
+            ? Positioned(
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Positioned(
+                top: 4.5,
+                child: Container(
+                  padding: const EdgeInsets.all(0),
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                      width: 22.0,
+                      height: 22.0,
+                      child: CircularProgressIndicator(strokeWidth: 2.0)),
+                ),
+              )
+            ],
+          ),
+        )
+            : Container(),
       ],
     );
   }
