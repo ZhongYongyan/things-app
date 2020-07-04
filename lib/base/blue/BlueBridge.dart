@@ -121,11 +121,11 @@ class BlueBridge {
         isScanningListen = FlutterBlue.instance.isScanning.listen((isScanning) {
           isScanningListen.cancel();
 
-          if (isScanning) {
-            _postMessage(msg.failure('turn_on_bluetooth', '扫描中...'));
-          } else {
-            List<ScanResult> scanResultsLast = [];
+          if (!isScanning) {
             _flutterBlue.startScan(timeout: Duration(seconds: 60));
+          }
+            List<ScanResult> scanResultsLast = [];
+
 
             if (_scanResultsHandler != null) _scanResultsHandler.cancel();
             _scanResultsHandler =
@@ -156,7 +156,6 @@ class BlueBridge {
               _log.info('startScan error: $error');
             }, cancelOnError: true);
             _postMessage(msg.success(true));
-          }
         });
       } else {
         _postMessage(msg.failure('turn_on_bluetooth', '需要开启蓝牙'));
@@ -303,7 +302,11 @@ class BlueBridge {
       _postMessage(msg.failure('not_connect', '设备未连接'));
     } else {
       _blueService.startListen((data) {
-        _log.info('receive: $data');
+        String hexString = data.map((val){
+          return val.toRadixString(16);
+        }).join(' ');
+
+        _log.info('receive: $hexString');
         if (data[0] == 0xAA && data[1] == 0xFF) {
           _log.info('私有蓝牙协议响应: $data');
           _getMsg = _blueProtocol.listen(data);
