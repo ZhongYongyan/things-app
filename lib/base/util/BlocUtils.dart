@@ -69,9 +69,9 @@ class _BlocStreamBuilder<Bloc extends BlocBase> extends StatelessWidget {
 }
 
 typedef _BlocWidgetBuilder<Bloc> = Widget Function(
-  BuildContext context,
-  Bloc bloc,
-);
+    BuildContext context,
+    Bloc bloc,
+    );
 
 class _BlocStateConnector<Bloc extends BlocBase> extends StatelessWidget {
   final _BlocWidgetBuilder builder;
@@ -132,7 +132,7 @@ abstract class BlocState<Page extends StatefulWidget, Bloc extends BlocBase>
 }
 
 abstract class BlocStatefulWidget<Page extends BlocStatefulWidget<Page, Bloc>,
-    Bloc extends BlocBase> extends StatefulWidget {
+Bloc extends BlocBase> extends StatefulWidget {
   final BlocState<Page, Bloc> _blocState = _BlocStatefulWidgetState();
 
   @override
@@ -150,7 +150,7 @@ abstract class BlocStatefulWidget<Page extends BlocStatefulWidget<Page, Bloc>,
 }
 
 class _BlocStatefulWidgetState<Page extends BlocStatefulWidget<Page, Bloc>,
-    Bloc extends BlocBase> extends BlocState<Page, Bloc> {
+Bloc extends BlocBase> extends BlocState<Page, Bloc> {
   @override
   Bloc createBloc(store) {
     return widget.createBloc(store);

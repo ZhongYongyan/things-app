@@ -4,6 +4,7 @@ import 'package:app/base/api/DeviceVoApis.dart';
 import 'package:app/base/api/InfoSortApis.dart';
 import 'package:app/base/api/MemberNewsApis.dart';
 import 'package:app/base/api/SoftwareApis.dart';
+import 'package:app/base/entity/Device.dart';
 import 'package:app/base/entity/DeviceVo.dart';
 import 'package:app/base/entity/Info.dart';
 import 'package:app/base/entity/InfoSort.dart';
@@ -28,7 +29,10 @@ class HomeBloc extends BlocBase with LoggingMixin {
   var onReceiveClientId = "";
   Timer _timer;
   bool loadShow = false;
+  int isDownloading = 0;
   bool isAndroidNewShow = false;
+  bool isDeviceShow = false;
+
 
   String get name => state.auth.name != null ? state.auth.name : '访客';
 
@@ -88,15 +92,66 @@ class HomeBloc extends BlocBase with LoggingMixin {
   }
 
   void add() {
+    if (isDownloading > 0) {
+      Fluttertoast.showToast(
+          msg: '插件下载中，请稍后',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 2,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    }
     navigate.pushNamed('/management');
+  }
+
+  void toPluginUrl(String url) {
+    navigate.pushNamed('/plugin', arguments: {"url": url});
   }
 
   Future<void> toPlugin(int index) async {
     var modelId = DeviceVoModel.devices[index - 2].modelId;
-    setModel(() {
+    String deviceSn = DeviceVoModel.devices[index - 2].deviceSn;
+    if (findIsDownloading(modelId)) {
+      Fluttertoast.showToast(
+          msg: '${findModelName(modelId)}插件下载中，请稍后',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 2,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    }
+    String softwareUrl = findSoftwareUrl(modelId);
+    if (softwareUrl == null) {
+      Fluttertoast.showToast(
+          msg: "没有找到插件，请与系统管理员联系",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 2,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    }
+    await isDownload(softwareUrl).then((url) {
+      if (url == null) {
+        setModel(() {
+          DeviceVoModel.devices[index - 2].loadShow = true;
+          for (Device device in DeviceVoModel.devices) {
+            if (device.modelId == modelId && device.deviceSn != deviceSn) {
+              device.loadShow = false;
+            }
+          }
+        });
+        return;
+      }else{
+        navigate.pushNamed('/plugin', arguments: {"url": url,"deviceSn":deviceSn});
+      }
+    });
+    /*setModel(() {
       loadShow = true;
     });
-    Result<Software> response = await SoftwareApis.getSoftware(modelId);
+    Result<Software> response = await SoftwareApis.getSoftware(modelId, 1.0);
     bool code = response.success;
     setModel(() {
       loadShow = false;
@@ -111,8 +166,52 @@ class HomeBloc extends BlocBase with LoggingMixin {
           textColor: Colors.white,
           fontSize: 16.0);
       return;
+    }*/
+  }
+
+  Future<void> toDownload(int index) async {
+    var modelId = DeviceVoModel.devices[index - 2].modelId;
+    String softwareUrl = findSoftwareUrl(modelId);
+    if (findIsDownloading(modelId)) {
+      Fluttertoast.showToast(
+          msg: '${findModelName(modelId)}插件下载中，请稍后',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 2,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      DeviceVoModel.devices[index - 2].loadShow = false;
+      return;
     }
-    navigate.pushNamed('/plugin', arguments: {"url": response.data.url});
+    if (softwareUrl == null) {
+      Fluttertoast.showToast(
+          msg: "没有找到插件，请与系统管理员联系",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 2,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    }
+    setModel(() {
+      var item = this
+          .DeviceVoModel
+          .deviceModels
+          .firstWhere((item) => item.id == modelId);
+      item.isDownloading = true;
+      isDownloading++;
+    });
+    await download(softwareUrl).then((url) {
+      setModel(() {
+        DeviceVoModel.devices[index - 2].loadShow = false;
+        var item = this
+            .DeviceVoModel
+            .deviceModels
+            .firstWhere((item) => item.id == modelId);
+        item.isDownloading = false;
+        isDownloading--;
+      });
+    });
   }
 
   void getPayload(Map<String, dynamic> payload) async {
@@ -127,7 +226,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
   void getInfoMemberNews(int newsId) async {
     print("推送消息请求来了111");
     Result<MemberNews> response =
-        await MemberNewsApis.getInfoMemberNews(newsId);
+    await MemberNewsApis.getInfoMemberNews(newsId);
     bool code = response.success;
     if (code) {
       //这里是跳转消息详情
@@ -178,20 +277,20 @@ class HomeBloc extends BlocBase with LoggingMixin {
   }
 
   void getDeviceVo() async {
-    Result<DeviceVo> response = await DeviceVoApis.getDeviceVo();
+    Result<DeviceVo> response = await DeviceVoApis.getDeviceVo(state.app.companyId);
     bool code = response.success;
     if (code) {
       var data = response.data;
       setModel(() {
         DeviceVoModel = data;
-
+        isDeviceShow = true;
       });
     } else {}
   }
 
   String findSortName(int sortId) {
     var item =
-        this.DeviceVoModel.deviceSorts.firstWhere((item) => item.id == sortId);
+    this.DeviceVoModel.deviceSorts.firstWhere((item) => item.id == sortId);
     return item.sortName;
   }
 
@@ -203,11 +302,45 @@ class HomeBloc extends BlocBase with LoggingMixin {
     return item.modelName;
   }
 
+  bool findIsDownloading(int modelId) {
+    var item = this
+        .DeviceVoModel
+        .deviceModels
+        .firstWhere((item) => item.id == modelId);
+    return item.isDownloading;
+  }
+
+  String findSoftwareUrl(int modelId) {
+    var item = this
+        .DeviceVoModel
+        .deviceModels
+        .firstWhere((item) => item.id == modelId);
+    return item.softwareUrl;
+  }
+
+  bool findLoadShow(int modelId) {
+    var item = this
+        .DeviceVoModel
+        .deviceModels
+        .firstWhere((item) => item.id == modelId);
+    return item.loadShow;
+  }
+
   String findModelIcon(int modelId) {
     var item = this
         .DeviceVoModel
         .deviceModels
         .firstWhere((item) => item.id == modelId);
     return item.modelIcon;
+  }
+
+  Future<String> isDownload(String url) async {
+    PluginManager pluginManager = PluginManager();
+    return pluginManager.isDownload(url);
+  }
+
+  Future<String> download(String url) async {
+    PluginManager pluginManager = PluginManager();
+    return pluginManager.download(url);
   }
 }

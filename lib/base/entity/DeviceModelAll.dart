@@ -30,6 +30,9 @@ class DeviceModel {
   int sort;
   String created;
   String updated;
+  String softwareUrl;
+  bool loadShow = false;
+  bool isDownloading = false;
 
   DeviceModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? 0;
@@ -43,6 +46,7 @@ class DeviceModel {
     sort = json['sort'] ?? 0;
     created = json['created'] ?? "";
     updated = json['updated'] ?? "";
+    softwareUrl = json['softwareUrl'] ?? "";
   }
 }
 
