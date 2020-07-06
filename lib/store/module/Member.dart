@@ -1,8 +1,11 @@
 import 'package:app/base/entity/Affiliate.dart';
+import 'package:app/base/entity/Member.dart';
 import 'package:app/base/entity/MemberNews.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Persistable.dart';
 import 'package:app/base/util/StorageUtils.dart';
+
+import '../Store.dart';
 
 MemberActions memberActions = MemberActions();
 

@@ -239,7 +239,7 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                   item.modelIcon,
                   width: 36,
                   height: 36,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
               Expanded(
