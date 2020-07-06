@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:app/base/api/MemberApis.dart';
 import 'package:app/base/entity/AccessToken.dart';
+import 'package:app/base/entity/Member.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Result.dart';
@@ -133,7 +135,9 @@ class LoginBloc extends BlocBase with LoggingMixin {
         usernameController.text, validCode, passwordController.text);
     bool code = response.success;
     if (code) {
-      dispatch(authActions.login(response.data.accessToken));
+      dispatch(authActions.login(0, response.data.accessToken));
+      Result<Member> memberResponse = await MemberApis.getMember();
+      dispatch(authActions.login(memberResponse.data.id, response.data.accessToken));
       navigate.pushNamedAndRemoveUntil('/page', (route) {
         return route.settings.name == '/page';
       });

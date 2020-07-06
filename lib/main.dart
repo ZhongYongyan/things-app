@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app/config/AppRoute.dart';
 import 'package:app/config/AppTheme.dart';
 import 'package:app/store/Store.dart';
+import 'package:app/store/module/GetuiHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,9 +22,12 @@ void main() async {
 
   LoggingConfig.config();
   await StorageConfig.config();
-
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   Store store = await StoreConfig.config();
-
+  getuiHelper.create();
   runApp(MyApp(store));
   if (Platform.isAndroid) {
     // 以下两行 设置android状态栏为透明的沉浸。
