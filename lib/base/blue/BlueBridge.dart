@@ -301,7 +301,11 @@ class BlueBridge {
       _postMessage(msg.failure('not_connect', '设备未连接'));
     } else {
       _blueService.startListen((data) {
-        _log.info('receive: $data');
+        String hexString = data.map((val){
+          return val.toRadixString(16);
+        }).join(' ');
+
+        _log.info('receive: $hexString');
         if (data[0] == 0xAA && data[1] == 0xFF) {
           _log.info('私有蓝牙协议响应: $data');
           _getMsg = _blueProtocol.listen(data);

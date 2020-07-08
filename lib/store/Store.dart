@@ -10,6 +10,7 @@ import 'package:redux/redux.dart';
 import 'module/ Information.dart';
 import 'module/Member.dart';
 import 'module/Msg.dart';
+import 'module/lang/Lang.dart';
 import 'module/management.dart';
 
 class StoreState extends Persistable {
@@ -20,15 +21,18 @@ class StoreState extends Persistable {
   MemberState member = MemberState();
   InformationState information = InformationState();
   ManagementState management = ManagementState();
+  LangState lang = LangState();
 
   @override
   void recoverSnapshot() {
     auth.recoverSnapshot();
+    lang.recoverSnapshot();
   }
 
   @override
   void saveSnapshot() {
     auth.saveSnapshot();
+    lang.saveSnapshot();
   }
 
   @override

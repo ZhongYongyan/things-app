@@ -76,6 +76,7 @@ class PluginBloc extends BlocBase with LoggingMixin {
         } else {
           AutoOrientation.landscapeAutoMode();
         }
+        break;
     }
   }
 
