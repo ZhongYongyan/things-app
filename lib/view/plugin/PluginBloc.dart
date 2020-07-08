@@ -67,6 +67,7 @@ class PluginBloc extends BlocBase with LoggingMixin {
           // 显示顶部状态栏和底部操作栏
           SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
         }
+        break;
 
       case 'setOrientation':
         if (msg.data == 'portrait') {
@@ -74,6 +75,7 @@ class PluginBloc extends BlocBase with LoggingMixin {
         } else {
           AutoOrientation.landscapeAutoMode();
         }
+        break;
     }
   }
 
