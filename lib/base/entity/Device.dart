@@ -15,6 +15,7 @@ class Device {
   String statusUpdateTime;
   String statusMupdatedeg;
   bool loadShow = false;
+  String blueName;
 
   Device.fromJson(Map<String, dynamic> json) {
     agentId = json['agentId'] ?? 0;
@@ -32,5 +33,6 @@ class Device {
     statusMeg = json['statusMeg'] ?? "";
     statusUpdateTime = json['statusUpdateTime'] ?? "";
     statusMupdatedeg = json['statusMupdatedeg'] ?? "";
+    blueName = json['blueName'] ?? "";
   }
 }

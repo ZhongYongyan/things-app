@@ -32,7 +32,6 @@ class HomeBloc extends BlocBase with LoggingMixin {
   bool isAndroidNewShow = false;
   bool isDeviceShow = false;
 
-
   String get name => state.auth.name != null ? state.auth.name : '访客';
 
   String get url => state.auth.url != null ? state.auth.url : '';
@@ -46,7 +45,9 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
     getDeviceVo();
     getuiHelper.onReceiveClientId((cid){
-      vm.getUserbindAlias(cid);
+      if (getuiHelper.id == null) {
+        vm.getUserbindAlias(cid);
+      }
       Getuiflut().addEventHandler(
         onReceivePayload: (Map<String, dynamic> message) async {},
         onReceiveNotificationResponse: (Map<String, dynamic> message) async {
@@ -106,6 +107,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
   Future<void> toPlugin(int index) async {
     var modelId = DeviceVoModel.devices[index - 2].modelId;
     String deviceSn = DeviceVoModel.devices[index - 2].deviceSn;
+    String blueName = DeviceVoModel.devices[index - 2].blueName;
     if (findIsDownloading(modelId)) {
       Fluttertoast.showToast(
           msg: '${findModelName(modelId)}插件下载中，请稍后',
@@ -139,7 +141,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
         });
         return;
       }else{
-        navigate.pushNamed('/plugin', arguments: {"url": url,"deviceSn":deviceSn});
+        navigate.pushNamed('/plugin', arguments: {"url": url,"deviceSn":deviceSn,"blueName":blueName});
       }
     });
     /*setModel(() {
@@ -286,6 +288,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
         List<String> ids = List();
         ids.add(id.toString());
         Getuiflut().setTag(ids);
+        getuiHelper.id = id.toString();
       }
 //    }
   }
