@@ -13,6 +13,7 @@ import 'management.dart';
 AuthActions authActions = AuthActions();
 
 class AuthState extends Persistable with StorageMixin, LoggingMixin {
+  int id=0;
   String accessToken = "";
   String userName = "访客";
   String userUrl = "";
@@ -34,11 +35,13 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
   @override
   void recoverSnapshot() {
     accessToken = storage.getString('auth.accessToken');
+    id = storage.getInt('auth.id');
   }
 
   @override
   void saveSnapshot() {
     storage.setString('auth.accessToken', accessToken);
+    storage.setInt('auth.id', id);
   }
 
   @override
@@ -63,8 +66,9 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
 }
 
 class AuthActions with LoggingMixin {
-  ActionHandler<StoreState> login(String accessToken) {
+  ActionHandler<StoreState> login(int id,String accessToken) {
     return (state) {
+      state.auth.id = id;
       state.auth.accessToken = accessToken;
       state.auth.saveSnapshot();
       return state;

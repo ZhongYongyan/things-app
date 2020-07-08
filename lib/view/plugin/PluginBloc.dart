@@ -22,10 +22,13 @@ class PluginBloc extends BlocBase with LoggingMixin {
 
   void init() {}
 
-  void loadPlugin(String pluginUrl) {
+  void loadPlugin(String pluginUrl, String deviceSn) {
     flutterWebviewPlugin.clearCache();
     flutterWebviewPlugin.close();
     computedPluginUrl(pluginUrl).then((url) {
+      if(deviceSn != null) {
+        url = url + '?accessToken=' + state.auth.accessToken + '&deviceSn=' + deviceSn;
+      }
       log.info('pluginUrl: $url');
       setModel(() {
         this.pluginPath = url;
@@ -58,7 +61,6 @@ class PluginBloc extends BlocBase with LoggingMixin {
         navigate.pop();
         msg.success(true);
         break;
-
       case 'setEnabledSystemUIOverlays':
         if (msg.data == 0) {
           // 隐藏顶部状态栏和底部操作栏
@@ -68,7 +70,6 @@ class PluginBloc extends BlocBase with LoggingMixin {
           SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
         }
         break;
-
       case 'setOrientation':
         if (msg.data == 'portrait') {
           AutoOrientation.portraitAutoMode();

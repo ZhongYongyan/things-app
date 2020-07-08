@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app/base/blue/Message.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/Utils.dart';
 import 'package:app/store/Store.dart';
@@ -18,13 +19,26 @@ class PluginPage extends StatefulWidget {
 class _State extends BlocState<PluginPage, PluginBloc> {
   @override
   void initState() {
+    // 强制横屏
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+    SystemChrome.setEnabledSystemUIOverlays([]);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       log.info('addPostFrameCallback');
       var args = ModalRoute.of(context).settings.arguments as Map;
+      String deviceSn = args["deviceSn"];
       var url = args["url"] != ""
           ? args["url"]
           : 'http://dev.mp.hswl007.com/things-plugin-a800.zip';
-      bloc.loadPlugin(url);
+      url.toString().endsWith('.zip')
+          ? bloc.loadPlugin(url, deviceSn)
+          : bloc.setModel(() {
+        if(deviceSn == null) {
+          bloc.pluginPath = url;
+        }else {
+          bloc.pluginPath = url + '?accessToken=' + bloc.state.auth.accessToken + '&deviceSn=' + deviceSn;
+        }
+      });
     });
   }
 
@@ -37,6 +51,17 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   Widget createWidget(BuildContext context) {
     Widget body = _pageBody();
     return body;
+  }
+
+  @override
+  void dispose() {
+    bloc.blueBridge.disconnect();
+    // 显示顶部状态栏和底部操作栏
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    // 强制竖屏
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+//    bloc.navigate.pop();
   }
 
   _pageBody() {

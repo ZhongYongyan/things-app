@@ -2,6 +2,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/home/HomeBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:redux/src/store.dart';
 
@@ -50,12 +51,15 @@ class _State extends BlocState<HomePage, HomeBloc> {
                 ),
               ),
               Positioned(
-                left: 10.0,
+                /*left: 10.0,
                 height: 323,
                 right: 10.0,
-                bottom: 0,
+                bottom: 0,*/
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 child: Container(
                   child: Image(
+                    fit: BoxFit.fill,
                     image: AssetImage("assets/u549.png"),
                   ),
                 ),
@@ -75,11 +79,12 @@ class _State extends BlocState<HomePage, HomeBloc> {
                         new Container(
                             child: new Container(
                                 child: index == 0
-                                    ? Image(
+                                    ? Container()
+                                    /*Image(
                                         image:
                                             AssetImage("assets/home_ban.png"),
                                         fit: BoxFit.cover,
-                                      )
+                                      )*/
                                     : index == 1
                                         ? getUserItem(index)
                                         : getCardItem(index))),
@@ -118,7 +123,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
   //用户信息及设置
   Widget getUserItem(int index) {
     return Container(
-      margin: const EdgeInsets.only(left: 15, right: 15, top: 5),
+      margin: const EdgeInsets.only(left: 15, right: 15, top: 220),
       //color: Color(0xFF3578F7),
       child: Flex(
         direction: Axis.horizontal,
@@ -130,31 +135,35 @@ class _State extends BlocState<HomePage, HomeBloc> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(
+                  GestureDetector(
+                      onTap: () => bloc.to(),
+                    child : Container(
+                      margin: const EdgeInsets.only(
                       right: 5,
                     ),
-                    child: ClipOval(
-                        child: bloc.url != ""
-                            ? Image.network(
-                                bloc.url,
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.cover,
-                              )
-                            : bloc.name == "访客"
-                                ? Image(
-                                    image: AssetImage("assets/visitor.jpeg"),
-                                    fit: BoxFit.cover,
-                                    width: 30,
-                                    height: 30,
-                                  )
-                                : Image(
-                                    image: AssetImage("assets/home_y.png"),
-                                    fit: BoxFit.cover,
-                                    width: 30,
-                                    height: 30,
-                                  )),
+                      child: ClipOval(
+                          child: bloc.url != ""
+                              ? Image.network(
+                            bloc.url,
+                            width: 30,
+                            height: 30,
+                            fit: BoxFit.cover,
+                          )
+                              : bloc.name == "访客"
+                              ? Image(
+                            image: AssetImage("assets/visitor.jpeg"),
+                            fit: BoxFit.cover,
+                            width: 30,
+                            height: 30,
+                          )
+                              : Image(
+                            image: AssetImage("assets/home_y.png"),
+                            fit: BoxFit.cover,
+                            width: 30,
+                            height: 30,
+                          )),
+                    )
+
                   ),
                   GestureDetector(
                     child: Text(bloc.name,
@@ -216,80 +225,110 @@ class _State extends BlocState<HomePage, HomeBloc> {
   //单个设备
   Widget getCardItem(int index) {
     return GestureDetector(
-        onTap: () => bloc.toPlugin(index),
-        child: Container(
-          margin: index.isEven
-              ? const EdgeInsets.only(left: 15)
-              : const EdgeInsets.only(right: 15),
-          child: DecoratedBox(
-              decoration: BoxDecoration(
-                //color: Color(0xFF000000),
-                borderRadius: BorderRadius.circular(10.0),
-                border: Border.all(color: Color(0xFF3578F7)),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                //指定未定位或部分定位widget的对齐方式
-                children: <Widget>[
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    child: Padding(
-                      //左边添加8像素补白
-                      padding: const EdgeInsets.all(10.0),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              child: Flex(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                direction: Axis.vertical,
-                                children: <Widget>[
-                                  getExpanded("设备名称", 0),
-                                  getExpanded(
-                                      bloc.findModelName(bloc.DeviceVoModel
-                                          .devices[index - 2].modelId),
-                                      1),
-                                  getExpanded(
-                                      bloc.findSortName(bloc.DeviceVoModel
-                                          .devices[index - 2].sortId),
-                                      1),
-                                ],
-                              ),
+      onTap: () => bloc.toPlugin(index),
+      child: Container(
+        margin: index.isEven
+            ? const EdgeInsets.only(left: 15)
+            : const EdgeInsets.only(right: 15),
+        child: DecoratedBox(
+            decoration: BoxDecoration(
+              //背景
+              color: Colors.white,
+              //设置四周圆角 角度
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              //设置四周边框
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.blue.withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                )
+              ],
+            ),
+            child: Stack(
+              alignment: Alignment.center,
+              //指定未定位或部分定位widget的对齐方式
+              children: <Widget>[
+                GestureDetector(
+                  child: Padding(
+                    //左边添加8像素补白
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            child: Flex(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              direction: Axis.vertical,
+                              children: <Widget>[
+                                getExpanded("设备名称", 0),
+                                getExpanded(
+                                    bloc.findModelName(bloc.DeviceVoModel
+                                        .devices[index - 2].modelId),
+                                    1),
+//                                  getExpanded(
+//                                      bloc.findSortName(bloc.DeviceVoModel
+//                                          .devices[index - 2].sortId),
+//                                      1),
+                              ],
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              child: Flex(
-                                direction: Axis.vertical,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  Container(
-                                    //color: Color(0xFFF8F8F8),
-                                    child: Image.network(
-                                      bloc.findModelIcon(bloc.DeviceVoModel
-                                          .devices[index - 2].modelId),
-                                      width: 36,
-                                      height: 36,
-                                      fit: BoxFit.cover,
-                                    ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            child: Flex(
+                              direction: Axis.vertical,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  margin:
+                                      const EdgeInsets.only(top: 13, left: 20),
+                                  //color: Color(0xFFF8F8F8),
+                                  child: Image.network(
+                                    bloc.findModelIcon(bloc.DeviceVoModel
+                                        .devices[index - 2].modelId),
+                                    width: 36,
+                                    height: 36,
+                                    fit: BoxFit.cover,
                                   ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(),
-                                  ),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: const EdgeInsets.only(
-                                            right: 5,
-                                          ),
-                                          child: Image(
+                                ),
+                                Expanded(
+                                  child: Stack(
+                                    alignment: Alignment.centerLeft,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 15, left: 20),
+                                        width: 7.95,
+                                        height: 7.95,
+                                        decoration: new BoxDecoration(
+                                          //背景
+                                          color: bloc
+                                                      .DeviceVoModel
+                                                      .devices[index - 2]
+                                                      .statusCode ==
+                                                  "ONLINE"
+                                              ? const Color(0xFF1BCB4D)
+                                              : const Color(0xFFFF3B3B),
+                                          //设置四周圆角 角度
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(90.0)),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: bloc
+                                                          .DeviceVoModel
+                                                          .devices[index - 2]
+                                                          .statusCode ==
+                                                      "ONLINE"
+                                                  ? const Color(0x6600E15A)
+                                                  : const Color(0x66FF3B3B),
+                                              spreadRadius: 1,
+                                              blurRadius: 2.0,
+                                            )
+                                          ],
+                                        ),
+                                        /*child: Image(
                                             image: bloc
                                                         .DeviceVoModel
                                                         .devices[index - 2]
@@ -297,11 +336,14 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                     "ONLINE"
                                                 ? AssetImage("assets/ok.png")
                                                 : AssetImage("assets/on.png"),
-                                            width: 13.0,
-                                            height: 13.0,
-                                          ),
-                                        ),
-                                        Text(
+                                            width: 16.0,
+                                            height: 16.0,
+                                          ),*/
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 12, left: 32),
+                                        child: Text(
                                             bloc
                                                         .DeviceVoModel
                                                         .devices[index - 2]
@@ -311,31 +353,105 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                 : '离线',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.left,
+                                            textAlign: TextAlign.right,
                                             style: TextStyle(
-                                              color: bloc
-                                                          .DeviceVoModel
-                                                          .devices[index - 2]
-                                                          .statusCode ==
-                                                      "ONLINE"
-                                                  ? Color(0xFF3578F7)
-                                                  : Color(0xFFCDCDCD),
+                                              color: Color(0xFF3D3D3D),
                                               fontSize: 12,
+                                              fontWeight: FontWeight.w100,
                                             )),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              )),
-        ));
+                ),
+                bloc.DeviceVoModel.devices[index - 2].loadShow
+                    ? Container(
+                  width: 150,
+                  height: 88,
+                  color: Colors.white.withOpacity(0.84),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      //设置四周圆角 角度
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(6)),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
+                      children: <Widget>[
+                        Positioned(
+                          top: 17.5,
+                          child: Text(
+                            !bloc.findIsDownloading(bloc.DeviceVoModel.devices[index - 2].modelId) ?"下载新的插件" : "插件下载中",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF3D3D3D),
+                            ),
+                          ),
+                        ),
+                        !bloc.findIsDownloading(bloc.DeviceVoModel.devices[index - 2].modelId) ?
+                        Positioned(
+                            top: 50,
+                            child : GestureDetector(
+                                onTap: () => bloc.toDownload(index),
+                                child: Container(
+                                    padding: const EdgeInsets.all(0.0),
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        //设置四周圆角 角度
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                      ),
+                                      child: Container(
+                                          alignment: Alignment.center,
+                                          width: 68,
+                                          height: 27,
+                                          child: Text(
+                                            "更新",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white),
+                                          )
+                                      ),
+                                    )
+                                )
+                            )
+                        ) : Positioned (
+                          top: 50,
+                          child: Wrap(
+                            spacing: 8.0,
+                            runSpacing: 4.0,
+                            alignment: WrapAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 40,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 3),
+                                  child: SpinKitThreeBounce(
+                                    color: Colors.blue,
+                                    size: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                    : Container(),
+              ],
+            )),
+      ),
+    );
   }
 
   Widget getText(String text) {
@@ -346,7 +462,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
         style: TextStyle(color: Color(0xFF333333), fontSize: 15, height: 1.5));
   }
 
-  Widget getExpanded(String text, int start) {
+  /*Widget getExpanded(String text, int start) {
     return Expanded(
       flex: 1,
       child: Container(
@@ -358,6 +474,28 @@ class _State extends BlocState<HomePage, HomeBloc> {
             style: TextStyle(
               color: start == 0 ? Color(0xFF3578F7) : Color(0xFF9CC5FF),
               fontSize: start == 0 ? 16 : 12,
+            )),
+      ),
+    );
+  }*/
+
+  Widget getExpanded(String text, int start) {
+    return Expanded(
+      flex: 1,
+      child: Container(
+        alignment: Alignment.topLeft,
+        margin: start == 0
+            ? const EdgeInsets.only(left: 6, top: 14)
+            : const EdgeInsets.only(left: 6, top: 8),
+        child: Text(text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              color: Color(0xFF3D3D3D),
+              fontWeight: start == 0 ? FontWeight.w600 : FontWeight.w300,
+              fontSize: start == 0 ? 16 : 12,
+              fontFamily: "PingFang-SC-Bold",
             )),
       ),
     );

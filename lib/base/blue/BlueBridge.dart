@@ -24,6 +24,7 @@ class BlueBridge {
   BlueService _blueService;
   Message _getMsg;
   BlueProtocol _blueProtocol = BlueProtocol();
+  String _deviceName;
 
   void handleMessage(String message) {
     _log.info('message: $message');
@@ -120,42 +121,40 @@ class BlueBridge {
         isScanningListen = FlutterBlue.instance.isScanning.listen((isScanning) {
           isScanningListen.cancel();
 
-          if (isScanning) {
-            _postMessage(msg.failure('turn_on_bluetooth', '扫描中...'));
-          } else {
-            List<ScanResult> scanResultsLast = [];
+          if (!isScanning) {
             _flutterBlue.startScan(timeout: Duration(seconds: 60));
-
-            if (_scanResultsHandler != null) _scanResultsHandler.cancel();
-            _scanResultsHandler =
-                _flutterBlue.scanResults.listen((scanResults) {
-              scanResults = scanResults.where((x) {
-                return x.device.name != null && x.device.name != '';
-              }).toList();
-
-              String scanResultsString = scanResults.map((x) {
-                return x.device.name;
-              }).join(',');
-
-              String last = scanResultsLast.map((x) {
-                return x.device.name;
-              }).join(',');
-
-              if (scanResultsString != last) {
-                scanResultsLast = scanResults;
-                Message message = Message('onScanResult', random());
-                message.data = scanResultsString;
-                _postMessage(message);
-              }
-            }, onDone: () {
-              _scanResultsHandler.cancel();
-              _log.info('startScan done');
-            }, onError: (error) {
-              _scanResultsHandler.cancel();
-              _log.info('startScan error: $error');
-            }, cancelOnError: true);
-            _postMessage(msg.success(true));
           }
+          List<ScanResult> scanResultsLast = [];
+          if (_scanResultsHandler != null) _scanResultsHandler.cancel();
+          _scanResultsHandler =
+              _flutterBlue.scanResults.listen((scanResults) {
+            scanResults = scanResults.where((x) {
+              return x.device.name != null && x.device.name != '';
+            }).toList();
+
+            String scanResultsString = scanResults.map((x) {
+              return x.device.name;
+            }).join(',');
+
+            String last = scanResultsLast.map((x) {
+              return x.device.name;
+            }).join(',');
+
+            if (scanResultsString != last) {
+              scanResultsLast = scanResults;
+              Message message = Message('onScanResult', random());
+              message.data = scanResultsString;
+              _postMessage(message);
+            }
+          }, onDone: () {
+            _scanResultsHandler.cancel();
+            _log.info('startScan done');
+          }, onError: (error) {
+            _scanResultsHandler.cancel();
+            _log.info('startScan error: $error');
+          }, cancelOnError: true);
+          _postMessage(msg.success(true));
+//          }
         });
       } else {
         _postMessage(msg.failure('turn_on_bluetooth', '需要开启蓝牙'));
@@ -179,6 +178,7 @@ class BlueBridge {
   Future<BluetoothDevice> _getDevice(Message msg) {
     Completer<BluetoothDevice> completer = new Completer<BluetoothDevice>();
     String name = msg.data;
+    _deviceName = name;
     var scanResultsHandler;
     scanResultsHandler = _flutterBlue.scanResults.listen((scanResults) {
       scanResultsHandler.cancel();
@@ -275,18 +275,43 @@ class BlueBridge {
     });
   }
 
+  void disconnect() {
+    if (_blueService != null) {
+      _blueService.stopListen();
+      _blueService = null;
+    }
+    _flutterBlue.connectedDevices.then((devices) {
+      if (devices.length > 0) {
+        BluetoothDevice device = devices[0];
+        _log.info('*******************${device.name}');
+        var stateListen;
+        stateListen = device.state.listen((value) {
+          stateListen.cancel();
+          if (value == BluetoothDeviceState.connected) {
+            device.disconnect().then((value) {
+            });
+          }
+        });
+      }
+    });
+  }
+
   _startListen(Message msg) {
     if (_blueService == null) {
       _postMessage(msg.failure('not_connect', '设备未连接'));
     } else {
       _blueService.startListen((data) {
-        _log.info('receive: $data');
+        String hexString = data.map((val){
+          return val.toRadixString(16);
+        }).join(' ');
+
+        _log.info('receive: $hexString');
         if (data[0] == 0xAA && data[1] == 0xFF) {
           _log.info('私有蓝牙协议响应: $data');
           _getMsg = _blueProtocol.listen(data);
           if (_getMsg != null) {
             _postMessage(_getMsg);
-          } 
+          }
           /*if (data[2] == 0x06 && _getWiFiStatusMsg != null) {
             Map<String, dynamic> result = Map();
             result['status'] = data[3];

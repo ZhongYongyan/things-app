@@ -5,10 +5,11 @@ class MemberNews {
   List images;
   int memberId;
   String newsStatus;
-  String targetLinks;
-  String targetType;
   String title;
   String updated;
+  String actions;
+  String actionData;
+  int newsId;
 
   MemberNews.fromJson(Map<String, dynamic> json) {
     body = json['body'] ?? "";
@@ -17,9 +18,10 @@ class MemberNews {
     images = json['images'] ?? [];
     memberId = json['memberId'] ?? 0;
     newsStatus = json['newsStatus'] ?? "";
-    targetLinks = json['targetLinks'] ?? "";
-    targetType = json['targetType'] ?? "";
+    actions = json['actions'] ?? "";
+    actionData = json['actionData'] ?? "";
     title = json['title'] ?? "";
     updated = json['updated'] ?? "";
+    newsId = json['newsId'] ?? 0;
   }
 }
