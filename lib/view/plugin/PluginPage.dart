@@ -20,8 +20,8 @@ class _State extends BlocState<PluginPage, PluginBloc> {
   @override
   void initState() {
     // 强制横屏
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+//    SystemChrome.setPreferredOrientations(
+//        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
     SystemChrome.setEnabledSystemUIOverlays([]);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       log.info('addPostFrameCallback');
