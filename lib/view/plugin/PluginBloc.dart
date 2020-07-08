@@ -22,12 +22,12 @@ class PluginBloc extends BlocBase with LoggingMixin {
 
   void init() {}
 
-  void loadPlugin(String pluginUrl, String deviceSn) {
+  void loadPlugin(String pluginUrl, String deviceSn, String blueName) {
     flutterWebviewPlugin.clearCache();
     flutterWebviewPlugin.close();
     computedPluginUrl(pluginUrl).then((url) {
       if(deviceSn != null) {
-        url = url + '?accessToken=' + state.auth.accessToken + '&deviceSn=' + deviceSn;
+        url = url + '?accessToken=' + state.auth.accessToken + '&deviceSn=' + deviceSn + '&blueName=' + blueName;
       }
       log.info('pluginUrl: $url');
       setModel(() {
@@ -72,8 +72,10 @@ class PluginBloc extends BlocBase with LoggingMixin {
         break;
       case 'setOrientation':
         if (msg.data == 'portrait') {
+          //强制竖屏
           AutoOrientation.portraitAutoMode();
         } else {
+          //强制横屏
           AutoOrientation.landscapeAutoMode();
         }
         break;

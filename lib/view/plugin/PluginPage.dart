@@ -27,16 +27,17 @@ class _State extends BlocState<PluginPage, PluginBloc> {
       log.info('addPostFrameCallback');
       var args = ModalRoute.of(context).settings.arguments as Map;
       String deviceSn = args["deviceSn"];
+      String blueName = args["blueName"];
       var url = args["url"] != ""
           ? args["url"]
           : 'http://dev.mp.hswl007.com/things-plugin-a800.zip';
       url.toString().endsWith('.zip')
-          ? bloc.loadPlugin(url, deviceSn)
+          ? bloc.loadPlugin(url, deviceSn, blueName)
           : bloc.setModel(() {
         if(deviceSn == null) {
           bloc.pluginPath = url;
         }else {
-          bloc.pluginPath = url + '?accessToken=' + bloc.state.auth.accessToken + '&deviceSn=' + deviceSn;
+          bloc.pluginPath = url + '?accessToken=' + bloc.state.auth.accessToken + '&deviceSn=' + deviceSn + '&blueName=' + blueName;
         }
       });
     });

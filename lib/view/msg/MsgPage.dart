@@ -179,7 +179,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10.0),
                           child: SizedBox(
-                            height: 42.0,
+                            height: 45.0,
                             //Flex的三个子widget，在垂直方向按2：1：1来占用100像素的空间
                             child: Flex(
                               direction: Axis.vertical,

@@ -14,6 +14,7 @@ class GetuiHelper with LoggingMixin {
   }
 
   String cid;
+  String id;
 
   void create() {
     Getuiflut().addEventHandler(

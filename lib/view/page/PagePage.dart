@@ -40,7 +40,7 @@ class _State extends BlocState<PagePage, PageBloc> {
       //backgroundColor: Colors.orange
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.music_video),
+      icon: Icon(Icons.fiber_new),
       title: Text('消息',
           style: TextStyle(
             fontSize: 12,
@@ -48,7 +48,7 @@ class _State extends BlocState<PagePage, PageBloc> {
       //backgroundColor: Colors.orange
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.movie),
+      icon: Icon(Icons.person),
       title: Text('我的',
           style: TextStyle(
             fontSize: 12,
