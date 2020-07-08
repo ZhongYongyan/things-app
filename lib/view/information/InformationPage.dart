@@ -35,7 +35,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
         elevation: 0,
         brightness: Brightness.light,
         centerTitle: true,
-        title: Text("资讯",
+        title: Text(bloc.info,
             style: TextStyle(
               color: Colors.black,
               fontSize: 16,
@@ -170,7 +170,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                                             height: 64,
                                           ),
                                         ),
-                                        Text("没有相关资讯",
+                                        Text(bloc.infoTips,
                                             maxLines: 1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(

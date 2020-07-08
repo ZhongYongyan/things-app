@@ -6,6 +6,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Page.dart';
 import 'package:app/base/util/Result.dart';
+import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:redux/redux.dart';
@@ -13,7 +14,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class InformationBloc extends BlocBase with LoggingMixin {
   InformationBloc(BuildContext context, Store store) : super(context, store);
-
+  String get info => state.lang.localized(Langs.info);
+  String get infoTips => state.lang.localized(Langs.infoTips);
   var loading = 'loadingTag';
   static var loadingTag = Info.fromJson({'title': 'loadingTag'});
   var words = <Info>[loadingTag];

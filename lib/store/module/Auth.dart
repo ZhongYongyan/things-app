@@ -8,7 +8,7 @@ import 'package:quiver/strings.dart';
 
 import 'Member.dart';
 import 'Msg.dart';
-import 'management.dart';
+import 'Management.dart';
 
 AuthActions authActions = AuthActions();
 

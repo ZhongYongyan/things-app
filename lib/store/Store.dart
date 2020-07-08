@@ -11,7 +11,7 @@ import 'module/ Information.dart';
 import 'module/Member.dart';
 import 'module/Msg.dart';
 import 'module/lang/Lang.dart';
-import 'module/management.dart';
+import 'module/Management.dart';
 
 class StoreState extends Persistable {
   AppState app = AppState();

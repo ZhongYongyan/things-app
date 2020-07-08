@@ -7,6 +7,7 @@ import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Page.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/store/module/Auth.dart';
+import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 
@@ -20,8 +21,16 @@ class UserBloc extends BlocBase with LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
-
-  String get name => state.auth.name != null ? state.auth.name : '访客';
+  String get visitor => state.lang.localized(Langs.visitor);
+  String get name => state.auth.name != null ? state.auth.name : visitor;
+  String get userManagement => state.lang.localized(Langs.userManagement);
+  String get userName => state.lang.localized(Langs.userName);
+  String get userGender => state.lang.localized(Langs.userGender);
+  String get userHeight => state.lang.localized(Langs.userHeight);
+  String get userBirthday => state.lang.localized(Langs.userBirthday);
+  String get userWeight => state.lang.localized(Langs.userWeight);
+  String get male => state.lang.localized(Langs.male);
+  String get female => state.lang.localized(Langs.female);
 
   Future startup() async {
     if (state.member.words.length >= 2) {

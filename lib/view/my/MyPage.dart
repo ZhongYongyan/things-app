@@ -1,5 +1,6 @@
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
+import 'package:app/store/module/lang/Langs.dart';
 import 'package:app/view/home/user/component/ActionSheet.dart';
 import 'package:app/view/my/MyBloc.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +123,8 @@ class _State extends BlocState<MyPage, MyBloc> {
                                                                 )),
                                                   onTap: () => {
                                                     BottomActionSheet.show(
-                                                        context, ['拍照', '相册'],
+                                                        context, [bloc.camera, bloc.album],
+                                                        cancel:bloc.cancel,
                                                         title: '',
                                                         callBack: (i) {
                                                       if (i == 0) {
@@ -164,7 +166,7 @@ class _State extends BlocState<MyPage, MyBloc> {
                                                                   index],
                                                               0),
                                                           getExpanded(
-                                                              "连接智能设备, 体验美好生活",
+                                                              bloc.introduce,
                                                               1)
                                                         ],
                                                       ),
@@ -229,15 +231,15 @@ class _State extends BlocState<MyPage, MyBloc> {
                       height: 46,
                       alignment: Alignment.center,
                       color: Color(0xFF0079FE),
-                      child: Text("退出登录",
+                      child: Text(bloc.signOut,
                           style: TextStyle(
                             color: Color(0xFFFFFFFF),
                             fontSize: 16,
                           )),
                     ),
                     onTap: () => {
-                      BottomActionSheet.show(context, ['退出登录'],
-                          title: '确定要退出当前账号?', callBack: (i) {
+                      BottomActionSheet.show(context, [bloc.signOut],
+                          title: bloc.signOutTips,cancel:bloc.cancel, callBack: (i) {
                         if (i == 0) {
                           bloc.signout();
                         }

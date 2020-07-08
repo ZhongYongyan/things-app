@@ -16,6 +16,7 @@ import 'package:app/base/util/Page.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/store/module/Auth.dart';
 import 'package:app/store/module/GetuiHelper.dart';
+import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getuiflut/getuiflut.dart';
@@ -31,9 +32,17 @@ class HomeBloc extends BlocBase with LoggingMixin {
   int isDownloading = 0;
   bool isAndroidNewShow = false;
   bool isDeviceShow = false;
-
-  String get name => state.auth.name != null ? state.auth.name : '访客';
-
+  String get visitor => state.lang.localized(Langs.visitor);
+  String get homeExplainAdd => state.lang.localized(Langs.homeExplainAdd);
+  String get homeExplainDevices => state.lang.localized(Langs.homeExplainDevices);
+  String get homeExplainLife => state.lang.localized(Langs.homeExplainLife);
+  String get devicesName => state.lang.localized(Langs.devicesName);
+  String get onLine => state.lang.localized(Langs.onLine);
+  String get offLine => state.lang.localized(Langs.offLine);
+  String get update => state.lang.localized(Langs.update);
+  String get downloadNewPlugIns => state.lang.localized(Langs.downloadNewPlugIns);
+  String get plugInDownloading => state.lang.localized(Langs.plugInDownloading);
+  String get name => state.auth.name != null ? state.auth.name : visitor;
   String get url => state.auth.url != null ? state.auth.url : '';
   var DeviceVoModel = DeviceVo.fromJson({});
 
@@ -89,7 +98,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
   void add() {
     if (isDownloading > 0) {
       Fluttertoast.showToast(
-          msg: '插件下载中，请稍后',
+          msg: state.lang.localized(Langs.plugInDownloadingTips),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 2,
@@ -110,7 +119,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
     String blueName = DeviceVoModel.devices[index - 2].blueName;
     if (findIsDownloading(modelId)) {
       Fluttertoast.showToast(
-          msg: '${findModelName(modelId)}插件下载中，请稍后',
+          msg: '${findModelName(modelId)}' + state.lang.localized(Langs.plugInDownloadingTips),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 2,
@@ -121,7 +130,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
     String softwareUrl = findSoftwareUrl(modelId);
     if (softwareUrl == null) {
       Fluttertoast.showToast(
-          msg: "没有找到插件，请与系统管理员联系",
+          msg: state.lang.localized(Langs.noPlugInTips),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 2,
@@ -170,7 +179,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
     String softwareUrl = findSoftwareUrl(modelId);
     if (findIsDownloading(modelId)) {
       Fluttertoast.showToast(
-          msg: '${findModelName(modelId)}插件下载中，请稍后',
+          msg: '${findModelName(modelId)}' + state.lang.localized(Langs.plugInDownloadingTips),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 2,
@@ -181,7 +190,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
     }
     if (softwareUrl == null) {
       Fluttertoast.showToast(
-          msg: "没有找到插件，请与系统管理员联系",
+          msg: state.lang.localized(Langs.noPlugInTips),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 2,

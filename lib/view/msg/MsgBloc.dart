@@ -7,6 +7,7 @@ import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Page.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/store/module/Msg.dart';
+import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 
@@ -20,7 +21,8 @@ class MsgBloc extends BlocBase with LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
-
+  String get message => state.lang.localized(Langs.message);
+  String get messageTips => state.lang.localized(Langs.messageTips);
   Future startup() async {
     if (state.msg.words.length != 1) {
       setModel(() {

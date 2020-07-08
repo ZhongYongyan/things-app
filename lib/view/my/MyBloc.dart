@@ -5,6 +5,9 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/store/module/Auth.dart';
+import 'package:app/store/module/lang/Lang.dart';
+import 'package:app/store/module/lang/Langs.dart';
+import 'package:app/view/home/user/component/ActionSheet.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,17 +20,15 @@ class MyBloc extends BlocBase with LoggingMixin {
   String loading = "##loading##";
   static const loadingTag = "##loading##"; //表尾标记
   var words = <String>[loadingTag];
+  String get introduce => state.lang.localized(Langs.introduce);
+  String get signOut => state.lang.localized(Langs.signOut);
+  String get signOutTips => state.lang.localized(Langs.signOutTips);
+  String get cancel => state.lang.localized(Langs.cancel);
+  String get camera => state.lang.localized(Langs.camera);
+  String get album => state.lang.localized(Langs.album);
   var path = "";
   File images;
   List textList = [
-    "-",
-    "京东商城",
-    "天猫商城",
-    "版本更新",
-    "语言选择",
-    "官方声明",
-    "APP使用说明",
-    "插件"
   ];
   bool show = false;
   String text = "最新";
@@ -36,7 +37,15 @@ class MyBloc extends BlocBase with LoggingMixin {
 
   void startup() {
     //retrieveData();
-    log.info("我的");
+    textList = [
+      "-",
+      state.lang.localized(Langs.jdMall),
+      state.lang.localized(Langs.tmMall),
+      state.lang.localized(Langs.edition),
+      state.lang.localized(Langs.language),
+      state.lang.localized(Langs.statement),
+      state.lang.localized(Langs.explain),
+    ];
     getUser();
   }
 
@@ -48,16 +57,7 @@ class MyBloc extends BlocBase with LoggingMixin {
     }
     setModel(() {
       path = response.data.avatar;
-      textList = [
-        response.data.phone,
-        "京东商城",
-        "天猫商城",
-        "版本更新",
-        "语言选择",
-        "官方声明",
-        "APP使用说明",
-        "插件"
-      ];
+      textList[0]= response.data.phone;
     });
   }
 
@@ -86,7 +86,7 @@ class MyBloc extends BlocBase with LoggingMixin {
       saveImages(response);
     } else {
       Fluttertoast.showToast(
-          msg: "保存失败",
+          msg: state.lang.localized(Langs.tipsFail),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,
@@ -99,7 +99,7 @@ class MyBloc extends BlocBase with LoggingMixin {
     String response = await MemberApis.setAvatar(path);
     if (response == "err") {
       Fluttertoast.showToast(
-          msg: "保存失败",
+          msg: state.lang.localized(Langs.tipsFail),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,
@@ -107,13 +107,28 @@ class MyBloc extends BlocBase with LoggingMixin {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
-          msg: "保存成功",
+          msg: state.lang.localized(Langs.tipsSuccess),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,
           textColor: Colors.white,
           fontSize: 16.0);
     }
+  }
+  void languageSettings() {
+    BottomActionSheet.show(
+        context, ['中文', 'English'],
+        title: '',
+        cancel:cancel,
+        callBack: (i) {
+          if (i == 0) {
+            dispatch(langActions.setup('cn'));
+          }
+          if (i == 1) {
+            dispatch(langActions.setup('en'));
+          }
+
+        });
   }
 
   void signout() {
@@ -148,7 +163,9 @@ class MyBloc extends BlocBase with LoggingMixin {
         throw 'Could not launch $url';
       }
     }
-
+    if(i == 4) {
+      languageSettings();
+    }
     log.info(i);
     //navigate.pushReplacementNamed('/homeCon');
   }

@@ -149,7 +149,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                             height: 30,
                             fit: BoxFit.cover,
                           )
-                              : bloc.name == "访客"
+                              : bloc.name == bloc.visitor
                               ? Image(
                             image: AssetImage("assets/visitor.jpeg"),
                             fit: BoxFit.cover,
@@ -189,9 +189,9 @@ class _State extends BlocState<HomePage, HomeBloc> {
               Container(
                 margin: const EdgeInsets.only(top: 5),
               ),
-              getText("点击右侧「添加设备"),
-              getText("连接智能设备"),
-              getText("体验美好生活")
+              getText(bloc.homeExplainAdd),
+              getText(bloc.homeExplainDevices),
+              getText(bloc.homeExplainLife)
             ],
           ),
           Expanded(
@@ -262,7 +262,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               direction: Axis.vertical,
                               children: <Widget>[
-                                getExpanded("设备名称", 0),
+                                getExpanded(bloc.devicesName, 0),
                                 getExpanded(
                                     bloc.findModelName(bloc.DeviceVoModel
                                         .devices[index - 2].modelId),
@@ -349,8 +349,8 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                                         .devices[index - 2]
                                                         .statusCode ==
                                                     "ONLINE"
-                                                ? "在线"
-                                                : '离线',
+                                                ? bloc.onLine
+                                                : bloc.offLine,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.right,
@@ -388,7 +388,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                         Positioned(
                           top: 17.5,
                           child: Text(
-                            !bloc.findIsDownloading(bloc.DeviceVoModel.devices[index - 2].modelId) ?"下载新的插件" : "插件下载中",
+                            !bloc.findIsDownloading(bloc.DeviceVoModel.devices[index - 2].modelId) ? bloc.downloadNewPlugIns : bloc.plugInDownloading,
                             style: TextStyle(
                               fontSize: 16,
                               color: Color(0xFF3D3D3D),
@@ -414,7 +414,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                           width: 68,
                                           height: 27,
                                           child: Text(
-                                            "更新",
+                                            bloc.update,
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.white),

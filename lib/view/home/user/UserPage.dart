@@ -44,7 +44,7 @@ class _State extends BlocState<UserPage, UserBloc> {
             bloc.toBack();
           },
         ),
-        title: Text("用户管理",
+        title: Text(bloc.userManagement,
             style: TextStyle(
               color: Colors.black,
               fontSize: 16,
@@ -160,7 +160,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                                       height: 30,
                                       fit: BoxFit.cover,
                                     )
-                                  : bloc.words[index].nickname == "访客"
+                                  : bloc.words[index].nickname == bloc.visitor
                                       ? Image(
                                           image:
                                               AssetImage("assets/visitor.jpeg"),
@@ -211,7 +211,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                         children: <Widget>[
                           Container(
                             width: 100,
-                            child: Text("昵称: " + bloc.words[index].nickname,
+                            child: Text(bloc.userName + ": " + bloc.words[index].nickname,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: bloc.name == bloc.words[index].nickname
@@ -226,10 +226,10 @@ class _State extends BlocState<UserPage, UserBloc> {
                             ),
                             child: bloc.words[index].id != 123456
                                 ? Text(
-                                    "性别: " +
+                                bloc.userGender + ": " +
                                         (bloc.words[index].sex == "F"
-                                            ? '女'
-                                            : '男'),
+                                            ? bloc.female
+                                            : bloc.male),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       color: bloc.name ==
@@ -256,7 +256,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                             width: 100,
                             child: bloc.words[index].id != 123456
                                 ? Text(
-                                    "身高: " +
+                                bloc.userHeight + ": " +
                                         bloc.words[index].height.toString() +
                                         "CM",
                                     textAlign: TextAlign.left,
@@ -275,7 +275,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                             ),
                             child: bloc.words[index].id != 123456
                                 ? Text(
-                                    "生日: " +
+                                bloc.userBirthday + ": " +
                                         bloc.words[index].birthday
                                             .substring(0, 10),
                                     textAlign: TextAlign.left,
@@ -304,7 +304,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                             width: 100,
                             child: bloc.words[index].id != 123456
                                 ? Text(
-                                    "体重: " +
+                                bloc.userWeight + ": " +
                                         bloc.words[index].weight
                                             .toStringAsFixed(0) +
                                         "KG",
