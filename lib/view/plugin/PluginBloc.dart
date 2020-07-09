@@ -26,8 +26,9 @@ class PluginBloc extends BlocBase with LoggingMixin {
     flutterWebviewPlugin.clearCache();
     flutterWebviewPlugin.close();
     computedPluginUrl(pluginUrl).then((url) {
+      url = url + '?accessToken=' + state.auth.accessToken;
       if(deviceSn != null) {
-        url = url + '?accessToken=' + state.auth.accessToken + '&deviceSn=' + deviceSn + '&blueName=' + blueName;
+        url = url + '&deviceSn=' + deviceSn + '&blueName=' + blueName;
       }
       log.info('pluginUrl: $url');
       setModel(() {

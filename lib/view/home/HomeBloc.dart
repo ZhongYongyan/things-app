@@ -58,7 +58,6 @@ class HomeBloc extends BlocBase with LoggingMixin {
         vm.getUserbindAlias(cid);
       }
       Getuiflut().addEventHandler(
-        onReceivePayload: (Map<String, dynamic> message) async {},
         onReceiveNotificationResponse: (Map<String, dynamic> message) async {
           //ios点击推送走了这儿
           var actions = message["actions"];
@@ -67,6 +66,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
             vm.getInfoMemberNews(actions, actionData);
           });
         },
+        onReceivePayload: (Map<String, dynamic> message) async {},
         onAppLinkPayload: (String message) async {},
         onRegisterVoipToken: (String message) async {},
         onReceiveVoipPayLoad: (Map<String, dynamic> message) async {},
@@ -75,7 +75,18 @@ class HomeBloc extends BlocBase with LoggingMixin {
             vm.getPayload(msg);
           }
         },
-        onNotificationMessageArrived: (Map<String, dynamic> msg) async {},
+        onNotificationMessageArrived: (Map<String, dynamic> msg) async {
+          print("---------------------------132456789");
+          /*String taskId = msg["taskId"];
+          print('-------------------------------------$taskId');
+          Result<MemberNews> response = await MemberNewsApis.getInfoMemberNewsByTaskId(taskId);
+          bool code = response.success;
+          if(code) {
+            MemberNews memberNews =  response.data;
+            if (memberNews.actions == "OPEN_NEWS") {
+            }
+          }*/
+        },
         onNotificationMessageClicked: (Map<String, dynamic> msg) async {
           //安卓点击推送走了这儿
           log.info("+++++++++++++++++++++++++++++++++++msg111=$msg");

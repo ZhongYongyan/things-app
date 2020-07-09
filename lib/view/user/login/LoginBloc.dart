@@ -93,6 +93,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
   }
 
   void backHandler() {
+
     navigate.pop();
   }
 
@@ -139,6 +140,10 @@ class LoginBloc extends BlocBase with LoggingMixin {
       Result<Member> memberResponse = await MemberApis.getMember();
       dispatch(authActions.login(memberResponse.data.id, response.data.accessToken));
       navigate.pushNamedAndRemoveUntil('/page', (route) {
+        setModel(() {
+          _timer.cancel();
+          countdownTimeShow = false;
+        });
         return route.settings.name == '/page';
       });
     } else {

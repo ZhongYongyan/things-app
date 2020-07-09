@@ -35,6 +35,17 @@ class MemberNewsApis {
     }
   }
 
+  static Future<Result<MemberNews>> getInfoMemberNewsByTaskId(String taskId) async {
+    try {
+      Response response = await apiRequest.get('/app-push/memberNews/taskId/$taskId');
+      Result<MemberNews> entity =
+      Result.fromJson(response.data, (data) => MemberNews.fromJson(data));
+      return entity;
+    } on DioError catch (err) {
+      return Result(name: err.type.toString(), message: err.message);
+    }
+  }
+
   static Future<Result<MemberNews>> getMsgNews(int id) async {
     try {
       Response response = await apiRequest.get('/member-news/$id');
