@@ -211,7 +211,7 @@ class _State extends BlocState<UserPage, UserBloc> {
                         children: <Widget>[
                           Container(
                             width: 100,
-                            child: Text(bloc.userName + ": " + bloc.words[index].nickname,
+                            child: Text(bloc.userName + ": " + (bloc.words[index].nickname == "访客" ? bloc.visitor :  bloc.words[index].nickname),
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: bloc.name == bloc.words[index].nickname

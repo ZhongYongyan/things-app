@@ -81,8 +81,6 @@ class UserBloc extends BlocBase with LoggingMixin {
     if (indexPage == 1) {
       lists.add(item);
     }
-    log.info(lists);
-    log.info("++++++++++++++++++++++++++++++++++++++++");
     Future.delayed(Duration(seconds: 1)).then((e) {
       words.insertAll(words.length - 1, lists.map((student) => student));
       if (lists.length < 10) {
@@ -106,14 +104,12 @@ class UserBloc extends BlocBase with LoggingMixin {
   }
 
   Future<void> onRefresh() async {
-    print("开始刷新数据");
     lists = [];
     Result<Page> response =
     await AffiliateApis.getAffiliate(1, 10, "ASC");
     bool code = response.success;
     //错误处理
     if (!code) {
-      log.info("刷新数据出错", response.message);
       setModel(() {
         indexshow = false;
       });
@@ -131,16 +127,13 @@ class UserBloc extends BlocBase with LoggingMixin {
       {
         var ageOver = words.where((student) => student.id == lists[i].id || student.nickname == "loadingTag" ||  student.id == 123456);
         if (ageOver.toList().length > 2 ) {
-          print("重复数据");
         } else {
           num += 1;
           listItem.add(lists[i]);
         }
         if(i == lists.length -1 && num > 0) {
-          print("更新了${listItem.length}----------------条数据");
           words.insertAll(0, listItem.map((student) => student));
           //state.member.words.insertAll(0, listItem.map((student) => student));
-          print("数据${words.length}----------------条数据");
           setModel(() {
             indexshow = state.member.indexshow;
           });

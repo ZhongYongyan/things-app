@@ -25,6 +25,8 @@ class JhPickerTool {
       BuildContext context, {
         @required List<T> data,
         String title,
+        String confirm,
+        String cancel,
         int normalIndex,
         PickerDataAdapter adapter,
         @required StringClickCallback clickCallBack,
@@ -37,7 +39,7 @@ class JhPickerTool {
           clickCallBack(selecteds[0],data[selecteds[0]]);
         },
         selecteds: [normalIndex??0] ,
-        title: title);
+        title: title,confirm: confirm,cancel: cancel);
   }
 
   /** 多列 */
@@ -45,6 +47,8 @@ class JhPickerTool {
       BuildContext context, {
         @required List<T> data,
         String title,
+        String confirm,
+        String cancel,
         List<int> normalIndex,
         PickerDataAdapter adapter,
         @required ArrayClickCallback clickCallBack,
@@ -55,7 +59,7 @@ class JhPickerTool {
           clickCallBack(selecteds,picker.getSelectedValues());
         },
         selecteds: normalIndex,
-        title: title);
+        title: title,confirm: confirm,cancel: cancel);
 
   }
 
@@ -64,6 +68,8 @@ class JhPickerTool {
       BuildContext context, {
         @required PickerAdapter adapter,
         String title,
+        String confirm,
+        String cancel,
         List<int> selecteds,
         @required PickerConfirmCallback clickCallBack,
       }) {
@@ -71,8 +77,8 @@ class JhPickerTool {
         adapter: adapter,
         title: new Text(title ?? "",style:TextStyle(color: kTitleColor,fontSize: kTextFontSize)),
         selecteds: selecteds,
-        cancelText: '取消',
-        confirmText: '确定',
+        cancelText: cancel,
+        confirmText: confirm,
         cancelTextStyle: TextStyle(color: kBtnColor,fontSize: kTextFontSize),
         confirmTextStyle: TextStyle(color: confirmBtnColor,fontSize: kTextFontSize),
         textAlign: TextAlign.right,

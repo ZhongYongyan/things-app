@@ -9,6 +9,7 @@ import 'package:app/base/util/Result.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/base/api/AdminApis.dart';
 import 'package:app/store/module/Auth.dart';
+import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
@@ -29,6 +30,13 @@ class LoginBloc extends BlocBase with LoggingMixin {
 
   Animation<double> headerAnimation;
   AnimationController headerController;
+  String get phoneNumber => state.lang.localized(Langs.phoneNumber);
+  String get code => state.lang.localized(Langs.code);
+  String get getCode => state.lang.localized(Langs.getCode);
+  String get login => state.lang.localized(Langs.login);
+  String get resetCode => state.lang.localized(Langs.resetCode);
+  String get errorPhoneNumber => state.lang.localized(Langs.errorPhoneNumber);
+  String get codeSuccess => state.lang.localized(Langs.codeSuccess);
   Timer _timer;
   int durationTime = 1500; //错误弹框时间
   // 登录处理中
@@ -121,7 +129,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
             width: double.infinity,
             height: 40,
             child: Center(
-              child: Text("手机号错误"),
+              child: Text(errorPhoneNumber),
             ),
           ),
         ),
@@ -205,7 +213,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
             width: double.infinity,
             height: 40,
             child: Center(
-              child: Text("手机号错误"),
+              child: Text(errorPhoneNumber),
             ),
           ),
         ),
@@ -213,7 +221,7 @@ class LoginBloc extends BlocBase with LoggingMixin {
       return;
     }
     Fluttertoast.showToast(
-        msg: "验证码发送成功",
+        msg: codeSuccess,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIos: 1,

@@ -15,7 +15,7 @@ class Langs {
   static Localized confirmDeletion = Localized("确认删除","");
   static Localized confirmDeletionTips = Localized("确定要删除吗？","");
   static Localized clickToFillIn = Localized("点击填写","");
-  static Localized cancel = Localized("取消","");
+  static Localized cancel = Localized("取消","cancel");
   static Localized camera = Localized("相机","");
   static Localized album = Localized("相册","");
   static Localized preservation = Localized("保存","");
@@ -60,6 +60,13 @@ class Langs {
   static Localized userAdd = Localized("添加用户","");
   static Localized userDetailsName = Localized("姓名或昵称","");
   static Localized userDetailsBirthday = Localized("出生日期","");
+  static Localized emptyName = Localized("昵称为空","");
+  static Localized emptyGender = Localized("性别为空","");
+  static Localized emptyHeight = Localized("身高为空","");
+  static Localized emptyWeight = Localized("体重为空","");
+  static Localized emptyBirthday = Localized("出生日期为空","");
+  static Localized emptyNameEnd = Localized("昵称限制8位","");
+
 
   //我的
   static Localized introduce = Localized("连接智能设备, 体验美好生活","");
@@ -71,4 +78,14 @@ class Langs {
   static Localized explain = Localized("APP使用说明","");
   static Localized signOut = Localized("退出登录","");
   static Localized signOutTips = Localized("确定要退出当前账号?","");
+
+  //登录
+  static Localized phoneNumber = Localized("请输入手机号码","");
+  static Localized code = Localized("请输入短信验证码","");
+  static Localized getCode = Localized("获取验证码","");
+  static Localized login = Localized("登录/注册","");
+  static Localized resetCode = Localized("S后重发","");
+  static Localized errorPhoneNumber = Localized("手机号错误","");
+  static Localized codeSuccess = Localized("验证码发送成功","");
+  
 }
