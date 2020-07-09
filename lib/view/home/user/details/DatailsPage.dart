@@ -6,6 +6,7 @@ import 'package:app/component/PickerPopup.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/home/user/component/ActionSheet.dart';
 import 'package:app/view/home/user/component/lib/flutter_datetime_picker.dart';
+import 'package:app/view/home/user/component/lib/src/i18n_model.dart';
 import 'package:app/view/home/user/details/DatailsBloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -343,6 +344,8 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
 
                                 JhPickerTool.showStringPicker(context,
                                   data: bloc.heightPickerData,
+                                cancel:bloc.cancel,
+                                    confirm:bloc.determine,
                                   clickCallBack: (int index,var str){
                                     bloc.userClickHeight(str);
                                   }),
@@ -353,6 +356,8 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
 
                                 JhPickerTool.showStringPicker(context,
                                       data: bloc.weightPickerData,
+                                cancel:bloc.cancel,
+                                confirm:bloc.determine,
                                       clickCallBack: (int index,var str){
                                         bloc.weightClickHeight(str);
                                       }
@@ -362,6 +367,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                   {
                                     DatePicker.showDatePicker(context,
                                         showTitleActions: true,
+                                locale:bloc.cancel == "取消" ? LocaleType.zh : LocaleType.en,
                                         onChanged: (date) {},
                                         onConfirm: (date) {
                                       bloc.dataClick('$date');

@@ -43,6 +43,14 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   String get confirmDeletion => state.lang.localized(Langs.confirmDeletion);
   String get confirmDeletionTips => state.lang.localized(Langs.album);
   String get clickToFillIn => state.lang.localized(Langs.clickToFillIn);
+
+  String get emptyNameEnd => state.lang.localized(Langs.emptyNameEnd);
+  String get emptyName => state.lang.localized(Langs.emptyName);
+  String get emptyGender => state.lang.localized(Langs.emptyGender);
+  String get emptyHeight => state.lang.localized(Langs.emptyHeight);
+  String get emptyWeight => state.lang.localized(Langs.emptyWeight);
+  String get emptyBirthday => state.lang.localized(Langs.emptyBirthday);
+
   String  title = "";
   bool show = false;
   TextEditingController usernameController = TextEditingController(text: '');
@@ -214,26 +222,26 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     addAffiliateShow = true;
     if (usernameController.text == "" || usernameController.text.length > 8) {
       if (usernameController.text.length > 8) {
-        toast('昵称限制8位');
+        toast(emptyNameEnd);
         return;
       }
-      toast('昵称为空');
+      toast(emptyName);
       return;
     }
-    if (userList[2] == "点击选择") {
-      toast('性别为空');
+    if (userList[2] == clickSelect) {
+      toast(emptyGender);
       return;
     }
-    if (userList[3] == "点击选择") {
-      toast('身高为空');
+    if (userList[3] == clickSelect) {
+      toast(emptyHeight);
       return;
     }
-    if (userList[4] == "点击选择") {
-      toast('体重为空');
+    if (userList[4] == clickSelect) {
+      toast(emptyWeight);
       return;
     }
-    if (userList[5] == "点击选择") {
-      toast('出生日期为空');
+    if (userList[5] == clickSelect) {
+      toast(emptyBirthday);
       return;
     }
     setModel(() {

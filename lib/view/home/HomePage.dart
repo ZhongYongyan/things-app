@@ -166,7 +166,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
 
                   ),
                   GestureDetector(
-                    child: Text(bloc.name,
+                    child: Text(bloc.name == "访客" ? bloc.visitor : bloc.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,

@@ -129,7 +129,7 @@ class _State extends BlocState<LoginPage, LoginBloc>
                                           fontSize: 14.0, color: Colors.black),
                                       autocorrect: false,
                                       decoration: InputDecoration(
-                                        hintText: '请输入手机号码',
+                                        hintText: bloc.phoneNumber,
                                         border: InputBorder.none,
                                         prefixIcon: Icon(
                                           Icons.phone_iphone,
@@ -196,7 +196,7 @@ class _State extends BlocState<LoginPage, LoginBloc>
                                       disabledBorder: InputBorder.none,
                                       enabledBorder: InputBorder.none,
                                       focusedBorder: InputBorder.none,
-                                      hintText: '请输入短信验证码',
+                                      hintText: bloc.code,
                                       contentPadding: EdgeInsets.all(14.0),
                                       hintStyle: bloc.codeisEmpty
                                           ? TextStyle(
@@ -223,8 +223,8 @@ class _State extends BlocState<LoginPage, LoginBloc>
                                     child: Text(
                                       bloc.countdownTimeShow
                                           ? bloc.countdownTime.toString() +
-                                              "S后重发"
-                                          : "获取验证码",
+                                              bloc.resetCode
+                                          : bloc.getCode,
                                       style: TextStyle(
                                           fontSize: 12.0,
                                           color: bloc.countdownTimeShow
@@ -296,7 +296,7 @@ class _State extends BlocState<LoginPage, LoginBloc>
             ],
           )
         : Text(
-            '登录/注册',
+      bloc.login,
             style: TextStyle(fontSize: 16.0, color: Colors.white),
           );
   }
