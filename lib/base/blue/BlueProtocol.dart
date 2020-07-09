@@ -73,7 +73,11 @@ class BlueProtocol {
       if (d == 0x00) {
         break;
       }else{
-        info = info == null ? '${d.toRadixString(16)}':'${info}${d.toRadixString(16)}';
+        String num = d.toRadixString(16);
+        if (num.length == 1) {
+          num = '0${num}';
+        }
+        info = info == null ? '${num}':'${info}${num}';
       }
     }
     return info;

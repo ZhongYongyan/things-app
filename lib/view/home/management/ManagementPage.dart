@@ -67,8 +67,8 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                 top: 0,
                 height: 36,
                 child: Container(
-                    margin: const EdgeInsets.only(left: 0.0),
-                    child: DecoratedBox(
+                    alignment: Alignment.center,
+                    /*child: DecoratedBox(
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Color(0xFFF3F3F3),
@@ -92,7 +92,15 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                           focusedBorder: InputBorder.none,
                         ),
                       ),
-                    )),
+                    )*/
+                    child: Text("产品列表",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        )
+                    ),
+                ),
               ),
               Positioned(
                   left: 0.0,
