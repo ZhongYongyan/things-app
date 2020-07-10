@@ -14,6 +14,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Page.dart';
 import 'package:app/base/util/Result.dart';
+import 'package:app/base/util/Utils.dart';
 import 'package:app/store/module/Auth.dart';
 import 'package:app/store/module/GetuiHelper.dart';
 import 'package:app/store/module/lang/Langs.dart';
@@ -199,7 +200,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
       DeviceVoModel.devices[index - 2].loadShow = false;
       return;
     }
-    if (softwareUrl == null) {
+    if (isEmpty(softwareUrl)) {
       Fluttertoast.showToast(
           msg: state.lang.localized(Langs.noPlugInTips),
           toastLength: Toast.LENGTH_SHORT,
