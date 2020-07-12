@@ -82,10 +82,11 @@ class _State extends BlocState<PluginPage, PluginBloc> {
                       bloc.handleNavigate(message.message);
                     }),
               ].toSet(),
-//        url: 'https://www.baidu.com/',
               url: bloc.pluginPath,
+              //url: "http://192.168.0.103:8080/",
               withZoom: true,
               withLocalStorage: true,
+              clearCache: true,
               hidden: true,
               ignoreSSLErrors: true,
               withJavascript: true,
