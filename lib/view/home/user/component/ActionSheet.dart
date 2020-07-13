@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 
 class BottomActionSheet {
   static show(BuildContext context, List<String> data,
-      {String title: '', Function callBack(int)}) {
+      {String title: '',cancel:'', Function callBack(int)}) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -101,7 +101,7 @@ class BottomActionSheet {
                         color: Colors.white,
                         borderRadius: new BorderRadius.all(Radius.circular(14)),
                       ),
-                      child: Text('取消',
+                      child: Text(cancel,
                           textAlign: TextAlign.center,
                           style: new TextStyle(
                             color: Color(0xFF007AFF),

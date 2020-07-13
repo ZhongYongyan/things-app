@@ -6,6 +6,7 @@ import 'package:app/component/PickerPopup.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/home/user/component/ActionSheet.dart';
 import 'package:app/view/home/user/component/lib/flutter_datetime_picker.dart';
+import 'package:app/view/home/user/component/lib/src/i18n_model.dart';
 import 'package:app/view/home/user/details/DatailsBloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
               child: Container(
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(right: 0),
-                child: new Text("返回",
+                child: new Text(bloc.back,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Color(0xFF0079FE), fontSize: 14)),
               ),
@@ -71,7 +72,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                 child: Container(
                   alignment: Alignment.center,
                   margin: const EdgeInsets.only(right: 0),
-                  child: new Text("保存",
+                  child: new Text(bloc.preservation,
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Color(0xFF0079FE), fontSize: 14)),
                 ),
@@ -243,7 +244,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                         autocorrect: false,
                                                         decoration:
                                                             InputDecoration(
-                                                          hintText: '点击填写',
+                                                          hintText: bloc.clickToFillIn,
                                                           border:
                                                               InputBorder.none,
                                                           disabledBorder:
@@ -313,7 +314,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                 if (index == 0)
                                   {
                                     BottomActionSheet.show(
-                                        context, ['拍照', '相册'], title: '',
+                                        context, [bloc.camera, bloc.album], title: '',cancel: bloc.cancel,
                                         callBack: (i) {
                                       if (i == 0) {
                                         bloc.takePhoto();
@@ -326,13 +327,13 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                   },
                                 if (index == 2)
                                   {
-                                    BottomActionSheet.show(context, ['男', '女'],
-                                        title: '', callBack: (i) {
+                                    BottomActionSheet.show(context, [bloc.male, bloc.female],
+                                        title: '',cancel: bloc.cancel, callBack: (i) {
                                       if (i == 0) {
-                                        bloc.userClick('男');
+                                        bloc.userClick(bloc.male);
                                       }
                                       if (i == 1) {
-                                        bloc.userClick('女');
+                                        bloc.userClick(bloc.female);
                                       }
                                       return;
                                     }),
@@ -343,6 +344,8 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
 
                                 JhPickerTool.showStringPicker(context,
                                   data: bloc.heightPickerData,
+                                cancel:bloc.cancel,
+                                    confirm:bloc.determine,
                                   clickCallBack: (int index,var str){
                                     bloc.userClickHeight(str);
                                   }),
@@ -353,6 +356,8 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
 
                                 JhPickerTool.showStringPicker(context,
                                       data: bloc.weightPickerData,
+                                cancel:bloc.cancel,
+                                confirm:bloc.determine,
                                       clickCallBack: (int index,var str){
                                         bloc.weightClickHeight(str);
                                       }
@@ -362,6 +367,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                   {
                                     DatePicker.showDatePicker(context,
                                         showTitleActions: true,
+                                locale:bloc.cancel == "取消" ? LocaleType.zh : LocaleType.en,
                                         onChanged: (date) {},
                                         onConfirm: (date) {
                                       bloc.dataClick('$date');
@@ -389,7 +395,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                             child: Container(
                               alignment: Alignment.center,
                               child: loginText(),
-                              color: (bloc.title == "用户详情" &&
+                              color: (bloc.title == bloc.userDetails &&
                                       !bloc.addAffiliateShow)
                                   ? Color(0xFFFA5251)
                                   : Color(0xFF0079FE),
@@ -397,31 +403,29 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                           ),
                         ),
                         onTap: () => {
-                              if (bloc.title == "用户详情")
+                              if (bloc.title == bloc.userDetails)
                                 {
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return CupertinoAlertDialog(
-                                          title: Text("确认删除",
+                                          title: Text(bloc.confirmDeletion,
                                               style: TextStyle(fontSize: 16)),
                                           content: Container(
                                             margin:
                                                 const EdgeInsets.only(top: 5),
-                                            child: Text("确定要删除吗？"),
+                                            child: Text(bloc.confirmDeletionTips),
                                           ),
                                           actions: <Widget>[
                                             CupertinoDialogAction(
-                                              child: Text("取消"),
+                                              child: Text(bloc.cancel),
                                               onPressed: () {
                                                 Navigator.pop(context);
-                                                print("取消");
                                               },
                                             ),
                                             CupertinoDialogAction(
-                                              child: Text("确定"),
+                                              child: Text(bloc.determine),
                                               onPressed: () {
-                                                print("确定");
                                                 bloc.delAffiliate();
                                                 Navigator.pop(context);
                                               },
@@ -459,15 +463,15 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                 ),
               ),
               Text(
-                (bloc.title == "用户详情" && !bloc.addAffiliateShow)
-                    ? "删除中"
-                    : "保存中",
+                (bloc.title == bloc.userDetails && !bloc.addAffiliateShow)
+                    ? bloc.deletes
+                    : bloc.preservation,
                 style: TextStyle(fontSize: 16.0, color: Colors.white),
               ),
             ],
           )
         : Text(
-            (bloc.title == "用户详情" && !bloc.addAffiliateShow) ? "删除" : "保存",
+            (bloc.title == bloc.userDetails && !bloc.addAffiliateShow) ? bloc.delete : bloc.preservation,
             style: TextStyle(fontSize: 16.0, color: Colors.white),
           );
   }

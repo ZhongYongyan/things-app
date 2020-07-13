@@ -33,7 +33,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
         elevation: 0,
         brightness: Brightness.light,
         centerTitle: true,
-        title: Text("消息",
+        title: Text(bloc.message,
             style: TextStyle(
               color: Colors.black,
               fontSize: 16,
@@ -124,7 +124,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                                     height: 64,
                                   ),
                                 ),
-                                Text("没有相关消息",
+                                Text(bloc.messageTips,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(

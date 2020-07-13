@@ -5,12 +5,14 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/base/util/Utils.dart';
+import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:app/base/util/Utils.dart';
 class DetailsBloc extends BlocBase with LoggingMixin {
   DetailsBloc(BuildContext context, Store store) : super(context, store);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  String get infoDetails => state.lang.localized(Langs.infoDetails);
   static const String head =
       '''<!DOCTYPE html><html> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/2.1.2/weui.min.css"><link rel="stylesheet" href="https://at.alicdn.com/t/font_1538853_7adh1rzr8ao.css"> <head><title>Navigation Delegate Example</title></head> <body><div class="con"><div class="tit">
   <div class="tit_l"></div><span>''';

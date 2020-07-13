@@ -22,40 +22,6 @@ class _State extends BlocState<PagePage, PageBloc> {
     MsgPage(),
     MyPage()
   ];
-  final List<BottomNavigationBarItem> _list = <BottomNavigationBarItem>[
-    BottomNavigationBarItem(
-      icon: Icon(Icons.home),
-      title: Text('首页',
-          style: TextStyle(
-            fontSize: 12,
-          )),
-      //backgroundColor: Colors.orange
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.book),
-      title: Text('资讯',
-          style: TextStyle(
-            fontSize: 12,
-          )),
-      //backgroundColor: Colors.orange
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.fiber_new),
-      title: Text('消息',
-          style: TextStyle(
-            fontSize: 12,
-          )),
-      //backgroundColor: Colors.orange
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.person),
-      title: Text('我的',
-          style: TextStyle(
-            fontSize: 12,
-          )),
-      //backgroundColor: Colors.orange
-    ),
-  ];
 
   @override
   PageBloc createBloc(Store<StoreState> store) {
@@ -74,7 +40,7 @@ class _State extends BlocState<PagePage, PageBloc> {
         type: BottomNavigationBarType.fixed,
         onTap: onTabTapped,
         currentIndex: currentIndex,
-        items: _list,
+        items: bloc.list,
         fixedColor: Color(0xFF3578F7),
         unselectedItemColor: Color(0xFFCCCCCC),
       ),

@@ -4,6 +4,7 @@ import 'package:app/base/util/StorageUtils.dart';
 import 'package:app/generated/i18n.dart';
 
 import '../../Store.dart';
+LangActions langActions = LangActions();
 
 class Localized {
   String _cn;
@@ -20,7 +21,7 @@ class Localized {
     } else if(lang == "en"){
       return _en;
     } else {
-      return "[null]";
+      return _cn;
     }
   }
 }
@@ -43,7 +44,7 @@ class LangState extends Persistable with StorageMixin, LoggingMixin {
   }
 }
 
-class AuthActions with LoggingMixin {
+class LangActions with LoggingMixin {
   ActionHandler<StoreState> setup(String lang) {
     return (state) {
       state.lang.lang = lang;

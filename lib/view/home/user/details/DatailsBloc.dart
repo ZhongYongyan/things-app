@@ -4,6 +4,7 @@ import 'package:app/base/entity/Affiliate.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Result.dart';
+import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,25 +16,51 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var affiliateModel = Affiliate.fromJson({});
-  var list = [
-    "基本信息",
-    "睡眠情况",
-    "血压",
-    "心率",
-    "情绪",
-    "血流",
-    "呼吸",
-  ];
+  String get userDetails => state.lang.localized(Langs.userDetails);
+  String get userAdd => state.lang.localized(Langs.userAdd);
+  String get portrait => state.lang.localized(Langs.portrait);
+  String get userGender => state.lang.localized(Langs.userGender);
+  String get userHeight => state.lang.localized(Langs.userHeight);
+  String get userWeight => state.lang.localized(Langs.userWeight);
+  String get userDetailsName => state.lang.localized(Langs.userDetailsName);
+  String get userDetailsBirthday => state.lang.localized(Langs.userDetailsBirthday);
+  String get male => state.lang.localized(Langs.male);
+  String get female => state.lang.localized(Langs.female);
+  String get clickSelect => state.lang.localized(Langs.clickSelect);
+  String get tipsSuccess => state.lang.localized(Langs.tipsSuccess);
+  String get tipsFail => state.lang.localized(Langs.tipsFail);
+  String get deleteSuccess => state.lang.localized(Langs.deleteSuccess);
+  String get deleteFail => state.lang.localized(Langs.deleteFail);
+  String get back => state.lang.localized(Langs.back);
+  String get preservation => state.lang.localized(Langs.preservation);
+  String get preservations => state.lang.localized(Langs.preservations);
+  String get delete => state.lang.localized(Langs.delete);
+  String get deletes => state.lang.localized(Langs.deletes);
+  String get cancel => state.lang.localized(Langs.cancel);
+  String get determine => state.lang.localized(Langs.determine);
+  String get camera => state.lang.localized(Langs.camera);
+  String get album => state.lang.localized(Langs.album);
+  String get confirmDeletion => state.lang.localized(Langs.confirmDeletion);
+  String get confirmDeletionTips => state.lang.localized(Langs.album);
+  String get clickToFillIn => state.lang.localized(Langs.clickToFillIn);
+
+  String get emptyNameEnd => state.lang.localized(Langs.emptyNameEnd);
+  String get emptyName => state.lang.localized(Langs.emptyName);
+  String get emptyGender => state.lang.localized(Langs.emptyGender);
+  String get emptyHeight => state.lang.localized(Langs.emptyHeight);
+  String get emptyWeight => state.lang.localized(Langs.emptyWeight);
+  String get emptyBirthday => state.lang.localized(Langs.emptyBirthday);
+
+  String  title = "";
   bool show = false;
-  String title = "用户详情";
   TextEditingController usernameController = TextEditingController(text: '');
   TextEditingController heightController = TextEditingController(text: '');
   TextEditingController weightController = TextEditingController(text: '');
   String loading = "##loading##";
   static const loadingTag = "##loading##"; //表尾标记
   var words = <String>[loadingTag];
-  List textList = ["修改头像", "姓名或昵称", "性别", "身高(cm)", "体重(kg)", "出生日期"];
-  List userList = ["修改头像", "", "点击选择", "点击选择", "点击选择", "点击选择"];
+  List textList = [];
+  List userList = [];
   String text = "最新";
   String imgPath = "";
   String userImgPath = "";
@@ -111,7 +138,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
 
   void userClick(String i) {
     setModel(() {
-      affiliateModel.sex = i == '女' ? 'F' : 'M';
+      affiliateModel.sex = i == female ? 'F' : 'M';
     });
   }
 
@@ -160,25 +187,28 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   }
 
   void setUI() {
+    textList = [portrait, userDetailsName, userGender, userHeight + "(cm)", userWeight + "(kg)", userDetailsBirthday];
+    userList = [portrait, "", clickSelect, clickSelect, clickSelect, clickSelect];
+    title = userDetails;
     if (affiliateModel.id == 0) {
-      title = '添加用户';
+      title = userAdd;
     }
     if (!editShow) {
       usernameController = TextEditingController(text: affiliateModel.nickname);
       editShow = true;
     }
     userList = [
-      "修改头像",
+      portrait,
       "",
-      affiliateModel.sex == "" ? "点击选择" : affiliateModel.sex == "F" ? '女' : '男',
+      affiliateModel.sex == "" ? clickSelect : affiliateModel.sex == "F" ? female : male,
       affiliateModel.height.toString() == '0'
-          ? "点击选择"
+          ? clickSelect
           : affiliateModel.height.toString(),
       affiliateModel.weight.toStringAsFixed(0) == '0'
-          ? "点击选择"
+          ? clickSelect
           : affiliateModel.weight.toStringAsFixed(0),
       affiliateModel.birthday == ""
-          ? "点击选择"
+          ? clickSelect
           : affiliateModel.birthday.substring(0, 10)
     ];
     userImgPath = affiliateModel.avatar;
@@ -192,26 +222,26 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     addAffiliateShow = true;
     if (usernameController.text == "" || usernameController.text.length > 8) {
       if (usernameController.text.length > 8) {
-        toast('昵称限制8位');
+        toast(emptyNameEnd);
         return;
       }
-      toast('昵称为空');
+      toast(emptyName);
       return;
     }
-    if (userList[2] == "点击选择") {
-      toast('性别为空');
+    if (userList[2] == clickSelect) {
+      toast(emptyGender);
       return;
     }
-    if (userList[3] == "点击选择") {
-      toast('身高为空');
+    if (userList[3] == clickSelect) {
+      toast(emptyHeight);
       return;
     }
-    if (userList[4] == "点击选择") {
-      toast('体重为空');
+    if (userList[4] == clickSelect) {
+      toast(emptyWeight);
       return;
     }
-    if (userList[5] == "点击选择") {
-      toast('出生日期为空');
+    if (userList[5] == clickSelect) {
+      toast(emptyBirthday);
       return;
     }
     setModel(() {
@@ -235,7 +265,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
         saveAffiliate();
       } else {
         Fluttertoast.showToast(
-            msg: "保存失败",
+            msg: tipsFail,
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIos: 1,
@@ -254,7 +284,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     });
     if (code) {
       Fluttertoast.showToast(
-          msg: "保存成功",
+          msg: tipsSuccess,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,
@@ -264,13 +294,13 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     } else {
       String message = response.message;
       Fluttertoast.showToast(
-          msg: "保存失败",
+          msg: tipsFail,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,
           textColor: Colors.white,
           fontSize: 16.0);
-      if (title == "用户详情") {
+      if (title == userDetails) {
         setModel(() {
           addAffiliateShow = false;
         });
@@ -292,7 +322,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     });
     if (code) {
       Fluttertoast.showToast(
-          msg: "删除成功",
+          msg: deleteSuccess,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,
@@ -306,7 +336,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       navigate.pop();
     } else {
       Fluttertoast.showToast(
-          msg: "删除失败",
+          msg: deleteFail,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,

@@ -61,7 +61,7 @@ class _State extends BlocState<DetailsPage, DetailsBloc> {
               bloc.toBack();
             },
           ),
-          title: Text("资讯详情",
+          title: Text(bloc.infoDetails,
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 16,
