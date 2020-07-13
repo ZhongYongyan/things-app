@@ -35,7 +35,7 @@ class _State extends BlocState<PluginPage, PluginBloc> {
           ? bloc.loadPlugin(url, deviceSn, blueName)
           : bloc.setModel(() {
         if(deviceSn == null) {
-          bloc.pluginPath = url;
+          bloc.pluginPath = url + '?accessToken=' + bloc.state.auth.accessToken;
         }else {
           bloc.pluginPath = url + '?accessToken=' + bloc.state.auth.accessToken + '&deviceSn=' + deviceSn + '&blueName=' + blueName;
         }
@@ -83,7 +83,8 @@ class _State extends BlocState<PluginPage, PluginBloc> {
                     }),
               ].toSet(),
               url: bloc.pluginPath,
-              //url: "http://192.168.0.103:8080/",
+              //url: "http://192.168.0.103:8080/#connectBlue",
+              //url: "http://www.baidu.com",
               withZoom: true,
               withLocalStorage: true,
               clearCache: true,
