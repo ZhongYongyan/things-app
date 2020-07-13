@@ -34,6 +34,7 @@ class _State extends BlocState<PluginPage, PluginBloc> {
       url.toString().endsWith('.zip')
           ? bloc.loadPlugin(url, deviceSn, blueName)
           : bloc.setModel(() {
+        // url = 'http://192.168.0.152:8080/#connectBlue';
         if(deviceSn == null) {
           bloc.pluginPath = url + '?accessToken=' + bloc.state.auth.accessToken;
         }else {
