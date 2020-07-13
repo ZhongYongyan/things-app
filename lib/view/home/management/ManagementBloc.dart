@@ -6,6 +6,7 @@ import 'package:app/base/plugin/PluginManager.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Result.dart';
+import 'package:app/base/util/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
@@ -69,7 +70,7 @@ class ManagementBloc extends BlocBase with LoggingMixin {
     });
     state.management.loadShow = false;*/
     //错误处理
-    if (item.softwareUrl == "") {
+    if (isEmpty(item.softwareUrl)) {
       Fluttertoast.showToast(
           msg: "没有找到插件，请与系统管理员联系",
           toastLength: Toast.LENGTH_SHORT,
@@ -116,6 +117,17 @@ class ManagementBloc extends BlocBase with LoggingMixin {
       item.isDownloading = true;
       downloads++;
     });
+    if(isEmpty(item.softwareUrl)){
+      Fluttertoast.showToast(
+          msg: "没有找到插件，请与系统管理员联系",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 2,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    }
+
     Fluttertoast.showToast(
         msg: '${item.modelName}插件下载中...',
         toastLength: Toast.LENGTH_SHORT,

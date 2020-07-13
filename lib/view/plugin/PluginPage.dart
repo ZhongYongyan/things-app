@@ -34,8 +34,9 @@ class _State extends BlocState<PluginPage, PluginBloc> {
       url.toString().endsWith('.zip')
           ? bloc.loadPlugin(url, deviceSn, blueName)
           : bloc.setModel(() {
+        // url = 'http://192.168.0.152:8080/#connectBlue';
         if(deviceSn == null) {
-          bloc.pluginPath = url;
+          bloc.pluginPath = url + '?accessToken=' + bloc.state.auth.accessToken;
         }else {
           bloc.pluginPath = url + '?accessToken=' + bloc.state.auth.accessToken + '&deviceSn=' + deviceSn + '&blueName=' + blueName;
         }
@@ -82,10 +83,12 @@ class _State extends BlocState<PluginPage, PluginBloc> {
                       bloc.handleNavigate(message.message);
                     }),
               ].toSet(),
-//        url: 'https://www.baidu.com/',
               url: bloc.pluginPath,
+              //url: "http://192.168.0.103:8080/#connectBlue",
+              //url: "http://www.baidu.com",
               withZoom: true,
               withLocalStorage: true,
+              clearCache: true,
               hidden: true,
               ignoreSSLErrors: true,
               withJavascript: true,
