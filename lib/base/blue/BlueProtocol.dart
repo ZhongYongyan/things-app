@@ -68,7 +68,7 @@ class BlueProtocol {
   }
 
   String getDeviceInfo(List<int> data) {
-    String info;
+    String info = '';
     for(int d in data) {
       if (d == 0x00) {
         break;
@@ -77,7 +77,7 @@ class BlueProtocol {
         if (num.length == 1) {
           num = '0${num}';
         }
-        info = info == null ? '${num}':'${info}${num}';
+        info = info == '' ? '${num}':'${info}${num}';
       }
     }
     return info;
