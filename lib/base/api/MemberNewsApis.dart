@@ -56,4 +56,22 @@ class MemberNewsApis {
       return Result(name: err.type.toString(), message: err.message);
     }
   }
+
+  static Future<int> getByCreateNewsNumber() async {
+    try {
+      Response response = await apiRequest.get('/member-news/news/number');
+      return response.data["data"];
+    } on DioError catch (err) {
+      return 0;
+    }
+  }
+
+  static Future<String> updateMemberNewStatus(int id) async {
+    try {
+      Response response = await apiRequest.post('/member-news/news/status/$id');
+      return response.data["data"];
+    } on DioError catch (err) {
+      return "";
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:app/base/util/Utils.dart';
 import 'package:logging/logging.dart';
 
 import 'Message.dart';
@@ -47,11 +48,19 @@ class BlueProtocol {
         _dataList = null;
         switch (data[2]) {
           case 0x52:
-            Message message = _msgList[0].success(getDeviceInfo(res).toUpperCase());
+            String info = getDeviceInfo(res);
+            if (!isEmpty(info)) {
+              info = info.toUpperCase();
+            }
+            Message message = _msgList[0].success(info);
             _msgList.removeAt(0);
             return message;
           case 0x53:
-            Message message = _msgList[0].success(getDeviceInfo(res).toUpperCase());
+            String info = getDeviceInfo(res);
+            if (!isEmpty(info)) {
+              info = info.toUpperCase();
+            }
+            Message message = _msgList[0].success(info);
             _msgList.removeAt(0);
             return message;
           case 0x54:
