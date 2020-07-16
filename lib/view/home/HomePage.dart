@@ -34,7 +34,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
   _pageBody() {
     double h = bloc.h;
     return Scaffold(
-      backgroundColor: Color(0xFFeaedf1),
+      backgroundColor: Color(0xfAcdc3b9),
       body: ScrollConfiguration(
         behavior: MyBehavior(),
         // 显示进度条
@@ -50,23 +50,23 @@ class _State extends BlocState<HomePage, HomeBloc> {
                   right: 10.0,
                   bottom: 0,
                   child: Container(
-                    color: Color(0xFFeaedf1),
+                    color: Color(0xFacdc3b9),
                   ),
                 ),
-                Positioned(
+//                Positioned(
 //                left: 10.0,
 //                height: 323,
 //                right: 10.0,
 //                bottom: 0,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Container(
-                    child: Image(
-                      fit: BoxFit.fill,
-                      image: AssetImage("assets/u549.png"),
-                    ),
-                  ),
-                ),
+//                  width: MediaQuery.of(context).size.width,
+//                  height: MediaQuery.of(context).size.height,
+//                  child: Container(
+//                    child: Image(
+//                      fit: BoxFit.fill,
+//                      image: AssetImage("assets/u549.png"),
+//                    ),
+//                  ),
+//                ),
                 Positioned(
                   left: 0.0,
                   top: 0,
@@ -82,13 +82,11 @@ class _State extends BlocState<HomePage, HomeBloc> {
                       new Container(
                           child: new Container(
                               child: index == 0
-                                  ? Container(
-                              )
-                              /*Image(
+                                  ? Image(
                                         image:
-                                            AssetImage("assets/u548.png"),
+                                            AssetImage("assets/home_ban.png"),
                                         fit: BoxFit.cover,
-                                      )*/
+                                      )
                                   : index == 1
                                   ? getUserItem(index)
                                   : getCardItem(index))),
@@ -128,7 +126,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
   //用户信息及设置
   Widget getUserItem(int index) {
     return Container(
-      margin: const EdgeInsets.only(left: 15, right: 15, top: 30),
+      margin: const EdgeInsets.only(left: 15, right: 15),
       //color: Color(0xFF3578F7),
       child: Flex(
         direction: Axis.horizontal,
