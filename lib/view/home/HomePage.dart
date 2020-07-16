@@ -32,90 +32,93 @@ class _State extends BlocState<HomePage, HomeBloc> {
   }
 
   _pageBody() {
+    double h = bloc.h;
     return Scaffold(
-      backgroundColor: Color(0xFFF8F8F8),
-      body: Container(
+      backgroundColor: Color(0xfAcdc3b9),
+      body: ScrollConfiguration(
+        behavior: MyBehavior(),
         // 显示进度条
-        child: ConstrainedBox(
-          constraints: BoxConstraints.expand(),
-          child: Stack(
-            alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
-            children: <Widget>[
-              Positioned(
-                left: 10.0,
-                top: 0,
-                right: 10.0,
-                bottom: 0,
-                child: Container(
-                  color: Color(0xFFF6F5F3),
-                ),
-              ),
-              Positioned(
-                /*left: 10.0,
-                height: 323,
-                right: 10.0,
-                bottom: 0,*/
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Container(
-                  child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage("assets/u549.png"),
+        child: Container(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.expand(),
+            child: Stack(
+              alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
+              children: <Widget>[
+                Positioned(
+                  left: 10.0,
+                  top: 0,
+                  right: 10.0,
+                  bottom: 0,
+                  child: Container(
+                    color: Color(0xFacdc3b9),
                   ),
                 ),
-              ),
-              Positioned(
-                left: 0.0,
-                top: 0,
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  margin: const EdgeInsets.only(left: 0.0, right: 0.0),
-                  child: new StaggeredGridView.countBuilder(
-                    padding: const EdgeInsets.only(top: 0),
-                    crossAxisCount: 4,
-                    itemCount: 2 + bloc.DeviceVoModel.devices.length,
-                    itemBuilder: (BuildContext context, int index) =>
-                        new Container(
-                            child: new Container(
-                                child: index == 0
-                                    ? Container()
-                                    /*Image(
+//                Positioned(
+//                left: 10.0,
+//                height: 323,
+//                right: 10.0,
+//                bottom: 0,
+//                  width: MediaQuery.of(context).size.width,
+//                  height: MediaQuery.of(context).size.height,
+//                  child: Container(
+//                    child: Image(
+//                      fit: BoxFit.fill,
+//                      image: AssetImage("assets/u549.png"),
+//                    ),
+//                  ),
+//                ),
+                Positioned(
+                  left: 0.0,
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 0.0, right: 0.0),
+                    child: new StaggeredGridView.countBuilder(
+                      padding: const EdgeInsets.only(top: 0),
+                      crossAxisCount: 4,
+                      itemCount: 2 + bloc.DeviceVoModel.devices.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                      new Container(
+                          child: new Container(
+                              child: index == 0
+                                  ? Image(
                                         image:
                                             AssetImage("assets/home_ban.png"),
                                         fit: BoxFit.cover,
-                                      )*/
-                                    : index == 1
-                                        ? getUserItem(index)
-                                        : getCardItem(index))),
-                    staggeredTileBuilder: (int index) => index == 0
-                        ? new StaggeredTile.fit(4)
-                        : index == 1
-                            ? new StaggeredTile.fit(4)
-                            : new StaggeredTile.count(2, 1.1),
-                    mainAxisSpacing: 15.0,
-                    crossAxisSpacing: 15.0,
+                                      )
+                                  : index == 1
+                                  ? getUserItem(index)
+                                  : getCardItem(index))),
+                      staggeredTileBuilder: (int index) => index == 0
+                          ? new StaggeredTile.fit(4)
+                          : index == 1
+                          ? new StaggeredTile.fit(4)
+                          : new StaggeredTile.count(2, 1.1),
+                      mainAxisSpacing: 15.0,
+                      crossAxisSpacing: 15.0,
+                    ),
                   ),
                 ),
-              ),
-              bloc.loadShow
-                  ? Positioned(
-                      left: 0,
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(0),
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                            width: 24.0,
-                            height: 24.0,
-                            child: CircularProgressIndicator(strokeWidth: 2.0)),
-                      ))
-                  : Container()
-            ],
+                bloc.loadShow
+                    ? Positioned(
+                    left: 0,
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(0),
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                          width: 24.0,
+                          height: 24.0,
+                          child: CircularProgressIndicator(strokeWidth: 2.0)),
+                    ))
+                    : Container()
+              ],
+            ),
           ),
-        ),
+        )
       ),
     );
   }
@@ -123,7 +126,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
   //用户信息及设置
   Widget getUserItem(int index) {
     return Container(
-      margin: const EdgeInsets.only(left: 15, right: 15, top: 220),
+      margin: const EdgeInsets.only(left: 15, right: 15),
       //color: Color(0xFF3578F7),
       child: Flex(
         direction: Axis.horizontal,
