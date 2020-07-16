@@ -39,6 +39,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
         indexshow = state.msg.indexshow;
       });
     }
+//    getByCreateNewsNumber();
     Getuiflut().addEventHandler(
       onNotificationMessageArrived: (Map<String, dynamic> msg) async {
         String taskId = msg["taskId"];
@@ -79,7 +80,12 @@ class MsgBloc extends BlocBase with LoggingMixin {
   }
 
   void onToDetails(int i) {
-    navigate.pushNamed('/msgDetails', arguments: {"model": words[i]});
+    MemberNews memberNews = words[i];
+    String status = memberNews.newsStatus;
+    if ("CREATE" == status) {
+      updateMemberStatus(memberNews.id);
+    }
+    navigate.pushNamed('/msgDetails', arguments: {"model": memberNews});
   }
 
   void retrieveData() async {
@@ -170,5 +176,10 @@ class MsgBloc extends BlocBase with LoggingMixin {
     } else {
       print("消息详情请求失败了");
     }
+  }
+
+  //更改会员信息状态
+  void updateMemberStatus(int id) async {
+    await MemberNewsApis.updateMemberNewStatus(id);
   }
 }

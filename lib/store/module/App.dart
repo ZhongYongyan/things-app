@@ -18,6 +18,7 @@ class AppState with StorageMixin, LoggingMixin {
   String clientId = '';
   String errorMessage = '';
   int companyId = 1351728559554592;
+  int createNumber = 0;
 
   AppState() {
     this.clientId = storage.get('app.clientId');
