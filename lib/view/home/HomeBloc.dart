@@ -323,13 +323,6 @@ class HomeBloc extends BlocBase with LoggingMixin {
         ids.add(id.toString());
         Getuiflut().setTag(ids);
         getuiHelper.id = id.toString();
-        Fluttertoast.showToast(
-            msg: "创建消息通知成功",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIos: 2,
-            textColor: Colors.white,
-            fontSize: 16.0);
         return;
       }
 //    }
