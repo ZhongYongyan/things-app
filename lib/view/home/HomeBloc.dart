@@ -51,8 +51,12 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
   String get url => state.auth.url != null ? state.auth.url : '';
   var DeviceVoModel = DeviceVo.fromJson({});
+  String gettuiId = '0';
 
   void startup() async {
+    if (getuiHelper.cid == null) {
+      getuiHelper.create();
+    }
     var vm = this;
     h = MediaQuery.of(context).size.height / 3;
     if (name == "访客") {
@@ -61,6 +65,9 @@ class HomeBloc extends BlocBase with LoggingMixin {
 
     getDeviceVo();
     getuiHelper.onReceiveClientId((cid){
+      setModel((){
+        gettuiId = cid;
+      });
       if (getuiHelper.id == null) {
         vm.getUserbindAlias(cid);
       }
@@ -316,6 +323,14 @@ class HomeBloc extends BlocBase with LoggingMixin {
         ids.add(id.toString());
         Getuiflut().setTag(ids);
         getuiHelper.id = id.toString();
+        Fluttertoast.showToast(
+            msg: "创建消息通知成功",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 2,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        return;
       }
 //    }
   }
