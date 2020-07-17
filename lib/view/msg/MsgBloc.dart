@@ -50,6 +50,9 @@ class MsgBloc extends BlocBase with LoggingMixin {
             MemberNews memberNews =  response.data;
             if (memberNews.actions == "OPEN_NEWS") {
               updateData();
+              setModel((){
+                state.app.createNumber++;
+              });
             }
           }
       },
@@ -84,6 +87,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
     String status = memberNews.newsStatus;
     if ("CREATE" == status) {
       updateMemberStatus(memberNews.id);
+      words[i].newsStatus = "READ";
     }
     navigate.pushNamed('/msgDetails', arguments: {"model": memberNews});
   }

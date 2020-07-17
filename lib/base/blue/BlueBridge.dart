@@ -112,6 +112,7 @@ class BlueBridge {
   }
 
   _startScan(Message msg) {
+    disconnect();
     Future.wait([_flutterBlue.isAvailable, _flutterBlue.isOn]).then((values) {
       var isAvailable = values[0];
       var isOn = values[1];
@@ -129,7 +130,7 @@ class BlueBridge {
           _scanResultsHandler =
               _flutterBlue.scanResults.listen((scanResults) {
             scanResults = scanResults.where((x) {
-              return x.device.name != null && x.device.name != '';
+              return x.device.name != null && x.device.name != '' && x.device.name.startsWith("A1");
             }).toList();
 
             String scanResultsString = scanResults.map((x) {

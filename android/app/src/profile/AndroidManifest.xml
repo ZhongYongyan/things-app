@@ -16,6 +16,7 @@
     <!-- 修改播放声音通道 -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <!-- Audio end -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED”/>
 
     <!-- Camera  begin -->
     <!-- 调用摄像头 -->

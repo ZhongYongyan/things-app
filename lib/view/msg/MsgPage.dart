@@ -160,19 +160,39 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                   child: Flex(
                     direction: Axis.horizontal,
                     children: <Widget>[
-                      ClipOval(
-                        child: Container(
-                          color: Color(0xFFE4E4E4),
-                          width: 42.0,
-                          height: 42.0,
-                          alignment: Alignment.center,
-                          child: Image(
-                            image: AssetImage("assets/image_0.png"),
-                            fit: BoxFit.cover,
-                            width: 20.0,
-                            height: 20.0,
+                      Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          ClipOval(
+                            child: Container(
+                              color: Color(0xFFE4E4E4),
+                              width: 42.0,
+                              height: 42.0,
+                              alignment: Alignment.center,
+                              child: Image(
+                                image: AssetImage("assets/image_0.png"),
+                                fit: BoxFit.cover,
+                                width: 20.0,
+                                height: 20.0,
+                              ),
+                            ),
                           ),
-                        ),
+                          bloc.words[index].newsStatus == "CREATE" ? Positioned(
+                            right: 3,
+                            top: 1,
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                //背景
+                                color: Colors.red,
+                                //设置四周圆角 角度
+                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                              ),
+                            ),
+                          ):
+                          Container(),
+                        ],
                       ),
                       Expanded(
                         flex: 1,
