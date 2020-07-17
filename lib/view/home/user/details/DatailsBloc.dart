@@ -188,25 +188,23 @@ class DatailsBloc extends BlocBase with LoggingMixin {
 
   void setUI() {
     textList = [portrait, userDetailsName, userGender, userHeight + "(cm)", userWeight + "(kg)", userDetailsBirthday];
-    userList = [portrait, "", clickSelect, clickSelect, clickSelect, clickSelect];
+    userList = [portrait, "", clickSelect, "", "", clickSelect];
     title = userDetails;
     if (affiliateModel.id == 0) {
       title = userAdd;
     }
     if (!editShow) {
       usernameController = TextEditingController(text: affiliateModel.nickname);
+      heightController = TextEditingController(text: affiliateModel.height.toString() == "0" ? "" : affiliateModel.height.toString());
+      weightController = TextEditingController(text: affiliateModel.weight.toString() == "0.0" ? "" : affiliateModel.weight.toString());
       editShow = true;
     }
     userList = [
       portrait,
       "",
       affiliateModel.sex == "" ? clickSelect : affiliateModel.sex == "F" ? female : male,
-      affiliateModel.height.toString() == '0'
-          ? clickSelect
-          : affiliateModel.height.toString(),
-      affiliateModel.weight.toStringAsFixed(0) == '0'
-          ? clickSelect
-          : affiliateModel.weight.toStringAsFixed(0),
+      "",
+      "",
       affiliateModel.birthday == ""
           ? clickSelect
           : affiliateModel.birthday.substring(0, 10)
@@ -232,11 +230,11 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       toast(emptyGender);
       return;
     }
-    if (userList[3] == clickSelect) {
+    if (heightController.text == "") {
       toast(emptyHeight);
       return;
     }
-    if (userList[4] == clickSelect) {
+    if (weightController.text == "") {
       toast(emptyWeight);
       return;
     }
@@ -251,7 +249,8 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     var data = affiliateModel.birthday.substring(0, 10);
     affiliateModel.birthday = data.replaceAll('-', '/') + ' 23:23:23';
     affiliateModel.nickname = usernameController.text;
-
+    affiliateModel.weight = double.parse(weightController.text);
+    affiliateModel.height = int.parse(heightController.text);
     //未选择头像
     if (imgPath == "") {
       saveAffiliate();

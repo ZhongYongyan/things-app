@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert' as convert;
+import 'dart:io';
 
 import 'package:app/base/api/AffiliateApis.dart';
 import 'package:app/base/api/DeviceVoApis.dart';
@@ -44,11 +45,16 @@ class HomeBloc extends BlocBase with LoggingMixin {
   String get downloadNewPlugIns => state.lang.localized(Langs.downloadNewPlugIns);
   String get plugInDownloading => state.lang.localized(Langs.plugInDownloading);
   String get name => state.auth.name != null ? state.auth.name : visitor;
+  double h;
+
+//  String get name => state.auth.name != null ? state.auth.name : '访客';
+
   String get url => state.auth.url != null ? state.auth.url : '';
   var DeviceVoModel = DeviceVo.fromJson({});
 
   void startup() async {
     var vm = this;
+    h = MediaQuery.of(context).size.height / 3;
     if (name == "访客") {
       //getUser();
     }
@@ -380,5 +386,16 @@ class HomeBloc extends BlocBase with LoggingMixin {
   Future<String> download(String url) async {
     PluginManager pluginManager = PluginManager();
     return pluginManager.download(url);
+  }
+}
+
+class MyBehavior extends ScrollBehavior{
+  @override
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
+    if(Platform.isAndroid||Platform.isFuchsia){
+      return child;
+    }else{
+      return super.buildViewportChrome(context,child,axisDirection);
+    }
   }
 }

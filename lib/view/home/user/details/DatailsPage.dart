@@ -156,9 +156,8 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                   right: 10,
                                                   top: 11)
                                               : index == 2 ||
-                                                      index == 5 ||
-                                                      index == 3 ||
-                                                      index == 4
+                                                      index == 5
+
                                                   ? const EdgeInsets.only(
                                                       left: 15.0,
                                                       right: 10,
@@ -225,17 +224,20 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                   ),
                                                 ),
                                               ),
-                                              index == 1
+                                              index == 1 ||
+                                                  index == 3 ||
+                                                  index == 4
                                                   ? Container(
                                                       //height: 20,
                                                       alignment:
                                                           Alignment.centerRight,
                                                       width: 140,
                                                       child: TextFormField(
+                                                        keyboardType:index == 1 ? TextInputType.text : TextInputType.numberWithOptions(decimal: true),
                                                         textAlign:
                                                             TextAlign.right,
-                                                        controller: bloc
-                                                            .usernameController,
+                                                        controller:index == 1 ?  bloc
+                                                            .usernameController : index == 3 ? bloc.heightController : bloc.weightController,
 //                                                focusNode: bloc.usernameFocus,
                                                         style: TextStyle(
                                                             fontSize: 14.0,
@@ -285,9 +287,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                       )),
                                               index == 0 ||
                                                       index == 2 ||
-                                                      index == 5 ||
-                                                      index == 3 ||
-                                                      index == 4
+                                                      index == 5
                                                   ? Container(
                                                       margin:
                                                           const EdgeInsets.only(
@@ -337,31 +337,6 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                       }
                                       return;
                                     }),
-                                  },
-
-                                if (index == 3)
-                                  {
-
-                                JhPickerTool.showStringPicker(context,
-                                  data: bloc.heightPickerData,
-                                cancel:bloc.cancel,
-                                    confirm:bloc.determine,
-                                  clickCallBack: (int index,var str){
-                                    bloc.userClickHeight(str);
-                                  }),
-                                  },
-                                if (index == 4)
-                                  {
-
-
-                                JhPickerTool.showStringPicker(context,
-                                      data: bloc.weightPickerData,
-                                cancel:bloc.cancel,
-                                confirm:bloc.determine,
-                                      clickCallBack: (int index,var str){
-                                        bloc.weightClickHeight(str);
-                                      }
-                                  ),
                                   },
                                 if (index == 5)
                                   {
