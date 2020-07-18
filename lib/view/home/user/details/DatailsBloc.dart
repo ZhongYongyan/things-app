@@ -50,7 +50,8 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   String get emptyHeight => state.lang.localized(Langs.emptyHeight);
   String get emptyWeight => state.lang.localized(Langs.emptyWeight);
   String get emptyBirthday => state.lang.localized(Langs.emptyBirthday);
-
+  String get heightFormatError => state.lang.localized(Langs.heightFormatError);
+  String get weightFormatError => state.lang.localized(Langs.weightFormatError);
   String  title = "";
   bool show = false;
   TextEditingController usernameController = TextEditingController(text: '');
@@ -230,12 +231,26 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       toast(emptyGender);
       return;
     }
+
+
     if (heightController.text == "") {
       toast(emptyHeight);
       return;
     }
+    try {
+      print(int.parse(heightController.text).toString());
+    } catch (e) {
+      toast(heightFormatError);
+      return;
+    }
     if (weightController.text == "") {
       toast(emptyWeight);
+      return;
+    }
+    try {
+      print(double.parse(weightController.text).toString());
+    } catch (e) {
+      toast(weightFormatError);
       return;
     }
     if (userList[5] == clickSelect) {

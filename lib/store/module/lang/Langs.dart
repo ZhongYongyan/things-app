@@ -66,7 +66,8 @@ class Langs {
   static Localized emptyWeight = Localized("体重为空","");
   static Localized emptyBirthday = Localized("出生日期为空","");
   static Localized emptyNameEnd = Localized("昵称限制8位","");
-
+  static Localized heightFormatError = Localized("身高格式错误","");
+  static Localized weightFormatError = Localized("体重格式错误","");
 
   //我的
   static Localized introduce = Localized("连接智能设备, 体验美好生活","");
