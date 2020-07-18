@@ -39,7 +39,7 @@ class ColorTextButton extends StatefulWidget {
 }
 
 class _State extends State<ColorTextButton>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<Color> _color;
 

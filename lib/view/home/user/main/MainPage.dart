@@ -189,7 +189,7 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   BuildContext topContext = null;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TabController _tabController;

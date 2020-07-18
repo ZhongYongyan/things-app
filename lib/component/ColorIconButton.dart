@@ -40,7 +40,7 @@ class ColorIconButton extends StatefulWidget {
 }
 
 class _State extends State<ColorIconButton>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<Color> _color;
 
