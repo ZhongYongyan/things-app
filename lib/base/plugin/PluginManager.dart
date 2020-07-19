@@ -12,7 +12,13 @@ class PluginManager {
   Dio _dio = new Dio();
 
   pluginDirectory() async {
-    Directory directory = await getApplicationSupportDirectory();
+    Directory directory;
+    if(Platform.isIOS){
+      directory = await getLibraryDirectory();
+    }else if(Platform.isAndroid){
+      directory = await getApplicationSupportDirectory();
+    }
+
     Directory pluginsDir = Directory(directory.path + '/plugins');
     return await pluginsDir.create(recursive: true);
   }

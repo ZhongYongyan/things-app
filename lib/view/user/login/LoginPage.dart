@@ -12,7 +12,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _State extends BlocState<LoginPage, LoginBloc>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   @override
   LoginBloc createBloc(Store<StoreState> store) {
     return LoginBloc(context, store, this);
