@@ -32,9 +32,9 @@ class _State extends BlocState<HomePage, HomeBloc> {
   }
 
   _pageBody() {
-    double h = bloc.h;
     return Scaffold(
-      backgroundColor: Color(0xfAcdc3b9),
+
+      backgroundColor: Color(0xFFf8f8f8),
       body: ScrollConfiguration(
         behavior: MyBehavior(),
         // 显示进度条
@@ -50,7 +50,8 @@ class _State extends BlocState<HomePage, HomeBloc> {
                   right: 10.0,
                   bottom: 0,
                   child: Container(
-                    color: Color(0xFacdc3b9),
+                    color: Color(0xFFf8f8f8),
+//                  color: Colors.white70,
                   ),
                 ),
 //                Positioned(
@@ -169,7 +170,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
 
                   ),
                   GestureDetector(
-                    child: Text(bloc.name == "访客" ? bloc.visitor : bloc.name/* bloc.gettuiId*/,
+                    child: Text(bloc.name == "访客" ? bloc.visitor : bloc.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,

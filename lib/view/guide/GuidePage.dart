@@ -42,7 +42,7 @@ class _State extends BlocState<GuidePage, GuideBloc> {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  Positioned(
+                  /*Positioned(
                     bottom: 125,
                     child: Text(bloc.textList[index],
                         style: TextStyle(
@@ -50,7 +50,7 @@ class _State extends BlocState<GuidePage, GuideBloc> {
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                         )),
-                  ),
+                  ),*/
                   index == 3
                       ? Positioned(
                           bottom: 50,
@@ -145,7 +145,6 @@ class _State extends BlocState<GuidePage, GuideBloc> {
   }
 
   ImageProvider _screenImage(index) {
-    int i = index % 2;
-    return AssetImage('assets/bg_images.png');
+    return AssetImage('assets/bg_images_$index.png');
   }
 }
