@@ -119,6 +119,9 @@ class BlueBridge {
 
       if (isAvailable && isOn) {
         var isScanningListen;
+        FlutterBlue.instance.scan().listen((scanResult) {
+
+        });
         isScanningListen = FlutterBlue.instance.isScanning.listen((isScanning) {
           isScanningListen.cancel();
 
