@@ -44,6 +44,9 @@ class HomeBloc extends BlocBase with LoggingMixin {
   String get update => state.lang.localized(Langs.update);
   String get downloadNewPlugIns => state.lang.localized(Langs.downloadNewPlugIns);
   String get plugInDownloading => state.lang.localized(Langs.plugInDownloading);
+  String get confirmDeletionTips => state.lang.localized(Langs.confirmDeletionTips);
+  String get delete => state.lang.localized(Langs.delete);
+  String get cancel => state.lang.localized(Langs.cancel);
   String get name => state.auth.name != null ? state.auth.name : visitor;
   double h;
 
@@ -394,6 +397,23 @@ class HomeBloc extends BlocBase with LoggingMixin {
   Future<String> download(String url) async {
     PluginManager pluginManager = PluginManager();
     return pluginManager.download(url);
+  }
+
+  void updateOnLongPressStatus(int index, bool b){
+    setModel(() {
+      DeviceVoModel.devices[index - 2].isDelete = b;
+    });
+  }
+
+  void toDeleteDevice(int index) async {
+    int id = DeviceVoModel.devices[index - 2].id;
+    setModel(() {
+      DeviceVoModel.devices.removeAt(index - 2);
+    });
+    String name = await DeviceVoApis.deleteDeviceVo(id);
+    if (name == "") {
+      print("删除成功");
+    }
   }
 }
 

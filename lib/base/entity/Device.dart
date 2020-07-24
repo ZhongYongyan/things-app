@@ -16,6 +16,7 @@ class Device {
   String statusMupdatedeg;
   bool loadShow = false;
   String blueName;
+  bool isDelete = false;
 
   Device.fromJson(Map<String, dynamic> json) {
     agentId = json['agentId'] ?? 0;
