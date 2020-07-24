@@ -272,7 +272,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                         margin: const EdgeInsets.only(right: 5),
                         child: Icon(Icons.timer, color: Color(0xFFA2A2A6)),
                       ),
-                      Text(beijingTime(bloc.words[index].updated),
+                      Text(beijingTime(bloc.words[index].created),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
