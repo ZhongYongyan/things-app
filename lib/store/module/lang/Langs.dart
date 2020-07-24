@@ -41,7 +41,6 @@ class Langs {
   static Localized plugInDownloading = Localized("插件下载中","");
   static Localized plugInDownloadingTips = Localized("插件下载中,请稍后","");
   static Localized noPlugInTips = Localized("没有找到插件，请与系统管理员联系","");
-
   //消息
   static Localized messageTips = Localized("没有相关消息","");
   static Localized messageDetails = Localized("消息详情","");
