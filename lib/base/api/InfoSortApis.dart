@@ -13,7 +13,7 @@ class InfoSortApis {
         'pageIndex': pageIndex,
         'pageSize': pageSize,
         'sortDirection': sortDirection,
-        'sortProperties': 'id'
+        'sortProperties': 'sort'
       });
       Result<Page<InfoSort>> entity = Result.fromJson(
           response.data,

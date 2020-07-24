@@ -146,7 +146,7 @@ class MyBloc extends BlocBase with LoggingMixin {
 
   void click(int i) async {
     if (i == 1) {
-      const url = 'https://www.jd.com';
+      const url = 'https://mall.jd.com/index-1000282321.html?';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -155,7 +155,7 @@ class MyBloc extends BlocBase with LoggingMixin {
       }
     }
     if (i == 2) {
-      const url = 'https://www.tmall.com';
+      const url = 'https://irest.m.tmall.com/';
 
       if (await canLaunch(url)) {
         await launch(url);
