@@ -70,6 +70,12 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 flutter {
@@ -81,4 +87,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+    // implementation(name: 'blenetwork-release-1.0.1.aar', ext: 'aar')
+    implementation 'no.nordicsemi.android.support.v18:scanner:1.1.0'
 }
