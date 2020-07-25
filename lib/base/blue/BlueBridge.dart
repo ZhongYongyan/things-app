@@ -229,7 +229,9 @@ class BlueBridge {
       stateListen = device.state.listen((value) {
         stateListen.cancel();
 
-        if (value == BluetoothDeviceState.disconnected) {
+        if (value == BluetoothDeviceState.connected) {
+          _postMessage(msg.success(true));
+        } else if (value == BluetoothDeviceState.disconnected) {
           device
               .connect(autoConnect: true, timeout: Duration(seconds: 30))
               .then((value) {
@@ -260,7 +262,9 @@ class BlueBridge {
       stateListen = device.state.listen((value) {
         stateListen.cancel();
 
-        if (value == BluetoothDeviceState.connected) {
+        if(value == BluetoothDeviceState.disconnected) {
+          _postMessage(msg.success(true));
+        } else if (value == BluetoothDeviceState.connected) {
           device.disconnect().then((value) {
             _postMessage(msg.success(true));
           }).catchError((error) {
