@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:app/base/blue/Failure.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:logging/logging.dart';
 
 class BlueService {
+  Logger _log = Logger('BlueService');
+
   BluetoothCharacteristic _writeCharacteristic;
   BluetoothCharacteristic _notifyCharacteristic;
   BluetoothDevice _device;
@@ -20,7 +23,9 @@ class BlueService {
   Future<void> startListen(void onData(List<int> event)) {
     Completer<void> completer = new Completer<void>();
     if (_writeCharacteristic == null && _notifyCharacteristic == null) {
+      _log.info('>>>>>>>>>>>>>>>>>>>>>>### _device.discoverServices');
       _device.discoverServices().then((services) {
+        _log.info('>>>>>>>>>>>>>>>>>>>>>>>>> _device.discoverServices');
         services.forEach((service) {
           print('service.uuid:${service.uuid}');
           if (service.uuid.toString() ==
