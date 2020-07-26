@@ -39,7 +39,7 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
       print("stopScan:receive--+$message");
     });
 
-    BleNetworkPlugin.currentNetworkSSID().then((ssid){
+    BleNetworkPlugin.currentNetworkSSID().then((ssid) {
       usernameController.text = ssid;
     });
 
@@ -84,19 +84,15 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
       return;
     }
 
-    setModel((){
+    setModel(() {
       setuping = true;
     });
     BleNetworkPlugin.setup(ssid, password, selectedItem).then((value) {
-      Future.delayed(Duration(seconds: 1), (){
-        UI.toast('网络配置成功');
-      });
+      UI.toast('网络配置成功');
     }).catchError((error) {
-      Future.delayed(Duration(seconds: 1), (){
-        UI.toast('网络配置失败');
-      });
-    }).whenComplete((){
-      setModel((){
+      UI.toast('网络配置失败');
+    }).whenComplete(() {
+      setModel(() {
         setuping = false;
       });
     });
