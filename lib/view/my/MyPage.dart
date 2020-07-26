@@ -48,7 +48,7 @@ class _State extends BlocState<MyPage, MyBloc> {
                         //如果到了表尾
                         if (bloc.words[index] == bloc.loading) {
                           //不足100条，继续获取数据
-                          if (bloc.words.length - 1 < 7) {
+                          if (bloc.words.length - 1 < 8) {
                             //获取数据
                             bloc.retrieveData();
                             //加载时显示loading
@@ -74,7 +74,7 @@ class _State extends BlocState<MyPage, MyBloc> {
                         return GestureDetector(
                           child: Container(
                             height: index == 0 ? 112 : 51,
-                            margin: index == 1 || index == 3 || index == 5
+                            margin: index == 1 || index == 3 || index == 5 || index == 7
                                 ? const EdgeInsets.only(top: 15)
                                 : const EdgeInsets.only(top: 0),
                             alignment: Alignment.centerLeft,
@@ -123,8 +123,12 @@ class _State extends BlocState<MyPage, MyBloc> {
                                                                 )),
                                                   onTap: () => {
                                                     BottomActionSheet.show(
-                                                        context, [bloc.camera, bloc.album],
-                                                        cancel:bloc.cancel,
+                                                        context,
+                                                        [
+                                                          bloc.camera,
+                                                          bloc.album
+                                                        ],
+                                                        cancel: bloc.cancel,
                                                         title: '',
                                                         callBack: (i) {
                                                       if (i == 0) {
@@ -166,8 +170,7 @@ class _State extends BlocState<MyPage, MyBloc> {
                                                                   index],
                                                               0),
                                                           getExpanded(
-                                                              bloc.introduce,
-                                                              1)
+                                                              bloc.introduce, 1)
                                                         ],
                                                       ),
                                                     )
@@ -239,7 +242,8 @@ class _State extends BlocState<MyPage, MyBloc> {
                     ),
                     onTap: () => {
                       BottomActionSheet.show(context, [bloc.signOut],
-                          title: bloc.signOutTips,cancel:bloc.cancel, callBack: (i) {
+                          title: bloc.signOutTips,
+                          cancel: bloc.cancel, callBack: (i) {
                         if (i == 0) {
                           bloc.signout();
                         }

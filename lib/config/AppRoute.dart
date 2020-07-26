@@ -1,4 +1,5 @@
 import 'package:app/base/util/NavigateTransaction.dart';
+import 'package:app/view/config/WifiConfigPage.dart';
 import 'package:app/view/guide/GuidePage.dart';
 import 'package:app/view/home/HomePage.dart';
 import 'package:app/view/home/management/ManagementPage.dart';
@@ -41,6 +42,8 @@ Route appRoute(RouteSettings settings) {
       return _build(settings, ManagementPage(), TransactionType.fromRight);
     case '/plugin':
       return _build(settings, PluginPage(), TransactionType.fromRight);
+    case '/wifi-connfig':
+      return _build(settings, WifiConfigPage(), TransactionType.fromRight);
     default:
       return _build(settings, LaunchPage(), TransactionType.fadeIn);
   }

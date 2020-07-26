@@ -20,16 +20,21 @@ class MyBloc extends BlocBase with LoggingMixin {
   String loading = "##loading##";
   static const loadingTag = "##loading##"; //表尾标记
   var words = <String>[loadingTag];
+
   String get introduce => state.lang.localized(Langs.introduce);
+
   String get signOut => state.lang.localized(Langs.signOut);
+
   String get signOutTips => state.lang.localized(Langs.signOutTips);
+
   String get cancel => state.lang.localized(Langs.cancel);
+
   String get camera => state.lang.localized(Langs.camera);
+
   String get album => state.lang.localized(Langs.album);
   var path = "";
   File images;
-  List textList = [
-  ];
+  List textList = [];
   bool show = false;
   String text = "最新";
   double h = 0;
@@ -45,6 +50,7 @@ class MyBloc extends BlocBase with LoggingMixin {
       state.lang.localized(Langs.language),
       state.lang.localized(Langs.statement),
       state.lang.localized(Langs.explain),
+      state.lang.localized(Langs.wifiConfig),
     ];
     getUser();
   }
@@ -57,7 +63,7 @@ class MyBloc extends BlocBase with LoggingMixin {
     }
     setModel(() {
       path = response.data.avatar;
-      textList[0]= response.data.phone;
+      textList[0] = response.data.phone;
     });
   }
 
@@ -115,20 +121,17 @@ class MyBloc extends BlocBase with LoggingMixin {
           fontSize: 16.0);
     }
   }
-  void languageSettings() {
-    BottomActionSheet.show(
-        context, ['中文', 'English'],
-        title: '',
-        cancel:cancel,
-        callBack: (i) {
-          if (i == 0) {
-            dispatch(langActions.setup('cn'));
-          }
-          if (i == 1) {
-            dispatch(langActions.setup('en'));
-          }
 
-        });
+  void languageSettings() {
+    BottomActionSheet.show(context, ['中文', 'English'],
+        title: '', cancel: cancel, callBack: (i) {
+      if (i == 0) {
+        dispatch(langActions.setup('cn'));
+      }
+      if (i == 1) {
+        dispatch(langActions.setup('en'));
+      }
+    });
   }
 
   void signout() {
@@ -163,8 +166,12 @@ class MyBloc extends BlocBase with LoggingMixin {
         throw 'Could not launch $url';
       }
     }
-    if(i == 4) {
+    if (i == 4) {
       languageSettings();
+    }
+
+    if (i == 7) {
+      navigate.pushNamed('/wifi-connfig');
     }
     log.info(i);
     //navigate.pushReplacementNamed('/homeCon');
@@ -175,7 +182,7 @@ class MyBloc extends BlocBase with LoggingMixin {
       words.insertAll(
           words.length - 1,
           //每次生成20个单词
-          ["1", "2", "3", "4", "5", "6", "7"].map((e) => e).toList());
+          ["1", "2", "3", "4", "5", "6", "7", "8"].map((e) => e).toList());
       setModel(() {});
 //      setState(() {
 //        //重新构建列表

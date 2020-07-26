@@ -78,6 +78,7 @@ class Langs {
   static Localized explain = Localized("APP使用说明","");
   static Localized signOut = Localized("退出登录","");
   static Localized signOutTips = Localized("确定要退出当前账号?","");
+  static Localized wifiConfig = Localized("网络配置","");
 
   //登录
   static Localized phoneNumber = Localized("请输入手机号码","");
