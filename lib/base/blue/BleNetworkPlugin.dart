@@ -21,4 +21,8 @@ class BleNetworkPlugin {
   static Future<void> setup(String ssid, String password, String name) async {
     return await _channel.invokeMethod('setup', {'ssid': ssid, 'password': password, 'name': name});
   }
+
+  static Future<String> currentNetworkSSID() async {
+    return await _channel.invokeMethod('currentNetworkSSID', {});
+  }
 }

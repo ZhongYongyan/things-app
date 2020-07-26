@@ -1,13 +1,16 @@
 package cn.shifen.things
 
 import android.bluetooth.BluetoothAdapter
-import android.os.Build
+import android.bluetooth.BluetoothDevice
+import android.content.Context
 import android.os.Handler
+import android.os.Message
 import android.util.Log
 import androidx.annotation.NonNull
 import com.aispeech.blenetwork.network.netconfig.NetworkConfigClient
 import com.aispeech.blenetwork.network.netconfig.link.LinkManager
 import com.aispeech.blenetwork.network.netconfig.link.ble.BleLinkManager
+import com.aispeech.blenetwork.network.netconfig.link.softAp.SoftApLinkManager
 import com.aispeech.blenetwork.network.netconfig.scan.DeviceScanner
 import com.aispeech.blenetwork.network.netconfig.scan.ScanCallback
 import com.aispeech.blenetwork.network.netconfig.scan.ScanResult
@@ -25,12 +28,13 @@ public class BleNetworkPlugin : FlutterPlugin, MethodCallHandler {
 
     private lateinit var mClient: NetworkConfigClient
     private lateinit var apLinkManager: LinkManager
+    private lateinit var softApLinkManager: SoftApLinkManager
     private lateinit var mDeviceScanner: DeviceScanner
     private var timeoutHandler: Handler = Handler()
     private lateinit var channel: MethodChannel
     private lateinit var platformUtil: PlatformUtil
     private var scanResults: ArrayList<ScanResult> = ArrayList()
-    private lateinit var bluetoothAdapter: BluetoothAdapter
+    private lateinit var mHandler: NetworkConfigHandler
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "blenetworkplugin_plugin")
@@ -40,8 +44,10 @@ public class BleNetworkPlugin : FlutterPlugin, MethodCallHandler {
 
         mClient = NetworkConfigClient();
         apLinkManager = BleLinkManager.getInstance(flutterPluginBinding.applicationContext)
+        softApLinkManager = SoftApLinkManager.getInstance(flutterPluginBinding.applicationContext)
         mDeviceScanner = DeviceScanner(flutterPluginBinding.applicationContext)
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+
+        mHandler = NetworkConfigHandler(flutterPluginBinding.applicationContext)
     }
 
     companion object {
@@ -54,7 +60,7 @@ public class BleNetworkPlugin : FlutterPlugin, MethodCallHandler {
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
-            "configNetworkForRemoteDevice" -> configNetworkForRemoteDevice(call, result)
+            "currentNetworkSSID"->currentNetworkSSID(call, result)
             "startScan" -> startScan(call, result)
             "stopScan" -> stopScan(call, result)
             "setup" -> setup(call, result)
@@ -65,71 +71,13 @@ public class BleNetworkPlugin : FlutterPlugin, MethodCallHandler {
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     }
 
-    fun configNetworkForRemoteDevice(@NonNull call: MethodCall, @NonNull result: Result) {
-        val ssid = call.argument<String>("ssid")
-        val password = call.argument<String>("password")
-        val name = call.argument<String>("name").orEmpty()
-
-        Log.i(TAG, "configNetworkForRemoteDevice, ssid:$ssid, password:$password, name:$name")
-
-        var processed = false
-        var configResultCode = -999
-
-        timeoutHandler.obtainMessage()
-        timeoutHandler.postDelayed({
-            Log.i(TAG, "configNetworkForRemoteDevice timeout, configResultCode: $configResultCode")
-            if (configResultCode == -999) {
-                result.error("timeout", "", "")
-            }
-            mDeviceScanner.stopScan()
-        }, 15000)
-
-        mDeviceScanner.stopScan()
-        mDeviceScanner.startScan(object : ScanCallback {
-            override fun onScanResults(results: List<ScanResult>) {
-                Log.i(TAG, "搜索到设备 results = $results")
-
-                val item = results.firstOrNull { scanResult -> scanResult.name.startsWith(name, true) }
-                Log.i(TAG, "搜索到设备 name = $item, processed=$processed")
-
-                if (item != null) {
-                    if (!processed) {
-                        processed = true
-                        mDeviceScanner.stopScan()
-                        Log.i(TAG, "call configNetworkForRemoteDevice")
-                        mClient.configNetworkForRemoteDevice(apLinkManager, item.bluetoothDevice, ssid, password, "JsonPrivateData") { resultCode, jsonFromServer ->
-                            Log.i(TAG, "configNetworkForRemoteDevice, result:${NetworkConfigClient.resultCodeToString(resultCode)}, resultCode=$resultCode, jsonFromServer=$jsonFromServer")
-                            configResultCode = resultCode
-
-                            if (resultCode == NetworkConfigClient.CONFIGURATION_SUCCESS) {
-                                Log.i(TAG, "配网成功")
-                                result.success("success")
-                            } else {
-                                Log.e(TAG, "配网失败 ")
-                                result.error("error", "", "")
-                            }
-                        }
-                    }
-                }
-            }
-
-            override fun onScanFailed(errorCode: Int) {
-                mDeviceScanner.stopScan()
-                result.error("onScanFailed", errorCode.toString(), "");
-            }
-        })
+    fun currentNetworkSSID(@NonNull call: MethodCall, @NonNull result: Result){
+        val ssid = softApLinkManager.currentNetworkSSID
+        result.success(ssid)
     }
 
     fun startScan(@NonNull call: MethodCall, @NonNull result: Result) {
-
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        var enable = bluetoothAdapter.isEnabled()
-        if (!bluetoothAdapter.isEnabled()) {
-            bluetoothAdapter.enable()
-        }
-
         scanResults.clear()
-        timeoutHandler.obtainMessage()
         timeoutHandler.postDelayed({
             Log.i(TAG, "startScan timeout")
             mDeviceScanner.stopScan()
@@ -152,7 +100,7 @@ public class BleNetworkPlugin : FlutterPlugin, MethodCallHandler {
                         scanResults.add(x)
                     }
                 }
-                val items = scanResults.map {
+                val items = scanResults.filter { it.name.startsWith("A1") }.map {
                     it.name
                 }
 
@@ -169,7 +117,6 @@ public class BleNetworkPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     fun stopScan(@NonNull call: MethodCall, @NonNull result: Result) {
-        timeoutHandler.obtainMessage()
         mDeviceScanner.stopScan()
     }
 
@@ -192,14 +139,41 @@ public class BleNetworkPlugin : FlutterPlugin, MethodCallHandler {
         Log.i(TAG, "call configNetworkForRemoteDevice")
         mClient.configNetworkForRemoteDevice(apLinkManager, scanResult.bluetoothDevice, ssid, password, "JsonPrivateData") { resultCode, jsonFromServer ->
             Log.i(TAG, "configNetworkForRemoteDevice, result:${NetworkConfigClient.resultCodeToString(resultCode)}, resultCode=$resultCode, jsonFromServer=$jsonFromServer")
+            val msg = Message()
+            msg.what = NetworkConfigHandlers.configNetworkForRemoteDeviceResult
+            msg.arg1 = resultCode
+            msg.obj = result
+            mHandler.sendMessage(msg)
 
-            if (resultCode == NetworkConfigClient.CONFIGURATION_SUCCESS) {
-                Log.i(TAG, "配网成功")
-                result.success("success")
-            } else {
-                Log.e(TAG, "配网失败 ")
-                result.error("error", "", "")
-            }
+
         }
     }
+
+    object NetworkConfigHandlers {
+        val configNetworkForRemoteDeviceResult = 1
+    }
+
+    private class NetworkConfigHandler constructor(private val mContext: Context) : Handler() {
+        val TAG = "NetworkConfigHandler"
+        private val mDevice: BluetoothDevice? = null
+        override fun handleMessage(msg: Message) {
+            when (msg.what) {
+                NetworkConfigHandlers.configNetworkForRemoteDeviceResult -> {
+                    val resultCode = msg.arg1
+                    val result = msg.obj as Result
+                    if (resultCode == NetworkConfigClient.CONFIGURATION_SUCCESS) {
+                        Log.i(TAG, "配网成功")
+                        result.success("success")
+                    } else {
+                        Log.e(TAG, "配网失败 ")
+                        result.error("error", "", "")
+                    }
+                }
+                else -> {
+                }
+            }
+        }
+
+    }
+
 }
