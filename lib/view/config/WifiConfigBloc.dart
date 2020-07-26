@@ -16,6 +16,7 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
 
   var entries = Set<String>();
   var selectedItem = '';
+  var setuping = false;
 
   final TextEditingController usernameController = TextEditingController(text: '');
   final TextEditingController passwordController = TextEditingController(text: '');
@@ -38,7 +39,7 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
       print("stopScan:receive--+$message");
     });
 
-    // startScan();
+    startScan();
   }
 
   void startScan() {
@@ -79,10 +80,17 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
       return;
     }
 
+    setModel((){
+      setuping = true;
+    });
     BleNetworkPlugin.setup(ssid, password, selectedItem).then((value) {
       UI.toast('网络配置成功');
     }).catchError((error) {
       UI.toast('网络配置失败');
+    }).whenComplete((){
+      setModel((){
+        setuping = false;
+      });
     });
   }
 }

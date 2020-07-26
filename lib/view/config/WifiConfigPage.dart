@@ -71,7 +71,10 @@ class _State extends BlocState<WifiConfigPage, WifiConfigBloc> {
               child: createForm(),
             ),
             Expanded(
-              child: createList(),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 09),
+                child: createList(),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -80,11 +83,13 @@ class _State extends BlocState<WifiConfigPage, WifiConfigBloc> {
                 child: FlatButton(
                     color: Color(0xFF0079FE),
                     onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        bloc.submit();
+                      if(!bloc.setuping) {
+                        if (_formKey.currentState.validate()) {
+                          bloc.submit();
+                        }
                       }
                     },
-                    child: Text('配置网络', style: TextStyle(color: Color(0xffffffff)))),
+                    child: Text(bloc.setuping ? '正在配置网络...' : '配置网络', style: TextStyle(color: Color(0xffffffff)))),
               ),
             ),
           ],
@@ -167,9 +172,9 @@ class _State extends BlocState<WifiConfigPage, WifiConfigBloc> {
             ),
             bloc.selectedItem == name
                 ? Icon(
-              Icons.check,
-              size: 24.0,
-            )
+                    Icons.check,
+                    size: 24.0,
+                  )
                 : Container()
           ],
         ));

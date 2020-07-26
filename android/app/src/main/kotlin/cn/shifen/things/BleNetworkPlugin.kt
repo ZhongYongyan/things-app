@@ -1,6 +1,7 @@
 package cn.shifen.things
 
 import android.bluetooth.BluetoothAdapter
+import android.os.Build
 import android.os.Handler
 import android.util.Log
 import androidx.annotation.NonNull
@@ -81,7 +82,7 @@ public class BleNetworkPlugin : FlutterPlugin, MethodCallHandler {
                 result.error("timeout", "", "")
             }
             mDeviceScanner.stopScan()
-        }, 60000)
+        }, 15000)
 
         mDeviceScanner.stopScan()
         mDeviceScanner.startScan(object : ScanCallback {
@@ -185,6 +186,8 @@ public class BleNetworkPlugin : FlutterPlugin, MethodCallHandler {
             result.error("device_not_found", "", "")
             return;
         }
+
+        mDeviceScanner.stopScan()
 
         Log.i(TAG, "call configNetworkForRemoteDevice")
         mClient.configNetworkForRemoteDevice(apLinkManager, scanResult.bluetoothDevice, ssid, password, "JsonPrivateData") { resultCode, jsonFromServer ->
