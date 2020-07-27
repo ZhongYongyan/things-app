@@ -240,7 +240,7 @@ class BlueBridge {
         } else if (value == BluetoothDeviceState.disconnected) {
           _log.info('>>>>>>>>>>>>>>>>>>>>>>### device.connect');
           device
-              .connect(autoConnect: true, timeout: Duration(seconds: 30))
+              .connect(autoConnect: false, timeout: Duration(seconds: 30))
               .then((value) {
             _log.info('>>>>>>>>>>>>>>>>>>>>>>>>> device.connect');
             _blueService = BlueService(device);
