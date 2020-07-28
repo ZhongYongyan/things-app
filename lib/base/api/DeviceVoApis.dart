@@ -17,4 +17,13 @@ class DeviceVoApis {
       return Result(name: err.type.toString(), message: err.message);
     }
   }
+
+  static Future<String> deleteDeviceVo(int id) async {
+    try {
+      Response response = await apiRequest.delete("/member-device/device/$id");
+      return response.data["name"].toString();
+    } on DioError catch (err) {
+      return "error";
+    }
+  }
 }

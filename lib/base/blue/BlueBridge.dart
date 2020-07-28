@@ -121,7 +121,6 @@ class BlueBridge {
         var isScanningListen;
         isScanningListen = FlutterBlue.instance.isScanning.listen((isScanning) {
           isScanningListen.cancel();
-
           if (!isScanning) {
             _flutterBlue.startScan(timeout: Duration(seconds: 60));
           }
@@ -129,6 +128,9 @@ class BlueBridge {
           if (_scanResultsHandler != null) _scanResultsHandler.cancel();
           _scanResultsHandler =
               _flutterBlue.scanResults.listen((scanResults) {
+
+                _log.info('scanResults: $scanResults');
+
             scanResults = scanResults.where((x) {
               return x.device.name != null && x.device.name != '' && x.device.name.startsWith("A1");
             }).toList();
@@ -225,15 +227,22 @@ class BlueBridge {
   }
 
   _connectDevice(Message msg) {
+    _log.info('>>>>>>>>>>>>>>>>>>>>>>### _getDevice');
     _getDevice(msg).then((device) {
+      _log.info('>>>>>>>>>>>>>>>>>>>>>>>>> _getDevice');
       var stateListen;
       stateListen = device.state.listen((value) {
+        _log.info('>>>>>>>>>>>>>>>>>>>>>>>>> device.state.listen');
         stateListen.cancel();
 
-        if (value == BluetoothDeviceState.disconnected) {
+        if (value == BluetoothDeviceState.connected) {
+          _postMessage(msg.success(true));
+        } else if (value == BluetoothDeviceState.disconnected) {
+          _log.info('>>>>>>>>>>>>>>>>>>>>>>### device.connect');
           device
-              .connect(autoConnect: true, timeout: Duration(seconds: 30))
+              .connect(autoConnect: false, timeout: Duration(seconds: 30))
               .then((value) {
+            _log.info('>>>>>>>>>>>>>>>>>>>>>>>>> device.connect');
             _blueService = BlueService(device);
 //            Message message1 = new Message("getSequence", "654321");
 //            _blueProtocol.createProtocolCommand(message1);
@@ -261,7 +270,9 @@ class BlueBridge {
       stateListen = device.state.listen((value) {
         stateListen.cancel();
 
-        if (value == BluetoothDeviceState.connected) {
+        if(value == BluetoothDeviceState.disconnected) {
+          _postMessage(msg.success(true));
+        } else if (value == BluetoothDeviceState.connected) {
           device.disconnect().then((value) {
             _postMessage(msg.success(true));
           }).catchError((error) {

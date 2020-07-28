@@ -32,9 +32,9 @@ class _State extends BlocState<HomePage, HomeBloc> {
   }
 
   _pageBody() {
-    double h = bloc.h;
     return Scaffold(
-      backgroundColor: Color(0xfAcdc3b9),
+
+      backgroundColor: Color(0xFFf8f8f8),
       body: ScrollConfiguration(
         behavior: MyBehavior(),
         // 显示进度条
@@ -50,7 +50,8 @@ class _State extends BlocState<HomePage, HomeBloc> {
                   right: 10.0,
                   bottom: 0,
                   child: Container(
-                    color: Color(0xFacdc3b9),
+                    color: Color(0xFFf8f8f8),
+//                  color: Colors.white70,
                   ),
                 ),
 //                Positioned(
@@ -169,7 +170,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
 
                   ),
                   GestureDetector(
-                    child: Text(bloc.name == "访客" ? bloc.visitor : bloc.name/* bloc.gettuiId*/,
+                    child: Text(bloc.name == "访客" ? bloc.visitor : bloc.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
@@ -229,6 +230,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
   Widget getCardItem(int index) {
     return GestureDetector(
       onTap: () => bloc.toPlugin(index),
+      onLongPress: () => bloc.updateOnLongPressStatus(index, true),
       child: Container(
         margin: index.isEven
             ? const EdgeInsets.only(left: 15)
@@ -253,6 +255,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
               //指定未定位或部分定位widget的对齐方式
               children: <Widget>[
                 GestureDetector(
+
                   child: Padding(
                     //左边添加8像素补白
                     padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
@@ -374,7 +377,7 @@ class _State extends BlocState<HomePage, HomeBloc> {
                     ),
                   ),
                 ),
-                bloc.DeviceVoModel.devices[index - 2].loadShow
+                bloc.DeviceVoModel.devices[index - 2].loadShow && !bloc.DeviceVoModel.devices[index - 2].isDelete
                     ? Container(
                   width: 150,
                   height: 88,
@@ -442,6 +445,97 @@ class _State extends BlocState<HomePage, HomeBloc> {
                                     size: 16,
                                   ),
                                 ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                    : Container(),
+                bloc.DeviceVoModel.devices[index - 2].isDelete
+                    ? Container(
+                  width: 150,
+                  height: 88,
+                  color: Colors.white.withOpacity(0.84),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      //设置四周圆角 角度
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(6)),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
+                      children: <Widget>[
+                        Positioned(
+                          top: 17.5,
+                          child: Text(
+                            bloc.confirmDeletionTips,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF3D3D3D),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 50,
+                          child: Wrap(
+                            spacing: 8,
+                            children: <Widget>[
+                              Container(
+                                  child : GestureDetector(
+                                    onTap: () => bloc.toDeleteDevice(index),
+                                    child: Container(
+                                        padding: const EdgeInsets.all(0.0),
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            //设置四周圆角 角度
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20)),
+                                          ),
+                                          child: Container(
+                                              alignment: Alignment.center,
+                                              width: 50,
+                                              height: 24,
+                                              child: Text(
+                                                bloc.delete,
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.white),
+                                              )
+                                          ),
+                                        )
+                                  )
+                                )
+                              ),
+                              Container(
+                                  child : GestureDetector(
+                                      onTap: () => bloc.updateOnLongPressStatus(index, false),
+                                      child: Container(
+                                          padding: const EdgeInsets.all(0.0),
+                                          child: DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              color: Colors.blue,
+                                              //设置四周圆角 角度
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                            ),
+                                            child: Container(
+                                                alignment: Alignment.center,
+                                                width: 50,
+                                                height: 24,
+                                                child: Text(
+                                                  bloc.cancel,
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.white),
+                                                )
+                                            ),
+                                          )
+                                      )
+                                  )
                               ),
                             ],
                           ),

@@ -17,6 +17,7 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
   String accessToken = "";
   String userName = "访客";
   String userUrl = "";
+  int affiliateId = 0;
 
   bool get isAuth {
     return isNotEmpty(accessToken);
@@ -86,6 +87,14 @@ class AuthActions with LoggingMixin {
   ActionHandler<StoreState> url(String url) {
     return (state) {
       state.auth.userUrl = url;
+      state.auth.saveUrl();
+      return state;
+    };
+  }
+
+  ActionHandler<StoreState> affiliateId(int affiliateId) {
+    return (state) {
+      state.auth.affiliateId = affiliateId;
       state.auth.saveUrl();
       return state;
     };

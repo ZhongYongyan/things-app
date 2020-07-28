@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app/base/blue/BleNetworkPlugin.dart';
 import 'package:app/base/blue/BlueBridge.dart';
 import 'package:app/base/blue/Message.dart';
 import 'package:app/base/plugin/PluginManager.dart';
@@ -26,7 +27,7 @@ class PluginBloc extends BlocBase with LoggingMixin {
     flutterWebviewPlugin.clearCache();
     flutterWebviewPlugin.close();
     computedPluginUrl(pluginUrl).then((url) {
-      // url = 'http://192.168.0.152:8080/#connectBlue';
+      //url = 'http://192.168.0.152:8080/#connectBlue';
       url = url + '?accessToken=' + state.auth.accessToken;
       if(deviceSn != null) {
         url = url + '&deviceSn=' + deviceSn + '&blueName=' + blueName;
@@ -61,7 +62,7 @@ class PluginBloc extends BlocBase with LoggingMixin {
     switch (msg.command) {
       case 'exit':
         navigate.pop();
-        msg.success(true);
+        _postMessage(msg.success(true));
         break;
       case 'setEnabledSystemUIOverlays':
         if (msg.data == 0) {
@@ -71,7 +72,9 @@ class PluginBloc extends BlocBase with LoggingMixin {
           // 显示顶部状态栏和底部操作栏
           SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
         }
+        _postMessage(msg.success(true));
         break;
+
       case 'setOrientation':
         if (msg.data == 'portrait') {
           //强制竖屏
@@ -80,6 +83,20 @@ class PluginBloc extends BlocBase with LoggingMixin {
           //强制横屏
           AutoOrientation.landscapeAutoMode();
         }
+        _postMessage(msg.success(true));
+        break;
+
+      case 'configNetworkForRemoteDevice':
+        var ssid = msg.data[0];
+        var password = msg.data[1];
+        var blueName = msg.data[2];
+        BleNetworkPlugin.configNetworkForRemoteDevice(ssid, password, blueName)
+            .then((value) {
+          _postMessage(msg.success(value));
+        }).catchError((error) {
+          log.info('APP:configNetworkForRemoteDevice error: $error');
+          _postMessage(msg.failure('error', ""));
+        });
         break;
     }
   }

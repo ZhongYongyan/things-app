@@ -41,7 +41,6 @@ class Langs {
   static Localized plugInDownloading = Localized("插件下载中","");
   static Localized plugInDownloadingTips = Localized("插件下载中,请稍后","");
   static Localized noPlugInTips = Localized("没有找到插件，请与系统管理员联系","");
-
   //消息
   static Localized messageTips = Localized("没有相关消息","");
   static Localized messageDetails = Localized("消息详情","");
@@ -66,7 +65,8 @@ class Langs {
   static Localized emptyWeight = Localized("体重为空","");
   static Localized emptyBirthday = Localized("出生日期为空","");
   static Localized emptyNameEnd = Localized("昵称限制8位","");
-
+  static Localized heightFormatError = Localized("身高格式错误","");
+  static Localized weightFormatError = Localized("体重格式错误","");
 
   //我的
   static Localized introduce = Localized("连接智能设备, 体验美好生活","");
@@ -78,6 +78,7 @@ class Langs {
   static Localized explain = Localized("APP使用说明","");
   static Localized signOut = Localized("退出登录","");
   static Localized signOutTips = Localized("确定要退出当前账号?","");
+  static Localized wifiConfig = Localized("网络配置","");
 
   //登录
   static Localized phoneNumber = Localized("请输入手机号码","");
