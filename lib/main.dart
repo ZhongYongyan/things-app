@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
     return StoreProvider<StoreState>(
       store: store,
       child: MaterialApp(
-        title: '健康云',
+        title: '艾健康',
         theme: appTheme,
         //navigatorKey: NavigatorHolder.navigatorKey,
         onGenerateRoute: appRoute,

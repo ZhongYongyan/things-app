@@ -233,6 +233,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                                           Alignment.centerRight,
                                                       width: 140,
                                                       child: TextFormField(
+                                                        keyboardType:index == 1 ? TextInputType.text : TextInputType.numberWithOptions(decimal: true),
                                                         textAlign:
                                                             TextAlign.right,
                                                         controller:index == 1 ?  bloc
