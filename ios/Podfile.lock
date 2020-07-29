@@ -20,7 +20,7 @@ PODS:
   - getuiflut (0.0.1):
     - Flutter
     - GTSDK
-  - GTSDK (2.4.1.0)
+  - GTSDK (2.4.4.0)
   - image_picker (0.0.1):
     - Flutter
   - luhenchang_plugin (0.0.1):
@@ -122,7 +122,7 @@ SPEC CHECKSUMS:
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
   getuiflut: 8628ba2b64a738a847a07d2b67e0ac305778e2ee
-  GTSDK: 574d9067cd7e506dafc664801352a77e8214d1e0
+  GTSDK: 2d7b906892fe7800c72e193e59d92067ed105e80
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   luhenchang_plugin: 57a362a39c65630440a3d6c03f7bda193e65ae6f
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
@@ -137,6 +137,6 @@ SPEC CHECKSUMS:
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
   ZIPFoundation: 89df685c971926b0323087952320bdfee9f0b6ef
 
-PODFILE CHECKSUM: a2b0bf7fe93e4e6b732ab20a6fda201dc8a23f90
+PODFILE CHECKSUM: bbcc3eb2160dd838fc79db1bfc6ae8efb8420fad
 
 COCOAPODS: 1.9.3
