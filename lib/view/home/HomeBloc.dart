@@ -146,6 +146,8 @@ class HomeBloc extends BlocBase with LoggingMixin {
     var modelId = DeviceVoModel.devices[index - 2].modelId;
     String deviceSn = DeviceVoModel.devices[index - 2].deviceSn;
     String blueName = DeviceVoModel.devices[index - 2].blueName;
+    double softwareVersions = DeviceVoModel.devices[index - 2].softwareVersions;
+    double firmwareVersions = DeviceVoModel.devices[index - 2].firmwareVersions;
     if (findIsDownloading(modelId)) {
       Fluttertoast.showToast(
           msg: '${findModelName(modelId)}' + state.lang.localized(Langs.plugInDownloadingTips),
@@ -179,7 +181,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
         });
         return;
       }else{
-        navigate.pushNamed('/plugin', arguments: {"url": url,"deviceSn":deviceSn,"blueName":blueName});
+        navigate.pushNamed('/plugin', arguments: {"url": url,"deviceSn":deviceSn,"blueName":blueName, "softwareVersions": softwareVersions, "firmwareVersions":firmwareVersions});
       }
     });
     /*setModel(() {

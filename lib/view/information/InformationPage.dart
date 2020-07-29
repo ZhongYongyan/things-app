@@ -287,7 +287,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Text("阅读原文",
+                        Text(bloc.read,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.right,

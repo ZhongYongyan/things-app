@@ -28,21 +28,22 @@ class _State extends BlocState<PluginPage, PluginBloc> {
       var args = ModalRoute.of(context).settings.arguments as Map;
       String deviceSn = args["deviceSn"];
       String blueName = args["blueName"];
+      double softwareVersions = args["softwareVersions"];
+      double firmwareVersions = args["firmwareVersions"];
       var url = args["url"] != "" ? args["url"] : 'http://dev.mp.hswl007.com/things-plugin-a800.zip';
       url.toString().endsWith('.zip')
-          ? bloc.loadPlugin(url, deviceSn, blueName)
+          ? bloc.loadPlugin(url, deviceSn, blueName, softwareVersions, firmwareVersions)
           : bloc.setModel(() {
-              // url = 'http://192.168.0.152:8080/#connectBlue';
+//               url = 'http://192.168.2.105:8080/#/connectBlue';
               if (deviceSn == null) {
                 bloc.pluginPath = url + '?accessToken=' + bloc.state.auth.accessToken;
               } else {
                 bloc.pluginPath = url +
-                    '?accessToken=' +
-                    bloc.state.auth.accessToken +
-                    '&deviceSn=' +
-                    deviceSn +
-                    '&blueName=' +
-                    blueName;
+                    '?accessToken=' + bloc.state.auth.accessToken +
+                    '&deviceSn=' + deviceSn +
+                    '&blueName=' + blueName +
+                    "&softwareVersions=" + softwareVersions.toString() +
+                    "&firmwareVersions=" + firmwareVersions.toString();
               }
             });
     });

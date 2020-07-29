@@ -7,6 +7,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/base/util/Utils.dart';
+import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
@@ -25,6 +26,7 @@ class ManagementBloc extends BlocBase with LoggingMixin {
   var text = "按摩椅";
   bool loadShow = false;
   int downloads = 0;
+  String get productList => state.lang.localized(Langs.productList);
 
   void back() {
     if (downloads > 0) {

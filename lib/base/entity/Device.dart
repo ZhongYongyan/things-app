@@ -17,6 +17,8 @@ class Device {
   bool loadShow = false;
   String blueName;
   bool isDelete = false;
+  double softwareVersions = 0;
+  double firmwareVersions = 0;
 
   Device.fromJson(Map<String, dynamic> json) {
     agentId = json['agentId'] ?? 0;
@@ -35,5 +37,7 @@ class Device {
     statusUpdateTime = json['statusUpdateTime'] ?? "";
     statusMupdatedeg = json['statusMupdatedeg'] ?? "";
     blueName = json['blueName'] ?? "";
+    softwareVersions = json['softwareVersions'] ?? 0;
+    firmwareVersions = json['firmwareVersions'] ?? 0;
   }
 }

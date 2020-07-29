@@ -16,6 +16,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
   InformationBloc(BuildContext context, Store store) : super(context, store);
   String get info => state.lang.localized(Langs.info);
   String get infoTips => state.lang.localized(Langs.infoTips);
+  String get read => state.lang.localized(Langs.read);
   var loading = 'loadingTag';
   static var loadingTag = Info.fromJson({'title': 'loadingTag'});
   var words = <Info>[loadingTag];

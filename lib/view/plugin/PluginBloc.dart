@@ -23,14 +23,14 @@ class PluginBloc extends BlocBase with LoggingMixin {
 
   void init() {}
 
-  void loadPlugin(String pluginUrl, String deviceSn, String blueName) {
+  void loadPlugin(String pluginUrl, String deviceSn, String blueName,double softwareVersions,double firmwareVersions) {
     flutterWebviewPlugin.clearCache();
     flutterWebviewPlugin.close();
     computedPluginUrl(pluginUrl).then((url) {
-      //url = 'http://192.168.0.152:8080/#connectBlue';
+//      url = 'http://192.168.2.105:8080/#/connectBlue';
       url = url + '?accessToken=' + state.auth.accessToken;
       if(deviceSn != null) {
-        url = url + '&deviceSn=' + deviceSn + '&blueName=' + blueName;
+        url = url + '&deviceSn=' + deviceSn + '&blueName=' + blueName + "&softwareVersions=" + softwareVersions.toString() + "&firmwareVersions=" + firmwareVersions.toString();
       }
       log.info('pluginUrl: $url');
       setModel(() {

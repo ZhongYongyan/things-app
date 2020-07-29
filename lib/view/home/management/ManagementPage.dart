@@ -93,7 +93,7 @@ class _State extends BlocState<ManagementPage, ManagementBloc> {
                         ),
                       ),
                     )*/
-                    child: Text("产品列表",
+                    child: Text(bloc.productList,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 16,

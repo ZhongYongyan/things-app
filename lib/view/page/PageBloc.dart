@@ -39,11 +39,11 @@ class PageBloc extends BlocBase with LoggingMixin {
 //              fontSize: 12,
 //            )),
         //backgroundColor: Colors.orange
-          title: new Text('消息'),
+          title: new Text(message),
           icon: new Stack(
               overflow: Overflow.visible,
               children: <Widget>[
-                Icon(Icons.fiber_new),
+                Icon(Icons.message),
                 state.app.createNumber > 0 ? Positioned(  // draw a red marble
                   top: 2,
                   right: -6.0,
@@ -76,7 +76,7 @@ class PageBloc extends BlocBase with LoggingMixin {
           activeIcon:new Stack(
               overflow: Overflow.visible,
               children: <Widget>[
-                Icon(Icons.fiber_new),
+                Icon(Icons.message),
                 state.app.createNumber > 0 ? Positioned(  // draw a red marble
                   top: 2,
                   right: -6.0,
@@ -131,11 +131,11 @@ class PageBloc extends BlocBase with LoggingMixin {
 //              fontSize: 12,
 //            )),
           //backgroundColor: Colors.orange
-            title: new Text('消息'),
+            title: new Text(message),
             icon: new Stack(
                 overflow: Overflow.visible,
                 children: <Widget>[
-                  Icon(Icons.fiber_new),
+                  Icon(Icons.message),
                   state.app.createNumber > 0 ? Positioned(  // draw a red marble
                     top: 2,
                     right: -6.0,
