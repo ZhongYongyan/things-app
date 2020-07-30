@@ -101,8 +101,8 @@ class BlueService {
         String hexString = data.map((val){
           return val.toRadixString(16);
         }).join(' ');
-        print('write: $hexString');
-        _writeCharacteristic.write(data, withoutResponse: true);
+        print('----------write: $hexString');
+        _writeCharacteristic.write(data);
       }
     }
 
