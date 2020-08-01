@@ -1,0 +1,6 @@
+framework module BleDistributionNetworkSDK {
+  umbrella header "BleDistributionNetworkSDK.h"
+
+  export *
+  module * { export * }
+}

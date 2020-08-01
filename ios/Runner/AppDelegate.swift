@@ -8,6 +8,7 @@ import Flutter
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
+    BleNetworkPlugin.register(with: self.registrar(forPlugin: "BleNetworkPlugin"))
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
