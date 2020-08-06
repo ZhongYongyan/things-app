@@ -7,6 +7,7 @@ import 'package:app/base/api/DeviceVoApis.dart';
 import 'package:app/base/api/InfoSortApis.dart';
 import 'package:app/base/api/MemberNewsApis.dart';
 import 'package:app/base/blue/BleNetworkPlugin.dart';
+import 'package:app/base/entity/Affiliate.dart';
 import 'package:app/base/entity/Device.dart';
 import 'package:app/base/entity/DeviceVo.dart';
 import 'package:app/base/entity/Info.dart';
@@ -48,12 +49,12 @@ class HomeBloc extends BlocBase with LoggingMixin {
   String get confirmDeletionTips => state.lang.localized(Langs.confirmDeletionTips);
   String get delete => state.lang.localized(Langs.delete);
   String get cancel => state.lang.localized(Langs.cancel);
-  String get name => state.auth.name != null ? state.auth.name : visitor;
+  String get name => state.auth.userName != null ? state.auth.userName : visitor;
   double h;
 
 //  String get name => state.auth.name != null ? state.auth.name : '访客';
 
-  String get url => state.auth.url != null ? state.auth.url : '';
+  String get url => state.auth.userUrl != null ? state.auth.userUrl : '';
   var DeviceVoModel = DeviceVo.fromJson({});
   String gettuiId = '0';
 
@@ -306,8 +307,8 @@ class HomeBloc extends BlocBase with LoggingMixin {
     bool code = response.success;
     var list = response.data.items;
     if (list.length > 0) {
-      dispatch(authActions.user(list[0].nickname));
-      dispatch(authActions.url(list[0].avatar));
+      var item = list[0];
+      dispatch(authActions.select(item.id, item.nickname, item.avatar));
     }
   }
 
