@@ -28,7 +28,7 @@ class PluginBloc extends BlocBase with LoggingMixin {
     flutterWebviewPlugin.clearCache();
     flutterWebviewPlugin.close();
     computedPluginUrl(pluginUrl).then((url) {
-//      url = 'http://192.168.2.105:8080/#/connectBlue';
+      //url = "http://192.168.0.103:8080/#connectBlue" + '?accessToken=' + state.auth.accessToken;
       url = url + '?accessToken=' + state.auth.accessToken;
       if(deviceSn != null) {
         url = url + '&deviceSn=' + deviceSn + '&blueName=' + blueName + "&softwareVersions=" + softwareVersions.toString() + "&firmwareVersions=" + firmwareVersions.toString();
