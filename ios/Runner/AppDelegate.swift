@@ -7,6 +7,7 @@ import Flutter
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    application.applicationIconBadgeNumber = 0
     GeneratedPluginRegistrant.register(with: self)
     BleNetworkPlugin.register(with: self.registrar(forPlugin: "BleNetworkPlugin"))
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
