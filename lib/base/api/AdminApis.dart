@@ -9,7 +9,7 @@ class AdminApis {
       String username, String smsToken, String validCode) async {
     try {
       FormData formData = new FormData.from({
-        "companyId":1351728559554592,
+        "companyId": 1362810216906784,
         "clientId": "",
         "phone": username,
         "smsToken": smsToken,
