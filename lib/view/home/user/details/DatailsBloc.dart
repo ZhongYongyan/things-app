@@ -11,6 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'dart:io';
 
+import '../../../../store/module/Auth.dart';
+
 class DatailsBloc extends BlocBase with LoggingMixin {
   DatailsBloc(BuildContext context, Store store) : super(context, store);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -41,7 +43,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   String get camera => state.lang.localized(Langs.camera);
   String get album => state.lang.localized(Langs.album);
   String get confirmDeletion => state.lang.localized(Langs.confirmDeletion);
-  String get confirmDeletionTips => state.lang.localized(Langs.album);
+  String get confirmDeletionTips => state.lang.localized(Langs.confirmDeletionTips);
   String get clickToFillIn => state.lang.localized(Langs.clickToFillIn);
 
   String get emptyNameEnd => state.lang.localized(Langs.emptyNameEnd);
@@ -345,6 +347,9 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       for (int i = 0; i < state.member.words.length; i++){
         if(state.member.words[i].id == affiliateModel.id) {
           state.member.words.removeAt(i);
+          dispatch(authActions.user("访客"));
+          dispatch(authActions.url(""));
+          dispatch(authActions.affiliateId(0));
         }
       }
       navigate.pop();
