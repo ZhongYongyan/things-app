@@ -347,9 +347,9 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       for (int i = 0; i < state.member.words.length; i++){
         if(state.member.words[i].id == affiliateModel.id) {
           state.member.words.removeAt(i);
-          dispatch(authActions.user("访客"));
-          dispatch(authActions.url(""));
-          dispatch(authActions.affiliateId(0));
+          if(state.auth.userId == affiliateModel.id) {
+            dispatch(authActions.user("访客","",0));
+          }
         }
       }
       navigate.pop();

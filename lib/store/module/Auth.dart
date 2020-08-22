@@ -33,6 +33,11 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
     return userUrl;
   }
 
+  int get userId {
+    id = storage.getInt('auth.userAffiliateId');
+    return id;
+  }
+
   @override
   void recoverSnapshot() {
     accessToken = storage.getString('auth.accessToken');
@@ -48,21 +53,15 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
   @override
   void saveUser() {
     storage.setString('auth.userName', userName);
+    storage.setString('auth.userUrl', userUrl);
+    storage.setInt('auth.userAffiliateId', affiliateId);
   }
 
   @override
   void recoverUser() {
     userName = storage.getString('auth.userName');
-  }
-
-  @override
-  void saveUrl() {
-    storage.setString('auth.userUrl', userUrl);
-  }
-
-  @override
-  void recoverUrl() {
     userUrl = storage.getString('auth.userUrl');
+    affiliateId = storage.getInt('auth.userAffiliateId');
   }
 }
 
@@ -76,35 +75,21 @@ class AuthActions with LoggingMixin {
     };
   }
 
-  ActionHandler<StoreState> user(String name) {
+  ActionHandler<StoreState> user(String name,String url,int affiliateId) {
     return (state) {
       state.auth.userName = name;
+      state.auth.userUrl = url;
+      state.auth.affiliateId = affiliateId;
       state.auth.saveUser();
       return state;
     };
   }
 
-  ActionHandler<StoreState> url(String url) {
-    return (state) {
-      state.auth.userUrl = url;
-      state.auth.saveUrl();
-      return state;
-    };
-  }
-
-  ActionHandler<StoreState> affiliateId(int affiliateId) {
-    return (state) {
-      state.auth.affiliateId = affiliateId;
-      state.auth.saveUrl();
-      return state;
-    };
-  }
 
   ActionHandler<StoreState> logout() {
     return (state) {
       state.auth = AuthState()..saveSnapshot();
       state.auth = AuthState()..saveUser();
-      state.auth = AuthState()..saveUrl();
       state.msg = MsgState()..saveSnapshot();
       state.information = InformationState()..saveSnapshot();
       state.management = ManagementState()..saveSnapshot();
