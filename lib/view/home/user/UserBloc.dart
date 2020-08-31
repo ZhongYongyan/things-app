@@ -53,9 +53,7 @@ class UserBloc extends BlocBase with LoggingMixin {
   }
 
   void onGetname(int i) {
-    dispatch(authActions.user(words[i].nickname));
-    dispatch(authActions.url(words[i].avatar));
-    dispatch(authActions.affiliateId(words[i].id));
+    dispatch(authActions.user(words[i].nickname,words[i].avatar,words[i].id));
     navigate.pop();
   }
 

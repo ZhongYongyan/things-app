@@ -88,7 +88,27 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
       setuping = true;
     });
     BleNetworkPlugin.setup(ssid, password, selectedItem).then((value) {
-      UI.toast('网络配置成功');
+      showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: new Text('网络配置成功'),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('确定'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      ).then((val) {
+        print(val);
+      });
+      // navigate.pop();
     }).catchError((error) {
       UI.toast('网络配置失败');
     }).whenComplete(() {

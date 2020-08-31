@@ -2,6 +2,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/store/module/lang/Langs.dart';
 import 'package:app/view/home/user/component/ActionSheet.dart';
+import 'package:app/view/home/user/component/lib/src/date_format.dart';
 import 'package:app/view/my/MyBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/src/store.dart';
@@ -27,22 +28,21 @@ class _State extends BlocState<MyPage, MyBloc> {
 
   _pageBody() {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: ConstrainedBox(
+      backgroundColor: Color(0xFFF8F8F8),
+      body:  ConstrainedBox(
           constraints: BoxConstraints.expand(),
           child: Stack(
             alignment: Alignment.topLeft, //指定未定位或部分定位widget的对齐方式
             children: <Widget>[
               Positioned(
                   top: 0,
-                  bottom: 0,
+                  bottom: bloc.h <= 667 ? 70 : 0,
                   left: 0,
                   right: 0,
                   child: Container(
-                    color: Color(0xFFF8F8F8),
+//                    color: Color(0xFFF8F8F8),
                     child: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
+                      physics: bloc.h <= 667 ? null : const NeverScrollableScrollPhysics() ,
                       itemCount: bloc.words.length,
                       itemBuilder: (context, index) {
                         //如果到了表尾
@@ -257,7 +257,6 @@ class _State extends BlocState<MyPage, MyBloc> {
             ],
           ),
         ),
-      ),
     );
   }
 

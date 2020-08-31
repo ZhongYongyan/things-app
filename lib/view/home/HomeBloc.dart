@@ -306,8 +306,8 @@ class HomeBloc extends BlocBase with LoggingMixin {
     bool code = response.success;
     var list = response.data.items;
     if (list.length > 0) {
-      dispatch(authActions.user(list[0].nickname));
-      dispatch(authActions.url(list[0].avatar));
+//      dispatch(authActions.user(list[0].nickname));
+//      dispatch(authActions.url(list[0].avatar));
     }
   }
 
