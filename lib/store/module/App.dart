@@ -17,7 +17,8 @@ class AppState with StorageMixin, LoggingMixin {
 
   String clientId = '';
   String errorMessage = '';
-  int companyId = 1362810216906784;
+//  int companyId = 1362810216906784; //顾家
+  int companyId = 1351728559554592; //irest
   int createNumber = 0;
 
   AppState() {
