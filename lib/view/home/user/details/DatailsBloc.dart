@@ -18,43 +18,79 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var affiliateModel = Affiliate.fromJson({});
+
   String get userDetails => state.lang.localized(Langs.userDetails);
+
   String get userAdd => state.lang.localized(Langs.userAdd);
+
   String get portrait => state.lang.localized(Langs.portrait);
+
   String get userGender => state.lang.localized(Langs.userGender);
+
   String get userHeight => state.lang.localized(Langs.userHeight);
+
   String get userWeight => state.lang.localized(Langs.userWeight);
+
   String get userDetailsName => state.lang.localized(Langs.userDetailsName);
-  String get userDetailsBirthday => state.lang.localized(Langs.userDetailsBirthday);
+
+  String get userDetailsBirthday =>
+      state.lang.localized(Langs.userDetailsBirthday);
+
   String get male => state.lang.localized(Langs.male);
+
   String get female => state.lang.localized(Langs.female);
+
   String get clickSelect => state.lang.localized(Langs.clickSelect);
+
   String get tipsSuccess => state.lang.localized(Langs.tipsSuccess);
+
   String get tipsFail => state.lang.localized(Langs.tipsFail);
+
   String get deleteSuccess => state.lang.localized(Langs.deleteSuccess);
+
   String get deleteFail => state.lang.localized(Langs.deleteFail);
+
   String get back => state.lang.localized(Langs.back);
+
   String get preservation => state.lang.localized(Langs.preservation);
+
   String get preservations => state.lang.localized(Langs.preservations);
+
   String get delete => state.lang.localized(Langs.delete);
+
   String get deletes => state.lang.localized(Langs.deletes);
+
   String get cancel => state.lang.localized(Langs.cancel);
+
   String get determine => state.lang.localized(Langs.determine);
+
   String get camera => state.lang.localized(Langs.camera);
+
   String get album => state.lang.localized(Langs.album);
+
   String get confirmDeletion => state.lang.localized(Langs.confirmDeletion);
-  String get confirmDeletionTips => state.lang.localized(Langs.confirmDeletionTips);
+
+  String get confirmDeletionTips =>
+      state.lang.localized(Langs.confirmDeletionTips);
+
   String get clickToFillIn => state.lang.localized(Langs.clickToFillIn);
 
   String get emptyNameEnd => state.lang.localized(Langs.emptyNameEnd);
+
   String get emptyName => state.lang.localized(Langs.emptyName);
+
   String get emptyGender => state.lang.localized(Langs.emptyGender);
+
   String get emptyHeight => state.lang.localized(Langs.emptyHeight);
+
   String get emptyWeight => state.lang.localized(Langs.emptyWeight);
+
   String get emptyBirthday => state.lang.localized(Langs.emptyBirthday);
+
   String get heightFormatError => state.lang.localized(Langs.heightFormatError);
+
   String get weightFormatError => state.lang.localized(Langs.weightFormatError);
-  String  title = "";
+  String title = "";
   bool show = false;
   TextEditingController usernameController = TextEditingController(text: '');
   TextEditingController heightController = TextEditingController(text: '');
@@ -72,7 +108,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   bool loginProcessing = false;
   bool addAffiliateShow = false;
   File images;
-  var heightPickerData =  [
+  var heightPickerData = [
     "110",
     "120",
     "130",
@@ -89,7 +125,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     "240",
     "250"
   ];
-  var weightPickerData =  [
+  var weightPickerData = [
     "20",
     "30",
     "40",
@@ -119,8 +155,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     "280",
     "290",
     "300"
-    ];
-
+  ];
 
   void startup() {
     //retrieveData();
@@ -190,7 +225,14 @@ class DatailsBloc extends BlocBase with LoggingMixin {
   }
 
   void setUI() {
-    textList = [portrait, userDetailsName, userGender, userHeight + "(cm)", userWeight + "(kg)", userDetailsBirthday];
+    textList = [
+      portrait,
+      userDetailsName,
+      userGender,
+      userHeight + "(cm)",
+      userWeight + "(kg)",
+      userDetailsBirthday
+    ];
     userList = [portrait, "", clickSelect, "", "", clickSelect];
     title = userDetails;
     if (affiliateModel.id == 0) {
@@ -198,14 +240,22 @@ class DatailsBloc extends BlocBase with LoggingMixin {
     }
     if (!editShow) {
       usernameController = TextEditingController(text: affiliateModel.nickname);
-      heightController = TextEditingController(text: affiliateModel.height.toString() == "0" ? "" : affiliateModel.height.toString());
-      weightController = TextEditingController(text: affiliateModel.weight.toString() == "0.0" ? "" : affiliateModel.weight.toString());
+      heightController = TextEditingController(
+          text: affiliateModel.height.toString() == "0"
+              ? ""
+              : affiliateModel.height.toString());
+      weightController = TextEditingController(
+          text: affiliateModel.weight.toString() == "0.0"
+              ? ""
+              : affiliateModel.weight.toString());
       editShow = true;
     }
     userList = [
       portrait,
       "",
-      affiliateModel.sex == "" ? clickSelect : affiliateModel.sex == "F" ? female : male,
+      affiliateModel.sex == ""
+          ? clickSelect
+          : affiliateModel.sex == "F" ? female : male,
       "",
       "",
       affiliateModel.birthday == ""
@@ -233,7 +283,6 @@ class DatailsBloc extends BlocBase with LoggingMixin {
       toast(emptyGender);
       return;
     }
-
 
     if (heightController.text == "") {
       toast(emptyHeight);
@@ -344,11 +393,11 @@ class DatailsBloc extends BlocBase with LoggingMixin {
           timeInSecForIos: 1,
           textColor: Colors.white,
           fontSize: 16.0);
-      for (int i = 0; i < state.member.words.length; i++){
-        if(state.member.words[i].id == affiliateModel.id) {
+      for (int i = 0; i < state.member.words.length; i++) {
+        if (state.member.words[i].id == affiliateModel.id) {
           state.member.words.removeAt(i);
-          if(state.auth.userId == affiliateModel.id) {
-            dispatch(authActions.user("访客","",0));
+          if (state.auth.affiliateId == affiliateModel.id) {
+            dispatch(authActions.select(0, "访客", ""));
           }
         }
       }
