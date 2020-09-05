@@ -342,6 +342,7 @@ class _State extends BlocState<UserDatailsPage, DatailsBloc> {
                                   {
                                     DatePicker.showDatePicker(context,
                                         showTitleActions: true,
+                                minTime: DateTime(1900, 1, 1),
                                 locale:bloc.cancel == "取消" ? LocaleType.zh : LocaleType.en,
                                         onChanged: (date) {},
                                         onConfirm: (date) {
