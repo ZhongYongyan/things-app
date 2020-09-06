@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:app/base/AdminRequest.dart';
+import 'package:app/base/NavigatorHolder.dart';
 import 'package:app/config/AppRoute.dart';
 import 'package:app/config/AppTheme.dart';
 import 'package:app/store/Store.dart';
@@ -53,7 +55,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: '艾健康',
         theme: appTheme,
-        //navigatorKey: NavigatorHolder.navigatorKey,
+        navigatorKey: navigatorHolder.navigatorKey,
         onGenerateRoute: appRoute,
       ),
     );
