@@ -42,6 +42,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
 //    getByCreateNewsNumber();
     Getuiflut().addEventHandler(
       onNotificationMessageArrived: (Map<String, dynamic> msg) async {
+        Getuiflut().resetBadge();
         String taskId = msg["taskId"];
           print('-------------------------------------$taskId');
           Result<MemberNews> response = await MemberNewsApis.getInfoMemberNewsByTaskId(taskId);

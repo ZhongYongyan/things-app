@@ -40,6 +40,7 @@ void main() async {
         appKey: "MTSHNGakyO7wB9fKNGPlM4",
         appSecret: "j0HkdyX31l9Xr8MJgqmWH9");
   }
+  Getuiflut().resetBadge();
   getuiHelper.create();
 }
 

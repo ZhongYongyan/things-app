@@ -78,6 +78,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
       }
       Getuiflut().addEventHandler(
         onReceiveNotificationResponse: (Map<String, dynamic> message) async {
+          Getuiflut().resetBadge();
           //ios点击推送走了这儿
           var actions = message["actions"];
           var actionData = message["actionData"];
@@ -85,11 +86,20 @@ class HomeBloc extends BlocBase with LoggingMixin {
             vm.getInfoMemberNews(actions, actionData);
           });
         },
-        onReceivePayload: (Map<String, dynamic> message) async {},
-        onAppLinkPayload: (String message) async {},
-        onRegisterVoipToken: (String message) async {},
-        onReceiveVoipPayLoad: (Map<String, dynamic> message) async {},
+        onReceivePayload: (Map<String, dynamic> message) async {
+          Getuiflut().resetBadge();
+        },
+        onAppLinkPayload: (String message) async {
+          Getuiflut().resetBadge();
+        },
+        onRegisterVoipToken: (String message) async {
+          Getuiflut().resetBadge();
+        },
+        onReceiveVoipPayLoad: (Map<String, dynamic> message) async {
+          Getuiflut().resetBadge();
+        },
         onReceiveMessageData: (Map<String, dynamic> msg) async {
+          Getuiflut().resetBadge();
           if (vm.isAndroidNewShow) {
             vm.getPayload(msg);
           }
