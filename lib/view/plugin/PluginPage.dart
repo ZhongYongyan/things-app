@@ -34,7 +34,7 @@ class _State extends BlocState<PluginPage, PluginBloc> {
       url.toString().endsWith('.zip')
           ? bloc.loadPlugin(url, deviceSn, blueName, softwareVersions, firmwareVersions)
           : bloc.setModel(() {
-//               url = 'http://192.168.2.105:8080/#/connectBlue';
+              //url = 'http://192.168.0.103:8080/#/connectBlue';
               if (deviceSn == null) {
                 bloc.pluginPath = url + '?accessToken=' + bloc.state.auth.accessToken;
               } else {
@@ -51,7 +51,12 @@ class _State extends BlocState<PluginPage, PluginBloc> {
 
   @override
   PluginBloc createBloc(Store<StoreState> store) {
-    return PluginBloc(context, store)..init();
+    if(this.bloc!=null){
+      return this.bloc;
+    }else {
+      return PluginBloc(context, store)
+        ..init();
+    }
   }
 
   @override

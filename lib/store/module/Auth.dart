@@ -23,46 +23,28 @@ class AuthState extends Persistable with StorageMixin, LoggingMixin {
     return isNotEmpty(accessToken);
   }
 
-  String get name {
-    userName = storage.getString('auth.userName');
-    return userName;
-  }
-
-  String get url {
-    userUrl = storage.getString('auth.userUrl');
-    return userUrl;
-  }
-
-  int get userId {
-    id = storage.getInt('auth.userAffiliateId');
-    return id;
-  }
-
   @override
   void recoverSnapshot() {
     accessToken = storage.getString('auth.accessToken');
     id = storage.getInt('auth.id');
+
+    userName = storage.getString('auth.userName');
+    userUrl = storage.getString('auth.userUrl');
+    affiliateId = storage.getInt('auth.affiliateId');
   }
 
   @override
   void saveSnapshot() {
     storage.setString('auth.accessToken', accessToken);
     storage.setInt('auth.id', id);
-  }
 
-  @override
-  void saveUser() {
+
     storage.setString('auth.userName', userName);
     storage.setString('auth.userUrl', userUrl);
-    storage.setInt('auth.userAffiliateId', affiliateId);
+    storage.setInt('auth.affiliateId', affiliateId);
   }
 
-  @override
-  void recoverUser() {
-    userName = storage.getString('auth.userName');
-    userUrl = storage.getString('auth.userUrl');
-    affiliateId = storage.getInt('auth.userAffiliateId');
-  }
+
 }
 
 class AuthActions with LoggingMixin {
@@ -75,26 +57,24 @@ class AuthActions with LoggingMixin {
     };
   }
 
-  ActionHandler<StoreState> user(String name,String url,int affiliateId) {
-    return (state) {
-      state.auth.userName = name;
-      state.auth.userUrl = url;
-      state.auth.affiliateId = affiliateId;
-      state.auth.saveUser();
-      return state;
-    };
-  }
-
-
   ActionHandler<StoreState> logout() {
     return (state) {
       state.auth = AuthState()..saveSnapshot();
-      state.auth = AuthState()..saveUser();
       state.msg = MsgState()..saveSnapshot();
       state.information = InformationState()..saveSnapshot();
       state.management = ManagementState()..saveSnapshot();
       state.member = MemberState()..saveSnapshot();
       state.user = UserState();
+      return state;
+    };
+  }
+
+  ActionHandler<StoreState> select(int id, String nickname, String avatar) {
+    return (state) {
+      state.auth.affiliateId = id;
+      state.auth.userName = nickname;
+      state.auth.userUrl = avatar;
+      state.auth.saveSnapshot();
       return state;
     };
   }
