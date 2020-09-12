@@ -165,6 +165,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
     Result<MemberNews> response = await MemberNewsApis.getInfoMemberNews(id);
     bool code = response.success;
     if (code) {
+      onRefresh();
       navigate.pushNamed('/msgDetails', arguments: {"model": response.data});
     } else {
       print("消息详情请求失败了");
@@ -180,6 +181,47 @@ class MsgBloc extends BlocBase with LoggingMixin {
     } else {
       print("消息详情请求失败了");
     }
+  }
+
+  Future<void> onRefresh() async {
+    print("开始刷新数据");
+    indexshow = true;
+    indexPage = 1;
+    words = <MemberNews>[loadingTag];
+    lists = [];
+    Result<Page> response =
+    await  MemberNewsApis.getMemberNews(indexPage, 10, "DESC");
+    bool code = response.success;
+    //错误处理
+    if (!code) {
+      log.info("刷新数据出错", response.message);
+      setModel(() {
+        indexshow = false;
+      });
+      state.msg.indexshow = false;
+      await Future.delayed(Duration(seconds: 1)).then((e){
+
+      });
+      return;
+    }
+    lists = response.data.items;
+    await Future.delayed(Duration(seconds: 1)).then((e){
+      words.insertAll(words.length - 1, lists.map((student) => student));
+      if (lists.length < 10) {
+        setModel(() {
+          indexshow = false;
+        });
+        state.msg.indexshow = false;
+      } else {
+        var newIndexPage = indexPage + 1;
+        setModel(() {
+          indexPage = newIndexPage;
+        });
+        state.msg.indexPage = newIndexPage;
+      }
+      state.msg.words = words;
+    });
+
   }
 
   //更改会员信息状态
