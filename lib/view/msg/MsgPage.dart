@@ -63,7 +63,9 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                   right: 0,
                   child: Container(
                     color: Color(0xFFF8F8F8),
-                    child: ListView.separated(
+                    child: new RefreshIndicator(
+                      onRefresh: bloc.onRefresh,
+                      child: ListView.separated(
                       itemCount: bloc.words.length,
                       itemBuilder: (context, index) {
                         //如果到了表尾
@@ -101,7 +103,7 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                         color: Color(0xFFF3F3F3),
                       ),
                     ),
-                  )),
+                  ))),
               bloc.words.length == 1 && !bloc.indexshow
                   ? Positioned(
                       top: 1,
