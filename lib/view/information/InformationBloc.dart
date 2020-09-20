@@ -26,7 +26,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
-
+  bool stopShow = false;
   Future startup() async {
     if (state.information.textList.length > 0) {
       setModel(() {
@@ -67,6 +67,9 @@ class InformationBloc extends BlocBase with LoggingMixin {
   }
 
   void onToSelection(int id) {
+    if(stopShow) {
+      return;
+    }
     var loadingTag = Info.fromJson({'title': 'loadingTag'});
     var sortIdArr = state.information.allWords.where((student) => student.sortId == id || student.title == "loadingTag");
     var  newIndexshow = state.information.indexshow;
@@ -99,7 +102,6 @@ class InformationBloc extends BlocBase with LoggingMixin {
     if (sortId == 0) {
       return;
     }
-
     //这里找到之前改sortId 请求状态
     var ageOver = state.information.allTitleWords.where((student) => student["sortId"] == sortId);
     if(ageOver.toList().length > 0 ) {
@@ -121,6 +123,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
     }
 
     lists = [];
+    stopShow = true;
     Result<Page> response =
         await InfoSortApis.getInfo(indexPage, 10, "DESC", sortId);
     bool code = response.success;
@@ -130,6 +133,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
         indexshow = false;
       });
       state.information.indexshow = false;
+      stopShow = false;
       return;
     }
     //错误处理
@@ -139,12 +143,9 @@ class InformationBloc extends BlocBase with LoggingMixin {
     //
     //这里页数相同不请求
     Future.delayed(Duration(seconds: 1)).then((e) {
+      stopShow = false;
       state.information.allWords.insertAll(state.information.allWords.length - 1, lists.map((student) => student));
-      if(lists.length > 0 && words.length > 1 && lists.first.sortId != words.first.sortId) {
-        print("快速切换bug");
-      } else {
-        words.insertAll(words.length - 1, lists.map((student) => student));
-      }
+      words.insertAll(words.length - 1, lists.map((student) => student));
       if (lists.length < 10) {
         //这里找到之前改sortId 请求状态
         for (int i = 0; i < state.information.allTitleWords.length; i++)
@@ -173,11 +174,12 @@ class InformationBloc extends BlocBase with LoggingMixin {
         });
         state.information.indexPage = newIndexPage;
       }
-      if(lists.length > 0 && words.length > 1 && lists.first.sortId != words.first.sortId) {
-        print("快速切换bug");
-      } else {
-        state.information.words = words;
-      }
+
+//      if(lists.length > 0 && words.length > 1 && lists.first.sortId != words.first.sortId) {
+//        print("快速切换bug");
+//      } else {
+//        state.information.words = words;
+//      }
     });
   }
 
@@ -193,7 +195,13 @@ class InformationBloc extends BlocBase with LoggingMixin {
 
   Future<void> onRefresh() async {
     print("开始刷新数据");
+    if (textList.length == 0) {
+      log.info("没有分类数据时下拉走到这里");
+      getInfoSortData();
+      return;
+    }
     lists = [];
+    stopShow = true;
     Result<Page> response =
     await InfoSortApis.getInfo(1, 10, "DESC", sortId);
     bool code = response.success;
@@ -205,20 +213,17 @@ class InformationBloc extends BlocBase with LoggingMixin {
       });
       state.information.indexshow = false;
       await Future.delayed(Duration(seconds: 1)).then((e){
-
+        stopShow = false;
       });
       return;
     }
     lists = response.data.items;
     await Future.delayed(Duration(seconds: 1)).then((e){
+      stopShow = false;
       if(lists.length > 0) {
         var loadingTag = Info.fromJson({'title': 'loadingTag'});
         words = <Info>[loadingTag];
-        for (var i = 0; i < state.information.allWords.length; i++) {
-          if (state.information.allWords[i].sortId == sortId) {
-            state.information.allWords.remove(i);
-          }
-        }
+        state.information.allWords.removeWhere((item) => item.sortId == sortId);
         words.insertAll(0, lists.map((student) => student));
         state.information.allWords.insertAll(0, lists.map((student) => student));
       }
