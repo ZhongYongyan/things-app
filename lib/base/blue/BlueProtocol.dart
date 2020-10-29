@@ -22,6 +22,10 @@ class BlueProtocol {
         bytes = [0xaa, 0xff, 0x06, 0x01, 0x01, 0x01, 0x01, 0x53, 0x0d, 0x0a];
         _msgList.add(msg);
         break;
+      /*case 'getAffiliate':
+        bytes = [0xaa, 0xff, 0x06, 0x01, 0x01, 0x01, 0x01, 0x53, 0x0d, 0x0a];
+        msg.success(data);
+        break;*/
       default :
         bytes = null;
         break;
@@ -57,6 +61,7 @@ class BlueProtocol {
             return message;
           case 0x53:
             String info = getDeviceInfo(res);
+            _log.info("-------------------------------------" + info);
             if (!isEmpty(info)) {
               info = info.toUpperCase();
             }
@@ -84,12 +89,12 @@ class BlueProtocol {
       }else{
         String num = d.toRadixString(16);
         if (num.length == 1) {
-          num = '0${num}';
+          num = '${num}';
         }
         info = info == '' ? '${num}':'${info}${num}';
       }
     }
-    return info;
+    return _hexToInt(info);
   }
 
   bool isCheckError (List<int> data) {
@@ -99,6 +104,29 @@ class BlueProtocol {
     }
     return check_num == data[data.length - 3] ? false : true;
   }
+
+  String _hexToInt(String hex) {
+    int val = 0;
+    int len = hex.length;
+    for (int i = 2; i < len; i++) {
+      int hexDigit = hex.codeUnitAt(i);
+      if (hexDigit >= 48 && hexDigit <= 57) {
+        val += (hexDigit - 48) * (1 << (4 * (len - 1 - i)));
+      } else if (hexDigit >= 65 && hexDigit <= 70) {
+        // A..F
+        val += (hexDigit - 55) * (1 << (4 * (len - 1 - i)));
+      } else if (hexDigit >= 97 && hexDigit <= 102) {
+        // a..f
+        val += (hexDigit - 87) * (1 << (4 * (len - 1 - i)));
+      } else {
+        throw new FormatException("Invalid hexadecimal value");
+      }
+    }
+    String newsHex = "A1" + val.toString();
+    return newsHex;
+  }
+
+
 }
 
 
