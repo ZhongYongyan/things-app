@@ -7,6 +7,7 @@ import 'package:app/base/blue/Message.dart';
 import 'package:app/base/plugin/PluginManager.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
+import 'package:app/store/module/Auth.dart';
 import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +28,7 @@ class PluginBloc extends BlocBase with LoggingMixin {
     flutterWebviewPlugin.clearCache();
     flutterWebviewPlugin.close();
     computedPluginUrl(pluginUrl).then((url) {
-//      url = 'http://192.168.2.105:8080/#/connectBlue';
+      //url = "http://192.168.0.103:8080/#connectBlue" + '?accessToken=' + state.auth.accessToken;
       url = url + '?accessToken=' + state.auth.accessToken;
       if(deviceSn != null) {
         url = url + '&deviceSn=' + deviceSn + '&blueName=' + blueName + "&softwareVersions=" + softwareVersions.toString() + "&firmwareVersions=" + firmwareVersions.toString();
@@ -97,6 +98,18 @@ class PluginBloc extends BlocBase with LoggingMixin {
           log.info('APP:configNetworkForRemoteDevice error: $error');
           _postMessage(msg.failure('error', ""));
         });
+        break;
+
+      case 'setAffiliate':
+        var id = msg.data[0];
+        var nickname = msg.data[1];
+        var avatar = msg.data[2];
+        dispatch(authActions.select(id, nickname,avatar));
+        _postMessage(msg.success(true));
+        break;
+
+      case 'getAffiliate':
+        _postMessage(msg.success(state.auth.affiliateId));
         break;
     }
   }

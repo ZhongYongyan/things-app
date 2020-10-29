@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:app/base/entity/Affiliate.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/StorageUtils.dart';
 import 'package:getuiflut/getuiflut.dart';

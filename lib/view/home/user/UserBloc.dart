@@ -22,7 +22,7 @@ class UserBloc extends BlocBase with LoggingMixin {
   var indexPage = 1;
   bool indexshow = true;
   String get visitor => state.lang.localized(Langs.visitor);
-  String get name => state.auth.name != null ? state.auth.name : visitor;
+  String get name => state.auth.userName != null ? state.auth.userName : visitor;
   String get userManagement => state.lang.localized(Langs.userManagement);
   String get userName => state.lang.localized(Langs.userName);
   String get userGender => state.lang.localized(Langs.userGender);
@@ -53,7 +53,8 @@ class UserBloc extends BlocBase with LoggingMixin {
   }
 
   void onGetname(int i) {
-    dispatch(authActions.user(words[i].nickname,words[i].avatar,words[i].id));
+    var item = words[i];
+    dispatch(authActions.select(item.id, item.nickname,item.avatar));
     navigate.pop();
   }
 
