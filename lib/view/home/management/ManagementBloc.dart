@@ -16,7 +16,7 @@ class ManagementBloc extends BlocBase with LoggingMixin {
   ManagementBloc(BuildContext context, Store store) : super(context, store);
   var loading = 'loadingTag';
   static var loadingTag =
-  DeviceModelAll.fromJson({'sortName': 'loadingTag', 'model': []});
+      DeviceModelAll.fromJson({'sortName': 'loadingTag', 'model': []});
   var words = <DeviceModelAll>[loadingTag];
   int id = 0;
   var lists = [];
@@ -26,6 +26,7 @@ class ManagementBloc extends BlocBase with LoggingMixin {
   var text = "按摩椅";
   bool loadShow = false;
   int downloads = 0;
+
   String get productList => state.lang.localized(Langs.productList);
 
   void back() {
@@ -96,7 +97,7 @@ class ManagementBloc extends BlocBase with LoggingMixin {
       item.loadShow = true;
     });
     isDownload(item.softwareUrl).then((url) {
-      if(url == null) {
+      if (url == null) {
         Fluttertoast.showToast(
             msg: "下载插件中...",
             toastLength: Toast.LENGTH_SHORT,
@@ -115,11 +116,7 @@ class ManagementBloc extends BlocBase with LoggingMixin {
   }
 
   void toDownload(DeviceModel item) async {
-    setModel(() {
-      item.isDownloading = true;
-      downloads++;
-    });
-    if(isEmpty(item.softwareUrl)){
+    if (isEmpty(item.softwareUrl)) {
       Fluttertoast.showToast(
           msg: "没有找到插件，请与系统管理员联系",
           toastLength: Toast.LENGTH_SHORT,
@@ -129,7 +126,10 @@ class ManagementBloc extends BlocBase with LoggingMixin {
           fontSize: 16.0);
       return;
     }
-
+    setModel(() {
+      item.isDownloading = true;
+      downloads++;
+    });
     Fluttertoast.showToast(
         msg: '${item.modelName}插件下载中...',
         toastLength: Toast.LENGTH_SHORT,
@@ -155,7 +155,7 @@ class ManagementBloc extends BlocBase with LoggingMixin {
 
   void retrieveData() async {
     DataResult<DeviceModelAll> response =
-    await DeviceModelAllApis.getDeviceModelAll();
+        await DeviceModelAllApis.getDeviceModelAll();
     bool code = response.success;
     //错误处理
     lists = response.data;
@@ -165,7 +165,7 @@ class ManagementBloc extends BlocBase with LoggingMixin {
         List<DeviceModel> deviceModels = deviceModelAll.model;
         for (DeviceModel deviceModel in deviceModels) {
           isDownload(deviceModel.softwareUrl).then((url) {
-            if(url == null) {
+            if (url == null) {
               setModel(() {
                 deviceModel.loadShow = true;
               });
@@ -187,16 +187,15 @@ class ManagementBloc extends BlocBase with LoggingMixin {
       }
       state.management.words = words;
     });
-
   }
 
-  Future<String> computedPluginUrl(String url) async{
+  Future<String> computedPluginUrl(String url) async {
     PluginManager pluginManager = PluginManager();
     return pluginManager.download(url);
 //    return 'https://www.baidu.com/';
   }
 
-  Future<String> isDownload(String url) async{
+  Future<String> isDownload(String url) async {
     PluginManager pluginManager = PluginManager();
     return pluginManager.isDownload(url);
   }
