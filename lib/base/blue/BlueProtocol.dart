@@ -1,9 +1,9 @@
 import 'package:app/base/util/Utils.dart';
 import 'package:logging/logging.dart';
-
 import 'Message.dart';
-
-class BlueProtocol {
+import 'package:app/base/util/BlocUtils.dart';
+class BlueProtocol{
+  BlocBase blocBase;
   Logger _log = Logger('BlueProtocol');
   Map<int, List<int>> _dataList;
   List<Message> _msgList = List();
@@ -22,10 +22,9 @@ class BlueProtocol {
         bytes = [0xaa, 0xff, 0x06, 0x01, 0x01, 0x01, 0x01, 0x53, 0x0d, 0x0a];
         _msgList.add(msg);
         break;
-      /*case 'getAffiliate':
-        bytes = [0xaa, 0xff, 0x06, 0x01, 0x01, 0x01, 0x01, 0x53, 0x0d, 0x0a];
-        msg.success(data);
-        break;*/
+      case 'getAffiliate':
+        msg.success(blocBase.state.auth.id);
+        break;
       default :
         bytes = null;
         break;
