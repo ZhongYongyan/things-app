@@ -105,35 +105,49 @@ class _State extends BlocState<MsgPage, MsgBloc> {
                     ),
                   ))),
               bloc.words.length == 1 && !bloc.indexshow
-                  ? Positioned(
-                      top: 1,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                          color: Color(0xFFFFFFFF),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  alignment: Alignment.center,
-                                  margin: const EdgeInsets.only(
-                                      top: 100, bottom: 10),
-                                  child: Image(
-                                    image: AssetImage("assets/msg_empty.jpeg"),
-                                    fit: BoxFit.cover,
-                                    width: 78,
-                                    height: 64,
-                                  ),
-                                ),
-                                Text(bloc.messageTips,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFFA2A2A6),
-                                      fontSize: 14,
-                                    )),
-                              ])))
+                  ?  Positioned(
+                  top: 1,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                      color: Color(0xFFFFFFFF),
+                      child: new RefreshIndicator(
+                        onRefresh: bloc.onRefresh,
+                        child: ListView.separated(
+                          itemCount: 1,
+                          itemBuilder: (context, index) {
+                            return Container(
+                                color: Color(0xFFFFFFFF),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        alignment: Alignment.center,
+                                        margin: const EdgeInsets.only(
+                                            top: 100, bottom: 10),
+                                        child: Image(
+                                          image: AssetImage("assets/msg_empty.jpeg"),
+                                          fit: BoxFit.cover,
+                                          width: 78,
+                                          height: 64,
+                                        ),
+                                      ),
+                                      Text(bloc.messageTips,
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xFFA2A2A6),
+                                            fontSize: 14,
+                                          )),
+                                    ]));
+                          },
+                          separatorBuilder: (context, index) => Container(
+                            height: 1,
+                            color: Color(0xFFF3F3F3),
+                          ),
+                        ),
+                      )))
                   : Container()
             ],
           ),
