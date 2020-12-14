@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert' as convert;
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/base/api/AffiliateApis.dart';
 import 'package:app/base/api/DeviceVoApis.dart';
 import 'package:app/base/api/InfoSortApis.dart';
 import 'package:app/base/api/MemberNewsApis.dart';
-import 'package:app/base/blue/BleNetworkPlugin.dart';
-import 'package:app/base/entity/Affiliate.dart';
 import 'package:app/base/entity/Device.dart';
 import 'package:app/base/entity/DeviceVo.dart';
 import 'package:app/base/entity/Info.dart';
@@ -22,6 +21,7 @@ import 'package:app/store/module/Auth.dart';
 import 'package:app/store/module/GetuiHelper.dart';
 import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_xupdate/flutter_xupdate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getuiflut/getuiflut.dart';
 import 'package:redux/redux.dart';
@@ -31,6 +31,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
   HomeBloc(BuildContext context, Store store) : super(context, store);
   bool show = false;
   var onReceiveClientId = "";
+  var _onReceiveUpdateData = "";
   Timer _timer;
   bool loadShow = false;
   int isDownloading = 0;
@@ -67,7 +68,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
     if (name == "访客") {
       //getUser();
     }
-
+    initXUpdate();
     getDeviceVo();
     getuiHelper.onReceiveClientId((cid){
       setModel((){
@@ -427,6 +428,39 @@ class HomeBloc extends BlocBase with LoggingMixin {
     String name = await DeviceVoApis.deleteDeviceVo(id);
     if (name == "") {
       print("删除成功");
+    }
+  }
+
+  ///初始化
+  void initXUpdate() {
+    if (Platform.isAndroid) {
+      FlutterXUpdate.init(
+        ///是否输出日志
+          debug: true,
+          ///是否使用post请求
+          isPost: false,
+          ///post请求是否是上传json
+          isPostJson: false,
+          ///是否开启自动模式
+          isWifiOnly: false,
+          ///是否开启自动模式
+          isAutoMode: false,
+          ///需要设置的公共参数
+          supportSilentInstall: false,
+          ///在下载过程中，如果点击了取消的话，是否弹出切换下载方式的重试提示弹窗
+          enableRetry: false
+      ).then((value) {
+        print("初始化更新成功");
+      }).catchError((error) {
+        print(error);
+      });
+
+      FlutterXUpdate.setErrorHandler(
+          onUpdateError: (Map<String, dynamic> message) async {
+            print(message);
+          });
+    } else {
+      print("ios暂不支持XUpdate更新");
     }
   }
 }

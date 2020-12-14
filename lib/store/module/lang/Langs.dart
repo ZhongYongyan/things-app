@@ -91,5 +91,7 @@ class Langs {
   static Localized resetCode = Localized("S后重发","S");
   static Localized errorPhoneNumber = Localized("手机号错误","Wrong mobile number");
   static Localized codeSuccess = Localized("验证码发送成功","Verification code sent successfully");
+
+  static Localized latestVersion = Localized("已是最新版本","Is the latest version");
   
 }

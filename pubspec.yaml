@@ -44,6 +44,7 @@ dependencies:
   flutter_picker: ^1.1.0
   date_format: ^1.0.8
   flutter_easyrefresh: ^2.1.1
+  flutter_xupdate: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
