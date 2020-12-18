@@ -15,6 +15,8 @@ PODS:
     - Flutter
   - flutter_webview_plugin (0.0.1):
     - Flutter
+  - flutter_xupdate (0.0.1):
+    - Flutter
   - fluttertoast (0.0.2):
     - Flutter
   - getuiflut (0.0.1):
@@ -24,6 +26,8 @@ PODS:
   - image_picker (0.0.1):
     - Flutter
   - luhenchang_plugin (0.0.1):
+    - Flutter
+  - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
     - Flutter
@@ -53,10 +57,12 @@ DEPENDENCIES:
   - flutter_blue (from `.symlinks/plugins/flutter_blue/ios`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
+  - flutter_xupdate (from `.symlinks/plugins/flutter_xupdate/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - getuiflut (from `.symlinks/plugins/getuiflut/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - luhenchang_plugin (from `.symlinks/plugins/luhenchang_plugin/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
@@ -86,6 +92,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
   flutter_webview_plugin:
     :path: ".symlinks/plugins/flutter_webview_plugin/ios"
+  flutter_xupdate:
+    :path: ".symlinks/plugins/flutter_xupdate/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   getuiflut:
@@ -94,6 +102,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   luhenchang_plugin:
     :path: ".symlinks/plugins/luhenchang_plugin/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   path_provider_linux:
@@ -120,11 +130,13 @@ SPEC CHECKSUMS:
   flutter_blue: eeb381dc4727a0954dede73515f683865494b370
   flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
+  flutter_xupdate: c7c62e59874a8d7dde645563cd3c458fdfa1830a
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
   getuiflut: 8628ba2b64a738a847a07d2b67e0ac305778e2ee
   GTSDK: 2d7b906892fe7800c72e193e59d92067ed105e80
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   luhenchang_plugin: 57a362a39c65630440a3d6c03f7bda193e65ae6f
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
   path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
