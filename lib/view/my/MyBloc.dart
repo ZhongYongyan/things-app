@@ -1,5 +1,6 @@
 import 'package:app/base/api/AvatarApis.dart';
 import 'package:app/base/api/MemberApis.dart';
+import 'package:app/base/entity/AppUpdate.dart';
 import 'package:app/base/entity/Member.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
@@ -9,11 +10,13 @@ import 'package:app/store/module/lang/Lang.dart';
 import 'package:app/store/module/lang/Langs.dart';
 import 'package:app/view/home/user/component/ActionSheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_xupdate/flutter_xupdate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
+import 'package:app/base/api/AppUpdateApis.dart';
 
 class MyBloc extends BlocBase with LoggingMixin {
   MyBloc(BuildContext context, Store store) : super(context, store);
@@ -39,6 +42,7 @@ class MyBloc extends BlocBase with LoggingMixin {
   String text = "最新";
   double h = 0;
   String imgPath = "";
+  int versionCode = 2;
 
   void startup() {
     //retrieveData();
@@ -164,6 +168,24 @@ class MyBloc extends BlocBase with LoggingMixin {
         await launch(url);
       } else {
         throw 'Could not launch $url';
+      }
+    }
+    if (i == 3) {
+      Result<AppUpdate> result = await AppUpdateApis.findAppUpdate(versionCode);
+      if (result.name != "not_found") {
+        if (Platform.isAndroid) {
+          FlutterXUpdate.checkUpdate(url: "https://things.sf.npu.fun/api/upload/appUpdate", supportBackgroundUpdate: true);
+        }else {
+          await launch('https://www.pgyer.com/igvR');
+        }
+      }else {
+        Fluttertoast.showToast(
+            msg: state.lang.localized(Langs.latestVersion),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 2,
+            textColor: Colors.white,
+            fontSize: 36.0);
       }
     }
     if (i == 4) {
