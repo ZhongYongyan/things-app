@@ -26,6 +26,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
+  int createNumber = 0;
   String get message => state.lang.localized(Langs.message);
   String get messageTips => state.lang.localized(Langs.messageTips);
   Timer _timer;
@@ -48,12 +49,13 @@ class MsgBloc extends BlocBase with LoggingMixin {
           Result<MemberNews> response = await MemberNewsApis.getInfoMemberNewsByTaskId(taskId);
           bool code = response.success;
           if(code) {
+            int number = await MemberNewsApis.getByCreateNewsNumber();
+            setModel((){
+              state.app.createNumber = number;
+            });
             MemberNews memberNews =  response.data;
             if (memberNews.actions == "OPEN_NEWS") {
               updateData();
-              setModel((){
-                state.app.createNumber++;
-              });
             }
           }
       },
@@ -126,7 +128,6 @@ class MsgBloc extends BlocBase with LoggingMixin {
   }
 
   void updateData() async {
-    indexshow = true;
     indexPage = 1;
     words = <MemberNews>[loadingTag];
     retrieveData();
@@ -191,7 +192,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
     words = <MemberNews>[loadingTag];
     lists = [];
     Result<Page> response =
-    await  MemberNewsApis.getMemberNews(indexPage, 10, "DESC");
+    await MemberNewsApis.getMemberNews(indexPage, 10, "DESC");
     bool code = response.success;
     //错误处理
     if (!code) {

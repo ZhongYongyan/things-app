@@ -88,7 +88,7 @@ class BlueProtocol{
       }else{
         String num = d.toRadixString(16);
         if (num.length == 1) {
-          num = '${num}';
+          num = '${0}${num}';
         }
         info = info == '' ? '${num}':'${info}${num}';
       }

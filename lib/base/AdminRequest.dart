@@ -44,7 +44,7 @@ class ApiRequest with LoggingMixin {
     }, onResponse: (Response r) {
       log.info('response: ${r.data}');
     }, onError: (DioError e){
-      if (e.response.statusCode == 403 || e.response.statusCode == 401) {
+      if ((e.response.statusCode == 403 || e.response.statusCode == 401) && store.state.auth.accessToken != "") {
         store.dispatch(authActions.logout());
         navigatorHolder.pushReplacementNamed('/login');
       }
