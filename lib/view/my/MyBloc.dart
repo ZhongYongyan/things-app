@@ -42,7 +42,7 @@ class MyBloc extends BlocBase with LoggingMixin {
   String text = "最新";
   double h = 0;
   String imgPath = "";
-  int versionCode = 4;
+  int versionCode = 5;
 
   void startup() {
 //    retrieveData();

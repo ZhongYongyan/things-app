@@ -10,11 +10,11 @@ class AppUpdate {
   String DownloadUrl;
 
   AppUpdate.fromJson(Map<String, dynamic> json) {
-    Msg = json['name'] ?? '';
-    VersionCode = json['phone'] ?? 0;
-    UpdateStatus = json['password'] ?? 0;
-    ApkSize = json['created'] ?? 0;
-    ApkMd5 = json['createUser'] ?? "";
+    Msg = json['Msg'] ?? '';
+    VersionCode = json['VersionCode'] ?? 0;
+    UpdateStatus = json['UpdateStatus'] ?? 0;
+    ApkSize = json['ApkSize'] ?? 0;
+    ApkMd5 = json['ApkMd5'] ?? '';
     ModifyContent = json['ModifyContent'] ?? '';
     VersionName = json['VersionName'];
     id = json['Code'] ?? 0;
