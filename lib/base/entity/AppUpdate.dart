@@ -14,7 +14,7 @@ class AppUpdate {
     VersionCode = json['phone'] ?? 0;
     UpdateStatus = json['password'] ?? 0;
     ApkSize = json['created'] ?? 0;
-    ApkMd5 = json['createUser'] ?? 0;
+    ApkMd5 = json['createUser'] ?? "";
     ModifyContent = json['ModifyContent'] ?? '';
     VersionName = json['VersionName'];
     id = json['Code'] ?? 0;

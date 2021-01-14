@@ -43,7 +43,8 @@ class InfoSortApis {
         'pageIndex': pageIndex,
         'pageSize': pageSize,
         'sortDirection': sortDirection,
-        'sortId': sortId
+        'sortId': sortId,
+        'enable': true
       });
       Result<Page<Info>> entity = Result.fromJson(response.data,
           (data) => Page.fromJson(data, (infoSort) => Info.fromJson(infoSort)));

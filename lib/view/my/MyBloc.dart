@@ -42,10 +42,10 @@ class MyBloc extends BlocBase with LoggingMixin {
   String text = "最新";
   double h = 0;
   String imgPath = "";
-  int versionCode = 2;
+  int versionCode = 4;
 
   void startup() {
-    //retrieveData();
+//    retrieveData();
     textList = [
       "-",
       state.lang.localized(Langs.jdMall),
