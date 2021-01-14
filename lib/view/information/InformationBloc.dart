@@ -226,7 +226,13 @@ class InformationBloc extends BlocBase with LoggingMixin {
         state.information.allWords.removeWhere((item) => item.sortId == sortId);
         words.insertAll(0, lists.map((student) => student));
         state.information.allWords.insertAll(0, lists.map((student) => student));
+      }else{
+        if(indexPage == 1) {
+          words = <Info>[loadingTag];
+          state.information.allWords = <Info>[loadingTag];
+        }
       }
+
       for (int j = 0; j < state.information.allTitleWords.length; j++)
       {
         if(state.information.allTitleWords[j]["sortId"] == sortId)
