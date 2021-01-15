@@ -42,12 +42,14 @@ class Langs {
   static Localized plugInDownloadingTips = Localized("插件下载中,请稍后","Plug in downloading. Please wait a moment");
   static Localized noPlugInTips = Localized("没有找到插件，请与系统管理员联系","No plug-in found. Please contact your system administrator");
   //消息
-  static Localized messageTips = Localized("没有相关消息","No news");
+  static Localized messageTips = Localized("没有相关消息","No message");
   static Localized messageDetails = Localized("消息详情","Message details");
+  static Localized messageDelete = Localized("资讯已消失","The Message has disappeared");
   //资讯
   static Localized infoTips = Localized("没有相关资讯","There is no relevant information");
   static Localized infoDetails = Localized("资讯详情","Information details");
   static Localized read = Localized("阅读原文","Read the original");
+  static Localized infoDelete = Localized("资讯已消失","The information has disappeared");
   //用户管理
   static Localized userManagement = Localized("用户管理","User management");
   static Localized userName = Localized("昵称","Nickname");

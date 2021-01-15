@@ -40,6 +40,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
     if (sortId == 0) {
       getInfoSortData();
     }
+
   }
 
   void getInfoSortData() async {
@@ -82,10 +83,12 @@ class InformationBloc extends BlocBase with LoggingMixin {
         newIndexPage = state.information.allTitleWords[i]["indexPage"];
       }
     }
+    setModel(() {
     state.information.sortId = id;
     state.information.indexPage = sortIdArr.toList().length>1 ? newIndexPage : 1;
     state.information.words = sortIdArr.toList().length>1 ? sortIdArr.toList() :  <Info>[loadingTag];
     state.information.indexshow = sortIdArr.toList().length>1 ? newIndexshow : true;
+    });
     setModel(() {
       sortId = id;
       words = sortIdArr.toList().length>1 ? sortIdArr.toList() :  <Info>[loadingTag];
@@ -94,8 +97,33 @@ class InformationBloc extends BlocBase with LoggingMixin {
     });
   }
 
-  void onToDetails(int i) {
-    navigate.pushNamed('/details', arguments: {"model": words[i]});
+  void onToDetails(int i) async{
+    Result<Info> response = await InfoSortApis.getDelInfoSort(words[i].id);
+    bool code = response.success;
+    if (code) {
+      Info info = response.data;
+      if(info.enable) {
+        navigate.pushNamed('/details', arguments: {"model": response.data});
+      }else{
+        Fluttertoast.showToast(
+            msg: state.lang.localized(Langs.infoDelete),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 2,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+      onRefresh();
+    }else {
+      Fluttertoast.showToast(
+          msg: state.lang.localized(Langs.infoDelete),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 2,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      onRefresh();
+    }
   }
 
   void retrieveData(int sortId) async {
@@ -106,12 +134,11 @@ class InformationBloc extends BlocBase with LoggingMixin {
     var ageOver = state.information.allTitleWords.where((student) => student["sortId"] == sortId);
     if(ageOver.toList().length > 0 ) {
       //请求过相同页
-      if(ageOver.toList()[0]["indexPage"] == indexPage) {
+      if(ageOver.toList()[0]["indexPage"] >= indexPage) {
         print("请求过相同页");
         setModel(() {
           indexshow = false;
         });
-        return;
       }
     } else {
       var item = {
@@ -145,8 +172,9 @@ class InformationBloc extends BlocBase with LoggingMixin {
     Future.delayed(Duration(seconds: 1)).then((e) {
       stopShow = false;
       state.information.allWords.insertAll(state.information.allWords.length - 1, lists.map((student) => student));
+      state.information.words.insertAll(state.information.words.length - 1, lists.map((student) => student));
       words.insertAll(words.length - 1, lists.map((student) => student));
-      if (lists.length < 10) {
+      if (lists.length < 2) {
         //这里找到之前改sortId 请求状态
         for (int i = 0; i < state.information.allTitleWords.length; i++)
         {
@@ -166,7 +194,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
         {
           if(state.information.allTitleWords[i]["sortId"] == sortId)
           {
-            state.information.allTitleWords[i]["indexPage"] = newIndexPage;
+            state.information.allTitleWords[i]["indexPage"] = indexPage;
           }
         }
         setModel(() {
@@ -174,7 +202,6 @@ class InformationBloc extends BlocBase with LoggingMixin {
         });
         state.information.indexPage = newIndexPage;
       }
-
 //      if(lists.length > 0 && words.length > 1 && lists.first.sortId != words.first.sortId) {
 //        print("快速切换bug");
 //      } else {
@@ -194,12 +221,12 @@ class InformationBloc extends BlocBase with LoggingMixin {
 
 
   Future<void> onRefresh() async {
-    print("开始刷新数据");
     if (textList.length == 0) {
       log.info("没有分类数据时下拉走到这里");
       getInfoSortData();
       return;
     }
+
     lists = [];
     stopShow = true;
     Result<Page> response =
@@ -218,19 +245,17 @@ class InformationBloc extends BlocBase with LoggingMixin {
       return;
     }
     lists = response.data.items;
+    int pageCount =  response.data.pageCount;
     await Future.delayed(Duration(seconds: 1)).then((e){
       stopShow = false;
+      var loadingTag = Info.fromJson({'title': 'loadingTag'});
+      words = <Info>[loadingTag];
       if(lists.length > 0) {
-        var loadingTag = Info.fromJson({'title': 'loadingTag'});
-        words = <Info>[loadingTag];
         state.information.allWords.removeWhere((item) => item.sortId == sortId);
         words.insertAll(0, lists.map((student) => student));
+        state.information.words.removeWhere((item) => item.sortId == sortId);
+        state.information.words.insertAll(0, lists.map((student) => student));
         state.information.allWords.insertAll(0, lists.map((student) => student));
-      }else{
-        if(indexPage == 1) {
-          words = <Info>[loadingTag];
-          state.information.allWords = <Info>[loadingTag];
-        }
       }
 
       for (int j = 0; j < state.information.allTitleWords.length; j++)
@@ -238,14 +263,13 @@ class InformationBloc extends BlocBase with LoggingMixin {
         if(state.information.allTitleWords[j]["sortId"] == sortId)
         {
           setModel(() {
-            indexshow = lists.length < 10 ? false : true;
-            indexPage = lists.length < 10 ? 1 : 2;
+            indexshow = pageCount > 1 ? true : false;
+            indexPage = pageCount > 1 ? 2 : 1;
           });
-          state.information.allTitleWords[j]["indexPage"] = lists.length < 10 ? 1 : 2;
-          state.information.allTitleWords[j]["indexshow"] = lists.length < 10 ? false : true;
+          state.information.allTitleWords[j]["indexPage"] = 1;
+          state.information.allTitleWords[j]["indexshow"] = pageCount > 1 ? true : false;
         }
       }
-
     });
   }
 }

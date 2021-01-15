@@ -12,6 +12,7 @@ import 'package:app/base/util/Result.dart';
 import 'package:app/store/module/Msg.dart';
 import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getuiflut/getuiflut.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -85,14 +86,28 @@ class MsgBloc extends BlocBase with LoggingMixin {
 
   }
 
-  void onToDetails(int i) {
+  Future<void> onToDetails(int i) async {
     MemberNews memberNews = words[i];
     String status = memberNews.newsStatus;
     if ("CREATE" == status) {
       updateMemberStatus(memberNews.id);
       words[i].newsStatus = "READ";
     }
-    navigate.pushNamed('/msgDetails', arguments: {"model": memberNews});
+    Result<MemberNews> response = await MemberNewsApis.getInfoMemberNews(words[i].newsId);
+    bool code = response.success;
+    if (code) {
+      navigate.pushNamed('/msgDetails', arguments: {"model": response.data});
+    } else {
+      onRefresh();
+      Fluttertoast.showToast(
+          msg: state.lang.localized(Langs.messageDelete),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 2,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+
   }
 
   void retrieveData() async {
@@ -170,7 +185,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
       onRefresh();
       navigate.pushNamed('/msgDetails', arguments: {"model": response.data});
     } else {
-      print("消息详情请求失败了");
+      navigate.pushNamed('/msg');
     }
   }
 
