@@ -106,7 +106,7 @@ class _State extends BlocState<InformationPage, InformationBloc> {
                         ? Color(0xFFFFFFFF)
                         : Color(0xFFF8F8F8),
                     child: new RefreshIndicator(
-                      onRefresh: bloc.onRefresh,
+                     onRefresh: bloc.onRefresh,
                       child: ListView.separated(
                         itemCount: bloc.words.length,
                         itemBuilder: (context, index) {
