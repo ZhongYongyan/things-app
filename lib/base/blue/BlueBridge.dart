@@ -143,7 +143,7 @@ class BlueBridge {
               return x.device.name;
             }).join(',');
 
-            if (scanResultsString != last) {
+            if (scanResultsString != "" && scanResultsString != last) {
               scanResultsLast = scanResults;
               Message message = Message('onScanResult', random());
               message.data = scanResultsString;

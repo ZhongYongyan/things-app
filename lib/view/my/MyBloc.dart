@@ -42,7 +42,7 @@ class MyBloc extends BlocBase with LoggingMixin {
   String text = "最新";
   double h = 0;
   String imgPath = "";
-  int versionCode = 7;
+  int versionCode = 8;
 
   void startup() {
 //    retrieveData();
@@ -174,7 +174,7 @@ class MyBloc extends BlocBase with LoggingMixin {
       Result<AppUpdate> result = await AppUpdateApis.findAppUpdate(versionCode);
       if (result.name != "not_found") {
         if (Platform.isAndroid) {
-          FlutterXUpdate.checkUpdate(url: "https://things.sf.npu.fun/api/upload/appUpdate", supportBackgroundUpdate: true);
+          FlutterXUpdate.checkUpdate(url: "https://things.irest.cn/api/upload/appUpdate", supportBackgroundUpdate: true);
         }else {
           await launch('https://www.pgyer.com/igvR');
         }
