@@ -1,7 +1,9 @@
 import 'dart:math';
 
-import 'package:app/util/LoggingUtils.dart';
-import 'package:app/util/StorageUtils.dart';
+import 'package:app/base/entity/Affiliate.dart';
+import 'package:app/base/util/LoggingUtils.dart';
+import 'package:app/base/util/StorageUtils.dart';
+import 'package:getuiflut/getuiflut.dart';
 
 enum AlertType { error, warning, success, info }
 
@@ -13,8 +15,12 @@ class Alert {
 }
 
 class AppState with StorageMixin, LoggingMixin {
+
   String clientId = '';
   String errorMessage = '';
+//  int companyId = 1362810216906784; //顾家
+  int companyId = 1351728559554592; //irest
+  int createNumber = 0;
 
   AppState() {
     this.clientId = storage.get('app.clientId');

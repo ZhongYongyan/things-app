@@ -22,30 +22,73 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 27
+    def keystorePropertiesFile = rootProject.file("key.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+    compileSdkVersion 28
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 
     lintOptions {
         disable 'InvalidPackage'
+//        checkReleaseBuilds false
+//        abortOnError false
     }
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "im.brain.appdemo"
-        minSdkVersion 16
-        targetSdkVersion 27
+        applicationId "cn.shifen.things"
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "itTyNzKYEQ71ojvDiBnNe9",
+                GETUI_APP_KEY   : "MTSHNGakyO7wB9fKNGPlM4",
+                GETUI_APP_SECRET: "j0HkdyX31l9Xr8MJgqmWH9",
+                // 下面是多厂商配置，如需要开通使用请联系技术支持
+                // 如果不需要使用，预留空字段即可
+                XIAOMI_APP_ID   : "",
+                XIAOMI_APP_KEY  : "",
+                MEIZU_APP_ID    : "",
+                MEIZU_APP_KEY   : "",
+                HUAWEI_APP_ID   : "",
+                OPPO_APP_KEY   : "",
+                OPPO_APP_SECRET  : "",
+                VIVO_APP_ID   : "",
+                VIVO_APP_KEY  : ""
+        ]
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
     }
 
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
         }
     }
 }
@@ -55,7 +98,11 @@ flutter {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+    // implementation(name: 'blenetwork-release-1.0.1.aar', ext: 'aar')
+    implementation 'no.nordicsemi.android.support.v18:scanner:1.1.0'
 }
