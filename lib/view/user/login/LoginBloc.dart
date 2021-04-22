@@ -148,7 +148,9 @@ class LoginBloc extends BlocBase with LoggingMixin {
       Result<Member> memberResponse = await MemberApis.getMember();
       dispatch(authActions.login(memberResponse.data.id, response.data.accessToken));
       setModel(() {
-        _timer.cancel();
+        if(_timer != null) {
+          _timer.cancel();
+        }
         countdownTimeShow = false;
       });
       navigate.pushNamedAndRemoveUntil('/page', (route) {
