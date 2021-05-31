@@ -21,15 +21,26 @@ class UserBloc extends BlocBase with LoggingMixin {
   var lists = [];
   var indexPage = 1;
   bool indexshow = true;
+
   String get visitor => state.lang.localized(Langs.visitor);
-  String get name => state.auth.userName != null ? state.auth.userName : visitor;
+
+  String get name =>
+      state.auth.userName != null ? state.auth.userName : visitor;
+
   String get userManagement => state.lang.localized(Langs.userManagement);
+
   String get userName => state.lang.localized(Langs.userName);
+
   String get userGender => state.lang.localized(Langs.userGender);
+
   String get userHeight => state.lang.localized(Langs.userHeight);
+
   String get userBirthday => state.lang.localized(Langs.userBirthday);
+
   String get userWeight => state.lang.localized(Langs.userWeight);
+
   String get male => state.lang.localized(Langs.male);
+
   String get female => state.lang.localized(Langs.female);
 
   Future startup() async {
@@ -54,7 +65,7 @@ class UserBloc extends BlocBase with LoggingMixin {
 
   void onGetname(int i) {
     var item = words[i];
-    dispatch(authActions.select(item.id, item.nickname,item.avatar));
+    dispatch(authActions.select(item.id, item.nickname, item.avatar));
     navigate.pop();
   }
 
@@ -83,7 +94,7 @@ class UserBloc extends BlocBase with LoggingMixin {
     }
     Future.delayed(Duration(seconds: 1)).then((e) {
       words.insertAll(words.length - 1, lists.map((student) => student));
-      if (lists.length < 10) {
+      if (response.data.pageCount <= indexPage) {
         setModel(() {
           indexshow = false;
         });
@@ -95,7 +106,12 @@ class UserBloc extends BlocBase with LoggingMixin {
         });
         state.member.indexPage = newIndexPage;
       }
-      state.member.words = words;
+      /*if(response.data.pageCount > indexPage) {
+        setModel(() {
+          indexPage = indexPage + 1;
+        });
+      }
+      state.member.words = words;*/
     });
   }
 
@@ -105,8 +121,8 @@ class UserBloc extends BlocBase with LoggingMixin {
 
   Future<void> onRefresh() async {
     lists = [];
-    Result<Page> response =
-    await AffiliateApis.getAffiliate(1, 10, "ASC");
+    words = <Affiliate>[loadingTag];
+    Result<Page> response = await AffiliateApis.getAffiliate(1, 10, "DESC");
     bool code = response.success;
     //错误处理
     if (!code) {
@@ -114,33 +130,36 @@ class UserBloc extends BlocBase with LoggingMixin {
         indexshow = false;
       });
       state.member.indexshow = false;
-      await Future.delayed(Duration(seconds: 1)).then((e){
-
-      });
+      await Future.delayed(Duration(seconds: 1)).then((e) {});
       return;
     }
     lists = response.data.items;
-    var num = 0;
-    var listItem = [];
-    await Future.delayed(Duration(seconds: 1)).then((e){
-      for (int i = 0; i < lists.length; i++)
-      {
-        var ageOver = words.where((student) => student.id == lists[i].id || student.nickname == "loadingTag" ||  student.id == 123456);
-        if (ageOver.toList().length > 2 ) {
-        } else {
-          num += 1;
-          listItem.add(lists[i]);
-        }
-        if(i == lists.length -1 && num > 0) {
-          words.insertAll(0, listItem.map((student) => student));
-          //state.member.words.insertAll(0, listItem.map((student) => student));
-          setModel(() {
-            indexshow = state.member.indexshow;
-          });
-        }
+    var item = Affiliate.fromJson({
+      "id": 123456,
+      "memberId": 10,
+      "nickname": "访客",
+      "phone": "",
+      "sex": "F",
+      "height": 110,
+      "weight": 60.0,
+      "birthday": "2008-03-30T15:23:23.000+0000",
+      "created": "",
+      "companyId": 1324941137936416
+    });
+    lists.add(item);
+    await Future.delayed(Duration(seconds: 1)).then((e) {
+      words.insertAll(words.length - 1, lists.map((student) => student));
+      if (response.data.pageCount > 1) {
+        setModel(() {
+          state.member.words = words;
+          indexPage = 2;
+          indexshow = true;
+        });
+      }else {
+        setModel(() {
+          state.member.words = words;
+        });
       }
-
     });
   }
 }
-
