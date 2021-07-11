@@ -7,6 +7,7 @@ import 'package:app/base/api/AffiliateApis.dart';
 import 'package:app/base/api/DeviceVoApis.dart';
 import 'package:app/base/api/InfoSortApis.dart';
 import 'package:app/base/api/MemberNewsApis.dart';
+import 'package:app/base/entity/Affiliate.dart';
 import 'package:app/base/entity/Device.dart';
 import 'package:app/base/entity/DeviceVo.dart';
 import 'package:app/base/entity/Info.dart';
@@ -14,7 +15,7 @@ import 'package:app/base/entity/MemberNews.dart';
 import 'package:app/base/plugin/PluginManager.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
-import 'package:app/base/util/Page.dart';
+import 'package:app/base/util/Paged.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/base/util/Utils.dart';
 import 'package:app/store/module/Auth.dart';
@@ -314,7 +315,7 @@ class HomeBloc extends BlocBase with LoggingMixin {
   }
 
   void getUser() async {
-    Result<Page> response = await AffiliateApis.getAffiliate(1, 10, "ASC");
+    Result<Paged> response = await AffiliateApis.getAffiliate(1, 10, "ASC");
     bool code = response.success;
     var list = response.data.items;
     if (list.length > 0) {

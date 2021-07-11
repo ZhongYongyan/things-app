@@ -1,11 +1,11 @@
 import 'package:app/base/AdminRequest.dart';
 import 'package:app/base/entity/Affiliate.dart';
-import 'package:app/base/util/Page.dart';
+import 'package:app/base/util/Paged.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:dio/dio.dart';
 
 class AffiliateApis {
-  static Future<Result<Page<Affiliate>>> getAffiliate(
+  static Future<Result<Paged<Affiliate>>> getAffiliate(
       int pageIndex, int pageSize, String sortDirection) async {
     try {
       Response response = await apiRequest.get("/affiliate", queryParameters: {
@@ -14,10 +14,10 @@ class AffiliateApis {
         'sortDirection': sortDirection,
         'memberId': 10,
       });
-      Result<Page<Affiliate>> entity = Result.fromJson(
+      Result<Paged<Affiliate>> entity = Result.fromJson(
           response.data,
           (data) =>
-              Page.fromJson(data, (infoSort) => Affiliate.fromJson(infoSort)));
+              Paged.fromJson(data, (infoSort) => Affiliate.fromJson(infoSort)));
       return entity;
     } on DioError catch (err) {
       return Result(name: err.type.toString(), message: err.message);
@@ -27,7 +27,7 @@ class AffiliateApis {
   static Future<Result<Affiliate>> modifyAffiliate(Affiliate affiliate) async {
     try {
       var id = affiliate.id;
-      FormData formData = new FormData.from({
+      FormData formData = FormData.fromMap({
         'birthday': affiliate.birthday,
         'height': affiliate.height,
         'id': affiliate.id,
@@ -56,7 +56,7 @@ class AffiliateApis {
 
   static Future<Result<Affiliate>> addAffiliate(Affiliate affiliate) async {
     try {
-      FormData formData = new FormData.from({
+      FormData formData = FormData.fromMap({
         'birthday': affiliate.birthday,
         'height': affiliate.height,
         'nickname': affiliate.nickname,

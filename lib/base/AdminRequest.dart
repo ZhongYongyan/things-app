@@ -5,6 +5,7 @@ import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/config/Settings.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/store/module/Auth.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -29,7 +30,7 @@ class ApiRequest with LoggingMixin {
     dio.options.baseUrl = settings.baseUrl;
     dio.interceptors.add(LogInterceptor(responseBody: false));
     (dio.transformer as DefaultTransformer).jsonDecodeCallback = _parseJson;
-    dio.interceptors.add(InterceptorsWrapper(onRequest: (Options options) {
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
       options.headers.addAll({'client-id': store.state.app.clientId});
 
       if (options is RequestOptions) {
@@ -41,13 +42,18 @@ class ApiRequest with LoggingMixin {
       if (store.state.auth.isAuth)
         options.headers.addAll(
             {'Authorization': 'Bearer ${store.state.auth.accessToken}'});
-    }, onResponse: (Response r) {
+
+      return handler.next(options);
+    }, onResponse: (r, handler) {
       log.info('response: ${r.data}');
-    }, onError: (DioError e){
+      handler.next(r);
+    }, onError: (e, handler){
       if ((e.response.statusCode == 403 || e.response.statusCode == 401) && store.state.auth.accessToken != "") {
         store.dispatch(authActions.logout());
         navigatorHolder.pushReplacementNamed('/login');
+        return;
       }
+      handler.next(e);
     }));
 
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =

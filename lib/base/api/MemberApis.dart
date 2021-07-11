@@ -19,7 +19,7 @@ class MemberApis {
 
   static Future<String> setAvatar(String path) async {
     try {
-      FormData formData = new FormData.from({
+      FormData formData = FormData.fromMap({
         "avatar": path,
       });
       Response response =

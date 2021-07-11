@@ -9,15 +9,17 @@ import Flutter
   ) -> Bool {
     application.applicationIconBadgeNumber = 0
     GeneratedPluginRegistrant.register(with: self)
-    BleNetworkPlugin.register(with: self.registrar(forPlugin: "BleNetworkPlugin"))
+    if let flutterPluginRegistrar = self.registrar(forPlugin: "BleNetworkPlugin") {
+        BleNetworkPlugin.register(with: flutterPluginRegistrar)
+    }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
-    
-    override func applicationDidBecomeActive(_: UIApplication) {
-        UIApplication.shared.applicationIconBadgeNumber = 0
-    }
 
-    override func applicationWillResignActive(_: UIApplication) {
-        UIApplication.shared.applicationIconBadgeNumber = 0
-    }
+  override func applicationDidBecomeActive(_: UIApplication) {
+      UIApplication.shared.applicationIconBadgeNumber = 0
+  }
+
+  override func applicationWillResignActive(_: UIApplication) {
+      UIApplication.shared.applicationIconBadgeNumber = 0
+  }
 }

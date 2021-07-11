@@ -8,7 +8,7 @@ class AdminApis {
   static Future<Result<AccessToken>> postAccessToken(
       String username, String smsToken, String validCode) async {
     try {
-      FormData formData = new FormData.from({
+      FormData formData = FormData.fromMap({
 //        "companyId": 1362810216906784, //顾家
         "companyId":1351728559554592, //irest
         "clientId": "",
@@ -41,7 +41,7 @@ class AdminApis {
   static Future<String> getCode(
       String encoding, String phone, int timestamp) async {
     try {
-      FormData formData = new FormData.from({
+      FormData formData =  FormData.fromMap({
         "encoding": encoding,
         "phone": phone,
         "timestamp": timestamp,

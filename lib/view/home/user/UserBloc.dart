@@ -4,7 +4,7 @@ import 'package:app/base/api/AffiliateApis.dart';
 import 'package:app/base/entity/Affiliate.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
-import 'package:app/base/util/Page.dart';
+import 'package:app/base/util/Paged.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/store/module/Auth.dart';
 import 'package:app/store/module/lang/Langs.dart';
@@ -71,7 +71,7 @@ class UserBloc extends BlocBase with LoggingMixin {
 
   void retrieveData() async {
     lists = [];
-    Result<Page> response =
+    Result<Paged> response =
         await AffiliateApis.getAffiliate(indexPage, 10, "DESC");
     bool code = response.success;
 
@@ -122,7 +122,7 @@ class UserBloc extends BlocBase with LoggingMixin {
   Future<void> onRefresh() async {
     lists = [];
     words = <Affiliate>[loadingTag];
-    Result<Page> response = await AffiliateApis.getAffiliate(1, 10, "DESC");
+    Result<Paged> response = await AffiliateApis.getAffiliate(1, 10, "DESC");
     bool code = response.success;
     //错误处理
     if (!code) {

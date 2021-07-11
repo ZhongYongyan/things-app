@@ -7,7 +7,7 @@ import 'package:app/base/entity/Info.dart';
 import 'package:app/base/entity/MemberNews.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
-import 'package:app/base/util/Page.dart';
+import 'package:app/base/util/Paged.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/store/module/Msg.dart';
 import 'package:app/store/module/lang/Langs.dart';
@@ -112,7 +112,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
 
   void retrieveData() async {
     lists = [];
-    Result<Page> response =
+    Result<Paged> response =
         await MemberNewsApis.getMemberNews(indexPage, 10, "DESC");
     bool code = response.success;
     if (!code) {
@@ -206,7 +206,7 @@ class MsgBloc extends BlocBase with LoggingMixin {
     indexPage = 1;
     words = <MemberNews>[loadingTag];
     lists = [];
-    Result<Page> response =
+    Result<Paged> response =
     await MemberNewsApis.getMemberNews(indexPage, 10, "DESC");
     bool code = response.success;
     //错误处理
