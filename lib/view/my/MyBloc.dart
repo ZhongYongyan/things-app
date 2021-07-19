@@ -176,7 +176,14 @@ class MyBloc extends BlocBase with LoggingMixin {
         if (Platform.isAndroid) {
           FlutterXUpdate.checkUpdate(url: "https://things.irest.cn/api/upload/appUpdate", supportBackgroundUpdate: true);
         }else {
-          await launch('https://www.pgyer.com/igvR');
+          // await launch('https://www.pgyer.com/igvR');
+          Fluttertoast.showToast(
+              msg: state.lang.localized(Langs.noUpdatedVersion),
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIos: 1,
+              textColor: Colors.white,
+              fontSize: 16.0);
         }
       }else {
         Fluttertoast.showToast(
