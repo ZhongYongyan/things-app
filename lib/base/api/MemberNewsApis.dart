@@ -1,11 +1,11 @@
 import 'package:app/base/AdminRequest.dart';
 import 'package:app/base/entity/MemberNews.dart';
-import 'package:app/base/util/Page.dart';
+import 'package:app/base/util/Paged.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:dio/dio.dart';
 
 class MemberNewsApis {
-  static Future<Result<Page<MemberNews>>> getMemberNews(
+  static Future<Result<Paged<MemberNews>>> getMemberNews(
       int pageIndex, int pageSize, String sortDirection) async {
     try {
       Response response =
@@ -14,10 +14,10 @@ class MemberNewsApis {
         'pageSize': pageSize,
         'sortDirection': sortDirection,
       });
-      Result<Page<MemberNews>> entity = Result.fromJson(
+      Result<Paged<MemberNews>> entity = Result.fromJson(
           response.data,
           (data) =>
-              Page.fromJson(data, (infoSort) => MemberNews.fromJson(infoSort)));
+              Paged.fromJson(data, (infoSort) => MemberNews.fromJson(infoSort)));
       return entity;
     } on DioError catch (err) {
       return Result(name: err.type.toString(), message: err.message);

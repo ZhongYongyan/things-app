@@ -1,16 +1,10 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/config/WifiConfigBloc.dart';
-import 'package:app/view/msg/details/DetailsBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/ball_pulse_header.dart';
-import 'package:flutter_easyrefresh/bezier_circle_header.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:redux/src/store.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class WifiConfigPage extends StatefulWidget {
   @override
@@ -139,10 +133,10 @@ class _State extends BlocState<WifiConfigPage, WifiConfigBloc> {
     return EasyRefresh.custom(
       header: BallPulseHeader(),
       controller: bloc.refreshController,
-      onRefresh: () async {
+      /*onRefresh: () async {
         return bloc.startScan();
-      },
-      enableControlFinishRefresh: true,
+      },*/
+//      enableControlFinishRefresh: true,
       slivers: <Widget>[
         SliverList(
           delegate: SliverChildBuilderDelegate(

@@ -84,6 +84,7 @@ class Langs {
   static Localized signOut = Localized("退出登录","Sign out");
   static Localized signOutTips = Localized("确定要退出当前账号?","Are you sure you want to exit the current account?");
   static Localized wifiConfig = Localized("网络配置","Network configuration");
+  static Localized noUpdatedVersion = Localized("没有更新版本","No updated version");
 
   //登录
   static Localized phoneNumber = Localized("请输入手机号码","Please enter your mobile phone number");
@@ -95,5 +96,5 @@ class Langs {
   static Localized codeSuccess = Localized("验证码发送成功","Verification code sent successfully");
 
   static Localized latestVersion = Localized("已是最新版本","Is the latest version");
-  
+
 }

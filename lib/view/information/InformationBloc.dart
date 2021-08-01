@@ -4,7 +4,7 @@ import 'package:app/base/api/InfoSortApis.dart';
 import 'package:app/base/entity/Info.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
-import 'package:app/base/util/Page.dart';
+import 'package:app/base/util/Paged.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:app/store/module/lang/Langs.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
   }
 
   void getInfoSortData() async {
-    Result<Page> response = await InfoSortApis.getInfoSort(1, 30, "ASC");
+    Result<Paged> response = await InfoSortApis.getInfoSort(1, 30, "ASC");
     bool code = response.success;
     //错误处理
     if (!code) {
@@ -151,7 +151,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
 
     lists = [];
     stopShow = true;
-    Result<Page> response =
+    Result<Paged> response =
         await InfoSortApis.getInfo(indexPage, 10, "DESC", sortId);
     bool code = response.success;
     if (!code) {
@@ -229,7 +229,7 @@ class InformationBloc extends BlocBase with LoggingMixin {
 
     lists = [];
     stopShow = true;
-    Result<Page> response =
+    Result<Paged> response =
     await InfoSortApis.getInfo(1, 10, "DESC", sortId);
     bool code = response.success;
     //错误处理

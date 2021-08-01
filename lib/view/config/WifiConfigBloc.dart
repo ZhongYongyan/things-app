@@ -35,6 +35,7 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
     });
 
     stopScanChannel.setMessageHandler((message) async {
+
       refreshController.finishRefresh();
       print("stopScan:receive--+$message");
     });
@@ -62,6 +63,7 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
   }
 
   void toBack() {
+    stopScan();
     navigate.pop();
   }
 
@@ -108,8 +110,8 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
       ).then((val) {
         print(val);
       });
-      // navigate.pop();
     }).catchError((error) {
+      print(error.toString());
       UI.toast('网络配置失败');
     }).whenComplete(() {
       setModel(() {

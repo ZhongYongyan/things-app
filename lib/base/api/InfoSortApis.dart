@@ -1,12 +1,12 @@
 import 'package:app/base/AdminRequest.dart';
 import 'package:app/base/entity/Info.dart';
 import 'package:app/base/entity/InfoSort.dart';
-import 'package:app/base/util/Page.dart';
+import 'package:app/base/util/Paged.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:dio/dio.dart';
 
 class InfoSortApis {
-  static Future<Result<Page<InfoSort>>> getInfoSort(
+  static Future<Result<Paged<InfoSort>>> getInfoSort(
       int pageIndex, int pageSize, String sortDirection) async {
     try {
       Response response = await apiRequest.get("/info-sort", queryParameters: {
@@ -15,10 +15,10 @@ class InfoSortApis {
         'sortDirection': sortDirection,
         'sortProperties': 'sort'
       });
-      Result<Page<InfoSort>> entity = Result.fromJson(
+      Result<Paged<InfoSort>> entity = Result.fromJson(
           response.data,
           (data) =>
-              Page.fromJson(data, (infoSort) => InfoSort.fromJson(infoSort)));
+              Paged.fromJson(data, (infoSort) => InfoSort.fromJson(infoSort)));
       return entity;
     } on DioError catch (err) {
       return Result(name: err.type.toString(), message: err.message);
@@ -36,7 +36,7 @@ class InfoSortApis {
     }
   }
 
-  static Future<Result<Page<Info>>> getInfo(
+  static Future<Result<Paged<Info>>> getInfo(
       int pageIndex, int pageSize, String sortDirection, int sortId) async {
     try {
       Response response = await apiRequest.get("/info", queryParameters: {
@@ -46,8 +46,8 @@ class InfoSortApis {
         'sortId': sortId,
         'enable': 'true'
       });
-      Result<Page<Info>> entity = Result.fromJson(response.data,
-          (data) => Page.fromJson(data, (infoSort) => Info.fromJson(infoSort)));
+      Result<Paged<Info>> entity = Result.fromJson(response.data,
+          (data) => Paged.fromJson(data, (infoSort) => Info.fromJson(infoSort)));
       return entity;
     } on DioError catch (err) {
       return Result(name: err.type.toString(), message: err.message);

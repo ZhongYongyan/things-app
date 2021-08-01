@@ -58,7 +58,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="艾健康"
+        android:label="iRest健康云"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity

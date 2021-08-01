@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>iRest健康云</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,16 +21,26 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-        <key>NSAllowsArbitraryLoadsInWebContent</key>
-        <true/>
-    </dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>应用程序需要您的许可才能使用蓝牙以连接您的设备</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>应用程序需要您的许可才能使用蓝牙以连接您的设备</string>
+	<key>NSCameraUsageDescription</key>
+	<string>应用程序需要您的许可才能使用相机扫描二维码以连接您的设备</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>我们需要知道您所在的位置以获得不同的客户服务</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>我们需要这个来启用语音接口。</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>应用程序需要您的许可才能访问您个人资料的 PhotoLibrary 并与朋友和支持人员协作。</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -52,20 +64,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>Used to demonstrate image picker plugin</string>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-    </dict>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-    <string>需要您的同意,才能访问蓝牙</string>
-	<key>NSCameraUsageDescription</key>
-	<string>需要您的同意,才能访问相机</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>需要您的同意,才能获取地理位置</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>需要您的同意,才能访问麦克风</string>
 </dict>
 </plist>
