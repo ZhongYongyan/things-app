@@ -14,6 +14,7 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		A528EB0424D4630200AB749E /* BleNetworkPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = A528EB0324D4630200AB749E /* BleNetworkPlugin.m */; };
+		A52AAA9D26B681D800A3D54E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A52AAA9C26B681D700A3D54E /* CoreLocation.framework */; };
 		A5F6E23924D39ED700DC005E /* BleDistributionNetworkSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5F6E23824D39ED700DC005E /* BleDistributionNetworkSDK.framework */; };
 		D22CF2F7B1E54777192395BA /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3188E20E9A1840C3D39EF087 /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
@@ -51,6 +52,7 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A528EB0224D4630200AB749E /* BleNetworkPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BleNetworkPlugin.h; sourceTree = "<group>"; };
 		A528EB0324D4630200AB749E /* BleNetworkPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BleNetworkPlugin.m; sourceTree = "<group>"; };
+		A52AAA9C26B681D700A3D54E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A5F6E23824D39ED700DC005E /* BleDistributionNetworkSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BleDistributionNetworkSDK.framework; sourceTree = "<group>"; };
 		D0B8466F28A58992A19E7179 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A52AAA9D26B681D800A3D54E /* CoreLocation.framework in Frameworks */,
 				A5F6E23924D39ED700DC005E /* BleDistributionNetworkSDK.framework in Frameworks */,
 				D22CF2F7B1E54777192395BA /* Pods_Runner.framework in Frameworks */,
 			);
@@ -138,6 +141,7 @@
 		E1FA5C24C4EFCCC3E7BADC68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A52AAA9C26B681D700A3D54E /* CoreLocation.framework */,
 				3188E20E9A1840C3D39EF087 /* Pods_Runner.framework */,
 			);
 			name = Frameworks;

@@ -10,20 +10,24 @@
 #import <BleDistributionNetworkSDK/BleDistributionNetworkSDK.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <SystemConfiguration/CaptiveNetwork.h>
+#import <NetworkExtension/NetworkExtension.h>
+#import <CoreLocation/CoreLocation.h>
 
 NSString *const KEY_PERIPHERAL = @"Peripheral";
 NSString *const KEY_LOCAL_NAME = @"LocalName";
 
-@interface BleNetworkPlugin ()<BleLinkManagerDelegate, NetworkConfigDelegate>
+@interface BleNetworkPlugin ()<BleLinkManagerDelegate, NetworkConfigDelegate, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *devices;
 @property (strong, nonatomic) BleLinkManager *bleLinkManager;
 @property (strong, nonatomic) NetworkConfigClient *client;
 @property (strong, nonatomic) FlutterBasicMessageChannel* stopScanChannel;
 @property (strong, nonatomic) FlutterBasicMessageChannel* scanResultChannel;
-
+@property (nonatomic, strong) CLLocationManager *locationManager; // 定位管理器
 
 @property (strong, nonatomic) FlutterResult setupResult;
+@property (strong, nonatomic) FlutterResult currentNetworkSSIDResult;
+@property (strong, nonatomic) NSString *ssid;
 
 @end
 
@@ -62,12 +66,17 @@ NSString *const KEY_LOCAL_NAME = @"LocalName";
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
   if ([@"currentNetworkSSID" isEqualToString:call.method]) {
-      result(@"");
-  } if ([@"startScan" isEqualToString:call.method]) {
+      if(_ssid != nil) {
+          result(_ssid);
+      } else {
+          _currentNetworkSSIDResult = result;
+          [self startAutoLocalizationWithAuthority:nil];
+      }
+  } else if ([@"startScan" isEqualToString:call.method]) {
       [self startScan:call result:result];
-  } if ([@"stopScan" isEqualToString:call.method]) {
+  } else if ([@"stopScan" isEqualToString:call.method]) {
       [self stopScan:call result:result];
-  } if ([@"setup" isEqualToString:call.method]) {
+  } else if ([@"setup" isEqualToString:call.method]) {
       [self setup:call result:result];
   } else {
     result(FlutterMethodNotImplemented);
@@ -196,6 +205,88 @@ NSString *const KEY_LOCAL_NAME = @"LocalName";
     NSString*timeString = [NSString stringWithFormat:@"%0.f", a];//转为字符型
     
     return timeString;
+}
+
+-(NSString *)wifiName {
+    NSArray *interfaces = CFBridgingRelease(CNCopySupportedInterfaces());
+    id info = nil;
+    for (NSString *interfaceName in interfaces) {
+        info = (__bridge_transfer id)CNCopyCurrentNetworkInfo((CFStringRef)interfaceName);
+        if (info) {
+            break;
+        }
+    }
+    NSDictionary *infoDic = (NSDictionary *)info;
+    NSString *ssid = [infoDic objectForKey:@"SSID"]; // WiFi的名称
+    NSString *bssid = [infoDic objectForKey:@"BSSID"]; // WiFi的mac地址
+    NSLog(@"WiFi SSID = %@, MAC = %@", ssid, bssid);
+    return ssid;
+}
+
+- (CLLocationManager *)locationManager {
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.delegate = self;
+        _locationManager.distanceFilter = 1000.0f;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+    }
+    return _locationManager;
+}
+
+- (void)startAutoLocalizationWithAuthority:(void(^)(CLAuthorizationStatus status))authorizationStatus {
+    if (![CLLocationManager locationServicesEnabled]) {
+        if (authorizationStatus) {
+            authorizationStatus(kCLAuthorizationStatusRestricted);
+        }
+    } else {
+        CLAuthorizationStatus status = kCLAuthorizationStatusNotDetermined;
+        if (@available(iOS 14.0, *)) {
+            status = self.locationManager.authorizationStatus;
+        } else {
+            status = [CLLocationManager authorizationStatus];
+        }
+        switch (status) {
+            case kCLAuthorizationStatusRestricted:
+                if (authorizationStatus) {
+                    authorizationStatus(status);
+                }
+                break;
+                
+            case kCLAuthorizationStatusDenied:
+                if (authorizationStatus) {
+                    authorizationStatus(status);
+                }
+                break;
+                
+            case kCLAuthorizationStatusNotDetermined:
+                [self.locationManager requestWhenInUseAuthorization];
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    _ssid = [self wifiName];
+    NSLog(@"WiFi名称: %@", _ssid);
+    
+    if(_ssid != nil){
+        _currentNetworkSSIDResult(_ssid);
+    }
+}
+
+- (void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager API_AVAILABLE(ios(14.0)) {
+    _ssid = [self wifiName];
+    NSLog(@"WiFi名称: %@", _ssid);
+    
+    if(_ssid != nil){
+        _currentNetworkSSIDResult(_ssid);
+    }
 }
 
 @end
