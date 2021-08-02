@@ -250,12 +250,14 @@ NSString *const KEY_LOCAL_NAME = @"LocalName";
                 if (authorizationStatus) {
                     authorizationStatus(status);
                 }
+                [self showAlert];
                 break;
                 
             case kCLAuthorizationStatusDenied:
                 if (authorizationStatus) {
                     authorizationStatus(status);
                 }
+                [self showAlert];
                 break;
                 
             case kCLAuthorizationStatusNotDetermined:
@@ -287,6 +289,27 @@ NSString *const KEY_LOCAL_NAME = @"LocalName";
     if(_ssid != nil){
         _currentNetworkSSIDResult(_ssid);
     }
+}
+
+- (void)showAlert
+{
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"未授权获取位置信息" message:@"为获取到手机当前连接的WiFi信息，请在iOS的“设置-隐私-定位服务”开启定位服务，并允许iRest健康云使用定位服务。" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
+            NSLog(@"%d", success);
+        }];
+    }];
+    
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alertVC addAction:action1];
+    [alertVC addAction:action2];
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertVC animated:false completion:^{
+            
+    }];
 }
 
 @end

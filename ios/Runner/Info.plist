@@ -36,14 +36,14 @@
 	<key>NSCameraUsageDescription</key>
 	<string>应用程序需要您的许可才能使用相机扫描二维码以连接您的设备</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>我们需要知道您所在的位置以获得不同的客户服务</string>
+	<string>我们需要知道您所在的位置以获取WiFi名称用于配置您的设备连接网络服务</string>
 	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
 	<dict>
 		<key>WantsToGetWiFiSSID</key>
-		<string>您的精确位置将用于获取当前的Wi-Fi SSID以配置您的设备使用网络服务</string>
+		<string>我们需要知道您所在的位置以获取WiFi名称用于配置您的设备连接网络服务</string>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>我们需要知道您所在的位置以获得不同的客户服务</string>
+	<string>我们需要知道您所在的位置以获取WiFi名称用于配置您的设备连接网络服务</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>我们需要这个来启用语音接口。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
