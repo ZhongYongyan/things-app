@@ -28,6 +28,7 @@ NSString *const KEY_LOCAL_NAME = @"LocalName";
 @property (strong, nonatomic) FlutterResult setupResult;
 @property (strong, nonatomic) FlutterResult currentNetworkSSIDResult;
 @property (strong, nonatomic) NSString *ssid;
+@property (strong, nonatomic) UITextView *textView;
 
 @end
 
@@ -43,6 +44,15 @@ NSString *const KEY_LOCAL_NAME = @"LocalName";
         _client = [[NetworkConfigClient alloc] initWithLinkManager:_bleLinkManager delegate:self];
 
         _devices = [NSMutableArray array];
+        
+        UIViewController *controller = [[self getViewControllerWindow] rootViewController];
+        _textView = [[UITextView alloc] initWithFrame: CGRectMake(0, 400, 320, 100)];
+        _textView.backgroundColor = [UIColor redColor];
+        
+        [self appendLog:@"init1706"];
+        
+//        [[controller view] addSubview:_textView];
+        
     }
     return self;
 }
@@ -97,17 +107,22 @@ NSString *const KEY_LOCAL_NAME = @"LocalName";
     [_bleLinkManager stopDiscover];
     _setupResult = result;
     
+    UIViewController *controller = [[self getViewControllerWindow] rootViewController];
+
     NSString *ssid = call.arguments[@"ssid"];
     NSString *password = call.arguments[@"password"];
     NSString *name = call.arguments[@"name"];
     
+    [self appendLog:[[NSString alloc] initWithFormat: @"ssid: %@, password: %@, name: %@\n", ssid, password, name]];
+    
     CBPeripheral *peripheral = nil;
     
-    for (NSMutableDictionary * item in _devices)
-    {
-        if(item[KEY_LOCAL_NAME]==name) {
-            peripheral = item[KEY_PERIPHERAL];
+    for (int i = 0; i<_devices.count; i++) {
+        NSString *deviceName = _devices[i][KEY_LOCAL_NAME];
+        if([deviceName isEqualToString:name]) {
+            peripheral = _devices[i][KEY_PERIPHERAL];
         }
+        [self appendLog:[[NSString alloc] initWithFormat: @"device: %@", _devices[i][KEY_LOCAL_NAME]]];
         NSLog(@"stKEY_LOCAL_NAMEr = %@",name);
     }
     
@@ -117,7 +132,9 @@ NSString *const KEY_LOCAL_NAME = @"LocalName";
     }
     
     NSString * time = [NSString stringWithFormat:@"1000012880_%@",[self getNowTimeTimestamp]];
-    UIViewController *controller = [[self getViewControllerWindow] rootViewController];
+    
+    [self appendLog:[[NSString alloc] initWithFormat: @"time: %@\n", time]];
+
     if (![_client configNetworkWithPeripheral:peripheral ssid:ssid psk:password date:time targetViewController:controller]) {
         NSLog(@"已在配网中，请不要反复点击！");
     }
@@ -163,9 +180,11 @@ NSString *const KEY_LOCAL_NAME = @"LocalName";
     NSLog(@"onNetworkConfigResult");
     
     if (resultCode == NetConfigSuccess) {
+        [self appendLog:[[NSString alloc] initWithFormat: @"配网成功 pid=%@\n", data]];
         NSLog(@"配网成功 pid=%@", data);
         _setupResult(@"success");
     } else {
+        [self appendLog:[[NSString alloc] initWithFormat: @"配网失败 pid=%@\n", data]];
          NSLog(@"配网失败");
         _setupResult([FlutterError errorWithCode:@"Error" message:[NSString stringWithFormat:@"配网失败"] details:nil]);
     }
@@ -310,6 +329,23 @@ NSString *const KEY_LOCAL_NAME = @"LocalName";
     [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertVC animated:false completion:^{
             
     }];
+}
+
+
+- (void)alert:(UIViewController *)controller message:(NSString*)message
+{
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"Alert" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alertVC addAction:action2];
+    [controller presentViewController:alertVC animated:false completion:^{
+            
+    }];
+}
+
+- (void)appendLog: (NSString*)text {
+    _textView.text = [[NSString alloc] initWithFormat: @"%@\n%@", _textView.text, text];
 }
 
 @end

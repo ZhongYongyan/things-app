@@ -20,6 +20,7 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
 
   final TextEditingController usernameController = TextEditingController(text: '');
   final TextEditingController passwordController = TextEditingController(text: '');
+  final TextEditingController messageController = TextEditingController(text: '');
 
   EasyRefreshController refreshController = EasyRefreshController();
 
@@ -111,7 +112,7 @@ class WifiConfigBloc extends BlocBase with LoggingMixin {
         print(val);
       });
     }).catchError((error) {
-      print(error.toString());
+      messageController.text = error.toString();
       UI.toast('网络配置失败');
     }).whenComplete(() {
       setModel(() {
