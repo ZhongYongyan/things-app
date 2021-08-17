@@ -21,3 +21,5 @@ flutter build apk --target-platform android-arm64
 ```
 keytool -genkey -v -keystore key.keystore -alias app -keyalg RSA -keysize 2048 -validity 10000
 ```
+
+日志新增
