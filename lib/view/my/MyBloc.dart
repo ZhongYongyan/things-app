@@ -48,7 +48,7 @@ class MyBloc extends BlocBase with LoggingMixin {
 //    retrieveData();
     textList = [
       "-",
-      state.lang.localized(Langs.jdMall),
+      // state.lang.localized(Langs.jdMall),
       state.lang.localized(Langs.tmMall),
       state.lang.localized(Langs.edition),
       state.lang.localized(Langs.language),
@@ -152,16 +152,16 @@ class MyBloc extends BlocBase with LoggingMixin {
   }
 
   void click(int i) async {
+    // if (i == 1) {
+    //   const url = 'https://mall.jd.com/index-1000282321.html?';
+    //
+    //   if (await canLaunch(url)) {
+    //     await launch(url);
+    //   } else {
+    //     throw 'Could not launch $url';
+    //   }
+    // }
     if (i == 1) {
-      const url = 'https://mall.jd.com/index-1000282321.html?';
-
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-    }
-    if (i == 2) {
       const url = 'https://irest.m.tmall.com/';
 
       if (await canLaunch(url)) {
@@ -170,7 +170,7 @@ class MyBloc extends BlocBase with LoggingMixin {
         throw 'Could not launch $url';
       }
     }
-    if (i == 3) {
+    if (i == 2) {
       Result<AppUpdate> result = await AppUpdateApis.findAppUpdate(versionCode);
       if (result.name != "not_found") {
         if (Platform.isAndroid) {
@@ -195,11 +195,11 @@ class MyBloc extends BlocBase with LoggingMixin {
             fontSize: 36.0);
       }
     }
-    if (i == 4) {
+    if (i == 3) {
       languageSettings();
     }
 
-    if (i == 7) {
+    if (i == 6) {
       navigate.pushNamed('/wifi-connfig');
     }
     log.info(i);

@@ -43,7 +43,8 @@ class _State extends BlocState<MyPage, MyBloc> {
 //                    color: Color(0xFFF8F8F8),
                     child: ListView.separated(
                       physics: bloc.h <= 667 ? null : const NeverScrollableScrollPhysics() ,
-                      itemCount: bloc.words.length,
+                      // itemCount: bloc.words.length, 这句是什么意思，为什么这么写？
+                      itemCount: 7,
                       itemBuilder: (context, index) {
                         //如果到了表尾
                         if (bloc.words[index] == bloc.loading) {
@@ -74,7 +75,7 @@ class _State extends BlocState<MyPage, MyBloc> {
                         return GestureDetector(
                           child: Container(
                             height: index == 0 ? 112 : 51,
-                            margin: index == 1 || index == 3 || index == 5 || index == 7
+                            margin: index == 1 || index == 2 || index == 5 || index == 6
                                 ? const EdgeInsets.only(top: 15)
                                 : const EdgeInsets.only(top: 0),
                             alignment: Alignment.centerLeft,

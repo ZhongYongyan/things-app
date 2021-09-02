@@ -29,7 +29,7 @@ android {
     def keystorePropertiesFile = rootProject.file("key.properties")
     def keystoreProperties = new Properties()
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
+    ndkVersion '22.1.7171670'
     compileSdkVersion 28
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false

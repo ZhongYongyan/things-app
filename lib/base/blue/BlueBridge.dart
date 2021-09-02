@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:app/base/util/Utils.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -20,6 +21,7 @@ class BlueBridge {
   FlutterWebviewPlugin _flutterWebviewPlugin;
   Logger _log = Logger('BlueBridge');
   FlutterBlue _flutterBlue = FlutterBlue.instance;
+  var blueArray = new Map();
   var _scanResultsHandler;
   BlueService _blueService;
   Message _getMsg;
@@ -27,7 +29,7 @@ class BlueBridge {
   String _deviceName;
 
   void handleMessage(String message) {
-    _log.info('message: $message');
+    _log.info('message1: $message');
     Message msg = Message.fromJson(json.decode(message));
     switch (msg.command) {
       case 'isAvailable':
@@ -112,6 +114,7 @@ class BlueBridge {
   }
 
   _startScan(Message msg) {
+    blueArray.clear();
     disconnect();
     Future.wait([_flutterBlue.isAvailable, _flutterBlue.isOn]).then((values) {
       var isAvailable = values[0];
@@ -136,6 +139,7 @@ class BlueBridge {
             }).toList();
 
             String scanResultsString = scanResults.map((x) {
+              blueArray[x.device.name] = x;
               return x.device.name;
             }).join(',');
 
@@ -143,7 +147,7 @@ class BlueBridge {
               return x.device.name;
             }).join(',');
 
-            if (scanResultsString != "" && scanResultsString != last) {
+            if (scanResultsString != "" && scanResultsString != last) {//发送给app蓝牙列表
               scanResultsLast = scanResults;
               Message message = Message('onScanResult', random());
               message.data = scanResultsString;
@@ -182,33 +186,39 @@ class BlueBridge {
     Completer<BluetoothDevice> completer = new Completer<BluetoothDevice>();
     String name = msg.data;
     _deviceName = name;
-    var scanResultsHandler;
-    scanResultsHandler = _flutterBlue.scanResults.listen((scanResults) {
-      scanResultsHandler.cancel();
+    // var scanResultsHandler;
+    // scanResultsHandler = _flutterBlue.scanResults.listen((scanResults) {
+    //   scanResultsHandler.cancel();
 
-      var list = scanResults.where((ele) {
-        return ele.device.name == name;
-      }).toList();
-
-      if (list.length > 0) {
-        var scanResult = list[0];
-        completer.complete(scanResult.device);
-      } else {
-        _flutterBlue.connectedDevices.then((devices) {
-          var deviceList = devices.where((device) {
-            return device.name == name;
-          }).toList();
-
-          if (deviceList.length > 0) {
-            completer.complete(deviceList[0]);
-          } else {
-            completer.completeError(Failure('not_exists', '指定的名称不存在'));
-          }
-        }).catchError((error) {
-          _postMessage(msg.failure('error', 'connectedDevices 失败'));
-        });
-      }
-    });
+      // var list = scanResults.where((ele) {
+      //   return ele.device.name == name;
+      // }).toList();
+    var scanResult =blueArray[_deviceName];
+    if(scanResult) {
+      completer.complete(scanResult.device);
+    }else{
+      // sleep(Duration(microseconds:100));
+      // _getDevice(msg);
+    }
+      // if (list.length > 0) {
+      //   var scanResult = list[0];
+      //   completer.complete(scanResult.device);
+      // } else {
+      //   _flutterBlue.connectedDevices.then((devices) {
+      //     var deviceList = devices.where((device) {
+      //       return device.name == name;
+      //     }).toList();
+      //
+      //     if (deviceList.length > 0) {
+      //       completer.complete(deviceList[0]);
+      //     } else {
+      //       completer.completeError(Failure('not_exists', '指定的名称不存在'));
+      //     }
+      //   }).catchError((error) {
+      //     _postMessage(msg.failure('error', 'connectedDevices 失败'));
+      //   });
+      // }
+    // });
     return completer.future;
   }
 
@@ -227,7 +237,7 @@ class BlueBridge {
   }
 
   _connectDevice(Message msg) {
-    _log.info('>>>>>>>>>>>>>>>>>>>>>>### _getDevice');
+    _log.info('>>>>>>>>>>>>>>>>>>>>>>### _getDevice',msg);
     _getDevice(msg).then((device) {
       _log.info('>>>>>>>>>>>>>>>>>>>>>>>>> _getDevice');
       var stateListen;
