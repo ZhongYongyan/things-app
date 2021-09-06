@@ -194,12 +194,12 @@ class BlueBridge {
       //   return ele.device.name == name;
       // }).toList();
     var scanResult =blueArray[_deviceName];
-    if(scanResult) {
+    // if(scanResult) {
       completer.complete(scanResult.device);
-    }else{
-      // sleep(Duration(microseconds:100));
-      // _getDevice(msg);
-    }
+    // }else{
+    //   // sleep(Duration(microseconds:100));
+    //   // _getDevice(msg);
+    // }
       // if (list.length > 0) {
       //   var scanResult = list[0];
       //   completer.complete(scanResult.device);
