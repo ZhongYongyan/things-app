@@ -100,7 +100,7 @@ public class BleNetworkPlugin : FlutterPlugin, MethodCallHandler {
                         scanResults.add(x)
                     }
                 }
-                val items = scanResults.filter { it.name.startsWith("A1") }.map {
+                val items = scanResults.filter { it.name != null && it.name.startsWith("A1") }.map {
                     it.name
                 }
 
