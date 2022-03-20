@@ -4,6 +4,7 @@ class Langs {
   //导航栏
   static Localized home = Localized("首页","Home");
   static Localized info = Localized("资讯","News");
+  static Localized tianmao = Localized("天猫", "tmail");
   static Localized message = Localized("消息","Message");
   static Localized me = Localized("我的","Me");
 
@@ -84,6 +85,7 @@ class Langs {
   static Localized signOut = Localized("退出登录","Sign out");
   static Localized signOutTips = Localized("确定要退出当前账号?","Are you sure you want to exit the current account?");
   static Localized wifiConfig = Localized("网络配置","Network configuration");
+  static Localized msgNotification = Localized("消息通知", "Message notification");
   static Localized noUpdatedVersion = Localized("没有更新版本","No updated version");
 
   //登录

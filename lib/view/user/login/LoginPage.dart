@@ -54,13 +54,13 @@ class _State extends BlocState<LoginPage, LoginBloc>
                           bloc.againLoginShow
                               ? Container(
                                   margin: const EdgeInsets.only(
-                                      top: 34.0, bottom: 10),
+                                      top: 134.0, bottom: 10),
                                   alignment: Alignment.center,
                                   child: Image(
                                     image: AssetImage("assets/u252.png"),
                                     fit: BoxFit.cover,
-                                    width: 270,
-                                    height: 239,
+                                    // width: 270,
+                                    // height: 239,
                                   ),
                                 )
                               : Container(
@@ -242,7 +242,7 @@ class _State extends BlocState<LoginPage, LoginBloc>
                             child: SizedBox(
                               width: double.infinity,
                               child: FlatButton(
-                                color: Color(0xFF0079FE),
+                                color: Color(0xFFFE7C1C),
                                 child: loginText(),
                                 onPressed: bloc.loginHandler,
                               ),

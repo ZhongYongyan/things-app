@@ -55,6 +55,7 @@ class MyBloc extends BlocBase with LoggingMixin {
       state.lang.localized(Langs.statement),
       state.lang.localized(Langs.explain),
       state.lang.localized(Langs.wifiConfig),
+      state.lang.localized(Langs.msgNotification),
     ];
     getUser();
   }
@@ -201,6 +202,10 @@ class MyBloc extends BlocBase with LoggingMixin {
 
     if (i == 6) {
       navigate.pushNamed('/wifi-connfig');
+    }
+
+    if(i == 7){
+      navigate.pushNamed('/msg');
     }
     log.info(i);
     //navigate.pushReplacementNamed('/homeCon');

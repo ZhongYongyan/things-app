@@ -8,6 +8,7 @@ import 'package:app/view/home/user/details/DatailsPage.dart';
 import 'package:app/view/home/user/main/MainPage.dart';
 import 'package:app/view/information/details/DetailsPage.dart';
 import 'package:app/view/launch/LaunchPage.dart';
+import 'package:app/view/msg/MsgPage.dart';
 import 'package:app/view/msg/details/DetailsPage.dart';
 import 'package:app/view/page/PagePage.dart';
 import 'package:app/view/plugin/PluginPage.dart';
@@ -44,6 +45,8 @@ Route appRoute(RouteSettings settings) {
       return _build(settings, PluginPage(), TransactionType.fromRight);
     case '/wifi-connfig':
       return _build(settings, WifiConfigPage(), TransactionType.fromRight);
+    case '/msg':
+      return _build(settings,MsgPage(),TransactionType.fromRight);
     default:
       return _build(settings, LaunchPage(), TransactionType.fadeIn);
   }

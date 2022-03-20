@@ -44,7 +44,7 @@ class _State extends BlocState<MyPage, MyBloc> {
                     child: ListView.separated(
                       physics: bloc.h <= 667 ? null : const NeverScrollableScrollPhysics() ,
                       // itemCount: bloc.words.length, 这句是什么意思，为什么这么写？
-                      itemCount: 7,
+                      itemCount: 8,
                       itemBuilder: (context, index) {
                         //如果到了表尾
                         if (bloc.words[index] == bloc.loading) {
