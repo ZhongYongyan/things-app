@@ -1,4 +1,4 @@
-import 'package:app/view/home/user/details/DatailsPage.dart';
+import 'package:app/view/home/user/details/DatailsPage55.dart';
 import 'package:app/view/home/user/rate/RatePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

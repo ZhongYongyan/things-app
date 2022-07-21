@@ -2,6 +2,7 @@ import 'package:app/base/api/AvatarApis.dart';
 import 'package:app/base/api/MemberApis.dart';
 import 'package:app/base/entity/AppUpdate.dart';
 import 'package:app/base/entity/Member.dart';
+import 'package:app/base/entity/MemberInfo.dart';
 import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Result.dart';
@@ -35,40 +36,93 @@ class MyBloc extends BlocBase with LoggingMixin {
   String get camera => state.lang.localized(Langs.camera);
 
   String get album => state.lang.localized(Langs.album);
+  String get service => state.lang.localized(Langs.service);
+  String get information => state.lang.localized(Langs.information);
   var path = "";
   File images;
-  List textList = [];
+  List myServices = [],myInfo=[];
   bool show = false;
   String text = "最新";
   double h = 0;
   String imgPath = "";
   int versionCode = 14;
-
+  var memberInfo;
   void startup() {
 //    retrieveData();
-    textList = [
-      "-",
-      // state.lang.localized(Langs.jdMall),
-      state.lang.localized(Langs.tmMall),
-      state.lang.localized(Langs.edition),
-      state.lang.localized(Langs.language),
-      state.lang.localized(Langs.statement),
-      state.lang.localized(Langs.explain),
-      state.lang.localized(Langs.wifiConfig),
-      state.lang.localized(Langs.msgNotification),
+    myServices = [
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.myOrder),
+        "id":"",
+      },
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.healthRecord),
+        "id":"healthArchive",
+      },
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.buServices),
+        "id":"",
+      },
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.online),
+        "id":"",
+      },
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.signIn),
+        "id":"signIn",
+      },
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.language),
+        "id":"lan",
+      },
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.edition),
+        "id":"version",
+      }
+    ];
+    myInfo=[
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.peCenter),
+        "id":"myDetails",
+      },
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.statement),
+        "id":"signIn",
+      },
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.explain),
+        "id":"lan",
+      },
+      {
+        "img":"",
+        "title":state.lang.localized(Langs.privacyAgreement),
+        "id":"version",
+      }
     ];
     getUser();
   }
 
   void getUser() async {
     Result<Member> response = await MemberApis.getMember();
+
+    memberInfo=response.data;
+    print(memberInfo);
     bool code = response.success;
     if (!code) {
       log.info("个人信息请求出错", response.message);
     }
     setModel(() {
-      path = response.data.avatar;
-      textList[0] = response.data.phone;
+      imgPath = response.data.avatar;
+      // textList[0] = response.data.phone;
     });
   }
 
@@ -152,32 +206,14 @@ class MyBloc extends BlocBase with LoggingMixin {
     //navigate.pushReplacementNamed('/homeCon');
   }
 
-  void click(int i) async {
-    // if (i == 1) {
-    //   const url = 'https://mall.jd.com/index-1000282321.html?';
-    //
-    //   if (await canLaunch(url)) {
-    //     await launch(url);
-    //   } else {
-    //     throw 'Could not launch $url';
-    //   }
-    // }
-    if (i == 1) {
-      const url = 'https://irest.m.tmall.com/';
-
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-    }
-    if (i == 2) {
+  //选择用户服务
+  void chooseServices(int i) async {
+    if(myServices[i]['id']=='version'){//版本更新
       Result<AppUpdate> result = await AppUpdateApis.findAppUpdate(versionCode);
       if (result.name != "not_found") {
         if (Platform.isAndroid) {
-          FlutterXUpdate.checkUpdate(url: "https://things.irest.cn/api/upload/appUpdate", supportBackgroundUpdate: true);
+          FlutterXUpdate.checkUpdate(url: "192.168.1.114:11305/api/upload/appUpdate", supportBackgroundUpdate: true);
         }else {
-          // await launch('https://www.pgyer.com/igvR');
           Fluttertoast.showToast(
               msg: state.lang.localized(Langs.noUpdatedVersion),
               toastLength: Toast.LENGTH_SHORT,
@@ -195,32 +231,37 @@ class MyBloc extends BlocBase with LoggingMixin {
             textColor: Colors.white,
             fontSize: 36.0);
       }
-    }
-    if (i == 3) {
+    }else if(myServices[i]['id']=='lan'){//语言切换
       languageSettings();
-    }
-
-    if (i == 6) {
-      navigate.pushNamed('/wifi-connfig');
-    }
-
-    if(i == 7){
-      navigate.pushNamed('/msg');
+    }else{//跳转页面
+      print(myServices[i]['id']);
+      navigate.pushNamed("/${myServices[i]['id']}");
+      // navigate.pushNamed("/signIn");
     }
     log.info(i);
-    //navigate.pushReplacementNamed('/homeCon');
   }
 
-  void retrieveData() {
-    Future.delayed(Duration(seconds: 0)).then((e) {
-      words.insertAll(
-          words.length - 1,
-          //每次生成20个单词
-          ["1", "2", "3", "4", "5", "6", "7", "8"].map((e) => e).toList());
-      setModel(() {});
-//      setState(() {
-//        //重新构建列表
-//      });
-    });
+  //查看用户个人信息
+  void viewInfo(int i){
+    print(memberInfo);
+    // navigate.pushNamed("/${myInfo[i]['id']}",arguments: {'model':MemberInfo.fromJson({})});
+    navigate.pushNamed("/${myInfo[i]['id']}");
   }
+
+  //跳转会员权益
+  void memberBenefits(){
+    navigate.pushNamed("/memberRights",arguments: {'id':state.user.id});
+  }
+//   void retrieveData() {
+//     Future.delayed(Duration(seconds: 0)).then((e) {
+//       words.insertAll(
+//           words.length - 1,
+//           //每次生成20个单词
+//           ["1", "2", "3", "4"].map((e) => e).toList());
+//       setModel(() {});
+// //      setState(() {
+// //        //重新构建列表
+// //      });
+//     });
+//   }
 }

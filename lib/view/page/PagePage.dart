@@ -2,8 +2,7 @@ import 'package:app/base/util/BlocUtils.dart';
 import 'package:app/store/Store.dart';
 import 'package:app/view/home/HomePage.dart';
 import 'package:app/view/information/InformationPage.dart';
-import 'package:app/view/kangning/KNInfoPage.dart';
-import 'package:app/view/msg/MsgPage.dart';
+import 'package:app/view/mall/MallPage.dart';
 import 'package:app/view/my/MyPage.dart';
 import 'package:app/view/page/PageBloc.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +19,7 @@ class _State extends BlocState<PagePage, PageBloc> {
   final List<Widget> _children = [
     HomePage(),
     InformationPage(),
-    KNInfoPage(),
-    // MsgPage(),
+    MallPage(),
     MyPage()
   ];
 

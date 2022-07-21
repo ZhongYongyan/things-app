@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
         theme: appTheme,
         navigatorKey: navigatorHolder.navigatorKey,
         onGenerateRoute: appRoute,
+        debugShowCheckedModeBanner: false,//去除debug图标
       ),
     );
   }

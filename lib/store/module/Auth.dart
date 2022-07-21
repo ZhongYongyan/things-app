@@ -2,7 +2,7 @@ import 'package:app/base/util/LoggingUtils.dart';
 import 'package:app/base/util/Persistable.dart';
 import 'package:app/base/util/StorageUtils.dart';
 import 'package:app/store/Store.dart';
-import 'package:app/store/module/%20Information.dart';
+import 'package:app/store/module/Information.dart';
 import 'package:app/store/module/User.dart';
 import 'package:quiver/strings.dart';
 

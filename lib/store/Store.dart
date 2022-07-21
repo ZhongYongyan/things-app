@@ -7,7 +7,7 @@ import 'package:app/store/module/User.dart';
 import 'package:logging/logging.dart';
 import 'package:redux/redux.dart';
 
-import 'module/ Information.dart';
+import 'module/Information.dart';
 import 'module/Member.dart';
 import 'module/Msg.dart';
 import 'module/lang/Lang.dart';

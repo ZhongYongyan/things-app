@@ -19,7 +19,7 @@ ThemeData _buildTheme() {
     scaffoldBackgroundColor: Color(0xffffffff),
     appBarTheme: dt.appBarTheme.copyWith(
       textTheme: TextTheme(
-        title: TextStyle(
+        subtitle1: TextStyle(
           color: Color(0xff000000),
           fontSize: 18.0,
         ),
@@ -75,11 +75,11 @@ ThemeData _buildTheme() {
         fontSize: 18.0,
         fontWeight: FontWeight.normal,
       ),
-      body1: dt.textTheme.body1.copyWith(
+      bodyText1: dt.textTheme.bodyText1.copyWith(
         // Text 默认样式
         fontSize: 17.0,
       ),
-      body2: dt.textTheme.body2.copyWith(fontSize: 14.0),
+      bodyText2: dt.textTheme.bodyText2.copyWith(fontSize: 14.0),
     ),
     primaryIconTheme: dt.primaryIconTheme.copyWith(
       // AppBar 默认样式

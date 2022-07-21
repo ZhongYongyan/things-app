@@ -1,6 +1,7 @@
 import 'package:app/base/AdminRequest.dart';
 import 'package:app/base/entity/AccessToken.dart';
 import 'package:app/base/entity/Identity.dart';
+import 'package:app/base/entity/HomeBanner.dart';
 import 'package:app/base/util/Result.dart';
 import 'package:dio/dio.dart';
 
@@ -52,4 +53,18 @@ class AdminApis {
       return "err";
     }
   }
+
+  static Future<BannerResult<HomeBanner>> getBanners(int companyId, int memberId) async {
+    try {
+      Response response = await apiRequest.get("/banner/bannerurl", queryParameters: {
+        'companyId': companyId,
+        'memberId': memberId,
+      });
+      BannerResult<HomeBanner> entity =BannerResult.fromJson(response.data, (data) => HomeBanner.fromJson(data));
+      return entity;
+    } on DioError catch (err) {
+      return BannerResult(name: err.type.toString(), message: err.message);
+    }
+  }
 }
+

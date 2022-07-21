@@ -4,8 +4,10 @@ import 'package:app/store/module/lang/Langs.dart';
 import 'package:app/view/home/user/component/ActionSheet.dart';
 import 'package:app/view/home/user/component/lib/src/date_format.dart';
 import 'package:app/view/my/MyBloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/src/store.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
 
 class MyPage extends StatefulWidget {
@@ -29,255 +31,259 @@ class _State extends BlocState<MyPage, MyBloc> {
   _pageBody() {
     return Scaffold(
       backgroundColor: Color(0xFFF8F8F8),
-      body:  ConstrainedBox(
-          constraints: BoxConstraints.expand(),
-          child: Stack(
-            alignment: Alignment.topLeft, //指定未定位或部分定位widget的对齐方式
-            children: <Widget>[
-              Positioned(
-                  top: 0,
-                  bottom: bloc.h <= 667 ? 70 : 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-//                    color: Color(0xFFF8F8F8),
-                    child: ListView.separated(
-                      physics: bloc.h <= 667 ? null : const NeverScrollableScrollPhysics() ,
-                      // itemCount: bloc.words.length, 这句是什么意思，为什么这么写？
-                      itemCount: 8,
-                      itemBuilder: (context, index) {
-                        //如果到了表尾
-                        if (bloc.words[index] == bloc.loading) {
-                          //不足100条，继续获取数据
-                          if (bloc.words.length - 1 < 8) {
-                            //获取数据
-                            bloc.retrieveData();
-                            //加载时显示loading
-                            return Container(
-                              padding: const EdgeInsets.all(16.0),
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                  width: 24.0,
-                                  height: 24.0,
-                                  child: CircularProgressIndicator(
-                                      strokeWidth: 2.0)),
-                            );
-                          } else {
-                            //已经加载了100条数据，不再获取数据。
-                            return Container(
-//                           alignment: Alignment.center,
-//                           padding: EdgeInsets.all(16.0),
-//                           child: Text("没有更多了", style: TextStyle(color: Colors.grey),)
-                                );
-                          }
-                        }
-                        //显示单词列表项
-                        return GestureDetector(
-                          child: Container(
-                            height: index == 0 ? 112 : 51,
-                            margin: index == 1 || index == 2 || index == 5 || index == 6
-                                ? const EdgeInsets.only(top: 15)
-                                : const EdgeInsets.only(top: 0),
-                            alignment: Alignment.centerLeft,
-                            color: Colors.white,
-                            child: Column(
-                                //测试Row对齐方式，排除Column默认居中对齐的干扰
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    //height: 100,
-                                    child: Padding(
-                                      //左边添加8像素补白
-                                      padding: index == 0
-                                          ? const EdgeInsets.only(
-                                              left: 15.0, right: 10, top: 20)
-                                          : const EdgeInsets.only(
-                                              left: 15.0, right: 10, top: 13.5),
-                                      child: Flex(
-                                        direction: Axis.horizontal,
-                                        children: <Widget>[
-                                          index == 0
-                                              ? GestureDetector(
-                                                  child: ClipOval(
-                                                      child: bloc.imgPath != ""
-                                                          ? new Image.file(
-                                                              File(
-                                                                  bloc.imgPath),
-                                                              width: 72,
-                                                              height: 72,
-                                                              fit: BoxFit.cover)
-                                                          : bloc.path != ""
-                                                              ? Image.network(
-                                                                  bloc.path,
-                                                                  width: 72,
-                                                                  height: 72,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                )
-                                                              : Image(
-                                                                  image: AssetImage(
-                                                                      "assets/home_y.png"),
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                  width: 72,
-                                                                  height: 72,
-                                                                )),
-                                                  onTap: () => {
-                                                    BottomActionSheet.show(
-                                                        context,
-                                                        [
-                                                          bloc.camera,
-                                                          bloc.album
-                                                        ],
-                                                        cancel: bloc.cancel,
-                                                        title: '',
-                                                        callBack: (i) {
-                                                      if (i == 0) {
-                                                        bloc.takePhoto();
-                                                      }
-                                                      if (i == 1) {
-                                                        bloc.openGallery();
-                                                      }
-                                                      return;
-                                                    }),
-                                                  },
-                                                )
-                                              : Container(
-                                                  width: 22.0,
-                                                  height: 22.0,
-                                                  child: Image(
-                                                    image: AssetImage(
-                                                        "assets/my_$index.png"),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 15.0),
-                                              child: index == 0
-                                                  ? Container(
-                                                      height: 72,
-                                                      child: Flex(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        direction:
-                                                            Axis.vertical,
-                                                        children: <Widget>[
-                                                          getExpanded(
-                                                              bloc.textList[
-                                                                  index],
-                                                              0),
-                                                          getExpanded(
-                                                              bloc.introduce, 1)
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : Container(
-                                                      child: Text(
-                                                          bloc.textList[index],
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: index != 0
-                                                                ? 16
-                                                                : 18,
-                                                            //height: 1.6
-                                                            fontWeight:
-                                                                index != 0
-                                                                    ? FontWeight
-                                                                        .normal
-                                                                    : FontWeight
-                                                                        .w700,
-                                                          )),
-                                                    ),
-                                            ),
-                                          ),
-                                          index != 0
-                                              ? Container(
-                                                  margin: const EdgeInsets.only(
-                                                      left: 5),
-                                                  child: Icon(
-                                                      Icons.navigate_next,
-                                                      color: Color(0xFFCCCCCC)),
-                                                )
-                                              : Container(),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ]),
-                          ),
-                          onTap: () => bloc.click(index), //点击
-                        );
-                      },
-                      separatorBuilder: (context, index) => Container(
-                        height: 1,
-                        color: Color(0xFFF3F3F3),
-                      ),
-                    ),
-                  )),
-              Positioned(
-                bottom: bloc.h < 812 ? 10 : 50,
-                left: 20,
-                right: 20,
-                child: ClipRRect(
-                  //剪裁为圆角矩形
-                  borderRadius: BorderRadius.circular(5.0),
-                  child: GestureDetector(
-                    child: Container(
-                      height: 46,
-                      alignment: Alignment.center,
-                      color: Color(0xFF0079FE),
-                      child: Text(bloc.signOut,
-                          style: TextStyle(
-                            color: Color(0xFFFFFFFF),
-                            fontSize: 16,
-                          )),
-                    ),
-                    onTap: () => {
-                      BottomActionSheet.show(context, [bloc.signOut],
-                          title: bloc.signOutTips,
-                          cancel: bloc.cancel, callBack: (i) {
-                        if (i == 0) {
-                          bloc.signout();
-                        }
-                        if (i == 1) {}
-                        return;
-                      }),
-                    },
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
+      body: CustomScrollView(
+        slivers: [
+          _headerInfo(),
+          // _sliverGridButtons()
+          _myServices(),
+          _myInfo()
+
+        ],
+      )
     );
   }
 
-  Widget getExpanded(String text, int start) {
-    return Expanded(
-      flex: 1,
+  //用户基础信息
+  Widget _headerInfo(){
+    return SliverToBoxAdapter(
       child: Container(
-        alignment: start == 0 ? Alignment.bottomLeft : Alignment.topLeft,
-        margin: start == 0
-            ? const EdgeInsets.only(bottom: 2)
-            : const EdgeInsets.only(top: 6),
-        child: Text(text,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              color: start == 0 ? Colors.black : Color(0xFFB6B8BF),
-              fontSize: start == 0 ? 18 : 14,
-            )),
+        // margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        padding:EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top, 0, 0),
+        width: MediaQuery.of(context).size.width,
+        child: AspectRatio(
+            aspectRatio: 4.0/3.0,
+            child: Container(
+              decoration:BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage('https://axhub.im/ax9/7daa3ef63e5c1293/images/个人中心/u124.png'),
+                      fit: BoxFit.cover
+                  )
+              ),
+              child: Stack(
+                alignment: Alignment.topLeft, //指定未定位或部分定位widget的对齐方式
+                children: <Widget>[
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Container(
+                      width: 45.0,
+                      height: 45.0,
+                      child: Icon(Icons.notifications,size: 18,color: Colors.white),
+                    ),
+                  ),
+                  Positioned(
+                      top: 53.0,
+                      left:24.0 ,
+                      right: 24.0,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            child: CircleAvatar(
+                                radius:35.0,
+                                foregroundImage:AssetImage("assets/home_y.png"),
+                                // backgroundImage:NetworkImage(bloc.imgPath)
+                            ),
+                            onTap: () => {
+                              BottomActionSheet.show(
+                                  context,
+                                  [
+                                    bloc.camera,
+                                    bloc.album
+                                  ],
+                                  cancel: bloc.cancel,
+                                  title: '',
+                                  callBack: (i) {
+                                    if (i == 0) {
+                                      bloc.takePhoto();
+                                    }
+                                    else if (i == 1) {
+                                      bloc.openGallery();
+                                    }
+                                    return;
+                                  }),
+                            },
+                          ),
+                          Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      child: Text('18867674354',style: TextStyle(fontSize: 16.0,color: Colors.white),overflow: TextOverflow.ellipsis),
+                                      onTap: () => {
+
+                                      },
+                                    ),
+                                    GestureDetector(
+                                      child: Text('Lv1 距离下个等级仅需146546成长值 >',style: TextStyle(fontSize: 14.0,color: Colors.white),overflow: TextOverflow.ellipsis),
+                                      onTap: bloc.memberBenefits,
+                                    ),
+                                  ],
+                                ),
+                              )
+
+                          )
+                        ],
+                      )
+                  ),
+                  Positioned(
+                    top: 161.0,
+                    left: 24.0,
+                    right: 24.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          child: Center(
+                              child:Container(
+                                width: 118.0,
+                                height: 61.0,
+                                child: Column(
+                                  children: [
+                                    Text('1000',style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w700,color: Colors.white)),
+                                    Text('积分',style: TextStyle(fontSize: 12.0,color: Colors.white)),
+                                  ],
+                                ),
+                              )
+                          ),
+                          onTap:()=>{
+
+                          }
+                        ),
+                        GestureDetector(
+                          child: Center(
+                            child: Container(
+                              width: 118.0,
+                              height: 61.0,
+                              child: Column(
+                                children: [
+                                  Text('会员等级',style: TextStyle(fontSize: 16.0,color: Colors.white)),
+                                  Text('Lv1',style: TextStyle(fontSize: 12.0,color: Colors.white)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          onTap: bloc.memberBenefits,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+        ),
       ),
     );
   }
+
+  //我的服务
+  Widget _myServices(){
+    return SliverToBoxAdapter(
+      child: Card(
+        margin: EdgeInsets.all(10.0),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+            side: BorderSide.none
+        ),
+        child: Column(
+          children: [
+            Container(
+              width:500,
+              padding:EdgeInsets.all(10.0),
+              child: Text(bloc.service,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),textAlign: TextAlign.left),
+            ),
+            Divider(height: 1.0,thickness:1.0,indent: 0.0,color: Colors.grey[300]),
+            Container(
+              padding: EdgeInsets.all(10.0),
+                child: GridView.builder(
+                    padding: EdgeInsets.zero,
+                    gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 0.0,
+                        crossAxisSpacing:2.0,
+                        childAspectRatio: 1.0
+                    ),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: bloc.myServices.length,
+                    itemBuilder: this._getGridData
+
+                )
+            )//在Column或Row内使用GridView或List时需要在外面套一个有宽高度的壳，因为GridView或List需要向父级盒子进行定位，而Column或Row本身没有大小
+          ],
+        ),
+      ),
+    );
+  }
+
+  //我的信息
+  Widget _myInfo(){
+    return SliverToBoxAdapter(
+      child: Card(
+          margin: EdgeInsets.all(10.0),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            side: BorderSide.none
+          ),
+          child: Column(
+            children: [
+              Container(
+                width:500,
+                padding:EdgeInsets.all(10.0),
+                child: Text(bloc.information,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),textAlign: TextAlign.left,),
+              ),
+              Divider(height: 1.0,thickness:1.0,indent: 0.0,color: Colors.grey[300]),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),//禁止滚动
+                  itemCount: bloc.myInfo.length,
+                  itemBuilder: this._getInfoData,
+                ),
+              )
+            ],
+          )
+      )
+    );
+  }
+
+  Widget _getGridData(content,index){
+    return GestureDetector(
+      child: Column(
+        children:[
+          Container(
+            padding: EdgeInsets.all(5.0),
+            child: Image.asset('assets/home_y.png',width: 40.0,height: 40.0,),
+          ),
+          Text(bloc.myServices[index]['title'],style: TextStyle(fontSize: 14),)
+        ]
+      ),
+      onTap: ()=>bloc.chooseServices(index),
+    );
+  }
+
+  Widget _getInfoData(content,index){
+    return GestureDetector(
+      child: Container(
+        child: ListTile(
+          leading: Image.asset('assets/home_y.png',fit: BoxFit.cover,width: 30.0,height: 30.0,),
+          title: Text(bloc.myInfo[index]['title'],style: TextStyle(fontSize: 16.0),),
+          trailing: Icon(Icons.navigate_next,size: 18,color: Colors.grey[300],),
+        ),
+        decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide.none,
+              left: BorderSide.none,
+              right: BorderSide.none,
+              bottom: index==bloc.myInfo.length-1?BorderSide.none: BorderSide(width: 1.0,color: Colors.grey[300]),
+            )
+        ),
+      ),
+      onTap: ()=>bloc.viewInfo(index),
+    );
+  }
+
 }

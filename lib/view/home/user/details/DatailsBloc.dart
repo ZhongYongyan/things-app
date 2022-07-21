@@ -263,6 +263,7 @@ class DatailsBloc extends BlocBase with LoggingMixin {
           : affiliateModel.birthday.substring(0, 10)
     ];
     userImgPath = affiliateModel.avatar;
+    print(affiliateModel.height);
   }
 
   void toBack() {

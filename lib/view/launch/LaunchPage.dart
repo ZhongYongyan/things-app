@@ -41,7 +41,7 @@ class _State extends BlocState<LaunchPage, LaunchBloc> {
         child: Container(
           alignment: Alignment.center,
           child: Image(
-            image: AssetImage("assets/logo.png"),
+            image: AssetImage("assets/logo.jpg"),
             fit: BoxFit.cover,
             width: 224,
             height: 224,

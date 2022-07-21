@@ -159,9 +159,13 @@ class ManagementBloc extends BlocBase with LoggingMixin {
     bool code = response.success;
     //错误处理
     lists = response.data;
+    print(lists);
     Future.delayed(Duration(seconds: 1)).then((e) {
       words.insertAll(words.length - 1, lists.map((student) => student));
+      print('words');
+      print(words);
       for (DeviceModelAll deviceModelAll in lists) {
+        print(deviceModelAll);
         List<DeviceModel> deviceModels = deviceModelAll.model;
         for (DeviceModel deviceModel in deviceModels) {
           isDownload(deviceModel.softwareUrl).then((url) {

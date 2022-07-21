@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:app/view/home/HomePage.dart';
 
 class KNInfoPage extends StatefulWidget {
   @override
@@ -10,16 +12,17 @@ class HomeScreenState extends State<KNInfoPage> {
   @override
   Widget build(BuildContext context) {
 
-    return new WebView(
-      // initialUrl: 'http://xfgf.knjs.com.cn/IRestApp/#/pages/decompress/decompress',
-      // initialUrl: 'http://xfgf.knjs.com.cn/IRestApp/#/pages/decompress/decompress',
-      // initialUrl: 'https://m.tb.cn/h.fMtm32P',
-      initialUrl: 'https://irest.m.tmall.com/',
-      javascriptMode: JavascriptMode.unrestricted,
-      onWebViewCreated: (WebViewController webViewController){
-      },
+    // return WebView(
+    //     initialUrl: 'https://irest.m.tmall.com/',
+    //     javascriptMode: JavascriptMode.unrestricted,
+    //     onWebViewCreated: (WebViewController webViewController){
+    //     },
+    // );
+    return Container(
+      child: HomePage(),
     );
   }
+
 }
 
 // class HomeScreenState extends State<KNInfoPage> {

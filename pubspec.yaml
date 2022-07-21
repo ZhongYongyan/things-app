@@ -46,6 +46,13 @@ dependencies:
   flutter_easyrefresh: ^2.1.1
   flutter_xupdate: ^1.0.0
   quiver: ^3.0.1
+  fluwx_no_pay: ^1.0.0
+  flutter_update_dialog: ^2.0.0
+  flutter_swiper: ^1.1.6
+  flutter_screenutil: ^5.0.0
+  flutter_pickers: ^2.1.9
+  syncfusion_flutter_charts: ^18.4.49
+  image_gallery_saver: ^1.7.1
 
 dev_dependencies:
   flutter_test:
